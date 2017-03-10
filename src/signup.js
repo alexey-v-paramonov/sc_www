@@ -13,7 +13,11 @@
             if (req.readyState === 4) {
                 // User created
                 if (req.status === 201) {
-                    console.log(req.responseText)
+                    let response = JSON.parse(req.responseText);
+                    if(response.token){
+                        window.localStorage.setItem('token', response.token);
+                        window.location.href = "/account";
+                    }
                 } else {
                     console.log("Error", req.statusText);
                 }
