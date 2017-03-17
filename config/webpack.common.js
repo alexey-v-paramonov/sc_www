@@ -7,10 +7,11 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
     entry: {
         signup: './src/signup.js',
+        account: './account/main.ts'
     },
     resolve: {
         extensions: ['.ts', '.js', '.json'],
-        modules: [helpers.root('dist'), helpers.root('dist')],
+        modules: [helpers.root('node_modules')],
     },
     output: {
         filename: '[name].js',
@@ -18,6 +19,11 @@ module.exports = {
     },
     module: {
         loaders: [
+            {
+                test: /\.ts$/,
+                loaders: ['awesome-typescript-loader', 'angular2-template-loader']
+            },
+
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
@@ -47,7 +53,7 @@ module.exports = {
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
-            names: ['vendor', 'manifest'],
+            names: ['vendor', 'account', 'manifest'],
             minChunks: function (module) {
                 // this assumes your vendor imports exist in the node_modules directory
                 return module.context && module.context.indexOf('node_modules') !== -1;

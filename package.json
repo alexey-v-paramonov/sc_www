@@ -2,18 +2,33 @@
   "name": "streamingcenter",
   "version": "",
   "devDependencies": {
+    "@angular/platform-browser-dynamic": "^2.4.10",
+    "@types/core-js": "^0.9.37",
+    "angular2-template-loader": "^0.6.2",
+    "awesome-typescript-loader": "^3.1.2",
     "babel-core": "^6.23.1",
     "babel-loader": "^6.4.0",
     "babel-preset-es2015": "^6.22.0",
     "clean-webpack-plugin": "^0.1.15",
+    "typescript": "^2.2.1",
     "webpack": "^2.2.1",
     "webpack-merge": "^4.0.0"
   },
   "scripts": {
     "build:dev": "webpack --env=dev --progress --profile --colors",
-    "build:dist": "webpack --env=prod --progress --profile --colors"
+    "build:dist": "webpack --env=prod --progress --profile --colors",
+    "postinstall": "typings install"
   },
   "dependencies": {
-    "moment": "^2.17.1"
+    "@angular/common": "^2.4.10",
+    "@angular/compiler": "^2.4.10",
+    "@angular/core": "^2.4.10",
+    "@angular/forms": "^2.4.10",
+    "@angular/http": "^2.4.10",
+    "@angular/platform-browser": "^2.4.10",
+    "@angular/router": "^3.4.10",
+    "reflect-metadata": "^0.1.10",
+    "rxjs": "^5.2.0",
+    "zone.js": "^0.8.4"
   }
 }
