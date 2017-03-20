@@ -7,6 +7,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
     entry: {
         signup: './src/signup.js',
+        signin: './src/signin.js',
         account: './account/main.ts',
         account_vendor: './account/vendor.ts'
     },
