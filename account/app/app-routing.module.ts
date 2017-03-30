@@ -16,30 +16,33 @@ import { BillingComponent } from './billing/billing.component';
 const routes: Routes = [
     {
         path: '', component: HomeComponent, canActivate: [LoggedInGuard],
+        children: [
+            {
+                path: 'radio', component: RadioComponent,
+            },
+            {
+                path: 'android_app', component: AndroidAppComponent,
+            },
+
+            {
+                path: 'ios_app', component: iOsAppComponent,
+            },
+
+            {
+                path: 'catalog', component: CatalogComponent,
+            },
+
+            {
+                path: 'support', component: SupportComponent,
+            },
+
+            {
+                path: 'billing', component: BillingComponent,
+            },
+
+        ]
     },
 
-    {
-        path: 'radio', component: RadioComponent, canActivate: [LoggedInGuard],
-    },
-    {
-        path: 'android_app', component: AndroidAppComponent, canActivate: [LoggedInGuard],
-    },
-
-    {
-        path: 'ios_app', component: iOsAppComponent, canActivate: [LoggedInGuard],
-    },
-
-    {
-        path: 'catalog', component: CatalogComponent, canActivate: [LoggedInGuard],
-    },
-
-    {
-        path: 'support', component: SupportComponent, canActivate: [LoggedInGuard],
-    },
-
-    {
-        path: 'billing', component: BillingComponent, canActivate: [LoggedInGuard],
-    },
     { path: '**', redirectTo: '/', pathMatch: 'full' },
 
 ];

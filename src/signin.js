@@ -25,7 +25,7 @@
                 if (req.status === 200) {
                     let response = JSON.parse(req.responseText);
                     if (response.token) {
-                        window.localStorage.setItem('token', response.token);
+                        window.localStorage.setItem('auth_token', response.token);
                         window.location.href = "/account";
                     }
                     else {

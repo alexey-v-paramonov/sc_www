@@ -8,12 +8,11 @@ export class LoggedInGuard implements CanActivate {
     constructor(private user: UserService, private router: Router) { }
 
     canActivate() {
-        //if (this.user.isLoggedIn()) {
+        if (this.user.isLoggedIn()) {
             return true;
-        //}
-
-        //this.router.navigate(['/signin']);
-        //return false;
+        }
+        window.location.href = "/signin";
+        return false;
 
     }
 }
