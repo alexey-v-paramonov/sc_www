@@ -13,7 +13,7 @@ export class HttpAuth {
     }
 
     createAuthorizationHeader(headers: Headers) {
-        headers.append('Authorization', localStorage.getItem('auth_token'));
+        headers.append('Authorization', 'JWT '+ localStorage.getItem('auth_token'));
     }
 
     get(url: string) {
@@ -51,10 +51,9 @@ export class HttpAuth {
     private catchAuthError(self: HttpAuth) {
         // we have to pass HttpService's own instance here as `self`
         return (res: Response) => {
-            console.log(res);
             if (res.status === 401 || res.status === 403) {
                 // if not authenticated
-                document.location.href = "/signin/";
+                window.location.href = "/signin/";
             }
             return Observable.throw(res);
         };

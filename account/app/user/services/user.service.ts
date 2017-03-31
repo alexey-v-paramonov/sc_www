@@ -1,28 +1,39 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
 import { HttpAuth } from '../../shared/services/httpauth.service';
+
+export class User{
+  constructor(public id: number, public username: string) {
+
+  }
+}
 
 @Injectable()
 export class UserService {
+    
     private loggedIn = false;
-    private userId:number = 0;
+    private user:User;
 
-    constructor(private http: Http, private httpauth: HttpAuth) {
+    constructor(private httpauth: HttpAuth) {
         this.loggedIn = !!localStorage.getItem('auth_token');
-        this.userId = parseInt(localStorage.getItem('user_id'));
     }
 
+    public requestCurrentUser(){
+        return this.httpauth.get(API_BASE + '/users/').map(res => res.json());
+    }
    
     public getCurrentUser(){
-        return this.httpauth.get(API_BASE + `/users/${this.userId}`)
-        .map(res => res.json());
+        return this.user;
     }
 
+    public setCurrentUser(u: User){
+        return this.user = u;
+    }
     
 
     logout() {
         localStorage.removeItem('auth_token');
-        this.loggedIn = false;
+        delete this.loggedIn;
+        delete this.user;
     }
 
     isLoggedIn() {
