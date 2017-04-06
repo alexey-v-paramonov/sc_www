@@ -7,6 +7,14 @@ export class Radio{
   }
 }
 
+export interface RadioServer {
+    ip: string,
+    nodename: string,
+    country: string,
+    provider: string,
+    available: Boolean
+}
+
 @Injectable()
 export class RadioService {
 
@@ -15,6 +23,18 @@ export class RadioService {
 
     public getServices(){
         return this.httpauth.get(API_BASE + '/radio_service/').map(res => res.json());
+    }
+   
+}
+
+@Injectable()
+export class RadioServerService {
+
+    constructor(private httpauth: HttpAuth) {
+    }
+
+    public getServers(){
+        return this.httpauth.get(API_BASE + '/servers/').map(res => res.json());
     }
    
 }

@@ -21,7 +21,7 @@ import { SupportComponent } from './support/support.component';
 import { BillingComponent } from './billing/billing.component';
 
 // Services
-import { RadioService } from './radio/services/radio.service';
+import { RadioService, RadioServerService } from './radio/services/radio.service';
 import { UserService } from './user/services/user.service';
 import { HttpAuth } from './shared/services/httpauth.service';
 
@@ -51,6 +51,7 @@ import { HttpAuth } from './shared/services/httpauth.service';
         LoggedInGuard,
         HttpAuth,
         RadioService,
+        RadioServerService,
     ],
     bootstrap: [AppComponent]
 })
