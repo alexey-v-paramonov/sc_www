@@ -3,7 +3,7 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'sc_www',
+    title: 'Streaming.center',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -21,6 +21,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    transpile: ['bootstrap-vue'], // Remove this with bootstrap rc.22
     /*
     ** Run ESLint on save
     */
@@ -34,5 +35,30 @@ module.exports = {
         })*/
       }
     }
-  }
+  },
+  modules: [
+    'bootstrap-vue/nuxt',
+    '@nuxtjs/axios',
+    ['nuxt-i18n', {
+      locales: [
+        {
+          code: 'en',
+          name: 'English',
+          file: 'en.js'
+        },
+        {
+          code: 'ru',
+          name: 'Русский',
+          file: 'ru.js'
+        }
+      ],
+      lazy: true,
+      langDir: 'lang/',
+      defaultLocale: 'en',
+    }]
+    //['@nuxtjs/axios', {
+    //  baseURL: process.env.BASE_URL || 'http://localhost:8000'
+    //}]
+  ],
+
 }
