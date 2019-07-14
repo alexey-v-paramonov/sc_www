@@ -11,13 +11,13 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.5.2",
+    "@nuxtjs/axios": "^5.5.4",
     "bootstrap": "^4.3.1",
     "bootstrap-vue": "^2.0.0-rc.21",
     "cross-env": "^5.2.0",
     "express": "^4.17.1",
-    "nuxt": "^2.7.1",
-    "nuxt-i18n": "^5.12.3"
+    "nuxt": "^2.8.1",
+    "nuxt-i18n": "^5.12.7"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
