@@ -2,10 +2,9 @@
 <div>
   <Header />
   <div>
-    
     !{{ $t('welcome') }}!
     </div>
-</div>    
+</div>
 </template>
 
 <script>
