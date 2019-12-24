@@ -8,6 +8,7 @@
         <a class="p-2 text-dark" href="#">Radio Catalog</a>
       </nav>
       <a class="btn btn-outline-primary" href="#">Sign in</a>
+      <a class="btn btn-outline-primary" href="/signup">{{ $t('signup') }}</a>
   </div>
 </template>
 
