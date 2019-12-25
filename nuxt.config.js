@@ -41,6 +41,9 @@ module.exports = {
     'bootstrap-vue/nuxt',
     '@nuxtjs/axios',
     ['nuxt-i18n', {
+      vueI18n: {
+        fallbackLocale: 'en',
+      },
       locales: [
         {
           code: 'en',
@@ -55,12 +58,22 @@ module.exports = {
           // domain: 'radio-tochka.com'
         }
       ],
+      detectBrowserLanguage: {
+        // If enabled, a cookie is set once a user has been redirected to his
+        // preferred language to prevent subsequent redirections
+        // Set to false to redirect every time
+        useCookie: true,
+        // Cookie name
+        cookieKey: 'i18n_redirected',
+        // Set to always redirect to value stored in the cookie, not just once
+        alwaysRedirect: false,
+        // If no locale for the browsers locale is a match, use this one as a fallback
+        fallbackLocale: 'en'
+      },
       lazy: true,
-      seo: false,
+      strategy: 'no_prefix',
       langDir: 'lang/',
       defaultLocale: 'en',
-      loadLanguagesAsync: true,
-      // differentDomains: true
     }]
     //['@nuxtjs/axios', {
     //  baseURL: process.env.BASE_URL || 'http://localhost:8000'
