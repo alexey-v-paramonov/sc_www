@@ -1,4 +1,4 @@
-// or
 export default {
-    welcome: 'Welcome'
+    welcome: 'Welcome',
+    signin: "Sign in"
 }

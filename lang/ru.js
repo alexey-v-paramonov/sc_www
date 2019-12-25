@@ -1,4 +1,4 @@
-// or
 export default {
-    welcome: 'Велкам!'
+    welcome: 'Велкам!',
+    signin: "Войти"
 }

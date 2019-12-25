@@ -46,16 +46,21 @@ module.exports = {
           code: 'en',
           name: 'English',
           file: 'en.js'
+          // domain: 'streaming.center'
         },
         {
           code: 'ru',
           name: 'Русский',
           file: 'ru.js'
+          // domain: 'radio-tochka.com'
         }
       ],
       lazy: true,
+      seo: false,
       langDir: 'lang/',
       defaultLocale: 'en',
+      loadLanguagesAsync: true,
+      // differentDomains: true
     }]
     //['@nuxtjs/axios', {
     //  baseURL: process.env.BASE_URL || 'http://localhost:8000'
