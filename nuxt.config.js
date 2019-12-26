@@ -74,6 +74,7 @@ module.exports = {
       strategy: 'no_prefix',
       langDir: 'lang/',
       defaultLocale: 'en',
+      // differentDomains: true
     }]
     //['@nuxtjs/axios', {
     //  baseURL: process.env.BASE_URL || 'http://localhost:8000'
