@@ -36,7 +36,9 @@ module.exports = {
       }
     }
   },
-  plugins: [],
+  plugins: [
+    {src: '~plugins/vee-validate.js', ssr: true},
+  ],
   modules: [
     'bootstrap-vue/nuxt',
     '@nuxtjs/axios',
