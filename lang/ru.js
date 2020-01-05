@@ -1,4 +1,7 @@
 export default {
     welcome: 'Велкам!',
-    signin: "Войти"
+    signin: "Войти",
+    signup: "Зарегистрироваться",
+    email: "Email",
+    password: "Пароль",
 }

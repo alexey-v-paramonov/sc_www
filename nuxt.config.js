@@ -46,11 +46,12 @@ module.exports = {
       imports: [
        {
          set: '@fortawesome/free-solid-svg-icons',
-         icons: ['fas']
+         icons: ['faEnvelope', 'faLock']
        },
        {
          set:'@fortawesome/free-brands-svg-icons',
-         icons: ['fab']
+         //icons: ['faFacebook']
+         icons: ['faFacebookF']
        }
      ]
     }],
