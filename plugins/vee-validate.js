@@ -1,13 +1,9 @@
-// import Vue from 'vue';
-// import VeeValidate from 'vee-validate';
-// import VueI18n from 'vue-i18n'
+import { extend } from "vee-validate";
+import { required, email, alpha } from "vee-validate/dist/rules";
 
-// export default ({ app }) => {
-//   Vue.use(VeeValidate, {
-//     inject: true,
-//     i18n: app.i18n, // the vue-i18n plugin instance
-//     i18nRootKey: 'validations',
-//     fieldsBagName: 'formFields'
-//     //locale: 'en'
-//   });
-// }
+extend('email', email);
+extend('required', required);
+extend("alpha", {
+    ...alpha,
+    message: "This field must only contain alphabetic characters"
+});

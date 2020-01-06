@@ -21,6 +21,9 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    transpile: [
+      "vee-validate/dist/rules"
+    ],
     //transpile: ['bootstrap-vue'], // Remove this with bootstrap rc.22
     /*
     ** Run ESLint on save
