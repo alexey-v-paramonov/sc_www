@@ -12,3 +12,9 @@ dist
 
 package-lock.json
 start_dev
+
+*.log*
+.nitro
+.cache
+.output
+.env
