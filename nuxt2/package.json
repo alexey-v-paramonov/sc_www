@@ -1,0 +1,29 @@
+{
+  "name": "sc_www",
+  "version": "1.0.0",
+  "description": "Streaming.center website",
+  "author": "Alexey V Paramonov <me@paramonov.ru>",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
+    "build": "nuxt build",
+    "start": "cross-env NODE_ENV=production node server/index.js",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@fortawesome/free-brands-svg-icons": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@nuxtjs/axios": "^5.13.6",
+    "cross-env": "^7.0.3",
+    "express": "^4.17.3",
+    "nuxt": "^2.15.8",
+    "nuxt-fontawesome": "^0.4.0",
+    "nuxt-i18n": "^6.4.1",
+    "vee-validate": "^3.4.14",
+    "vue-i18n": "^8.27.1",
+    "vuetify": "^2.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
