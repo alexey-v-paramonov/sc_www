@@ -9,4 +9,22 @@ export default defineNuxtConfig({
       "process.env.DEBUG": false,
     },
   },
+  modules: [
+    '@nuxtjs/i18n',
+  ],
+  i18n: {
+    locales: ['en', 'ru',],
+    defaultLocale: 'ru',
+    vueI18n: {
+      fallbackLocale: 'en',
+      messages: {
+        en: {
+          welcome: 'Welcome'
+        },
+        ru: {
+          welcome: 'Буржур'
+        }
+      }
+    }
+  }  
 })

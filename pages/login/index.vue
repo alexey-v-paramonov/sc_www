@@ -3,7 +3,7 @@
         <v-row no-gutters md="6">
             <v-col>&nbsp;</v-col>
             <v-col md="6">
-                <h1>Login</h1>
+                <h1><p>{{ $t('welcome') }}</p> Login</h1>
                 <v-form @submit.prevent>
                     <v-text-field v-model="firstName" :rules="rules" label="Email"></v-text-field>
                     <v-text-field
