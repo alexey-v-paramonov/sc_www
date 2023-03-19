@@ -13,18 +13,20 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
   ],
   i18n: {
-    locales: ['en', 'ru',],
-    defaultLocale: 'ru',
-    vueI18n: {
-      fallbackLocale: 'en',
-      messages: {
-        en: {
-          welcome: 'Welcome'
-        },
-        ru: {
-          welcome: 'Буржур'
-        }
-      }
-    }
+    locales: [
+      {
+        code: 'en',
+        file: 'en.json',
+        domain: 'streaming.center'
+      },
+      {
+        code: 'ru',
+        file: 'ru.json',
+        domain: 'radio-tochka.com'
+      },
+    ],
+    lazy: true,
+    langDir: 'lang',
+    defaultLocale: 'en'
   }  
 })
