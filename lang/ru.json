@@ -1,3 +1,5 @@
 {
-    "welcome": "Бунжур"
+    "login": "Вход",
+    "email": "Email адрес",
+    "password": "Пароль"
 }
