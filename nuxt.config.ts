@@ -28,5 +28,10 @@ export default defineNuxtConfig({
     lazy: true,
     langDir: 'lang',
     defaultLocale: 'en'
-  }  
+  },
+  runtimeConfig: {
+    public: {
+      baseURL: 'https://streaming.center/api/v1/',
+    },
+  },
 })

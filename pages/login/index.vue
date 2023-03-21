@@ -38,5 +38,9 @@ export default {
         },
       }
     },
+    created(){
+      const config = useRuntimeConfig();
+      console.log("API URL!", config.public.baseURL);
+    }
   }
 </script>
