@@ -17,7 +17,7 @@
                         counter
                         @click:append="show1 = !show1"
                     ></v-text-field>
-                    <v-btn type="submit" block class="mt-2">{{ $t('login') }}</v-btn>
+                    <v-btn type="submit" @click="signUp()" block class="mt-2">{{ $t('login') }}</v-btn>
                 </v-form>
             </v-col>
         </v-row>
@@ -30,7 +30,8 @@ export default {
       return {
         show1: false,
         show2: true,
-        password: 'Password',
+        email: '',
+        password: '',
         rules: {
           required: value => !!value || 'Required.',
           min: v => v.length >= 8 || 'Min 8 characters',
@@ -41,6 +42,25 @@ export default {
     created(){
       const config = useRuntimeConfig();
       console.log("API URL!", config.public.baseURL);
+    },
+    methods: {
+      async signUpRequest() {
+        const config = useRuntimeConfig();
+        return await $fetch(`${config.public.baseURL}/api/users`, { 
+            method: 'POST',
+            body: {
+                'email': this.email,
+                'password': this.password
+            }
+        });
+      },
+      signUp(){
+        this.signUpRequest().then( (result) => {
+            console.log("DONE: ", result)
+        }).catch( (error) => {
+            console.error('ERROR:', error)
+        });
+      }
     }
   }
 </script>

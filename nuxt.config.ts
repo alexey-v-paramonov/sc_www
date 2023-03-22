@@ -31,7 +31,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      baseURL: 'https://streaming.center/api/v1/',
+      baseURL: 'https://streaming.center/api/v1',
     },
   },
 })
