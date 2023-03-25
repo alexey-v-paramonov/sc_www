@@ -1,5 +1,7 @@
 {
     "login": "Вход",
+    "signup": "Регистрация",
+    "create_account": "Зарегистрироваться",
     "email": "Email адрес",
     "password": "Пароль"
 }

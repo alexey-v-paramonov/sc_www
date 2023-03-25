@@ -3,7 +3,7 @@
         <v-row no-gutters md="6">
             <v-col>&nbsp;</v-col>
             <v-col md="6">
-                <h1>{{ $t('login') }}</h1>
+                <h1>{{ $t('signup') }}</h1>
                 <v-form @submit.prevent>
                     <v-text-field v-model="email" :rules="rules" :label="$t('email')"></v-text-field>
                     <v-text-field
@@ -17,7 +17,7 @@
                         counter
                         @click:append="show1 = !show1"
                     ></v-text-field>
-                    <v-btn type="submit" @click="signUp()" block class="mt-2">{{ $t('login') }}</v-btn>
+                    <v-btn type="submit" @click="signUp()" block class="mt-2">{{ $t('create_account') }}</v-btn>
                 </v-form>
             </v-col>
         </v-row>
@@ -35,20 +35,19 @@ export default {
         rules: {
           required: value => !!value || 'Required.',
           min: v => v.length >= 8 || 'Min 8 characters',
-          emailMatch: () => (`The email and password you entered don't match`),
+          isEmail: () => (`The email and password you entered don't match`),
         },
       }
     },
     created(){
-      const config = useRuntimeConfig();
-      console.log("API URL!", config.public.baseURL);
     },
     methods: {
       async signUpRequest() {
         const config = useRuntimeConfig();
-        return await $fetch(`${config.public.baseURL}/api/users`, { 
+        return await $fetch(`${config.public.baseURL}/users/`, { 
             method: 'POST',
             body: {
+                'username': this.email,
                 'email': this.email,
                 'password': this.password
             }
