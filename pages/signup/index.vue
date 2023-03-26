@@ -4,8 +4,8 @@
             <v-col>&nbsp;</v-col>
             <v-col md="6">
                 <h1>{{ $t('signup') }}</h1>
-                <v-form @submit.prevent>
-                    <v-text-field v-model="email" :rules="rules" :label="$t('email')"></v-text-field>
+                <Form as="v-form" @submit.prevent>
+                    <v-text-field v-model="email" type="email" :rules="rules" :label="$t('email')"></v-text-field>
                     <v-text-field
                         v-model="password"
                         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -18,7 +18,7 @@
                         @click:append="show1 = !show1"
                     ></v-text-field>
                     <v-btn type="submit" @click="signUp()" block class="mt-2">{{ $t('create_account') }}</v-btn>
-                </v-form>
+                </Form>
             </v-col>
         </v-row>
     </v-container>
