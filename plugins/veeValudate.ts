@@ -8,5 +8,6 @@ export default defineNuxtPlugin(nuxtApp => {
         defineRule(id, validator)
       })    
     nuxtApp.vueApp.component("Form", Form);
+    nuxtApp.vueApp.component("Field", Field);
     nuxtApp.vueApp.component("ErrorMessage", ErrorMessage);
 })

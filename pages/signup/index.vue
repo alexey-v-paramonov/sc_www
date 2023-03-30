@@ -4,9 +4,10 @@
             <v-col>&nbsp;</v-col>
             <v-col md="6">
                 <h1>{{ $t('signup') }}</h1>
-                <Form as="v-form" @submit="onSubmit">
-                    <Field name="email" as="v-text-field" v-model="email" type="email" :rules="validateEmail"  :label="$t('email')"></Field>
-                    1<ErrorMessage name="email" />2
+                <v-form @submit="onSubmit">
+                    <v-text-field name="email" 
+                           v-model="email" type="email" 
+                           :rules="[rules.isEmail,]"  :label="$t('email')"></v-text-field>
 
                     <v-text-field
                         v-model="password"
@@ -24,20 +25,15 @@
                     <!--
                     <v-btn type="submit" @click="signUp()" block class="mt-2">{{ $t('create_account') }}</v-btn>
                     -->
-                </Form>
+                </v-form>
             </v-col>
         </v-row>
     </v-container>
 </template>
   
 <script>
-import { Form, Field, ErrorMessage } from 'vee-validate';
 
 export default {
-  components: {
-    Form,
-    Field,
-  },  
     data () {
       return {
         show1: false,
@@ -54,7 +50,8 @@ export default {
     created(){
     },
     methods: {
-      validateEmail(value) {
+      validateEmail() {
+        return "123";
         // if the field is empty
         if (!value) {
           return 'This field is required';
