@@ -6,8 +6,10 @@
                 <h1>{{ $t('signup') }}</h1>
                 <v-form @submit="onSubmit">
                     <v-text-field name="email" 
-                           v-model="email" type="email" 
-                           :rules="[rules.isEmail,]"  :label="$t('email')"></v-text-field>
+                           v-model="email.value.value" type="email" 
+                           :rules="[rules.isEmail,]"  
+                           :error-messages="email.errorMessage.value"
+                           :label="$t('email')"></v-text-field>
 
                     <v-text-field
                         v-model="password"
@@ -20,7 +22,7 @@
                         counter
                         @click:append="show1 = !show1"
                     ></v-text-field>
-                    <error-message name="email">123</error-message>
+                    <!-- <error-message name="email">123</error-message> -->
                     <v-btn type="submit" block class="mt-2">{{ $t('create_account') }}</v-btn>
                     <!--
                     <v-btn type="submit" @click="signUp()" block class="mt-2">{{ $t('create_account') }}</v-btn>
@@ -30,15 +32,33 @@
         </v-row>
     </v-container>
 </template>
-  
+
 <script>
+  import { useField } from 'vee-validate';
 
 export default {
+  // Note: setErrors for setting individual field errors
+
+  setup () {
+    function validateField(value) {
+      if (!value) {
+        return 'this field is required';
+      }
+
+      if (value.length < 8) {
+        return 'this field must contain at least 8 characters';
+      }
+
+      return true;
+    }    
+    const email = useField('email', validateField);
+    return { email }
+  },
     data () {
       return {
         show1: false,
         show2: true,
-        email: '',
+        //email: '',
         password: '',
         rules: {
           required: value => !!value || 'Required.',
