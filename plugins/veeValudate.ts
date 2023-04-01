@@ -16,7 +16,7 @@ export default defineNuxtPlugin(nuxtApp => {
       }),
     });
 
-    setLocale('ru');
+    // setLocale('ru');
     //nuxtApp.vueApp.component("Form", Form);
     //nuxtApp.vueApp.component("Field", Field);
     //nuxtApp.vueApp.component("ErrorMessage", ErrorMessage);
