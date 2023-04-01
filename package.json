@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@nuxtjs/i18n": "^8.0.0-beta.10",
+    "@vee-validate/i18n": "^4.8.3",
     "@vee-validate/rules": "^4.8.4",
     "nuxt": "^3",
     "sass": "^1.58.0",
