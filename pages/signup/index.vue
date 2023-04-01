@@ -7,7 +7,6 @@
                 <v-form @submit="onSubmit">
                     <v-text-field name="email" 
                            v-model="email.value.value" type="email" 
-                           :rules="[rules.isEmail,]"  
                            :error-messages="email.errorMessage.value"
                            :label="$t('email')"></v-text-field>
 
@@ -35,11 +34,15 @@
 
 <script>
   import { useField } from 'vee-validate';
+  //import { required, email as emailRule, min } from '@vee-validate/rules';
+  import { defineRule } from 'vee-validate';
+
 
 export default {
   // Note: setErrors for setting individual field errors
 
   setup () {
+
     function validateField(value) {
       if (!value) {
         return 'this field is required';
@@ -51,7 +54,7 @@ export default {
 
       return true;
     }    
-    const email = useField('email', validateField);
+    const email = useField('email', "email");
     return { email }
   },
     data () {
