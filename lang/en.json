@@ -3,5 +3,6 @@
     "signup": "Sign up",
     "create_account": "Create account",
     "email": "Email address",
+    "email.errors.unique": "Email address is already in use.",
     "password": "Password"
 }

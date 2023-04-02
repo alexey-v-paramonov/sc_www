@@ -12,8 +12,9 @@
             :label="$t('email')"
           ></v-text-field>
 
-          <v-text-field v-model="password" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-            :rules="[rules.required, rules.min]" :type="show1 ? 'text' : 'password'" name="password"
+          <v-text-field 
+          v-model="password.value.value" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+             :type="show1 ? 'text' : 'password'" name="password"
             :label="$t('password')" hint="At least 8 characters" counter 
             @click:append="show1 = !show1"></v-text-field>
           <!-- <error-message name="email">123</error-message> -->
@@ -34,68 +35,62 @@ export default {
   // Note: setErrors for setting individual field errors
 
   setup() {
-    async function signUpRequest(data) {
+    const { t } = useI18n();
+
+    function signUpRequest(data) {
       const config = useRuntimeConfig();
-      return await $fetch(`${config.public.baseURL}/users/`, {
+      return useFetch(`${config.public.baseURL}/users/`, {
         method: 'POST',
         body: {
           'username': data.email,
           'email': data.email,
-          'password': "123"// this.password
+          'password': "123"// data.password
         }
       });
     }
 
-    // function validateField(value) {
-    //   if (!value) {
-    //     return 'this field is required';
-    //   }
+    const formValues = {
+      email: '',
+      password: '',
+    };    
 
-    //   if (value.length < 8) {
-    //     return 'this field must contain at least 8 characters';
-    //   }
+    // const formValues = {
+    //   email: 'test@test.com',
+    //   password: 'password',
+    // };    
 
-    //   return true;
-    // }
-    //const email = useField('email',);
-
-    const { handleSubmit, isSubmitting: isSignupSubmitting, setErrors } = useForm();
-    const email = useField('email', "email");
-
-    const onSignupSubmit = handleSubmit(async values => {
-      console.log("SUBMIT:", values)
-      const response = await signUpRequest(values);
-      console.log(response);
-        // Send stuff to the API
+    const { handleSubmit, isSubmitting: isSignupSubmitting, setErrors } = useForm({
+      initialValues: formValues,
     });
-    return { email, onSignupSubmit, isSignupSubmitting }
+    const email = useField('email', "required|email");
+    const password = useField('password', "required|min:8");
+
+    const onSignupSubmit = handleSubmit(values => {
+      console.log("Data:", values)
+      signUpRequest(values).then(
+        (result) => {
+          const error = result.error.value;
+          if( !error ){
+            console.log("Ok")
+            return;
+          }
+
+         setErrors({'email': t("email.errors.unique")})
+        }
+      ).catch((error) => {
+        console.error('ERROR:', error)
+      });
+    });
+    return { email, password, onSignupSubmit, isSignupSubmitting }
   },
   data() {
     return {
       show1: false,
-      show2: true,
-      //email: '',
-      password: '',
-      rules: {
-        required: value => !!value || 'Required.',
-        min: v => v.length >= 8 || 'Min 8 characters',
-        isEmail: () => (`The email and password you entered don't match`),
-      },
     }
   },
   created() {
   },
   methods: {
-    //onSubmit(values) {
-    //  console.log('Submitting :(', values);
-    //},
-    signUp() {
-      this.signUpRequest().then((result) => {
-        console.log("DONE: ", result)
-      }).catch((error) => {
-        console.error('ERROR:', error)
-      });
-    }
   }
 }
 </script>

@@ -3,5 +3,6 @@
     "signup": "Регистрация",
     "create_account": "Зарегистрироваться",
     "email": "Email адрес",
+    "email.errors.unique": "Этот email уже зарегистирован",
     "password": "Пароль"
 }
