@@ -5,6 +5,14 @@
             <v-col md="6">
                 <h1>{{ $t('login') }}</h1>
                 <v-form @submit.prevent="onLoginSubmit">
+                    <v-alert 
+                    title="Alert title"
+                    color="error"
+                    closable
+                    border="start"
+                    icon="mdi-message-alert"
+                    text="Login failed"></v-alert>
+                    <br>
                     <v-text-field 
                       v-model="email.value.value"
                       type="email"
@@ -19,8 +27,13 @@
                         @click:append="show1 = !show1">
                     </v-text-field>
 
+                    <a href="#" class="text-body-2 font-weight-regular">Forgot Password?</a>
+
                     <v-btn type="submit" :disabled="isSignupSubmitting" block class="mt-2">{{ $t('login') }}</v-btn>
                 </v-form>
+                <div class="mt-2">
+                <p class="text-body-2">Don't have an account? <a href="#">Sign Up</a></p>
+            </div>                
             </v-col>
         </v-row>
     </v-container>
