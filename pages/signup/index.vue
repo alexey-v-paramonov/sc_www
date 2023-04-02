@@ -37,22 +37,22 @@ export default {
   setup() {
     const { t } = useI18n();
 
-    function signUpRequest(data) {
+    async function signUpRequest(data) {
       const config = useRuntimeConfig();
-      return useFetch(`${config.public.baseURL}/users/`, {
+      return await useFetch(`${config.public.baseURL}/users/`, {
         method: 'POST',
         body: {
-          'username': data.email,
+          //'username': data.email,
           'email': data.email,
           'password': "123"// data.password
         }
       });
     }
 
-    const formValues = {
-      email: '',
-      password: '',
-    };    
+    // const formValues = {
+    //   email: '',
+    //   password: '',
+    // };    
 
     // const formValues = {
     //   email: 'test@test.com',
@@ -65,21 +65,30 @@ export default {
     const email = useField('email', "required|email");
     const password = useField('password', "required|min:8");
 
-    const onSignupSubmit = handleSubmit(values => {
+    const onSignupSubmit = handleSubmit(async values => {
       console.log("Data:", values)
-      signUpRequest(values).then(
-        (result) => {
-          const error = result.error.value;
-          if( !error ){
-            console.log("Ok")
-            return;
-          }
+      const response = await signUpRequest(values);
+      console.log(response);
+      const error = response.error.value;
+      if( !error ){
+        console.log("Ok")
+        return;
+      }
+      console.log("Errors!", error.data)
+      setErrors({'email': t("email.errors.unique")})
+      // signUpRequest(values).then(
+      //   (result) => {
+      //     const error = result.error.value;
+      //     if( !error ){
+      //       console.log("Ok")
+      //       return;
+      //     }
 
-         setErrors({'email': t("email.errors.unique")})
-        }
-      ).catch((error) => {
-        console.error('ERROR:', error)
-      });
+      //    setErrors({'email': t("email.errors.unique")})
+      //   }
+      // ).catch((error) => {
+      //   console.error('ERROR:', error)
+      // });
     });
     return { email, password, onSignupSubmit, isSignupSubmitting }
   },
