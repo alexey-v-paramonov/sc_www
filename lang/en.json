@@ -3,6 +3,10 @@
     "signup": "Sign up",
     "create_account": "Create account",
     "email": "Email address",
+
     "email.errors.unique": "Email address is already in use.",
+    "email.errors.syntax": "Email address is invalid.",
+    "email.errors.undeliverable": "Email address is invalid.",
+
     "password": "Password"
 }

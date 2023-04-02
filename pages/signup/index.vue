@@ -49,10 +49,10 @@ export default {
       });
     }
 
-    // const formValues = {
-    //   email: '',
-    //   password: '',
-    // };    
+    const formValues = {
+      email: '',
+      password: '',
+    };    
 
     // const formValues = {
     //   email: 'test@test.com',
@@ -66,9 +66,7 @@ export default {
     const password = useField('password', "required|min:8");
 
     const onSignupSubmit = handleSubmit(async values => {
-      console.log("Data:", values)
       const response = await signUpRequest(values);
-      console.log(response);
       const error = response.error.value;
       if( !error ){
         console.log("Ok")
