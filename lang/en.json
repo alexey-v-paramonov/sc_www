@@ -3,6 +3,10 @@
     "signup": "Sign up",
     "create_account": "Create account",
     "email": "Email address",
+    "error": "Error",
+    "bad_credentials": "Unable to log in with provided credentials",
+
+    
 
     "email.errors.unique": "Email address is already in use.",
     "email.errors.syntax": "Email address is invalid.",

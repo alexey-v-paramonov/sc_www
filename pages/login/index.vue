@@ -3,15 +3,16 @@
         <v-row no-gutters md="6">
             <v-col>&nbsp;</v-col>
             <v-col md="6">
-                <h1>{{ $t('login') }}</h1>
+                <h1>{{ $t('login') }} {{ badCredentials }}</h1>
                 <v-form @submit.prevent="onLoginSubmit">
                     <v-alert 
-                    title="Alert title"
+                    v-if="badCredentials"
+                    :title="$t('login')"
                     color="error"
                     closable
                     border="start"
                     icon="mdi-message-alert"
-                    text="Login failed"></v-alert>
+                    :text="$t('bad_credentials')"></v-alert>
                     <br>
                     <v-text-field 
                       v-model="email.value.value"
@@ -41,12 +42,17 @@
   
 <script>
 import { useField, useForm } from 'vee-validate';
+import { ref } from 'vue'
+
 
 export default {
   setup() {
+    let badCredentials = ref(false);
+
     async function loginRequest(data) {
       const config = useRuntimeConfig();
       return await useFetch(`${config.public.baseURL}/api-token-auth/`, {
+        // return await useFetch(`http://localhost:8000/api/v1/api-token-auth/`, {
         method: 'POST',
         body: {
           'username': data.email,
@@ -61,16 +67,21 @@ export default {
     const password = useField('password', "required|min:8");
 
     const onLoginSubmit = handleSubmit(async values => {
+      badCredentials.value = false;
       const response = await loginRequest(values);
       const error = response.error.value;
       if( !error ){
         console.log("Ok")
         return;
       }
+      if(error.data['non_field_errors'] == 'bad_credentials'){
+        badCredentials.value = true;
+        return;
+      }
       console.log("Errors!", error.data)
       setErrors({'email': t("email.errors.unique")})
     });
-    return { email, password, onLoginSubmit, isSignupSubmitting }
+    return { email, password, onLoginSubmit, isSignupSubmitting, badCredentials }
 
   },
   data () {

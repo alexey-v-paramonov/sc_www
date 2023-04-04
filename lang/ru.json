@@ -3,6 +3,8 @@
     "signup": "Регистрация",
     "create_account": "Зарегистрироваться",
     "email": "Email адрес",
+    "error": "Ошибка",
+    "bad_credentials": "Неправильное имя пользователя или пароль",
 
     "email.errors.unique": "Этот email уже зарегистирован",
     "email.errors.syntax": "Не корректный email адрес",
