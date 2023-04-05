@@ -3,7 +3,7 @@
         <v-row no-gutters md="6">
             <v-col>&nbsp;</v-col>
             <v-col md="6">
-                <h1>{{ $t('login') }} {{ badCredentials }}</h1>
+                <h1>{{ $t('login') }}</h1>
                 <v-form @submit.prevent="onLoginSubmit">
                     <v-alert 
                     v-if="badCredentials"
@@ -25,6 +25,7 @@
                       v-model="password.value.value" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                         :type="show1 ? 'text' : 'password'" name="password"
                         :label="$t('password')" hint="At least 8 characters" counter 
+                        :error-messages="password.errorMessage.value"
                         @click:append="show1 = !show1">
                     </v-text-field>
 
@@ -33,8 +34,8 @@
                     <v-btn type="submit" :disabled="isSignupSubmitting" block class="mt-2">{{ $t('login') }}</v-btn>
                 </v-form>
                 <div class="mt-2">
-                <p class="text-body-2">Don't have an account? <a href="#">Sign Up</a></p>
-            </div>                
+                  <p class="text-body-2">Don't have an account? <NuxtLink to="/signup">{{ $t('signup') }}</NuxtLink></p>
+                </div>                
             </v-col>
         </v-row>
     </v-container>

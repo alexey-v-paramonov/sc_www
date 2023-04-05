@@ -17,11 +17,10 @@
              :type="show1 ? 'text' : 'password'" name="password"
             :label="$t('password')" hint="At least 8 characters" counter 
             @click:append="show1 = !show1"></v-text-field>
-          <!-- <error-message name="email">123</error-message> -->
           <v-btn type="submit" :disabled="isSignupSubmitting" block class="mt-2">{{ $t('create_account') }}</v-btn>
-          <!--
-                    <v-btn type="submit" @click="signUp()" block class="mt-2">{{ $t('create_account') }}</v-btn>
-                    -->
+          <div class="mt-2">
+            <p class="text-body-2">Already have an account? <NuxtLink to="/login">{{ $t('login') }}</NuxtLink></p>
+          </div>                
         </form>
       </v-col>
     </v-row>
@@ -44,7 +43,7 @@ export default {
         body: {
           //'username': data.email,
           'email': data.email,
-          'password': "123"// data.password
+          'password': data.password
         }
       });
     }
