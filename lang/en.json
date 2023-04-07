@@ -5,12 +5,13 @@
     "email": "Email address",
     "error": "Error",
     "bad_credentials": "Unable to log in with provided credentials",
+    "chars_min_8": "At least 8 characters",
 
-    
 
     "email.errors.unique": "Email address is already in use.",
     "email.errors.syntax": "Email address is invalid.",
     "email.errors.undeliverable": "Email address is invalid.",
 
-    "password": "Password"
+    "password": "Password",
+    "password_confirmation": "Confirm Password"
 }

@@ -13,10 +13,20 @@
           ></v-text-field>
 
           <v-text-field 
-          v-model="password.value.value" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+          v-model="password1.value.value" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
              :type="show1 ? 'text' : 'password'" name="password"
-            :label="$t('password')" hint="At least 8 characters" counter 
+            :label="$t('password')" :hint="$t('chars_min_8')" counter 
+            :error-messages="password1.errorMessage.value"
             @click:append="show1 = !show1"></v-text-field>
+            <v-text-field 
+
+            v-model="password2.value.value" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+             :type="show1 ? 'text' : 'password'" name="password"
+            :label="$t('password_confirmation')" :hint="$t('chars_min_8')" counter 
+            :error-messages="password2.errorMessage.value"
+
+            @click:append="show1 = !show1"></v-text-field>
+
           <v-btn type="submit" :disabled="isSignupSubmitting" block class="mt-2">{{ $t('create_account') }}</v-btn>
           <div class="mt-2">
             <p class="text-body-2">Already have an account? <NuxtLink to="/login">{{ $t('login') }}</NuxtLink></p>
@@ -43,14 +53,15 @@ export default {
         body: {
           //'username': data.email,
           'email': data.email,
-          'password': data.password
+          'password': data.password1
         }
       });
     }
 
     const formValues = {
-      email: '',
-      password: '',
+      email: 'test@test.com',
+      password1: '123123123',
+      password2: '123123123',
     };    
 
     // const formValues = {
@@ -62,7 +73,8 @@ export default {
       initialValues: formValues,
     });
     const email = useField('email', "required|email");
-    const password = useField('password', "required|min:8");
+    const password1 = useField(t("password"), "required|min:8");
+    const password2 = useField(t("password_confirmation"), "required|min:8|confirmed:@password1");
 
     const onSignupSubmit = handleSubmit(async values => {
       const response = await signUpRequest(values);
@@ -72,7 +84,13 @@ export default {
         return;
       }
       console.log("Errors!", error.data)
-      setErrors({'email': t("email.errors.unique")})
+      let errors = {};
+      for (const error_field in error.data) {
+        errors[error_field] = `${error_field}.errors.${error.data[error_field]}`;
+      }
+
+      //setErrors(errors);
+      setErrors({email: "unique"});
       // signUpRequest(values).then(
       //   (result) => {
       //     const error = result.error.value;
@@ -87,7 +105,7 @@ export default {
       //   console.error('ERROR:', error)
       // });
     });
-    return { email, password, onSignupSubmit, isSignupSubmitting }
+    return { email, password1, password2, onSignupSubmit, isSignupSubmitting }
   },
   data() {
     return {

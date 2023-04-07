@@ -5,10 +5,13 @@
     "email": "Email адрес",
     "error": "Ошибка",
     "bad_credentials": "Неправильное имя пользователя или пароль",
+    "chars_min_8": "Как минимум 8 символов",
 
     "email.errors.unique": "Этот email уже зарегистирован",
     "email.errors.syntax": "Не корректный email адрес",
     "email.errors.undeliverable": "Email адрес не работает",
 
-    "password": "Пароль"
+    "password": "Пароль",
+    "password_confirmation": "Пароль еще раз"
+
 }
