@@ -83,27 +83,13 @@ export default {
         console.log("Ok")
         return;
       }
-      console.log("Errors!", error.data)
+      console.log("Errors: ", error.data)
       let errors = {};
       for (const error_field in error.data) {
-        errors[error_field] = `${error_field}.errors.${error.data[error_field]}`;
+        errors[error_field] = t(`${error_field}.errors.${error.data[error_field]}`);
       }
 
-      //setErrors(errors);
-      setErrors({email: "unique"});
-      // signUpRequest(values).then(
-      //   (result) => {
-      //     const error = result.error.value;
-      //     if( !error ){
-      //       console.log("Ok")
-      //       return;
-      //     }
-
-      //    setErrors({'email': t("email.errors.unique")})
-      //   }
-      // ).catch((error) => {
-      //   console.error('ERROR:', error)
-      // });
+      setErrors(errors);
     });
     return { email, password1, password2, onSignupSubmit, isSignupSubmitting }
   },
