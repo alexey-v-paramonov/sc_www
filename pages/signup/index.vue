@@ -39,12 +39,15 @@
 
 <script>
 import { useField, useForm } from 'vee-validate';
+import { useUserStore } from '@/stores/user.js';
 
 export default {
   // Note: setErrors for setting individual field errors
 
   setup() {
     const { t } = useI18n();
+    const userStore = useUserStore();
+    const router = useRouter();
 
     async function signUpRequest(data) {
       const config = useRuntimeConfig();
@@ -81,6 +84,7 @@ export default {
       const error = response.error.value;
       if( !error ){
         console.log("Ok")
+        router.push({path: "/"});
         return;
       }
       console.log("Errors: ", error.data)

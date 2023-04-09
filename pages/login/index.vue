@@ -44,11 +44,14 @@
 <script>
 import { useField, useForm } from 'vee-validate';
 import { ref } from 'vue'
+import { useUserStore } from '@/stores/user.js';
 
 
 export default {
+
   setup() {
     let badCredentials = ref(false);
+    const userStore = useUserStore();
 
     async function loginRequest(data) {
       const config = useRuntimeConfig();
