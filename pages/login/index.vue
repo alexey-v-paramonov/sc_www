@@ -52,11 +52,12 @@ export default {
   setup() {
     let badCredentials = ref(false);
     const userStore = useUserStore();
+    const router = useRouter();
 
     async function loginRequest(data) {
       const config = useRuntimeConfig();
-      return await useFetch(`${config.public.baseURL}/api-token-auth/`, {
-        // return await useFetch(`http://localhost:8000/api/v1/api-token-auth/`, {
+      //return await useFetch(`${config.public.baseURL}/api-token-auth/`, {
+      return await useFetch(`http://localhost:8000/api/v1/api-token-auth/`, {
         method: 'POST',
         body: {
           'username': data.email,
@@ -75,7 +76,8 @@ export default {
       const response = await loginRequest(values);
       const error = response.error.value;
       if( !error ){
-        console.log("Ok")
+        userStore.setUserData(response.data.value);
+        router.push("/");
         return;
       }
       if(error.data['non_field_errors'] == 'bad_credentials'){
