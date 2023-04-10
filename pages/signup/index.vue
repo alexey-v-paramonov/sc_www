@@ -52,42 +52,45 @@ export default {
     async function signUpRequest(data) {
       const config = useRuntimeConfig();
       return await useFetch(`${config.public.baseURL}/users/`, {
+      //return await useFetch(`http://127.0.0.1:8000/api/v1/users/`, {
         method: 'POST',
         body: {
-          //'username': data.email,
           'email': data.email,
           'password': data.password1
         }
       });
     }
 
-    const formValues = {
-      email: 'test@test.com',
-      password1: '123123123',
-      password2: '123123123',
-    };    
-
     // const formValues = {
     //   email: 'test@test.com',
-    //   password: 'password',
+    //   password1: '123123123',
+    //   password2: '123123123',
     // };    
 
+    const formValues = {
+       email: '',
+       password1: '',
+       password2: '',
+    };    
+
     const { handleSubmit, isSubmitting: isSignupSubmitting, setErrors } = useForm({
-      initialValues: formValues,
+      //initialValues: formValues,
     });
     const email = useField('email', "required|email");
-    const password1 = useField(t("password"), "required|min:8");
+    // const password1 = useField(t("password"), "required|min:8");
+    // const password2 = useField(t("password_confirmation"), "required|min:8|confirmed:@password1");
+    const password1 = useField("password1", "required|min:8");
     const password2 = useField(t("password_confirmation"), "required|min:8|confirmed:@password1");
 
     const onSignupSubmit = handleSubmit(async values => {
       const response = await signUpRequest(values);
       const error = response.error.value;
       if( !error ){
-        console.log("Ok")
-        router.push({path: "/"});
+        userStore.setUserData(response.data.value);
+        router.push("/");
         return;
       }
-      console.log("Errors: ", error.data)
+      //console.log("Errors: ", error.data)
       let errors = {};
       for (const error_field in error.data) {
         errors[error_field] = t(`${error_field}.errors.${error.data[error_field]}`);
