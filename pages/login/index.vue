@@ -1,4 +1,6 @@
 <template>
+      <NuxtLayout name="custom">
+
     <v-container>
         <v-row no-gutters md="6">
             <v-col>&nbsp;</v-col>
@@ -39,6 +41,8 @@
             </v-col>
         </v-row>
     </v-container>
+  </NuxtLayout>
+
 </template>
   
 <script>
@@ -46,10 +50,15 @@ import { useField, useForm } from 'vee-validate';
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user.js';
 
+definePageMeta({
+  layout: false,
+});
 
 export default {
+  
 
   setup() {
+
     let badCredentials = ref(false);
     const userStore = useUserStore();
     const router = useRouter();
