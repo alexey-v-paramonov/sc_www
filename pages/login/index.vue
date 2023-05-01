@@ -1,5 +1,5 @@
 <template>
-      <NuxtLayout name="custom">
+      <NuxtLayout name="auth">
 
     <v-container>
         <v-row no-gutters md="6">

@@ -1,4 +1,6 @@
 <template>
+  <NuxtLayout name="auth">
+
   <v-container>
     <v-row no-gutters md="6">
       <v-col>&nbsp;</v-col>
@@ -35,11 +37,16 @@
       </v-col>
     </v-row>
   </v-container>
+</NuxtLayout>
 </template>
 
 <script>
 import { useField, useForm } from 'vee-validate';
 import { useUserStore } from '@/stores/user.js';
+
+definePageMeta({
+  layout: false,
+});
 
 export default {
   // Note: setErrors for setting individual field errors
