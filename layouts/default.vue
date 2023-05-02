@@ -40,7 +40,7 @@ onMounted(() => {
             </v-list-subheader>
 
             <v-list-item
-                  to="/signup"
+                  to="/"
                   rounded
                   class="mb-1"
                   active-color="primary"
@@ -54,7 +54,7 @@ onMounted(() => {
                   <!---If Caption-->
                   <!---If any chip or label-->
               </v-list-item>
-              
+
             <!-- <template v-for="(item, i) in sidebarMenu">
                 <NavGroup :item="item" v-if="item.header" :key="item.title" />
                 <NavItem :item="item" v-else class="leftPadding" />
@@ -67,6 +67,8 @@ onMounted(() => {
   </v-navigation-drawer>  
   <v-app-bar elevation="0" height="70">
   </v-app-bar>
+
+  <slot />
 </v-app>
 
 </template>
