@@ -1,6 +1,8 @@
-<script setup lang="ts">
+<script setup>
+
 import { ref, onMounted } from "vue";
 import { useDisplay } from "vuetify";
+
 const sDrawer = ref(true);
 
 //import Sidebar from "~~/components/layoutComponents/sidebar/Sidebar.vue";
@@ -14,61 +16,60 @@ const drawer = ref(undefined || true);
 const innerW = 1024;
 const { mdAndUp, mdAndDown } = useDisplay();
 onMounted(() => {
+  console.log("!YO")
   if (innerW < 950) {
     drawer.value = !drawer.value;
   }
 });
+
 </script>
+
 <template>
-    <v-app>
+  <v-app>
 
-  <!------Sidebar-------->
-  <v-navigation-drawer left elevation="0" class="leftSidebar" v-model="sDrawer">
-    <!---Logo part -->
-    <div class="pa-5">
-      LOGO
-    </div>
+    <!------Sidebar-------->
+    <v-navigation-drawer left elevation="0" class="leftSidebar" v-model="sDrawer">
+      <!---Logo part -->
+      <div class="pa-5">
+        LOGO
+      </div>
 
-    <!---Navigation -->
-    <div>
+      <!---Navigation -->
+      <div>
         <v-list class="pa-6">
-            <!---Menu Loop -->
-            <v-list-subheader 
-              color="darkText"
-              class="smallCap text-uppercase text-subtitle-2 mt-5 font-weight-bold">
-                Home
-            </v-list-subheader>
+          <!---Menu Loop -->
+          <v-list-subheader color="darkText" class="smallCap text-uppercase text-subtitle-2 mt-5 font-weight-bold">
+            Home
+          </v-list-subheader>
 
-            <v-list-item
-                  to="/"
-                  rounded
-                  class="mb-1"
-                  active-color="primary"
-              >
-                  <!---If icon-->
-                  <template v-slot:prepend>
-                      <!-- <Icon :item="item.icon" :level="level" /> -->
-                      Icon
-                  </template>
-                  <v-list-item-title>Dashboard</v-list-item-title>
-                  <!---If Caption-->
-                  <!---If any chip or label-->
-              </v-list-item>
+          <v-list-item to="/" rounded class="mb-1" active-color="primary">
+            <!---If icon-->
+            <template v-slot:prepend>
+              <!-- <Icon :item="item.icon" :level="level" /> -->
+              Icon
+            </template>
+            <v-list-item-title>Dashboard</v-list-item-title>
+            <!---If Caption-->
+            <!---If any chip or label-->
+          </v-list-item>
 
-            <!-- <template v-for="(item, i) in sidebarMenu">
+          <!-- <template v-for="(item, i) in sidebarMenu">
                 <NavGroup :item="item" v-if="item.header" :key="item.title" />
                 <NavItem :item="item" v-else class="leftPadding" />
             </template> -->
         </v-list>
         <div class="pa-4">
-            <!-- <ExtraBox /> -->
+          <!-- <ExtraBox /> -->
         </div>
-    </div>
-  </v-navigation-drawer>  
-  <v-app-bar elevation="0" height="70">
-  </v-app-bar>
+      </div>
+    </v-navigation-drawer>
+    <v-app-bar elevation="0" height="70">
+      <v-app-bar-nav-icon class="" @click="drawer = !drawer" />
+    </v-app-bar>
 
-  <slot />
-</v-app>
-
+    <v-main>
+      <slot />
+    </v-main>
+    
+  </v-app>
 </template>
