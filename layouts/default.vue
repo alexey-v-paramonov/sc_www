@@ -16,7 +16,6 @@ const drawer = ref(undefined || true);
 const innerW = 1024;
 const { mdAndUp, mdAndDown } = useDisplay();
 onMounted(() => {
-  console.log("!YO")
   if (innerW < 950) {
     drawer.value = !drawer.value;
   }
@@ -37,27 +36,30 @@ onMounted(() => {
       <!---Navigation -->
       <div>
         <v-list class="pa-6">
-          <!---Menu Loop -->
-          <v-list-subheader color="darkText" class="smallCap text-uppercase text-subtitle-2 mt-5 font-weight-bold">
-            Home
-          </v-list-subheader>
+          <v-list-item to="/" prepend-icon="mdi-home" rounded class="mb-1" active-color="primary" :title="$t('nav_home')"></v-list-item>
 
-          <v-list-item to="/" rounded class="mb-1" active-color="primary">
-            <!---If icon-->
-            <template v-slot:prepend>
-              <!-- <Icon :item="item.icon" :level="level" /> -->
-              Icon
-            </template>
-            <v-list-item-title>Dashboard</v-list-item-title>
-            <!---If Caption-->
-            <!---If any chip or label-->
-          </v-list-item>
+          <v-list-subheader color="darkText" class="smallCap text-uppercase text-subtitle-2 mt-5 font-weight-bold" :title="$t('nav_streams')"></v-list-subheader>
+          <v-list-item to="/" prepend-icon="mdi-radio" rounded class="mb-1" active-color="primary" :title="$t('nav_radio')"></v-list-item>
 
-          <!-- <template v-for="(item, i) in sidebarMenu">
-                <NavGroup :item="item" v-if="item.header" :key="item.title" />
-                <NavItem :item="item" v-else class="leftPadding" />
-            </template> -->
+          <!-- Application -->
+          <v-list-subheader color="darkText" class="smallCap text-uppercase text-subtitle-2 mt-5 font-weight-bold" :title="$t('nav_apps')"></v-list-subheader>
+          <v-list-item to="/" prepend-icon="mdi-android" rounded class="mb-1" active-color="primary" :title="$t('nav_android')"></v-list-item>
+          <v-list-item to="/" prepend-icon="mdi-apple" rounded class="mb-1" active-color="primary" :title="$t('nav_ios')"></v-list-item>
+
+          <!-- Catalog -->
+          <v-list-subheader color="darkText" class="smallCap text-uppercase text-subtitle-2 mt-5 font-weight-bold" :title="$t('nav_catalog')"></v-list-subheader>
+          <v-list-item to="/" prepend-icon="mdi-bookmark-box-multiple" rounded class="mb-1" active-color="primary" :title="$t('nav_catalog_stations')"></v-list-item>
+
+          <!-- Settings -->
+          <v-list-subheader color="darkText" class="smallCap text-uppercase text-subtitle-2 mt-5 font-weight-bold" :title="$t('nav_settings')"></v-list-subheader>
+          <v-list-item to="/" prepend-icon="mdi-cash" rounded class="mb-1" active-color="primary" :title="$t('nav_settings_account')"></v-list-item>
+
+          <!-- Billing -->
+          <v-list-subheader color="darkText" class="smallCap text-uppercase text-subtitle-2 mt-5 font-weight-bold" :title="$t('nav_billing')"></v-list-subheader>
+          <v-list-item to="/" prepend-icon="mdi-cash" rounded class="mb-1" active-color="primary" :title="$t('nav_balance')"></v-list-item>
+
         </v-list>
+
         <div class="pa-4">
           <!-- <ExtraBox /> -->
         </div>

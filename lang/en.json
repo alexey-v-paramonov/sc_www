@@ -7,6 +7,21 @@
     "bad_credentials": "Unable to log in with provided credentials",
     "chars_min_8": "At least 8 characters",
 
+    "nav_home": "Home",
+
+    "nav_streams": "Streams",
+    "nav_radio": "Radio",
+    "nav_billing": "Billing",
+    "nav_balance": "Payments",
+    "nav_apps": "Applications",
+    "nav_android": "Android",
+    "nav_ios": "Apple iOs",
+    "nav_settings": "Settings",
+    "nav_settings_account": "Account",
+
+    "nav_catalog": "Catalog",
+    "nav_catalog_stations": "Stations",
+
 
     "email.errors.unique": "Email address is already in use",
     "email.errors.syntax": "Email address is invalid",

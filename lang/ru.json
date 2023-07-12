@@ -6,6 +6,20 @@
     "error": "Ошибка",
     "bad_credentials": "Неправильное имя пользователя или пароль",
     "chars_min_8": "Как минимум 8 символов",
+    "nav_home": "Домой",
+    "nav_streams": "Вещание",
+    "nav_radio": "Радио",
+    "nav_billing": "Биллинг",
+    "nav_balance": "Платежи",
+    "nav_apps": "Приложения",
+    "nav_android": "Android",
+    "nav_ios": "Apple iOs",
+
+    "nav_settings": "Настройки",
+    "nav_settings_account": "Аккаунт",
+
+    "nav_catalog": "Каталог",
+    "nav_catalog_stations": "Станции",
 
     "email.errors.unique": "Этот email уже зарегистирован",
     "email.errors.syntax": "Не корректный email адрес",
