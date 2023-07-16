@@ -39,24 +39,25 @@ onMounted(() => {
           <v-list-item to="/" prepend-icon="mdi-home" rounded class="mb-1" active-color="primary" :title="$t('nav_home')"></v-list-item>
 
           <v-list-subheader color="darkText" class="smallCap text-uppercase text-subtitle-2 mt-5 font-weight-bold" :title="$t('nav_streams')"></v-list-subheader>
-          <v-list-item to="/" prepend-icon="mdi-radio" rounded class="mb-1" active-color="primary" :title="$t('nav_radio')"></v-list-item>
+          <v-list-item to="/radio" prepend-icon="mdi-radio" rounded class="mb-1" active-color="primary" :title="$t('nav_radio')"></v-list-item>
 
           <!-- Application -->
           <v-list-subheader color="darkText" class="smallCap text-uppercase text-subtitle-2 mt-5 font-weight-bold" :title="$t('nav_apps')"></v-list-subheader>
-          <v-list-item to="/" prepend-icon="mdi-android" rounded class="mb-1" active-color="primary" :title="$t('nav_android')"></v-list-item>
-          <v-list-item to="/" prepend-icon="mdi-apple" rounded class="mb-1" active-color="primary" :title="$t('nav_ios')"></v-list-item>
+          <v-list-item to="/apps/android" prepend-icon="mdi-android" rounded class="mb-1" active-color="primary" :title="$t('nav_android')"></v-list-item>
+          <v-list-item to="/apps/ios" prepend-icon="mdi-apple" rounded class="mb-1" active-color="primary" :title="$t('nav_ios')"></v-list-item>
 
           <!-- Catalog -->
           <v-list-subheader color="darkText" class="smallCap text-uppercase text-subtitle-2 mt-5 font-weight-bold" :title="$t('nav_catalog')"></v-list-subheader>
-          <v-list-item to="/" prepend-icon="mdi-bookmark-box-multiple" rounded class="mb-1" active-color="primary" :title="$t('nav_catalog_stations')"></v-list-item>
-
-          <!-- Settings -->
-          <v-list-subheader color="darkText" class="smallCap text-uppercase text-subtitle-2 mt-5 font-weight-bold" :title="$t('nav_settings')"></v-list-subheader>
-          <v-list-item to="/" prepend-icon="mdi-cash" rounded class="mb-1" active-color="primary" :title="$t('nav_settings_account')"></v-list-item>
+          <v-list-item to="/catalog" prepend-icon="mdi-bookmark-box-multiple" rounded class="mb-1" active-color="primary" :title="$t('nav_catalog_stations')"></v-list-item>
 
           <!-- Billing -->
           <v-list-subheader color="darkText" class="smallCap text-uppercase text-subtitle-2 mt-5 font-weight-bold" :title="$t('nav_billing')"></v-list-subheader>
-          <v-list-item to="/" prepend-icon="mdi-cash" rounded class="mb-1" active-color="primary" :title="$t('nav_balance')"></v-list-item>
+          <v-list-item to="/billing" prepend-icon="mdi-cash" rounded class="mb-1" active-color="primary" :title="$t('nav_balance')"></v-list-item>
+
+          <!-- Settings -->
+          <v-list-subheader color="darkText" class="smallCap text-uppercase text-subtitle-2 mt-5 font-weight-bold" :title="$t('nav_settings')"></v-list-subheader>
+          <v-list-item to="/settings" prepend-icon="mdi-cash" rounded class="mb-1" active-color="primary" :title="$t('nav_settings_account')"></v-list-item>
+
 
         </v-list>
 
