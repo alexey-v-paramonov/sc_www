@@ -15,19 +15,19 @@
           ></v-text-field>
 
           <v-text-field 
-          v-model="password1.value.value" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-             :type="show1 ? 'text' : 'password'" name="password"
+          v-model="password1.value.value" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+             :type="showPass ? 'text' : 'password'" name="password"
             :label="$t('password')" :hint="$t('chars_min_8')" counter 
             :error-messages="password1.errorMessage.value"
-            @click:append="show1 = !show1"></v-text-field>
+            @click:append="showPass = !showPass"></v-text-field>
             <v-text-field 
 
-            v-model="password2.value.value" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-             :type="show1 ? 'text' : 'password'" name="password"
+            v-model="password2.value.value" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+             :type="showPass ? 'text' : 'password'" name="password"
             :label="$t('password_confirmation')" :hint="$t('chars_min_8')" counter 
             :error-messages="password2.errorMessage.value"
 
-            @click:append="show1 = !show1"></v-text-field>
+            @click:append="showPass = !showPass"></v-text-field>
 
           <v-btn type="submit" :disabled="isSignupSubmitting" block class="mt-2">{{ $t('create_account') }}</v-btn>
           <div class="mt-2">
@@ -43,6 +43,8 @@
 <script>
 import { useField, useForm } from 'vee-validate';
 import { useUserStore } from '@/stores/user.js';
+import { ref, onMounted } from 'vue'
+
 
 definePageMeta({
   layout: false,
@@ -52,9 +54,14 @@ export default {
   // Note: setErrors for setting individual field errors
 
   setup() {
-    const { t } = useI18n();
+    const { locale, t } = useI18n();
     const userStore = useUserStore();
     const router = useRouter();
+    const showPass = ref(false);
+
+    onMounted(() => {
+
+    })
 
     async function signUpRequest(data) {
       const config = useRuntimeConfig();
@@ -63,7 +70,9 @@ export default {
         method: 'POST',
         body: {
           'email': data.email,
-          'password': data.password1
+          'password': data.password1,
+          'language': locale.value == 'en' ? 0 : 1,
+          'currency': locale.value == 'en' ? 0 : 1,
         }
       });
     }
@@ -105,16 +114,7 @@ export default {
 
       setErrors(errors);
     });
-    return { email, password1, password2, onSignupSubmit, isSignupSubmitting }
+    return { email, password1, password2, onSignupSubmit, isSignupSubmitting, showPass }
   },
-  data() {
-    return {
-      show1: false,
-    }
-  },
-  created() {
-  },
-  methods: {
-  }
 }
 </script>

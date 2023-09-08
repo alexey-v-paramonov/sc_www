@@ -24,11 +24,11 @@
                     ></v-text-field>
 
                     <v-text-field 
-                      v-model="password.value.value" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                        :type="show1 ? 'text' : 'password'" name="password"
+                      v-model="password.value.value" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+                        :type="showPass ? 'text' : 'password'" name="password"
                         :label="$t('password')" hint="At least 8 characters" counter 
                         :error-messages="password.errorMessage.value"
-                        @click:append="show1 = !show1">
+                        @click:append="showPass = !showPass">
                     </v-text-field>
 
                     <a href="#" class="text-body-2 font-weight-regular">Forgot Password?</a>
@@ -55,13 +55,12 @@ definePageMeta({
 });
 
 export default {
-  
-
   setup() {
 
     let badCredentials = ref(false);
     const userStore = useUserStore();
     const router = useRouter();
+    const showPass = ref(false);
 
     async function loginRequest(data) {
       const config = useRuntimeConfig();
@@ -96,17 +95,7 @@ export default {
       console.log("Errors!", error.data)
       setErrors({'email': t("email.errors.unique")})
     });
-    return { email, password, onLoginSubmit, isSignupSubmitting, badCredentials }
-
-  },
-  data () {
-      return {
-        show1: false,
-      }
-    },
-    created(){
-    },
-    methods: {
-    }
+    return { email, password, onLoginSubmit, isSignupSubmitting, badCredentials, showPass }
   }
+}
 </script>
