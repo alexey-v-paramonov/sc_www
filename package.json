@@ -9,17 +9,17 @@
   },
   "devDependencies": {
     "@nuxtjs/i18n": "^8.0.0-beta.10",
-    "@pinia/nuxt": "^0.4.8",
-    "@vee-validate/i18n": "^4.8.3",
-    "@vee-validate/rules": "^4.8.4",
+    "@pinia/nuxt": "^0.4.11",
+    "@vee-validate/i18n": "^4.11.3",
+    "@vee-validate/rules": "^4.11.3",
     "nuxt": "^3",
-    "pinia": "^2.0.34",
-    "sass": "^1.58.0",
+    "pinia": "^2.1.6",
+    "sass": "^1.66.1",
     "vuetify": "^3"
   },
   "dependencies": {
-    "@mdi/font": "^7.1.96",
-    "vee-validate": "^4.8.3"
+    "@mdi/font": "^7.2.96",
+    "vee-validate": "^4.11.3"
   },
   "overrides": {
     "vue": "latest"
