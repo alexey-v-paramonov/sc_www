@@ -13,6 +13,7 @@
 
 definePageMeta({
   layout: "default",
+  middleware: 'auth',
 });
 
 </script>
