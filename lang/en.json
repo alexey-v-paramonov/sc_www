@@ -27,6 +27,10 @@
     "email.errors.syntax": "Email address is invalid",
     "email.errors.undeliverable": "Email address is invalid",
 
+    "radio.wizard": "Create a new radio",
+
     "password": "Password",
     "password_confirmation": "Confirm Password"
+
+    
 }

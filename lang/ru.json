@@ -25,6 +25,8 @@
     "email.errors.syntax": "Не корректный email адрес",
     "email.errors.undeliverable": "Email адрес не работает",
 
+    "radio.wizard": "Создание нового радио",
+
     "password": "Пароль",
     "password_confirmation": "Пароль еще раз"
 

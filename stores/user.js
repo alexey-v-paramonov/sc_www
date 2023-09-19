@@ -1,26 +1,28 @@
 import { defineStore } from 'pinia'
+import { reactive } from 'vue';
 
-export const useUserStore = defineStore('user', {
-    state: () => ({ user: {
-        isAuthenticated: false,
-        token: null,
-        userID: null,
-        username: null
-    } }),
+const LOCAL_STORE_NAME = 'user';
 
-    actions:{
-        initStore() {
-            console.log("Store intialized!")
-        },
-        setUserData(data){
-            this.isAuthenticated = true;
-            this.token = data.token;
-            this.userID = data.id;
-            this.userEmail = data.email;
-            localStorage.setItem('user.id', this.userID);
-            localStorage.setItem('user.email', this.userEmail);
-            localStorage.setItem('user.token', this.token);
-        }
+const defaultUser = {
+    isAuthenticated: false,
+    token: null,
+    id: null,
+    email: null
+};
+
+export const useUserStore = defineStore('user', () => {
+    const user = reactive( process.client ? JSON.parse(localStorage.getItem(LOCAL_STORE_NAME)) || defaultUser : defaultUser);
+
+    const setUserData = (data) => {
+        user.isAuthenticated = true;
+        user.token = data.token;
+        user.id = data.id;
+        user.email = data.email;
+        localStorage.setItem(LOCAL_STORE_NAME, JSON.stringify(user));
     }
 
-})
+    return{
+        user,
+        setUserData
+    }
+})    
