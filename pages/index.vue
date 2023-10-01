@@ -3,8 +3,6 @@
       <v-row no-gutters md="6">
         <v-col>User area <NuxtLink to="/radio/wizard">{{ $t('radio.wizard') }}</NuxtLink>
         
-        
-          <NuxtLink to="/login">{{ $t('radio.wizard') }}</NuxtLink>
         </v-col>
       </v-row>
     </v-container>

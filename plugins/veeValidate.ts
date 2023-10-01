@@ -1,6 +1,8 @@
 import { configure, defineRule, Form, Field, ErrorMessage } from 'vee-validate'
 import { localize, setLocale } from '@vee-validate/i18n';
-import AllRules from '@vee-validate/rules';
+//import AllRules from '@vee-validate/rules';
+import * as AllRules from '@vee-validate/rules';
+
 
 import en from '@vee-validate/i18n/dist/locale/en.json';
 import ru from '@vee-validate/i18n/dist/locale/ru.json';

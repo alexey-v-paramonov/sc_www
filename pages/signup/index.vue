@@ -29,6 +29,7 @@
 
             @click:append="showPass = !showPass"></v-text-field>
 
+
           <v-btn type="submit" :disabled="isSignupSubmitting" block class="mt-2">{{ $t('create_account') }}</v-btn>
           <div class="mt-2">
             <p class="text-body-2">Already have an account? <NuxtLink to="/login">{{ $t('login') }}</NuxtLink></p>

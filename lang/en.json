@@ -28,7 +28,31 @@
     "email.errors.undeliverable": "Email address is invalid",
 
     "radio.wizard": "Create a new radio",
-
+    "self_hosted": {
+        "title": "Self-hosted",
+        "help": "The best option for most users, with no limits on the number of listeners or disk space. You can use any hosting provider. In this plan we do not require any documents confirming the legality of broadcasting.",
+        "description": "To install our software, the server must be completely clean and have no other control panels, databases or websites installed.",
+        "supported_os": "Suppored OS: Ubuntu 20.04, Centos Linux 7",
+        "ip": "Server IP address",
+        "server_domain": "Domain name",
+        "root_password": "root user password",
+        "comments": "Additional comments or details.",
+        "submit": "Create radio",
+        "include_installation": "Include installation service (free)",
+        "install_command": "To install the software, run this command in the server terminal and follow the installation script instructions"
+    },
+    "hosted": {
+        "title": "Hosted at Streaming.center",
+        "help": "The number of listeners, quality and disk space are charged. You will need to provide documents confirming the legality of the broadcast.",
+        "legal_1": "I will provide the necessary documents",
+        "legal_1_help": "You will have 5 days to send us documents",
+        "legal_2": "I will not use copyrighted content.",
+        "legal_2_help": "If you break the rules, your account will be blocked without the possibility of a refund.",
+        "legal_3": "Test account",
+        "legal_3_help": "You can test the operation of the radio control panel without installation on your server for 5 days.",
+        "station_id": "Station ID",
+        "legal": "Legal"
+    },
     "password": "Password",
     "password_confirmation": "Confirm Password"
 
