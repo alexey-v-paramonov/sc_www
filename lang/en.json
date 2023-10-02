@@ -30,6 +30,7 @@
 
     "radio.wizard": "Create a new radio",
     "service_type": "Service type",
+    "service_price": "Price",
     "self_hosted": {
         "title": "Self-hosted",
         "help": "The best option for most users, with no limits on the number of listeners or disk space. You can use any hosting provider. In this plan we do not require any documents confirming the legality of broadcasting.",
@@ -41,6 +42,10 @@
         "comments": "Additional comments or details.",
         "submit": "Create radio",
         "include_installation": "Include installation service (free)",
+        "ip_hint": "IP address of your dedicated or virtual server. The server mush have no other control panels or software installed.",
+        "include_installation_hint": "Installation is done by our qualified engineer.",
+        "server_domain_hint": "This domain name will be attached to your web interface URL. Domain name is required is you want SSL encryption for HTTPS stream links.",
+        "root_password_hint": "root-level access to your server is required",
         "install_command": "To install the software, run this command in the server terminal and follow the installation script instructions"
     },
     "hosted": {
