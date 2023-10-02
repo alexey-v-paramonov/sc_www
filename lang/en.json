@@ -26,8 +26,10 @@
     "email.errors.unique": "Email address is already in use",
     "email.errors.syntax": "Email address is invalid",
     "email.errors.undeliverable": "Email address is invalid",
+    
 
     "radio.wizard": "Create a new radio",
+    "service_type": "Service type",
     "self_hosted": {
         "title": "Self-hosted",
         "help": "The best option for most users, with no limits on the number of listeners or disk space. You can use any hosting provider. In this plan we do not require any documents confirming the legality of broadcasting.",

@@ -1,6 +1,9 @@
 <template>
   <v-container>
-    <v-row no-gutters md="6">
+    <v-row>
+      <v-col md="12"><div class="text-h5">{{ $t('service_type') }}</div></v-col>
+    </v-row>
+    <v-row>
       <v-col>
         <form @submit.prevent="submit">
 
