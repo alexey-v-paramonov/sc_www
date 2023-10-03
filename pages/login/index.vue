@@ -92,7 +92,6 @@ export default {
         badCredentials.value = true;
         return;
       }
-      console.log("Errors!", error.data)
       setErrors({'email': t("email.errors.unique")})
     });
     return { email, password, onLoginSubmit, isSignupSubmitting, badCredentials, showPass }

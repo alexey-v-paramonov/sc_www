@@ -10,7 +10,11 @@ import ru from '@vee-validate/i18n/dist/locale/ru.json';
 
 export default defineNuxtPlugin(nuxtApp => {
     Object.entries(AllRules).forEach(([id, validator]) => {
-        defineRule(id, validator)
+        defineRule(id, validator);
+    });
+
+    defineRule('ip', value => {
+      return (/((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}/g.test(value))
     });
 
     configure({

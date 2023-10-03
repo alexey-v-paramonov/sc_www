@@ -148,7 +148,7 @@
           <v-row no-gutters>
             <v-col md="12">
 
-              <v-btn type="submit" block class="mt-2">{{ $t('self_hosted.submit') }}</v-btn>
+              <v-btn :disabled="isSubmitting" type="submit" block class="mt-2">{{ $t('self_hosted.submit') }}</v-btn>
             </v-col>
           </v-row>
 
@@ -174,12 +174,14 @@ import { useField, useForm } from 'vee-validate';
 export default {
   setup() {
     const { locale, t } = useI18n();
-    console.log(locale.value, " ???")
     const hosting_type = ref('1');
-    // Self-hosted params
-    //const server_ip = ref('');
-    const server_ip = useField('server_ip', "required");
 
+    const { handleSubmit, isSubmitting: isSubmitting, setErrors } = useForm({
+      //initialValues: formValues,
+    });
+
+    // Self-hosted params
+    const server_ip = useField('server_ip', "required|ip");
     const install_myself = useField('install_myself');
     const server_root_password = useField('server_root_password', "required");
     const server_domain = useField('server_domain');
@@ -219,7 +221,8 @@ export default {
       station_id,
       isSelfHosted,
       isHosted,
-      locale
+      locale,
+      isSubmitting
     }
   }
 }
