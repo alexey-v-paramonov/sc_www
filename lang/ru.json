@@ -57,6 +57,9 @@
         "legal": "Легальность вещания"
     },
 
+    "errors": {
+        "ip_invalid": "Недействительный IP адрес"
+    },
 
     "password": "Пароль",
     "password_confirmation": "Пароль еще раз"
