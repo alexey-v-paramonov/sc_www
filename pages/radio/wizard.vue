@@ -188,7 +188,7 @@ export default {
 
     // Hosted params 
     const legal_type = useField('legal_type', "required");
-    const station_id = useField('station_id', "required");
+    const station_id = useField('station_id', "required|regex:^[a-z0-9A-Z]+$");
 
 
     install_myself.value.value = "1";
