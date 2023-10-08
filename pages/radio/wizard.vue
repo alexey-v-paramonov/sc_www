@@ -96,6 +96,7 @@
 
           </template>
 
+
           <v-row v-if="isHosted()">
             <v-col md="12">
               <div class="text-h5">{{ $t('hosted.legal') }}</div>
@@ -136,6 +137,42 @@
                  :hint="$t('hosted.station_id_hint')" persistent-hint
                 :label="$t('hosted.station_id')"></v-text-field>
 
+            </v-col>
+          </v-row>
+
+          <v-row v-if="isHosted()">
+            <v-col md="12">
+              <div class="text-h5">{{ $t('service_price') }}</div>
+            </v-col>
+          </v-row>
+
+          <v-row v-if="isHosted()">
+            <v-col md="12">
+              <v-select
+                :label="$t('hosted.audio_format')"
+                v-model="audio_format"
+                :items="AUDIO_FORMATS"
+              ></v-select>
+            </v-col>
+          </v-row>
+
+          <v-row v-if="isHosted() && audio_format!='flac'">
+            <v-col md="12">
+              <v-select
+                :label="$t('hosted.audio_bitrate')"
+                v-model="audio_bitrate"
+                :items="audio_format == 'mp3' ? BITRATES_MP3 : BITRATES_AAC_PLUS_PLUS"
+              ></v-select>
+            </v-col>
+          </v-row>
+
+          <v-row v-if="isHosted()">
+            <v-col md="12">
+              <v-select
+                :label="$t('hosted.audio_listeners')"
+                v-model="audio_listeners"
+                :items="LISTENERS"
+              ></v-select>
             </v-col>
           </v-row>
 
@@ -187,6 +224,16 @@ export default {
   setup() {
     const { locale, t } = useI18n();
     const hosting_type = ref('1');
+    const audio_format = ref('mp3');
+    const audio_bitrate = ref(128);
+    const audio_listeners = ref(50);
+    
+    
+
+    const AUDIO_FORMATS = [{"value": "mp3", "title": 'MP3'}, {"value": "aac", "title": 'AAC++'}, {"value": "flac", "title":  'FLAC'}];
+    const BITRATES_MP3 = [16, 24, 32, 64, 96, 128, 160, 192, 256, 320];
+    const BITRATES_AAC_PLUS_PLUS = [16, 24, 32, 64];
+    const LISTENERS = [5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100, 120, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000];
 
     const { handleSubmit, isSubmitting: isSubmitting, setErrors } = useForm({
       //initialValues: formValues,
@@ -234,7 +281,15 @@ export default {
       isSelfHosted,
       isHosted,
       locale,
-      isSubmitting
+      isSubmitting,
+      audio_format,
+      audio_bitrate,
+      audio_listeners,
+      AUDIO_FORMATS,
+      BITRATES_MP3,
+      BITRATES_AAC_PLUS_PLUS,
+      LISTENERS
+
     }
   }
 }
