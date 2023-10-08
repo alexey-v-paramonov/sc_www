@@ -139,6 +139,17 @@
             </v-col>
           </v-row>
 
+          <v-row v-if="isHosted() && station_id.value.value">
+            <v-col md="12">
+              <strong>{{$t('hosted.station_url')}}:</strong>
+              <blockquote class="blockquote">
+                <p>
+                  https://{{ station_id.value.value }}<template v-if="locale == 'en'">.streaming.center</template><template v-else>.radio-tochka.com</template>
+                </p>
+              </blockquote>
+            </v-col>
+          </v-row>
+
 
           <v-row>
             <v-col md="12">
