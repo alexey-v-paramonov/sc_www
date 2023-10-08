@@ -133,6 +133,7 @@
               </v-radio-group>
 
               <v-text-field v-model="station_id.value.value" type="text" :error-messages="station_id.errorMessage.value"
+                 :hint="$t('hosted.station_id_hint')" persistent-hint
                 :label="$t('hosted.station_id')"></v-text-field>
 
             </v-col>
