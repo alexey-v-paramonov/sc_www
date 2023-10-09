@@ -7,7 +7,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <form @submit.prevent="submit">
+        <v-form @submit.prevent="submit" :disabled="isSubmitting">
 
           <v-radio-group v-model="hosting_type">
             <v-radio value="1">
@@ -196,7 +196,7 @@
             </v-col>
           </v-row>
 
-        </form>
+        </v-form>
 
 
       </v-col>

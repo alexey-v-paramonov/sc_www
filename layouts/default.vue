@@ -4,6 +4,7 @@ import { ref, onMounted } from "vue";
 import { useDisplay } from "vuetify";
 
 const sDrawer = ref(true);
+const loading = ref(true);
 
 //import Sidebar from "~~/components/layoutComponents/sidebar/Sidebar.vue";
 //import Header from "~~/components/layoutComponents/header/Header.vue";
@@ -68,8 +69,14 @@ onMounted(() => {
     </v-navigation-drawer>
     <v-app-bar elevation="0" height="70">
       <v-app-bar-nav-icon class="" @click="drawer = !drawer" />
+      <v-progress-linear
+        :active="loading"
+        :indeterminate="loading"
+        absolute
+        bottom
+        color="indigo"
+      ></v-progress-linear>
     </v-app-bar>
-
     <v-main>
       <slot />
     </v-main>
