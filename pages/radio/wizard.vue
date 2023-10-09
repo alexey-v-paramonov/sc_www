@@ -134,11 +134,23 @@
               </v-radio-group>
 
               <v-text-field v-model="station_id.value.value" type="text" :error-messages="station_id.errorMessage.value"
-                 :hint="$t('hosted.station_id_hint')" persistent-hint
-                :label="$t('hosted.station_id')"></v-text-field>
+                :hint="$t('hosted.station_id_hint')" persistent-hint :label="$t('hosted.station_id')"></v-text-field>
 
             </v-col>
           </v-row>
+
+          <v-row v-if="isHosted() && station_id.value.value">
+            <v-col md="12">
+              <strong>{{ $t('hosted.station_url') }}:</strong>
+              <blockquote class="blockquote">
+                <p>
+                  https://{{ station_id.value.value }}<template
+                    v-if="locale == 'en'">.streaming.center</template><template v-else>.radio-tochka.com</template>
+                </p>
+              </blockquote>
+            </v-col>
+          </v-row>
+
 
           <v-row v-if="isHosted()">
             <v-col md="12">
@@ -148,45 +160,28 @@
 
           <v-row v-if="isHosted()">
             <v-col md="12">
-              <v-select
-                :label="$t('hosted.audio_format')"
-                v-model="audio_format"
-                :items="AUDIO_FORMATS"
-              ></v-select>
+              <v-select :label="$t('hosted.audio_format')" v-model="audio_format" :items="AUDIO_FORMATS"></v-select>
             </v-col>
           </v-row>
 
-          <v-row v-if="isHosted() && audio_format!='flac'">
+          <v-row v-if="isHosted() && audio_format != 'flac'">
             <v-col md="12">
-              <v-select
-                :label="$t('hosted.audio_bitrate')"
-                v-model="audio_bitrate"
-                :items="audio_format == 'mp3' ? BITRATES_MP3 : BITRATES_AAC_PLUS_PLUS"
-              ></v-select>
+              <v-select :label="$t('hosted.audio_bitrate')" v-model="audio_bitrate"
+                :items="audio_format == 'mp3' ? BITRATES_MP3 : BITRATES_AAC_PLUS_PLUS"></v-select>
             </v-col>
           </v-row>
 
           <v-row v-if="isHosted()">
             <v-col md="12">
-              <v-select
-                :label="$t('hosted.audio_listeners')"
-                v-model="audio_listeners"
-                :items="LISTENERS"
-              ></v-select>
+              <v-select :label="$t('hosted.audio_listeners')" v-model="audio_listeners" :items="LISTENERS"></v-select>
             </v-col>
           </v-row>
 
-          <v-row v-if="isHosted() && station_id.value.value">
+          <v-row v-if="isHosted()">
             <v-col md="12">
-              <strong>{{$t('hosted.station_url')}}:</strong>
-              <blockquote class="blockquote">
-                <p>
-                  https://{{ station_id.value.value }}<template v-if="locale == 'en'">.streaming.center</template><template v-else>.radio-tochka.com</template>
-                </p>
-              </blockquote>
+              <v-select :label="$t('hosted.disk_quota')" v-model="disk_quota" :items="DISK_QUOTAS"></v-select>
             </v-col>
           </v-row>
-
 
           <v-row>
             <v-col md="12">
@@ -209,7 +204,7 @@
   </v-container>
 </template>
   
-<script>
+<script setup>
 
 definePageMeta({
   layout: "default",
@@ -219,79 +214,49 @@ definePageMeta({
 import { ref } from 'vue';
 import { useField, useForm } from 'vee-validate';
 
+const { locale, t } = useI18n();
+const hosting_type = ref('1');
+const audio_format = ref('mp3');
+const audio_bitrate = ref(128);
+const audio_listeners = ref(50);
+const disk_quota = ref(5);
 
-export default {
-  setup() {
-    const { locale, t } = useI18n();
-    const hosting_type = ref('1');
-    const audio_format = ref('mp3');
-    const audio_bitrate = ref(128);
-    const audio_listeners = ref(50);
-    
-    
+const AUDIO_FORMATS = [{ "value": "mp3", "title": 'MP3' }, { "value": "aac", "title": 'AAC++' }, { "value": "flac", "title": 'FLAC' }];
+const BITRATES_MP3 = [16, 24, 32, 64, 96, 128, 160, 192, 256, 320];
+const BITRATES_AAC_PLUS_PLUS = [16, 24, 32, 64];
+const LISTENERS = [5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100, 120, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000];
+const DISK_QUOTAS = [5, 6, 7, 9, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90, 100, 120, 140, 160, 180, 200];
 
-    const AUDIO_FORMATS = [{"value": "mp3", "title": 'MP3'}, {"value": "aac", "title": 'AAC++'}, {"value": "flac", "title":  'FLAC'}];
-    const BITRATES_MP3 = [16, 24, 32, 64, 96, 128, 160, 192, 256, 320];
-    const BITRATES_AAC_PLUS_PLUS = [16, 24, 32, 64];
-    const LISTENERS = [5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100, 120, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000];
+const { handleSubmit, isSubmitting: isSubmitting, setErrors } = useForm({
+  //initialValues: formValues,
+});
 
-    const { handleSubmit, isSubmitting: isSubmitting, setErrors } = useForm({
-      //initialValues: formValues,
-    });
+// Self-hosted params
+const server_ip = useField('server_ip', "required|ip");
+const install_myself = useField('install_myself');
+const server_root_password = useField('server_root_password', "required");
+const server_domain = useField('server_domain');
 
-    // Self-hosted params
-    const server_ip = useField('server_ip', "required|ip");
-    const install_myself = useField('install_myself');
-    const server_root_password = useField('server_root_password', "required");
-    const server_domain = useField('server_domain');
-
-    // Hosted params 
-    const legal_type = useField('legal_type', "required");
-    const station_id = useField('station_id', "required|regex:^[a-z0-9A-Z]+$");
+// Hosted params 
+const legal_type = useField('legal_type', "required");
+const station_id = useField('station_id', "required|regex:^[a-z0-9A-Z]+$");
 
 
-    install_myself.value.value = "1";
-    legal_type.value.value = "1";
-    const domain_name = ref('');
-    const ssh_root_pass = ref('');
-    const additional_notes = ref('');
-    // Hosted params
-    const username = ref('');
+install_myself.value.value = "1";
+legal_type.value.value = "1";
+const domain_name = ref('');
+const ssh_root_pass = ref('');
+const additional_notes = ref('');
+// Hosted params
+const username = ref('');
 
-    function isSelfHosted() {
-      return hosting_type.value == '1';
-    }
-
-    function isHosted() {
-      return hosting_type.value == '2';
-    }
-
-
-    return {
-      hosting_type,
-      server_ip,
-      install_myself,
-      server_domain,
-      server_root_password,
-      domain_name,
-      ssh_root_pass,
-      additional_notes,
-      legal_type,
-      station_id,
-      isSelfHosted,
-      isHosted,
-      locale,
-      isSubmitting,
-      audio_format,
-      audio_bitrate,
-      audio_listeners,
-      AUDIO_FORMATS,
-      BITRATES_MP3,
-      BITRATES_AAC_PLUS_PLUS,
-      LISTENERS
-
-    }
-  }
+function isSelfHosted() {
+  return hosting_type.value == '1';
 }
+
+function isHosted() {
+  return hosting_type.value == '2';
+}
+
 
 </script>

@@ -63,6 +63,7 @@
         "audio_format": "Audio coding format",
         "audio_bitrate": "Bitrate",
         "audio_listeners": "Listeners (max)",
+        "disk_quota": "Disk space (Gb)",
         "legal": "Legal"
     },
     "password": "Password",
