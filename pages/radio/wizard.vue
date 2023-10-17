@@ -160,26 +160,26 @@
 
           <v-row v-if="isHosted()">
             <v-col md="12">
-              <v-select :label="$t('hosted.audio_format')" v-model="audio_format" :items="AUDIO_FORMATS"  @change="calculatePrice()"></v-select>
+              <v-select :label="$t('hosted.audio_format')" v-model="audio_format" :items="AUDIO_FORMATS" @update:modelValue="calculatePrice()"></v-select>
             </v-col>
           </v-row>
 
           <v-row v-if="isHosted() && audio_format != 'flac'">
             <v-col md="12">
-              <v-select :label="$t('hosted.audio_bitrate')" v-model="audio_bitrate.value.value" 
-                :items="audio_format == 'mp3' ? BITRATES_MP3 : BITRATES_AAC_PLUS_PLUS"></v-select>
+              <v-select :label="$t('hosted.audio_bitrate')" v-model="audio_bitrate" 
+                :items="audio_format == 'mp3' ? BITRATES_MP3 : BITRATES_AAC_PLUS_PLUS" @update:modelValue="calculatePrice()"></v-select>
             </v-col>
           </v-row>
 
           <v-row v-if="isHosted()">
             <v-col md="12">
-              <v-select :label="$t('hosted.audio_listeners')" v-model="audio_listeners" :items="LISTENERS" @change="calculatePrice()"></v-select>
+              <v-select :label="$t('hosted.audio_listeners')" v-model="audio_listeners" :items="LISTENERS" @update:modelValue="calculatePrice()"></v-select>
             </v-col>
           </v-row>
 
           <v-row v-if="isHosted()">
             <v-col md="12">
-              <v-select :label="$t('hosted.disk_quota')" v-model="disk_quota" :items="DISK_QUOTAS" @change="calculatePrice()"></v-select>
+              <v-select :label="$t('hosted.disk_quota')" v-model="disk_quota" :items="DISK_QUOTAS" @update:modelValue="calculatePrice()"></v-select>
             </v-col>
           </v-row>
 
@@ -217,6 +217,7 @@ import { useField, useForm } from 'vee-validate';
 const { locale, t } = useI18n();
 const hosting_type = ref('1');
 const audio_format = ref('mp3');
+const audio_bitrate = ref(128);
 const audio_listeners = ref(50);
 const disk_quota = ref(5);
 
@@ -236,8 +237,6 @@ const install_myself = useField('install_myself');
 const server_root_password = useField('server_root_password', "required");
 const server_domain = useField('server_domain');
 
-const audio_bitrate = useField('audio_bitrate', calculatePrice);
-audio_bitrate.value.value = 128;
 
 // Hosted params 
 const legal_type = useField('legal_type', "required");
@@ -266,7 +265,7 @@ async function priceRequest(data) {
     //return await useFetch(`http://localhost:8000/api/v1/api-token-auth/`, {
     method: 'GET',
     params: {
-      'bitrate': audio_bitrate.value.value,
+      'bitrate': audio_bitrate.value,
       'listeners': audio_listeners.value,
       'disk_quota': disk_quota.value
     }
@@ -274,8 +273,12 @@ async function priceRequest(data) {
 }
 
 async function calculatePrice(){
-  const price = await priceRequest();
-  console.log("Price: ", price.data.value);
+  console.log("calculatePrice")
+  if(audio_format.value == 'aac' && audio_bitrate.value > BITRATES_AAC_PLUS_PLUS[BITRATES_AAC_PLUS_PLUS.length -1]){
+    audio_bitrate.value = BITRATES_AAC_PLUS_PLUS[BITRATES_AAC_PLUS_PLUS.length -1];
+  }
+  //const price = await priceRequest();
+  //console.log("Price: ", price.data.value);
 }
 
 calculatePrice();
