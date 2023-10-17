@@ -160,26 +160,26 @@
 
           <v-row v-if="isHosted()">
             <v-col md="12">
-              <v-select :label="$t('hosted.audio_format')" v-model="audio_format" :items="AUDIO_FORMATS"></v-select>
+              <v-select :label="$t('hosted.audio_format')" v-model="audio_format" :items="AUDIO_FORMATS"  @change="calculatePrice()"></v-select>
             </v-col>
           </v-row>
 
           <v-row v-if="isHosted() && audio_format != 'flac'">
             <v-col md="12">
               <v-select :label="$t('hosted.audio_bitrate')" v-model="audio_bitrate"
-                :items="audio_format == 'mp3' ? BITRATES_MP3 : BITRATES_AAC_PLUS_PLUS"></v-select>
+                :items="audio_format == 'mp3' ? BITRATES_MP3 : BITRATES_AAC_PLUS_PLUS" v-on:change="calculatePrice()"></v-select>
             </v-col>
           </v-row>
 
           <v-row v-if="isHosted()">
             <v-col md="12">
-              <v-select :label="$t('hosted.audio_listeners')" v-model="audio_listeners" :items="LISTENERS"></v-select>
+              <v-select :label="$t('hosted.audio_listeners')" v-model="audio_listeners" :items="LISTENERS" @change="calculatePrice()"></v-select>
             </v-col>
           </v-row>
 
           <v-row v-if="isHosted()">
             <v-col md="12">
-              <v-select :label="$t('hosted.disk_quota')" v-model="disk_quota" :items="DISK_QUOTAS"></v-select>
+              <v-select :label="$t('hosted.disk_quota')" v-model="disk_quota" :items="DISK_QUOTAS" @change="calculatePrice()"></v-select>
             </v-col>
           </v-row>
 
@@ -258,5 +258,24 @@ function isHosted() {
   return hosting_type.value == '2';
 }
 
+async function priceRequest(data) {
+  const config = useRuntimeConfig();
+  return await useFetch(`${config.public.baseURL}/pricing/`, {
+    //return await useFetch(`http://localhost:8000/api/v1/api-token-auth/`, {
+    method: 'GET',
+    params: {
+      'bitrate': audio_bitrate.value,
+      'listeners': audio_listeners.value,
+      'disk_quota': disk_quota.value
+    }
+  });
+}
+
+async function calculatePrice(){
+  const price = await priceRequest();
+  console.log("Price: ", price.data.value);
+}
+
+calculatePrice();
 
 </script>
