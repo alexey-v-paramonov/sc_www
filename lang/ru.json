@@ -60,6 +60,9 @@
         "audio_bitrate": "Битрейт",        
         "audio_listeners": "Максимально одновременных слушателей",
         "disk_quota": "Место на диске, Gb",
+        "price_stream": "Поток",
+        "price_disk": "Диск",
+        "price_total": "Всего",
         "legal": "Легальность вещания"
     },
 

@@ -64,6 +64,9 @@
         "audio_bitrate": "Bitrate",
         "audio_listeners": "Listeners (max)",
         "disk_quota": "Disk space (Gb)",
+        "price_stream": "Stream",
+        "price_disk": "Disk",
+        "price_total": "Total",
         "legal": "Legal"
     },
     "password": "Password",
