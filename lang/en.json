@@ -6,6 +6,7 @@
     "error": "Error",
     "bad_credentials": "Unable to log in with provided credentials",
     "chars_min_8": "At least 8 characters",
+    "currency": "₽",
 
     "nav_home": "Home",
 

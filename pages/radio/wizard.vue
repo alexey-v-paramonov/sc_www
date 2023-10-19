@@ -152,48 +152,51 @@
           </v-row>
 
 
-          <v-row v-if="isHosted()">
-            <v-col md="12">
-              <div class="text-h5">{{ $t('service_price') }}</div>
-            </v-col>
-          </v-row>
 
-          <v-row v-if="isHosted()">
-            <v-col md="12">
-              <v-select :label="$t('hosted.audio_format')" v-model="audio_format" :items="AUDIO_FORMATS" @update:modelValue="calculatePrice()"></v-select>
-            </v-col>
-          </v-row>
+          <!-- Price section -->
+          <v-tempplate v-if="isHosted() && legal_type.value.value != '3'">
+            <v-row>
+              <v-col md="12">
+                <div class="text-h5">{{ $t('service_price') }}</div>
+              </v-col>
+            </v-row>
 
-          <v-row v-if="isHosted() && audio_format != 'flac'">
-            <v-col md="12">
-              <v-select :label="$t('hosted.audio_bitrate')" v-model="audio_bitrate" 
-                :items="audio_format == 'mp3' ? BITRATES_MP3 : BITRATES_AAC_PLUS_PLUS" @update:modelValue="calculatePrice()"></v-select>
-            </v-col>
-          </v-row>
+            <v-row>
+              <v-col md="6">
+                <v-select :label="$t('hosted.audio_format')" v-model="audio_format" :items="AUDIO_FORMATS"
+                  @update:modelValue="calculatePrice()"></v-select>
+              </v-col>
 
-          <v-row v-if="isHosted()">
-            <v-col md="12">
-              <v-select :label="$t('hosted.audio_listeners')" v-model="audio_listeners" :items="LISTENERS" @update:modelValue="calculatePrice()"></v-select>
-            </v-col>
-          </v-row>
+              <v-col md="6" v-if="audio_format != 'flac'">
+                <v-select :label="$t('hosted.audio_bitrate')" v-model="audio_bitrate"
+                  :items="audio_format == 'mp3' ? BITRATES_MP3 : BITRATES_AAC_PLUS_PLUS"
+                  @update:modelValue="calculatePrice()"></v-select>
+              </v-col>
+            </v-row>
 
-          <v-row v-if="isHosted()">
-            <v-col md="12">
-              <v-select :label="$t('hosted.disk_quota')" v-model="disk_quota" :items="DISK_QUOTAS" @update:modelValue="calculatePrice()"></v-select>
-            </v-col>
-          </v-row>
+            <v-row>
+              <v-col md="6">
+                <v-select :label="$t('hosted.audio_listeners')" v-model="audio_listeners" :items="LISTENERS"
+                  @update:modelValue="calculatePrice()"></v-select>
+              </v-col>
+              <v-col md="6">
+                <v-select :label="$t('hosted.disk_quota')" v-model="disk_quota" :items="DISK_QUOTAS"
+                  @update:modelValue="calculatePrice()"></v-select>
+              </v-col>
+            </v-row>
 
-          <v-row v-if="isHosted() && price.price !== null && price.du_price !== null">
-            <v-col md="2">{{ $t('hosted.price_stream') }}:</v-col>
-            <v-col md="2">{{ price.price }}</v-col>
+            <v-row v-if="price.price !== null && price.du_price !== null">
+              <v-col md="2">{{ $t('hosted.price_stream') }}:</v-col>
+              <v-col md="2">{{ price.price }} {{ $t('currency') }}</v-col>
 
-            <v-col md="2">{{ $t('hosted.price_disk') }}:</v-col>
-            <v-col md="2">{{ price.du_price }}</v-col>
+              <v-col md="2">{{ $t('hosted.price_disk') }}:</v-col>
+              <v-col md="2">{{ price.du_price }} {{ $t('currency') }}</v-col>
 
-            <v-col md="2"><strong>{{ $t('hosted.price_total') }}:</strong></v-col>
-            <v-col md="2">{{ price.price + price.du_price }}</v-col>
+              <v-col md="2"><strong>{{ $t('hosted.price_total') }}:</strong></v-col>
+              <v-col md="2">{{ price.price + price.du_price }} {{ $t('currency') }}</v-col>
 
-          </v-row>
+            </v-row>
+          </v-tempplate>
 
           <v-row>
             <v-col md="12">
@@ -232,7 +235,7 @@ const audio_format = ref('mp3');
 const audio_bitrate = ref(128);
 const audio_listeners = ref(50);
 const disk_quota = ref(5);
-let price = reactive({price: null, du_price: null})
+let price = reactive({ price: null, du_price: null })
 
 const AUDIO_FORMATS = [{ "value": "mp3", "title": 'MP3' }, { "value": "aac", "title": 'AAC++' }, { "value": "flac", "title": 'FLAC' }];
 const BITRATES_MP3 = [16, 24, 32, 64, 96, 128, 160, 192, 256, 320];
@@ -285,12 +288,15 @@ async function priceRequest(data) {
   });
 }
 
-async function calculatePrice(){
-  if(audio_format.value == 'aac' && audio_bitrate.value > BITRATES_AAC_PLUS_PLUS[BITRATES_AAC_PLUS_PLUS.length -1]){
-    audio_bitrate.value = BITRATES_AAC_PLUS_PLUS[BITRATES_AAC_PLUS_PLUS.length -1];
+async function calculatePrice() {
+  if (audio_format.value == 'aac' && audio_bitrate.value > BITRATES_AAC_PLUS_PLUS[BITRATES_AAC_PLUS_PLUS.length - 1]) {
+    audio_bitrate.value = BITRATES_AAC_PLUS_PLUS[BITRATES_AAC_PLUS_PLUS.length - 1];
   }
+  isSubmitting.value = true;
   const response = await priceRequest();
   Object.assign(price, response.data.value)
+  isSubmitting.value = false;
+
 }
 
 calculatePrice();
