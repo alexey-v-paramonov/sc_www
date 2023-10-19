@@ -2,9 +2,12 @@
 
 import { ref, onMounted } from "vue";
 import { useDisplay } from "vuetify";
+import { useUiStateStore } from '@/stores/ui'
+
+const stateUI = useUiStateStore()
 
 const sDrawer = ref(true);
-const loading = ref(true);
+// const loading = ref(true);
 
 //import Sidebar from "~~/components/layoutComponents/sidebar/Sidebar.vue";
 //import Header from "~~/components/layoutComponents/header/Header.vue";
@@ -70,8 +73,8 @@ onMounted(() => {
     <v-app-bar elevation="0" height="70">
       <v-app-bar-nav-icon class="" @click="drawer = !drawer" />
       <v-progress-linear
-        :active="loading"
-        :indeterminate="loading"
+        :active="stateUI.loading"
+        :indeterminate="stateUI.loading"
         absolute
         bottom
         color="indigo"

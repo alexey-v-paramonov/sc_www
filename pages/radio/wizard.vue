@@ -228,6 +228,9 @@ definePageMeta({
 
 import { ref, reactive } from 'vue';
 import { useField, useForm } from 'vee-validate';
+import { useUiStateStore } from '@/stores/ui'
+
+const stateUI = useUiStateStore()
 
 const { locale, t } = useI18n();
 const hosting_type = ref('1');
@@ -293,9 +296,11 @@ async function calculatePrice() {
     audio_bitrate.value = BITRATES_AAC_PLUS_PLUS[BITRATES_AAC_PLUS_PLUS.length - 1];
   }
   isSubmitting.value = true;
+  stateUI.setLoading(true);
   const response = await priceRequest();
   Object.assign(price, response.data.value)
   isSubmitting.value = false;
+  stateUI.setLoading(false);
 
 }
 
