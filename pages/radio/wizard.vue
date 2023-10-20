@@ -81,8 +81,16 @@
 
             <v-row no-gutters v-if="install_myself.value.value == '1'">
               <v-col md="12">
-                <v-text-field v-model="server_root_password.value.value" type="text"
-                  :error-messages="server_root_password.errorMessage.value" :label="$t('self_hosted.root_password')"
+                <v-text-field v-model="server_username.value.value" type="text"
+                  :error-messages="server_username.errorMessage.value" :label="$t('self_hosted.root_username')"
+                  :hint="$t('self_hosted.root_username_hint')" persistent-hint></v-text-field>
+              </v-col>
+            </v-row>
+
+            <v-row no-gutters v-if="install_myself.value.value == '1'">
+              <v-col md="12">
+                <v-text-field v-model="server_password.value.value" type="text"
+                  :error-messages="server_password.errorMessage.value" :label="$t('self_hosted.root_password')"
                   :hint="$t('self_hosted.root_password_hint')" persistent-hint></v-text-field>
               </v-col>
             </v-row>
@@ -253,7 +261,8 @@ const { handleSubmit, isSubmitting: isSubmitting, setErrors } = useForm({
 // Self-hosted params
 const server_ip = useField('server_ip', "required|ip");
 const install_myself = useField('install_myself');
-const server_root_password = useField('server_root_password', "required");
+const server_username = useField('server_username', "required");
+const server_password = useField('server_password', "required");
 const server_domain = useField('server_domain');
 
 
@@ -261,7 +270,7 @@ const server_domain = useField('server_domain');
 const legal_type = useField('legal_type', "required");
 const station_id = useField('station_id', "required|regex:^[a-z0-9A-Z]+$");
 
-
+server_username.value.value = "root";
 install_myself.value.value = "1";
 legal_type.value.value = "1";
 const domain_name = ref('');

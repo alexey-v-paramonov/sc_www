@@ -39,14 +39,16 @@
         "supported_os": "Suppored OS: Ubuntu 20.04, Centos Linux 7",
         "ip": "Server IP address",
         "server_domain": "Domain name",
+        "root_username": "Username",
         "root_password": "root user password",
         "comments": "Additional comments or details.",
         "submit": "Create radio",
         "include_installation": "Include installation service (free)",
         "ip_hint": "IP address of your dedicated or virtual server. The server mush have no other control panels or software installed.",
         "include_installation_hint": "Installation is done by our qualified engineer.",
-        "server_domain_hint": "This domain name will be attached to your web interface URL. Domain name is required is you want SSL encryption for HTTPS stream links.",
-        "root_password_hint": "root-level access to your server is required",
+        "server_domain_hint": "Optional. This domain name will be attached to your web interface URL. Domain name is required is you want SSL encryption for HTTPS stream links.",
+        "root_username_hint": "root or sudo user. root-level access to your server is required",
+        "root_password_hint": "SSH password",
         "install_command": "To install the software, run this command in the server terminal and follow the installation script instructions"
     },
     "hosted": {
