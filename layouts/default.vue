@@ -3,6 +3,8 @@
 import { ref, onMounted } from "vue";
 import { useDisplay } from "vuetify";
 import { useUiStateStore } from '@/stores/ui'
+import { BreadCrumbs } from '#components'
+
 
 const stateUI = useUiStateStore()
 
@@ -80,7 +82,9 @@ onMounted(() => {
         color="indigo"
       ></v-progress-linear>
     </v-app-bar>
+    
     <v-main>
+      <BreadCrumbs />
       <slot />
     </v-main>
     
