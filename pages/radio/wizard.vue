@@ -95,6 +95,15 @@
               </v-col>
             </v-row>
 
+            <v-row no-gutters v-if="install_myself.value.value == '1'">
+              <v-col md="12">
+                <v-text-field v-model="server_port.value.value" type="text"
+                  :error-messages="server_port.errorMessage.value" :label="$t('self_hosted.server_port')"
+                  ></v-text-field>
+              </v-col>
+            </v-row>
+
+
             <v-row v-if="install_myself.value.value != '1'">
               <v-col md="12">
                 {{ $t('self_hosted.install_command') }}:<br />
@@ -263,6 +272,8 @@ const server_ip = useField('server_ip', "required|ip");
 const install_myself = useField('install_myself');
 const server_username = useField('server_username', "required");
 const server_password = useField('server_password', "required");
+const server_port = useField('server_port', "required");
+
 const server_domain = useField('server_domain');
 
 
@@ -271,6 +282,7 @@ const legal_type = useField('legal_type', "required");
 const station_id = useField('station_id', "required|regex:^[a-z0-9A-Z]+$");
 
 server_username.value.value = "root";
+server_port.value.value = "22";
 install_myself.value.value = "1";
 legal_type.value.value = "1";
 const domain_name = ref('');

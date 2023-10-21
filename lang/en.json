@@ -49,6 +49,7 @@
         "server_domain_hint": "Optional. This domain name will be attached to your web interface URL. Domain name is required is you want SSL encryption for HTTPS stream links.",
         "root_username_hint": "root or sudo user. root-level access to your server is required",
         "root_password_hint": "SSH password",
+        "server_port": "SSH port: 22 by default",
         "install_command": "To install the software, run this command in the server terminal and follow the installation script instructions"
     },
     "hosted": {
