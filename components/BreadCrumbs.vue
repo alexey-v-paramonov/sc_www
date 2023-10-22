@@ -1,3 +1,5 @@
+
+import { parseCache } from 'vue/compiler-sfc';
 <template>
     <v-breadcrumbs :items="crumbs" icon="mdi-android">
         <template v-slot:prepend>
@@ -35,12 +37,17 @@ export default {
                 ? fullPath.substring(1).split('/')
                 : fullPath.split('/')
             let path = ''
-            this.crumbs = [];
+            this.crumbs = [{
+                title: this.$t("nav.home"), 
+                href: "/"
+            }];
             params.forEach((param, index) => {
-                console.log(param, index)
+                if(!param){
+                    return;
+                }
                 this.crumbs.push({
-                    title: ('nav.' + param),
-                    href: "/" + param
+                    title: this.$t('nav.' + param),
+                    href: param
                 })
             })
         },

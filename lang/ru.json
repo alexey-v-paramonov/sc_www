@@ -74,6 +74,17 @@
     "errors": {
         "ip_invalid": "Недействительный IP адрес"
     },
+    "nav":{
+        "home": "Домой",
+        "radio": "Радио",
+        "wizard": "Создать новое",
+        "catalog": "Каталог",
+        "apps": "Мобильные приложения",
+        "ios": "iOS",
+        "android": "Android",
+        "billing": "Биллинг",
+        "settings": "Настройки"
+    },
 
     "password": "Пароль",
     "password_confirmation": "Пароль еще раз"

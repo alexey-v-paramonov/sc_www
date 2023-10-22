@@ -77,5 +77,16 @@
     "errors": {
         "ip_invalid": "Invalid IP address"
     },
+    "nav":{
+        "home": "Home",
+        "radio": "Radio",
+        "wizard": "Add new",
+        "catalog": "Catalog",
+        "apps": "Mobile applications",
+        "ios": "iOS",
+        "android": "Android",
+        "billing": "Billing",
+        "settings": "Setting"
+    },
     "password_confirmation": "Confirm Password"
 }
