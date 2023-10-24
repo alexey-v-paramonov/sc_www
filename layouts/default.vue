@@ -74,6 +74,10 @@ onMounted(() => {
     </v-navigation-drawer>
     <v-app-bar elevation="0" height="70">
       <v-app-bar-nav-icon class="" @click="drawer = !drawer" />
+      <v-spacer></v-spacer>
+
+      <NuxtLink to="/billing">Balance:<v-chip>123.0 {{ $t('currency')}}</v-chip></NuxtLink>
+
       <v-progress-linear
         :active="stateUI.loading"
         :indeterminate="stateUI.loading"
