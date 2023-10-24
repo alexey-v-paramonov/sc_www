@@ -4,9 +4,14 @@ import { ref, onMounted } from "vue";
 import { useDisplay } from "vuetify";
 import { useUiStateStore } from '@/stores/ui'
 import { BreadCrumbs } from '#components'
+import { useUserStore } from '~/stores/user'
 
+
+const stateUser = useUserStore()
 
 const stateUI = useUiStateStore()
+
+stateUser.getUserData();
 
 const sDrawer = ref(true);
 // const loading = ref(true);
