@@ -15,13 +15,11 @@ export const useUserStore = defineStore('user', () => {
     const config = useRuntimeConfig();
 
     async function getUserData(){
-        const result = await useFetch(`${config.public.baseURL}/users/${user.id}/`, {
+        const result = await useFetchAuth(`${config.public.baseURL}/users/${user.id}/`, {
             method: 'GET',
-            headers: { Authorization: `Token ${user.token}` }
         });
         const data = result.data;
         this.userData = data;
-      
     }
 
     const setUserData = (data) => {
