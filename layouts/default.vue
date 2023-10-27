@@ -8,15 +8,22 @@ import { useUserStore } from '~/stores/user'
 
 
 const stateUser = useUserStore()
-
 const stateUI = useUiStateStore()
 
-stateUser.getUserData();
 
+async function getUserData(){
+  stateUI.setLoading(true);
+  await stateUser.getUserData();
+  stateUI.setLoading(false);
+
+}
+
+getUserData();
 const sDrawer = ref(true);
 
 
-const { data } = await useAsyncData('user', () => ststateUserore.getUserData())
+
+/// const { data } = await useAsyncData('user', () => ststateUserore.getUserData())
 
 
 // const loading = ref(true);
