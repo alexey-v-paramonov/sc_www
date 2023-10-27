@@ -13,13 +13,14 @@ const defaultUser = {
 export const useUserStore = defineStore('user', () => {
     const user = reactive( process.client ? JSON.parse(localStorage.getItem(LOCAL_STORE_NAME)) || defaultUser : defaultUser);
     const config = useRuntimeConfig();
+    user.userData = {
+        balance: null
+    };
 
     async function getUserData(){
-        const result = await useFetchAuth(`${config.public.baseURL}/users/${user.id}/`, {
+        user.userData = await useFetchAuth(`${config.public.baseURL}/users/${user.id}/`, {
             method: 'GET',
         });
-        const data = result.data;
-        this.userData = data;
     }
 
     const setUserData = (data) => {

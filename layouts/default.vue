@@ -14,6 +14,11 @@ const stateUI = useUiStateStore()
 stateUser.getUserData();
 
 const sDrawer = ref(true);
+
+
+const { data } = await useAsyncData('user', () => ststateUserore.getUserData())
+
+
 // const loading = ref(true);
 
 //import Sidebar from "~~/components/layoutComponents/sidebar/Sidebar.vue";
@@ -81,7 +86,7 @@ onMounted(() => {
       <v-app-bar-nav-icon class="" @click="drawer = !drawer" />
       <v-spacer></v-spacer>
 
-      <NuxtLink to="/billing">Balance:<v-chip>123.0 {{ $t('currency')}}</v-chip></NuxtLink>
+      <NuxtLink v-if="stateUser && stateUser.user && stateUser.user.userData && stateUser.user.userData.balance !== null" to="/billing"><v-chip>{{stateUser.user.userData.balance}} {{ $t('currency')}}</v-chip></NuxtLink>
 
       <v-progress-linear
         :active="stateUI.loading"
