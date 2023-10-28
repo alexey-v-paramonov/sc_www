@@ -7,7 +7,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-form @submit.prevent="submit" :disabled="isSubmitting">
+        <v-form @submit.prevent="onRadioSubmit" :disabled="formBusy">
 
           <v-radio-group v-model="hosting_type">
             <v-radio value="1">
@@ -98,8 +98,7 @@
             <v-row no-gutters v-if="install_myself.value.value == '1'">
               <v-col md="12">
                 <v-text-field v-model="server_port.value.value" type="text"
-                  :error-messages="server_port.errorMessage.value" :label="$t('self_hosted.server_port')"
-                  ></v-text-field>
+                  :error-messages="server_port.errorMessage.value" :label="$t('self_hosted.server_port')"></v-text-field>
               </v-col>
             </v-row>
 
@@ -224,9 +223,10 @@
           <v-row no-gutters>
             <v-col md="12">
 
-              <v-btn :disabled="isSubmitting" type="submit" block class="mt-2">{{ $t('self_hosted.submit') }}</v-btn>
+              <v-btn type="submit" :disabled="formBusy" block class="mt-2">{{ $t('self_hosted.submit') }}</v-btn>
             </v-col>
           </v-row>
+          {{errorBag}}
 
         </v-form>
 
@@ -263,9 +263,8 @@ const BITRATES_AAC_PLUS_PLUS = [16, 24, 32, 64];
 const LISTENERS = [5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100, 120, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000];
 const DISK_QUOTAS = [5, 6, 7, 9, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90, 100, 120, 140, 160, 180, 200];
 
-const { handleSubmit, isSubmitting: isSubmitting, setErrors } = useForm({
-  //initialValues: formValues,
-});
+// Form
+const { handleSubmit, isSubmitting: formBusy, setErrors, errorBag } = useForm();
 
 // Self-hosted params
 const server_ip = useField('server_ip', "required|ip");
@@ -316,14 +315,33 @@ async function calculatePrice() {
   if (audio_format.value == 'aac' && audio_bitrate.value > BITRATES_AAC_PLUS_PLUS[BITRATES_AAC_PLUS_PLUS.length - 1]) {
     audio_bitrate.value = BITRATES_AAC_PLUS_PLUS[BITRATES_AAC_PLUS_PLUS.length - 1];
   }
-  isSubmitting.value = true;
+  formBusy.value = true;
   stateUI.setLoading(true);
   const response = await priceRequest();
   Object.assign(price, response.data.value)
-  isSubmitting.value = false;
+  formBusy.value = false;
   stateUI.setLoading(false);
 
 }
+
+const onRadioSubmit = handleSubmit(async values => {
+  console.log("Values: ", values)
+  return;
+
+  const response = await loginRequest(values);
+  const error = response.error.value;
+  if (!error) {
+    // Notify
+    router.push("/radio");
+    return;
+  }
+  // if (error.data['non_field_errors'] == 'bad_credentials') {
+  //   badCredentials.value = true;
+  //   return;
+  // }
+  // setErrors({ 'email': t("email.errors.unique") })
+});
+
 
 calculatePrice();
 
