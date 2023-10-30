@@ -75,7 +75,9 @@
     },
     "password": "Password",
     "errors": {
-        "ip_invalid": "Invalid IP address"
+        "ip_invalid": "Invalid IP address",
+        "required": "This field is required",
+        "regex": "Incorrect value"
     },
     "nav":{
         "home": "Home",

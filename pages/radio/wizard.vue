@@ -284,10 +284,10 @@ const station_id = useField('station_id', value => {
     return true;
   }
   if(!value){
-    return t("messages.required");
+    return t("errors.required");
   }
   if(!/[a-z0-9A-Z]+$/.test(value)){
-    return t("messages.regex");;
+    return t("errors.regex");;
   }
   return true;
 });
@@ -323,6 +323,14 @@ async function priceRequest(data) {
   });
 }
 
+async function selfHostedRequest(data) {
+  console.log("selfHostedRequest")
+}
+
+async function hostedRequest(data) {
+  console.log("hostedRequest")
+}
+
 async function calculatePrice() {
   if (audio_format.value == 'aac' && audio_bitrate.value > BITRATES_AAC_PLUS_PLUS[BITRATES_AAC_PLUS_PLUS.length - 1]) {
     audio_bitrate.value = BITRATES_AAC_PLUS_PLUS[BITRATES_AAC_PLUS_PLUS.length - 1];
@@ -338,6 +346,12 @@ async function calculatePrice() {
 
 const onRadioSubmit = handleSubmit(async values => {
   console.log("Values: ", values)
+  if(isSelfHosted()){
+    selfHostedRequest(values);
+  }
+  else if(isHosted()){
+    hostedRequest(values);
+  }
   return;
 
   const response = await loginRequest(values);
