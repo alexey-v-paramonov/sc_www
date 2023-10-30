@@ -278,7 +278,19 @@ const server_domain = useField('server_domain');
 
 // Hosted params 
 const legal_type = useField('legal_type', "required");
-const station_id = useField('station_id', "required|regex:^[a-z0-9A-Z]+$");
+const station_id = useField('station_id', value => {
+  console.log("Station ID: ", value)
+  if(isSelfHosted()){
+    return true;
+  }
+  if(!value){
+    return t("messages.required");
+  }
+  if(!/[a-z0-9A-Z]+$/.test(value)){
+    return t("messages.regex");;
+  }
+  return true;
+});
 
 server_username.value.value = "root";
 server_port.value.value = "22";
