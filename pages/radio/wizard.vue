@@ -58,7 +58,7 @@
 
             <v-row>
               <v-col md="12">
-                <v-text-field v-model="server_ip.value.value" type="text" :error-messages="server_ip.errorMessage.value"
+                <v-text-field v-model="ip.value.value" type="text" :error-messages="ip.errorMessage.value"
                   :hint="$t('self_hosted.ip_hint')" persistent-hint :label="$t('self_hosted.ip')"></v-text-field>
               </v-col>
             </v-row>
@@ -73,32 +73,32 @@
 
             <v-row no-gutters v-if="install_myself.value.value == '1'">
               <v-col md="12">
-                <v-text-field v-model="server_domain.value.value" type="text"
-                  :error-messages="server_domain.errorMessage.value" :label="$t('self_hosted.server_domain')"
+                <v-text-field v-model="domain.value.value" type="text"
+                  :error-messages="domain.errorMessage.value" :label="$t('self_hosted.server_domain')"
                   :hint="$t('self_hosted.server_domain_hint')" persistent-hint></v-text-field>
               </v-col>
             </v-row>
 
             <v-row no-gutters v-if="install_myself.value.value == '1'">
               <v-col md="12">
-                <v-text-field v-model="server_username.value.value" type="text"
-                  :error-messages="server_username.errorMessage.value" :label="$t('self_hosted.root_username')"
+                <v-text-field v-model="ssh_username.value.value" type="text"
+                  :error-messages="ssh_username.errorMessage.value" :label="$t('self_hosted.root_username')"
                   :hint="$t('self_hosted.root_username_hint')" persistent-hint></v-text-field>
               </v-col>
             </v-row>
 
             <v-row no-gutters v-if="install_myself.value.value == '1'">
               <v-col md="12">
-                <v-text-field v-model="server_password.value.value" type="text"
-                  :error-messages="server_password.errorMessage.value" :label="$t('self_hosted.root_password')"
+                <v-text-field v-model="ssh_password.value.value" type="text"
+                  :error-messages="ssh_password.errorMessage.value" :label="$t('self_hosted.root_password')"
                   :hint="$t('self_hosted.root_password_hint')" persistent-hint></v-text-field>
               </v-col>
             </v-row>
 
             <v-row no-gutters v-if="install_myself.value.value == '1'">
               <v-col md="12">
-                <v-text-field v-model="server_port.value.value" type="text"
-                  :error-messages="server_port.errorMessage.value" :label="$t('self_hosted.server_port')"></v-text-field>
+                <v-text-field v-model="ssh_port.value.value" type="text"
+                  :error-messages="ssh_port.errorMessage.value" :label="$t('self_hosted.server_port')"></v-text-field>
               </v-col>
             </v-row>
 
@@ -216,7 +216,7 @@
 
           <v-row>
             <v-col md="12">
-              <v-textarea :label="$t('self_hosted.comments')"></v-textarea>
+              <v-textarea v-model="comment.value.value" :label="$t('self_hosted.comments')"></v-textarea>
             </v-col>
           </v-row>
 
@@ -246,8 +246,10 @@ definePageMeta({
 import { ref, reactive } from 'vue';
 import { useField, useForm } from 'vee-validate';
 import { useUiStateStore } from '@/stores/ui'
+import { useUserStore } from '~/stores/user'
 
 const stateUI = useUiStateStore()
+const stateUser = useUserStore()
 
 const { locale, t } = useI18n();
 const hosting_type = ref('1');
@@ -267,13 +269,14 @@ const DISK_QUOTAS = [5, 6, 7, 9, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90, 100
 const { handleSubmit, isSubmitting: formBusy, setErrors, errorBag } = useForm();
 
 // Self-hosted params
-const server_ip = useField('server_ip', "required|ip");
+const ip = useField('ip', "required|ip");
 const install_myself = useField('install_myself');
-const server_username = useField('server_username', "required");
-const server_password = useField('server_password', "required");
-const server_port = useField('server_port', "required");
+const ssh_username = useField('ssh_username', "required");
+const ssh_password = useField('ssh_password', "required");
+const ssh_port = useField('ssh_port', "required");
 
-const server_domain = useField('server_domain');
+const domain = useField('domain');
+const comment = useField('comment');
 
 
 // Hosted params 
@@ -292,8 +295,8 @@ const station_id = useField('station_id', value => {
   return true;
 });
 
-server_username.value.value = "root";
-server_port.value.value = "22";
+ssh_username.value.value = "root";
+ssh_port.value.value = "22";
 install_myself.value.value = "1";
 legal_type.value.value = "1";
 const domain_name = ref('');
@@ -301,6 +304,7 @@ const ssh_root_pass = ref('');
 const additional_notes = ref('');
 // Hosted params
 const username = ref('');
+const config = useRuntimeConfig();
 
 function isSelfHosted() {
   return hosting_type.value == '1';
@@ -311,7 +315,6 @@ function isHosted() {
 }
 
 async function priceRequest(data) {
-  const config = useRuntimeConfig();
   return await useFetch(`${config.public.baseURL}/pricing/`, {
     //return await useFetch(`http://localhost:8000/api/v1/api-token-auth/`, {
     method: 'GET',
@@ -323,8 +326,12 @@ async function priceRequest(data) {
   });
 }
 
-async function selfHostedRequest(data) {
-  console.log("selfHostedRequest")
+async function selfHostedRequest(values) {
+  return await useFetchAuth(`${config.public.baseURL}/self_hosted_radio/`, {
+      method: 'POST',
+      body: values
+  });
+
 }
 
 async function hostedRequest(data) {
@@ -345,9 +352,11 @@ async function calculatePrice() {
 }
 
 const onRadioSubmit = handleSubmit(async values => {
-  console.log("Values: ", values)
+  console.log("Values: ", values, stateUser.user.id)
+  values.user = stateUser.user.id;
   if(isSelfHosted()){
-    selfHostedRequest(values);
+    const response = await selfHostedRequest(values);
+    console.log("Response: ", response);
   }
   else if(isHosted()){
     hostedRequest(values);
