@@ -90,5 +90,14 @@
         "billing": "Billing",
         "settings": "Setting"
     },
+    "radios":{
+        "self_hosted":{
+            "title": "Self hosted radios",
+            "server": "Server",
+            "radios_num": "Stations",
+            "status": "Status",
+            "empty": "You do not have any self hosted radios yet"
+        }
+    },
     "password_confirmation": "Confirm Password"
 }

@@ -250,6 +250,7 @@ import { useUserStore } from '~/stores/user'
 
 const stateUI = useUiStateStore()
 const stateUser = useUserStore()
+const router = useRouter();
 
 const { locale, t } = useI18n();
 const hosting_type = ref('1');
@@ -354,6 +355,10 @@ async function calculatePrice() {
 const onRadioSubmit = handleSubmit(async values => {
   console.log("Values: ", values, stateUser.user.id)
   values.user = stateUser.user.id;
+  delete values.install_myself;
+  delete values.legal_type;
+  stateUI.setLoading(true);
+
   if(isSelfHosted()){
     const response = await selfHostedRequest(values);
     console.log("Response: ", response);
@@ -361,6 +366,8 @@ const onRadioSubmit = handleSubmit(async values => {
   else if(isHosted()){
     hostedRequest(values);
   }
+  stateUI.setLoading(false);
+
   return;
 
   const response = await loginRequest(values);

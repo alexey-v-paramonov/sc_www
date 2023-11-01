@@ -87,6 +87,15 @@
         "billing": "Биллинг",
         "settings": "Настройки"
     },
+    "radios":{
+        "self_hosted":{
+            "title": "Радио на собственном хостинге",
+            "server": "Сервер",
+            "radios_num": "Станции",
+            "status": "Статус",
+            "empty": "Вы еще не добавляли радио"
+        }
+    },
 
     "password": "Пароль",
     "password_confirmation": "Пароль еще раз"
