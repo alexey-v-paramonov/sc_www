@@ -33,7 +33,8 @@
     "radio_wizard": {
         "errors": {
             "login": {
-                "unique": "This station ID already exists, please choose another one."
+                "unique": "This station ID already exists, please choose another one.",
+                "regex": "Invalid value, please use Lating characters and digits only. Special characters are not allowed."
             }
         }
     },
