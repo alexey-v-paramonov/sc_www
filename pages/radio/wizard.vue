@@ -272,13 +272,19 @@ const { handleSubmit, isSubmitting: formBusy, setErrors, errorBag } = useForm();
 // Self-hosted params
 const ip = useField('ip', "required|ip");
 const install_myself = useField('install_myself');
-const ssh_username = useField('ssh_username', "required");
-const ssh_password = useField('ssh_password', "required");
-const ssh_port = useField('ssh_port', "required");
+const ssh_username = useField('ssh_username', requiredIfSelfHosted);
+const ssh_password = useField('ssh_password', requiredIfSelfHosted);
+const ssh_port = useField('ssh_port', requiredIfSelfHosted);
 
 const domain = useField('domain');
 const comment = useField('comment');
 
+function requiredIfSelfHosted(value){
+  if(isSelfHosted() && !value){
+    return t("errors.required");
+  }
+  return true;
+}
 
 // Hosted params 
 const legal_type = useField('legal_type', "required");
@@ -336,7 +342,10 @@ async function selfHostedRequest(values) {
 }
 
 async function hostedRequest(data) {
-  console.log("hostedRequest")
+  return await useFetchAuth(`${config.public.baseURL}/hosted_radio/`, {
+      method: 'POST',
+      body: values
+  });
 }
 
 async function calculatePrice() {
@@ -364,7 +373,8 @@ const onRadioSubmit = handleSubmit(async values => {
     console.log("Response: ", response);
   }
   else if(isHosted()){
-    hostedRequest(values);
+    const response = await hostedRequest(values);
+    console.log("Response: ", response);
   }
   stateUI.setLoading(false);
 
