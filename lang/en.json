@@ -97,6 +97,10 @@
             "radios_num": "Stations",
             "status": "Status",
             "empty": "You do not have any self hosted radios yet"
+        },
+        "hosted": {
+            "title": "Hosted radios",
+            "empty": "You do not have any radios hosted by us yet"
         }
     },
     "password_confirmation": "Confirm Password"
