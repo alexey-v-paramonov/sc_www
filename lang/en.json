@@ -63,7 +63,7 @@
         "legal_3_help": "You can test the operation of the radio control panel without installation on your server for 5 days.",
         "station_id": "Station ID",
         "station_id_hint": "Latin characters and digits only, special characters are not allowed.",
-        "station_url": "You can assign a different domain, by default your station URL will be",
+        "station_url": "You can assign a different domain later, by default your station URL will be",
         "audio_format": "Audio coding format",
         "audio_bitrate": "Bitrate",
         "audio_listeners": "Listeners (max)",

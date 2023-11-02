@@ -149,18 +149,18 @@
 
               </v-radio-group>
 
-              <v-text-field v-model="station_id.value.value" type="text" :error-messages="station_id.errorMessage.value"
+              <v-text-field v-model="login.value.value" type="text" :error-messages="login.errorMessage.value"
                 :hint="$t('hosted.station_id_hint')" persistent-hint :label="$t('hosted.station_id')"></v-text-field>
 
             </v-col>
           </v-row>
 
-          <v-row v-if="isHosted() && station_id.value.value">
+          <v-row v-if="isHosted() && login.value.value">
             <v-col md="12">
               <strong>{{ $t('hosted.station_url') }}:</strong>
               <blockquote class="blockquote">
                 <p>
-                  https://{{ station_id.value.value }}<template
+                  https://{{ login.value.value }}<template
                     v-if="locale == 'en'">.streaming.center</template><template v-else>.radio-tochka.com</template>
                 </p>
               </blockquote>
@@ -270,16 +270,30 @@ const DISK_QUOTAS = [5, 6, 7, 9, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90, 100
 const { handleSubmit, isSubmitting: formBusy, setErrors, errorBag } = useForm();
 
 // Self-hosted params
-const ip = useField('ip', "required|ip");
+const ip = useField('ip', (value) => {
+  if(isHosted()){
+    return true;
+  }
+  if(isSelfHosted() && !value){
+    return t("errors.required");
+  }
+  if (!/((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}/g.test(value)) {
+      return t('errors.ip_invalid');
+  }
+  return true;
+});
 const install_myself = useField('install_myself');
-const ssh_username = useField('ssh_username', requiredIfSelfHosted);
-const ssh_password = useField('ssh_password', requiredIfSelfHosted);
-const ssh_port = useField('ssh_port', requiredIfSelfHosted);
+const ssh_username = useField('ssh_username', sshParamsValidation);
+const ssh_password = useField('ssh_password', sshParamsValidation);
+const ssh_port = useField('ssh_port', sshParamsValidation);
 
 const domain = useField('domain');
 const comment = useField('comment');
 
-function requiredIfSelfHosted(value){
+function sshParamsValidation(value){
+  if(!install_myself.value.value){
+    return true;
+  }
   if(isSelfHosted() && !value){
     return t("errors.required");
   }
@@ -288,8 +302,7 @@ function requiredIfSelfHosted(value){
 
 // Hosted params 
 const legal_type = useField('legal_type', "required");
-const station_id = useField('station_id', value => {
-  console.log("Station ID: ", value)
+const login = useField('login', value => {
   if(isSelfHosted()){
     return true;
   }
@@ -328,7 +341,7 @@ async function priceRequest(data) {
     params: {
       'bitrate': audio_bitrate.value,
       'listeners': audio_listeners.value,
-      'disk_quota': disk_quota.value
+      'disk_quota': disk_quota.value,
     }
   });
 }
@@ -341,10 +354,18 @@ async function selfHostedRequest(values) {
 
 }
 
-async function hostedRequest(data) {
+async function hostedRequest(values) {
   return await useFetchAuth(`${config.public.baseURL}/hosted_radio/`, {
       method: 'POST',
-      body: values
+      body: {
+        login: values.login,
+        format: audio_format.value,
+        bitrate: audio_bitrate.value,
+        listeners: audio_listeners.value,
+        disk_quota: disk_quota.value,
+        is_demo: legal_type.value.value == '3',
+        user: stateUser.user.id
+      }
   });
 }
 
@@ -362,36 +383,26 @@ async function calculatePrice() {
 }
 
 const onRadioSubmit = handleSubmit(async values => {
-  console.log("Values: ", values, stateUser.user.id)
   values.user = stateUser.user.id;
   delete values.install_myself;
   delete values.legal_type;
   stateUI.setLoading(true);
+  const request = isSelfHosted() ? selfHostedRequest : hostedRequest;
 
-  if(isSelfHosted()){
-    const response = await selfHostedRequest(values);
-    console.log("Response: ", response);
+  try{
+    const response = await request(values);
+    console.log(response);
   }
-  else if(isHosted()){
-    const response = await hostedRequest(values);
-    console.log("Response: ", response);
-  }
-  stateUI.setLoading(false);
-
-  return;
-
-  const response = await loginRequest(values);
-  const error = response.error.value;
-  if (!error) {
-    // Notify
-    router.push("/radio");
+  catch(e){
+    const errorData = e.data;
+    // setErrors({ 'email': t("email.errors.unique") })
     return;
   }
-  // if (error.data['non_field_errors'] == 'bad_credentials') {
-  //   badCredentials.value = true;
-  //   return;
-  // }
-  // setErrors({ 'email': t("email.errors.unique") })
+  finally {
+    stateUI.setLoading(false);
+  }
+  // Notify
+  router.push("/radio");
 });
 
 
