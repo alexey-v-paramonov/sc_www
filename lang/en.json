@@ -30,6 +30,13 @@
     
 
     "radio.wizard": "Create a new radio",
+    "radio_wizard": {
+        "errors": {
+            "login": {
+                "unique": "This station ID already exists, please choose another one."
+            }
+        }
+    },
     "service_type": "Service type",
     "service_price": "Price",
     "self_hosted": {

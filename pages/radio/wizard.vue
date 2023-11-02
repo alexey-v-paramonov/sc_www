@@ -149,7 +149,7 @@
 
               </v-radio-group>
 
-              <v-text-field v-model="login.value.value" type="text" :error-messages="login.errorMessage.value"
+              <v-text-field v-model="login.value.value" type="text" :error-messages="login.errorMessage.value" name="login"
                 :hint="$t('hosted.station_id_hint')" persistent-hint :label="$t('hosted.station_id')"></v-text-field>
 
             </v-col>
@@ -226,7 +226,7 @@
               <v-btn type="submit" :disabled="formBusy" block class="mt-2">{{ $t('self_hosted.submit') }}</v-btn>
             </v-col>
           </v-row>
-          {{errorBag}}
+          {{errorBag}} !! {{login.errorMessage}}
 
         </v-form>
 
@@ -395,7 +395,12 @@ const onRadioSubmit = handleSubmit(async values => {
   }
   catch(e){
     const errorData = e.data;
-    // setErrors({ 'email': t("email.errors.unique") })
+    for (const [field, errors] of Object.entries(errorData)) {
+      for(const errCode of errors){
+        setErrors({ [field]: t(`radio_wizard.errors.${field}.${errCode}`) })
+      }      
+    }
+    
     return;
   }
   finally {

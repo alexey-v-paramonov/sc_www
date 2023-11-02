@@ -27,6 +27,13 @@
     "email.errors.undeliverable": "Email адрес не работает",
 
     "radio.wizard": "Создание нового радио",
+    "radio_wizard": {
+        "errors": {
+            "login": {
+                "unique": "Станция с таким ID уже существует, пожалуйста выберите другой."
+            }
+        }
+    },
     "service_type": "Услуга",
     "self_hosted": {
         "title": "На собственном хостинге",
