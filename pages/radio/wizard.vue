@@ -294,7 +294,7 @@ let price = reactive({ price: null, du_price: null })
 let notifyRadioCreated = ref(false);
 let notifyRadioFailed = ref(false);
 
-const AUDIO_FORMATS = [{ "value": "mp3", "title": 'MP3' }, { "value": "aac", "title": 'AAC++' }, { "value": "flac", "title": 'FLAC' }];
+const AUDIO_FORMATS = [{ "value": "mp3", "title": 'MP3' }, { "value": "aac++", "title": 'AAC++' }, { "value": "flac", "title": 'FLAC' }];
 const BITRATES_MP3 = [16, 24, 32, 64, 96, 128, 160, 192, 256, 320];
 const BITRATES_AAC_PLUS_PLUS = [16, 24, 32, 64];
 const LISTENERS = [5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100, 120, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000];
@@ -393,18 +393,22 @@ async function hostedRequest(values) {
       method: 'POST',
       body: {
         login: values.login,
-        format: audio_format.value,
         bitrate: audio_bitrate.value,
         listeners: audio_listeners.value,
         disk_quota: disk_quota.value,
         is_demo: legal_type.value.value == '3',
-        user: stateUser.user.id
+        user: stateUser.user.id,
+        initial_audio_format: audio_format.value,
+        initial_bitrate: audio_bitrate.value,
+        initial_listeners: audio_listeners.value,
+        initial_du: disk_quota.value,
+        comment: comment.value.value
       }
   });
 }
 
 async function calculatePrice() {
-  if (audio_format.value == 'aac' && audio_bitrate.value > BITRATES_AAC_PLUS_PLUS[BITRATES_AAC_PLUS_PLUS.length - 1]) {
+  if (audio_format.value == 'aac++' && audio_bitrate.value > BITRATES_AAC_PLUS_PLUS[BITRATES_AAC_PLUS_PLUS.length - 1]) {
     audio_bitrate.value = BITRATES_AAC_PLUS_PLUS[BITRATES_AAC_PLUS_PLUS.length - 1];
   }
   formBusy.value = true;
