@@ -226,14 +226,46 @@
               <v-btn type="submit" :disabled="formBusy" block class="mt-2">{{ $t('self_hosted.submit') }}</v-btn>
             </v-col>
           </v-row>
-          {{errorBag}} !! {{login.errorMessage}}
-
         </v-form>
 
 
       </v-col>
     </v-row>
   </v-container>
+  <v-snackbar
+      v-model="notifyRadioCreated"
+      color="success"
+    >
+      {{ $t('radio_wizard.created') }}
+
+      <template v-slot:actions>
+        <v-btn
+          color="white"
+          variant="text"
+          @click="notifyRadioCreated = false"
+        >
+          {{ $t('close') }}
+        </v-btn>
+      </template>
+  </v-snackbar>  
+
+  <v-snackbar
+      v-model="notifyRadioFailed"
+      color="error"
+    >
+      {{ $t('radio_wizard.failed') }}
+
+      <template v-slot:actions>
+        <v-btn
+          color="white"
+          variant="text"
+          @click="notifyRadioFailed = false"
+        >
+          {{ $t('close') }}
+        </v-btn>
+      </template>
+  </v-snackbar>  
+
 </template>
   
 <script setup>
@@ -259,6 +291,8 @@ const audio_bitrate = ref(128);
 const audio_listeners = ref(50);
 const disk_quota = ref(5);
 let price = reactive({ price: null, du_price: null })
+let notifyRadioCreated = ref(false);
+let notifyRadioFailed = ref(false);
 
 const AUDIO_FORMATS = [{ "value": "mp3", "title": 'MP3' }, { "value": "aac", "title": 'AAC++' }, { "value": "flac", "title": 'FLAC' }];
 const BITRATES_MP3 = [16, 24, 32, 64, 96, 128, 160, 192, 256, 320];
@@ -394,6 +428,7 @@ const onRadioSubmit = handleSubmit(async values => {
     console.log(response);
   }
   catch(e){
+    notifyRadioFailed.value = true;
     const errorData = e.data;
     for (const [field, errors] of Object.entries(errorData)) {
       for(const errCode of errors){
@@ -407,6 +442,7 @@ const onRadioSubmit = handleSubmit(async values => {
     stateUI.setLoading(false);
   }
   // Notify
+  notifyRadioCreated.value = true;
   router.push("/radio");
 });
 

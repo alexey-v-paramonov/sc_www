@@ -7,9 +7,9 @@
     "bad_credentials": "Unable to log in with provided credentials",
     "chars_min_8": "At least 8 characters",
     "currency": "₽",
+    "close": "Close",
 
     "nav_home": "Home",
-
     "nav_streams": "Streams",
     "nav_radio": "Radio",
     "nav_billing": "Billing",
@@ -36,7 +36,10 @@
                 "unique": "This station ID already exists, please choose another one.",
                 "regex": "Invalid value, please use Lating characters and digits only. Special characters are not allowed."
             }
-        }
+        },
+        "created": "Radio has been created successfully",
+        "failed": "There were errors when creating the radio"
+        
     },
     "service_type": "Service type",
     "service_price": "Price",
