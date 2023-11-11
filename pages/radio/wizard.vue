@@ -370,7 +370,6 @@ function isHosted() {
 
 async function priceRequest(data) {
   return await useFetch(`${config.public.baseURL}/pricing/`, {
-    //return await useFetch(`http://localhost:8000/api/v1/api-token-auth/`, {
     method: 'GET',
     params: {
       'bitrate': audio_bitrate.value,

@@ -96,8 +96,8 @@ onMounted(() => {
       <NuxtLink v-if="stateUser && stateUser.user && stateUser.user.userData && stateUser.user.userData.balance !== null" to="/billing"><v-chip>{{stateUser.user.userData.balance}} {{ $t('currency')}}</v-chip></NuxtLink>
 
       <v-progress-linear
-        :active="stateUI.loading"
-        :indeterminate="stateUI.loading"
+        :active="Boolean(stateUI.loading)"
+        :indeterminate="Boolean(stateUI.loading)"
         absolute
         bottom
         color="indigo"

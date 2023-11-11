@@ -24,11 +24,16 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in desserts" :key="item.name">
+            <tr v-if="self_hosted_radios.length > 0" v-for="item in self_hosted_radios" :key="item.id">
               <td>{{ item.ip }}</td>
               <td>{{ item.radios_num }}</td>
+              <td>{{ item.status }}</td>
             </tr>
-            <tr v-if="!self_hosted_radios">
+            <tr v-else-if="self_hosted_radios_loading">
+              <td colspan="10" class="text-center"><v-progress-circular indeterminate></v-progress-circular></td>
+            </tr>
+
+            <tr v-else>
               <td class="text-center" colspan="3">
                 <br />
                 {{ $t('radios.self_hosted.empty') }}
@@ -70,10 +75,14 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in desserts" :key="item.name">
-              <td>{{ item.username }}</td>
+            <tr v-if="self_hosted_radios.length > 0"  v-for="item in hosted_radios" :key="item.name">
+              <td>{{ item.login }}</td>
             </tr>
-            <tr v-if="!hosted_radios">
+            <tr v-else-if="hosted_radios_loading">
+              <td colspan="10" class="text-center"><v-progress-circular indeterminate></v-progress-circular></td>
+            </tr>
+
+            <tr v-else>
               <td class="text-center" colspan="3">
                 <br />
                 {{ $t('radios.hosted.empty') }}
@@ -92,9 +101,47 @@
 </template>
   
 <script setup>
+import { ref, reactive } from 'vue';
+
+import { useUiStateStore } from '@/stores/ui'
 
 definePageMeta({
   layout: "default",
 });
+const config = useRuntimeConfig();
+const stateUI = useUiStateStore()
+let self_hosted_radios = ref([]);
+let hosted_radios = ref([]);
+let self_hosted_radios_loading = ref(false);
+let hosted_radios_loading = ref(false);
+
+
+async function reloadSelfHostedRadios() {
+  let response;
+  self_hosted_radios_loading = true;
+  try{
+    response = await useFetchAuth(`${config.public.baseURL}/self_hosted_radio/`);
+  }
+  catch(e){
+  }
+  self_hosted_radios.value = response.data.value || [];
+  self_hosted_radios_loading = false;
+}
+
+async function reloadHostedRadios() {
+  let response;
+  hosted_radios_loading = true;
+  try{
+    response = await useFetchAuth(`${config.public.baseURL}/hosted_radio/`);
+  }
+  catch(e){
+  }
+  hosted_radios.value = response.data.value || [];
+  hosted_radios_loading = false;
+}
+
+reloadSelfHostedRadios();
+reloadHostedRadios();
+
 
 </script>
