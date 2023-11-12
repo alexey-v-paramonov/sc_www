@@ -8,7 +8,7 @@
     </v-row>
 
     <v-row no-gutters md="12">
-      <v-col>
+      <v-col><v-btn icon="mdi-delete"></v-btn>
         <v-table>
           <thead>
             <tr>
@@ -21,6 +21,9 @@
               <th class="text-left">
                 {{ $t('radios.self_hosted.status') }}
               </th>
+              <th>
+                &nbsp;
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -28,6 +31,7 @@
               <td>{{ item.ip }}</td>
               <td>{{ item.radios_num }}</td>
               <td>{{ item.status }}</td>
+              <td><v-btn icon="mdi-delete"  @click="deleteSelfHosted(item)"></v-btn></td>
             </tr>
             <tr v-else-if="self_hosted_radios_loading">
               <td colspan="10" class="text-center"><v-progress-circular indeterminate></v-progress-circular></td>
@@ -72,11 +76,15 @@
               <th class="text-left">
                 {{ $t('hosted.station_id') }}
               </th>
+              <th>
+                &nbsp;
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr v-if="self_hosted_radios.length > 0"  v-for="item in hosted_radios" :key="item.name">
               <td>{{ item.login }}</td>
+              <td><v-btn icon="mdi-delete" @click="deleteHosted(item)"></v-btn></td>
             </tr>
             <tr v-else-if="hosted_radios_loading">
               <td colspan="10" class="text-center"><v-progress-circular indeterminate></v-progress-circular></td>
@@ -115,6 +123,13 @@ let hosted_radios = ref([]);
 let self_hosted_radios_loading = ref(false);
 let hosted_radios_loading = ref(false);
 
+function deleteSelfHosted(radio){
+  console.log("Delete self hosted: ", radio)
+}
+
+function deleteHosted(radio){
+  console.log("Delete hosted: ", radio)
+}
 
 async function reloadSelfHostedRadios() {
   let response;
