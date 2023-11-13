@@ -8,7 +8,7 @@
     </v-row>
 
     <v-row no-gutters md="12">
-      <v-col><v-btn icon="mdi-delete"></v-btn>
+      <v-col>
         <v-table>
           <thead>
             <tr>
@@ -31,7 +31,7 @@
               <td>{{ item.ip }}</td>
               <td>{{ item.radios_num }}</td>
               <td>{{ item.status }}</td>
-              <td><v-btn icon="mdi-delete"  @click="deleteSelfHosted(item)"></v-btn></td>
+              <td><v-btn icon="mdi-delete" @click="deleteSelfHosted(item)"></v-btn></td>
             </tr>
             <tr v-else-if="self_hosted_radios_loading">
               <td colspan="10" class="text-center"><v-progress-circular indeterminate></v-progress-circular></td>
@@ -51,7 +51,7 @@
       </v-col>
 
     </v-row>
-    
+
     <v-row>
       <v-col cols="12">
         <div class="pt-5 pb-5">
@@ -59,7 +59,7 @@
         </div>
       </v-col>
     </v-row>
-    
+
 
     <!-- Hosted list -->
     <v-row no-gutters md="12">
@@ -82,7 +82,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-if="self_hosted_radios.length > 0"  v-for="item in hosted_radios" :key="item.name">
+            <tr v-if="self_hosted_radios.length > 0" v-for="item in hosted_radios" :key="item.name">
               <td>{{ item.login }}</td>
               <td><v-btn icon="mdi-delete" @click="deleteHosted(item)"></v-btn></td>
             </tr>
@@ -105,7 +105,24 @@
 
     </v-row>
 
-</v-container>
+
+  </v-container>
+  <v-dialog v-model="dialog" width="auto">
+    <v-card>
+      <v-card-text>
+        <div class="py-12 text-center">
+          <v-icon class="mb-6" color="error" icon="mdi-alert-decagram" size="128"></v-icon>
+
+          <div class="text-h4 font-weight-bold">{{ $t('radios.delete_confirmation') }}</div>
+        </div>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn variant="text" color="grey" @click="dialog = false">{{ $t('cancel') }}</v-btn>
+        <v-btn variant="outlined" color="primary" @click="deleteRadio()">{{ $t('delete') }}</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
   
 <script setup>
@@ -122,22 +139,33 @@ let self_hosted_radios = ref([]);
 let hosted_radios = ref([]);
 let self_hosted_radios_loading = ref(false);
 let hosted_radios_loading = ref(false);
+let dialog = ref(false);
+let deleteRadioTarget = null;
 
-function deleteSelfHosted(radio){
-  console.log("Delete self hosted: ", radio)
+function deleteSelfHosted(radio) {
+  dialog.value = true;
+  deleteRadioTarget = radio;
 }
 
-function deleteHosted(radio){
-  console.log("Delete hosted: ", radio)
+function deleteHosted(radio) {
+  dialog.value = true;
+  deleteRadioTarget = radio;  
+}
+
+function deleteRadio(){
+  dialog.value = false;
+  console.log("deleteRadioTarget: ", deleteRadioTarget)
+  deleteRadioTarget = null;
+
 }
 
 async function reloadSelfHostedRadios() {
   let response;
   self_hosted_radios_loading = true;
-  try{
+  try {
     response = await useFetchAuth(`${config.public.baseURL}/self_hosted_radio/`);
   }
-  catch(e){
+  catch (e) {
   }
   self_hosted_radios.value = response.data.value || [];
   self_hosted_radios_loading = false;
@@ -146,10 +174,10 @@ async function reloadSelfHostedRadios() {
 async function reloadHostedRadios() {
   let response;
   hosted_radios_loading = true;
-  try{
+  try {
     response = await useFetchAuth(`${config.public.baseURL}/hosted_radio/`);
   }
-  catch(e){
+  catch (e) {
   }
   hosted_radios.value = response.data.value || [];
   hosted_radios_loading = false;

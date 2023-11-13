@@ -26,6 +26,8 @@
     "email.errors.unique": "Этот email уже зарегистирован",
     "email.errors.syntax": "Не корректный email адрес",
     "email.errors.undeliverable": "Email адрес не работает",
+    "cancel": "Отмена",
+    "delete": "Удалить",
 
     "radio.wizard": "Создание нового радио",
     "radio_wizard": {
@@ -118,8 +120,8 @@
         "hosted": {
             "title": "Хостинг от Radio-Tochka.com",
             "empty": "На нашем хостинге у Вас пока нет станций."
-        }
-
+        },
+        "delete_confirmation": "Вы уверены, что хотите удалить это радио?"
     },
 
     "password": "Пароль",
