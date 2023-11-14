@@ -31,7 +31,7 @@
               <td>{{ item.ip }}</td>
               <td>{{ item.radios_num }}</td>
               <td>{{ item.status }}</td>
-              <td><v-btn icon="mdi-delete" @click="deleteSelfHosted(item)"></v-btn></td>
+              <td><v-btn icon="mdi-delete" @click="deleteSelfHosted(item)" :disabled="item.beingDeleted"></v-btn></td>
             </tr>
             <tr v-else-if="self_hosted_radios_loading">
               <td colspan="10" class="text-center"><v-progress-circular indeterminate></v-progress-circular></td>
@@ -84,7 +84,7 @@
           <tbody>
             <tr v-if="self_hosted_radios.length > 0" v-for="item in hosted_radios" :key="item.name">
               <td>{{ item.login }}</td>
-              <td><v-btn icon="mdi-delete" @click="deleteHosted(item)"></v-btn></td>
+              <td><v-btn icon="mdi-delete" @click="deleteHosted(item)" :disabled="item.beingDeleted"></v-btn></td>
             </tr>
             <tr v-else-if="hosted_radios_loading">
               <td colspan="10" class="text-center"><v-progress-circular indeterminate></v-progress-circular></td>
@@ -124,40 +124,25 @@
     </v-card>
   </v-dialog>
 
-  <v-snackbar
-      v-model="deleteRadioFailed"
-      color="error"
-    >
-      {{ $t('radios.delete_failed') }}
+  <v-snackbar v-model="deleteRadioFailed" color="error">
+    {{ $t('radios.delete_failed') }}
 
-      <template v-slot:actions>
-        <v-btn
-          color="white"
-          variant="text"
-          @click="deleteRadioFailed = false"
-        >
-          {{ $t('close') }}
-        </v-btn>
-      </template>
-  </v-snackbar>  
+    <template v-slot:actions>
+      <v-btn color="white" variant="text" @click="deleteRadioFailed = false">
+        {{ $t('close') }}
+      </v-btn>
+    </template>
+  </v-snackbar>
 
-  <v-snackbar
-      v-model="deleteRadioSuccess"
-      color="success"
-    >
-      {{ $t('radios.delete_success') }}
+  <v-snackbar v-model="deleteRadioSuccess" color="success">
+    {{ $t('radios.delete_success') }}
 
-      <template v-slot:actions>
-        <v-btn
-          color="white"
-          variant="text"
-          @click="deleteRadioSuccess = false"
-        >
-          {{ $t('close') }}
-        </v-btn>
-      </template>
-  </v-snackbar>  
-
+    <template v-slot:actions>
+      <v-btn color="white" variant="text" @click="deleteRadioSuccess = false">
+        {{ $t('close') }}
+      </v-btn>
+    </template>
+  </v-snackbar>
 </template>
   
 <script setup>
@@ -177,7 +162,7 @@ let hosted_radios_loading = ref(false);
 let dialog = ref(false);
 let deleteRadioTarget = null;
 let deleteRadioFailed = ref(false);
-let deleteRadioSuccess = ref(true);
+let deleteRadioSuccess = ref(false);
 
 
 function deleteSelfHosted(radio) {
@@ -187,13 +172,38 @@ function deleteSelfHosted(radio) {
 
 function deleteHosted(radio) {
   dialog.value = true;
-  deleteRadioTarget = radio;  
+  deleteRadioTarget = radio;
 }
 
-function deleteRadio(){
+function deleteRadio() {
+
   dialog.value = false;
-  console.log("deleteRadioTarget: ", deleteRadioTarget)
-  deleteRadioTarget = null;
+  clearNuxtData();
+  deleteRadioTarget.beingDeleted = true;
+
+  const isSelfHosted = Boolean(deleteRadioTarget.ip);
+  useFetchAuth(`${config.public.baseURL}/${ isSelfHosted? 'self_hosted_radio': 'hosted_radio'}/${deleteRadioTarget.id}/`, { method: 'DELETE' }).then(
+    (response) => {
+      const data = response.data.value;
+      const error = response.error.value;
+      if (error) {
+        deleteRadioFailed.value = true;
+        console.log("Error", error);
+      }
+      else {
+        deleteRadioSuccess.value = true;
+        console.log("OK", response);
+        isSelfHosted ? reloadSelfHostedRadios() : reloadHostedRadios();        
+      }
+    },
+    (error) => {
+      console.log("failed");
+      deleteRadioFailed.value = true;
+    }
+  ).finally(() => {
+    deleteRadioTarget.beingDeleted = false;
+    // deleteRadioTarget = null;
+  });
 
 }
 
