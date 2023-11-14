@@ -125,7 +125,10 @@
             "title": "Hosted radios",
             "empty": "You do not have any radios hosted by us yet"
         },
-        "delete_confirmation": "Are you sure you want to delete this radio?"
+        "delete_confirmation": "Are you sure you want to delete this radio?",
+        "delete_failed": "Failed to remove this radio, try again later or contact support.",
+        "delete_success": "The radio has been removed successfully"
+
     },
     "password_confirmation": "Confirm Password"
 }

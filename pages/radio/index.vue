@@ -123,6 +123,41 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+
+  <v-snackbar
+      v-model="deleteRadioFailed"
+      color="error"
+    >
+      {{ $t('radios.delete_failed') }}
+
+      <template v-slot:actions>
+        <v-btn
+          color="white"
+          variant="text"
+          @click="deleteRadioFailed = false"
+        >
+          {{ $t('close') }}
+        </v-btn>
+      </template>
+  </v-snackbar>  
+
+  <v-snackbar
+      v-model="deleteRadioSuccess"
+      color="success"
+    >
+      {{ $t('radios.delete_success') }}
+
+      <template v-slot:actions>
+        <v-btn
+          color="white"
+          variant="text"
+          @click="deleteRadioSuccess = false"
+        >
+          {{ $t('close') }}
+        </v-btn>
+      </template>
+  </v-snackbar>  
+
 </template>
   
 <script setup>
@@ -141,6 +176,9 @@ let self_hosted_radios_loading = ref(false);
 let hosted_radios_loading = ref(false);
 let dialog = ref(false);
 let deleteRadioTarget = null;
+let deleteRadioFailed = ref(false);
+let deleteRadioSuccess = ref(true);
+
 
 function deleteSelfHosted(radio) {
   dialog.value = true;
