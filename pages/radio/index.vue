@@ -82,7 +82,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-if="self_hosted_radios.length > 0" v-for="item in hosted_radios" :key="item.name">
+            <tr v-if="hosted_radios.length > 0" v-for="item in hosted_radios" :key="item.name">
               <td>{{ item.login }}</td>
               <td><v-btn icon="mdi-delete" @click="deleteHosted(item)" :disabled="item.beingDeleted"></v-btn></td>
             </tr>
@@ -209,26 +209,27 @@ function deleteRadio() {
 
 async function reloadSelfHostedRadios() {
   let response;
-  self_hosted_radios_loading = true;
+  self_hosted_radios_loading.value = true;
   try {
     response = await useFetchAuth(`${config.public.baseURL}/self_hosted_radio/`);
   }
   catch (e) {
   }
   self_hosted_radios.value = response.data.value || [];
-  self_hosted_radios_loading = false;
+  self_hosted_radios_loading.value = false;
 }
 
 async function reloadHostedRadios() {
   let response;
-  hosted_radios_loading = true;
+  hosted_radios_loading.value = true;
   try {
     response = await useFetchAuth(`${config.public.baseURL}/hosted_radio/`);
   }
   catch (e) {
+    console.log("Error: ", e);
   }
   hosted_radios.value = response.data.value || [];
-  hosted_radios_loading = false;
+  hosted_radios_loading.value = false;
 }
 
 reloadSelfHostedRadios();
