@@ -1,51 +1,38 @@
 <template>
-      <NuxtLayout name="auth">
+  <NuxtLayout name="auth">
 
     <v-container>
-        <v-row no-gutters md="6">
-            <v-col>&nbsp;</v-col>
-            <v-col md="6">
-                <h1>{{ $t('login') }}</h1>
-                <v-form @submit.prevent="onLoginSubmit">
-                    <v-alert 
-                    v-if="badCredentials"
-                    :title="$t('login')"
-                    color="error"
-                    closable
-                    border="start"
-                    icon="mdi-message-alert"
-                    :text="$t('bad_credentials')"></v-alert>
-                    <br>
-                    <v-text-field 
-                      v-model="email.value.value"
-                      type="email"
-                      :error-messages="email.errorMessage.value"
-                      :label="$t('email')"
-                    ></v-text-field>
+      <v-row no-gutters md="6">
+        <v-col>&nbsp;</v-col>
+        <v-col md="6">
+          <h1>{{ $t('login') }}</h1>
+          <v-form @submit.prevent="onLoginSubmit">
+            <v-alert v-if="badCredentials" :title="$t('login')" color="error" closable border="start"
+              icon="mdi-message-alert" :text="$t('bad_credentials')"></v-alert>
+            <br>
+            <v-text-field v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
+              :label="$t('email')"></v-text-field>
 
-                    <v-text-field 
-                      v-model="password.value.value" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
-                        :type="showPass ? 'text' : 'password'" name="password"
-                        :label="$t('password')" hint="At least 8 characters" counter 
-                        :error-messages="password.errorMessage.value"
-                        @click:append="showPass = !showPass">
-                    </v-text-field>
+            <v-text-field v-model="password.value.value" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="showPass ? 'text' : 'password'" name="password" :label="$t('password')" hint="At least 8 characters"
+              counter :error-messages="password.errorMessage.value" @click:append="showPass = !showPass">
+            </v-text-field>
 
-                    <a href="#" class="text-body-2 font-weight-regular">Forgot Password?</a>
+            <a href="#" class="text-body-2 font-weight-regular">Forgot Password?</a>
 
-                    <v-btn type="submit" :disabled="isSignupSubmitting" block class="mt-2">{{ $t('login') }}</v-btn>
-                </v-form>
-                <div class="mt-2">
-                  <p class="text-body-2">Don't have an account? <NuxtLink to="/signup">{{ $t('signup') }}</NuxtLink></p>
-                </div>                
-            </v-col>
-        </v-row>
+            <v-btn type="submit" :disabled="isSignupSubmitting" block class="mt-2">{{ isSignupSubmitting ? $t('logging_in') : $t('login') }}</v-btn>
+          </v-form>
+          <div class="mt-2">
+            <p class="text-body-2">Don't have an account? <NuxtLink to="/signup">{{ $t('signup') }}</NuxtLink>
+            </p>
+          </div>
+        </v-col>
+      </v-row>
     </v-container>
   </NuxtLayout>
-
 </template>
   
-<script>
+<script setup>
 import { useField, useForm } from 'vee-validate';
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user.js';
@@ -54,47 +41,43 @@ definePageMeta({
   layout: false,
 });
 
-export default {
-  setup() {
+let badCredentials = ref(false);
+const userStore = useUserStore();
+const router = useRouter();
+const showPass = ref(false);
 
-    let badCredentials = ref(false);
-    const userStore = useUserStore();
-    const router = useRouter();
-    const showPass = ref(false);
-
-    async function loginRequest(data) {
-      const config = useRuntimeConfig();
-      return await useFetch(`${config.public.baseURL}/api-token-auth/`, {
-        //return await useFetch(`http://localhost:8000/api/v1/api-token-auth/`, {
-        method: 'POST',
-        body: {
-          'username': data.email,
-          'password': data.password
-        }
-      });
+async function loginRequest(data) {
+  const config = useRuntimeConfig();
+  return await useFetch(`${config.public.baseURL}/api-token-auth/`, {
+    //return await useFetch(`http://localhost:8000/api/v1/api-token-auth/`, {
+    method: 'POST',
+    body: {
+      'username': data.email,
+      'password': data.password
     }
-
-    const { handleSubmit, isSubmitting: isSignupSubmitting, setErrors } = useForm();
-
-    const email = useField('email', "required|email");
-    const password = useField('password', "required|min:8");
-
-    const onLoginSubmit = handleSubmit(async values => {
-      badCredentials.value = false;
-      const response = await loginRequest(values);
-      const error = response.error.value;
-      if( !error ){
-        userStore.setUserData(response.data.value);
-        router.push("/");
-        return;
-      }
-      if(error.data['non_field_errors'] == 'bad_credentials'){
-        badCredentials.value = true;
-        return;
-      }
-      setErrors({'email': t("email.errors.unique")})
-    });
-    return { email, password, onLoginSubmit, isSignupSubmitting, badCredentials, showPass }
-  }
+  });
 }
+
+const { handleSubmit, isSubmitting: isSignupSubmitting, setErrors } = useForm();
+
+const email = useField('email', "required|email");
+const password = useField('password', "required|min:8");
+
+const onLoginSubmit = handleSubmit(async values => {
+  badCredentials.value = false;
+  const response = await loginRequest(values);
+  const error = response.error.value;
+  if (!error) {
+    userStore.setUserData(response.data.value);
+    router.push("/");
+    return;
+  }
+  if (error.data['non_field_errors'] == 'bad_credentials') {
+    badCredentials.value = true;
+    return;
+  }
+  badCredentials.value = true;
+
+});
+
 </script>
