@@ -209,6 +209,7 @@ function deleteRadio() {
 
 async function reloadSelfHostedRadios() {
   let response;
+  self_hosted_radios.value = [];
   self_hosted_radios_loading.value = true;
   try {
     response = await useFetchAuth(`${config.public.baseURL}/self_hosted_radio/`);
@@ -221,6 +222,7 @@ async function reloadSelfHostedRadios() {
 
 async function reloadHostedRadios() {
   let response;
+  hosted_radios.value = [];
   hosted_radios_loading.value = true;
   try {
     response = await useFetchAuth(`${config.public.baseURL}/hosted_radio/`);
