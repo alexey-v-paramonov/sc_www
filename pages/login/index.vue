@@ -18,7 +18,7 @@
               counter :error-messages="password.errorMessage.value" @click:append="showPass = !showPass">
             </v-text-field>
 
-            <a href="#" class="text-body-2 font-weight-regular">Forgot Password?</a>
+            <NuxtLink to="/reset-password" class="text-body-2 font-weight-regular">{{ $t('forgot_password') }}</NuxtLink>
 
             <v-btn type="submit" :disabled="isSignupSubmitting" block class="mt-2">{{ isSignupSubmitting ? $t('logging_in') : $t('login') }}</v-btn>
           </v-form>

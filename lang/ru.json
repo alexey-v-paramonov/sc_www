@@ -3,6 +3,7 @@
     "logging_in": "Заходим...",
     "signup": "Регистрация",
     "create_account": "Зарегистрироваться",
+    "forgot_password": "Забыли пароль?",
     "email": "Email адрес",
     "error": "Ошибка",
     "bad_credentials": "Неправильное имя пользователя или пароль",
