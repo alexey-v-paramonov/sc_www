@@ -31,7 +31,7 @@
               <td>{{ item.ip }}</td>
               <td>{{ item.radios_num }}</td>
               <td>{{ item.status }}</td>
-              <td><v-btn icon="mdi-delete" @click="deleteSelfHosted(item)" :disabled="item.beingDeleted"></v-btn></td>
+              <td><v-btn icon="mdi-delete" @click="deleteRadio(item)" :disabled="item.beingDeleted"></v-btn></td>
             </tr>
             <tr v-else-if="self_hosted_radios_loading">
               <td colspan="10" class="text-center"><v-progress-circular indeterminate></v-progress-circular></td>
@@ -84,7 +84,7 @@
           <tbody>
             <tr v-if="hosted_radios.length > 0" v-for="item in hosted_radios" :key="item.name">
               <td>{{ item.login }}</td>
-              <td><v-btn icon="mdi-delete" @click="deleteHosted(item)" :disabled="item.beingDeleted"></v-btn></td>
+              <td><v-btn icon="mdi-delete" @click="deleteRadio(item)" :disabled="item.beingDeleted"></v-btn></td>
             </tr>
             <tr v-else-if="hosted_radios_loading">
               <td colspan="10" class="text-center"><v-progress-circular indeterminate></v-progress-circular></td>
@@ -118,8 +118,8 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn variant="text" color="grey" @click="dialog = false">{{ $t('cancel') }}</v-btn>
-        <v-btn variant="outlined" color="primary" @click="deleteRadio()">{{ $t('delete') }}</v-btn>
+        <v-btn variant="text" color="grey" @click="answerDialog(false)">{{ $t('cancel') }}</v-btn>
+        <v-btn variant="outlined" color="primary" @click="answerDialog(true)">{{ $t('delete') }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -160,51 +160,49 @@ let hosted_radios = ref([]);
 let self_hosted_radios_loading = ref(false);
 let hosted_radios_loading = ref(false);
 let dialog = ref(false);
-let deleteRadioTarget = null;
 let deleteRadioFailed = ref(false);
 let deleteRadioSuccess = ref(false);
+let answerDialog = ref();
 
 
-function deleteSelfHosted(radio) {
+function deleteRadio(radio) {
   dialog.value = true;
-  deleteRadioTarget = radio;
-}
+  new Promise((resolve) => {
+    answerDialog = resolve;
+  }).then((res) => {
+    if(res){
+      dialog.value = false;
+      clearNuxtData();
+      radio.beingDeleted = true;
 
-function deleteHosted(radio) {
-  dialog.value = true;
-  deleteRadioTarget = radio;
-}
+      const isSelfHosted = Boolean(radio.ip);
+      useFetchAuth(`${config.public.baseURL}/${ isSelfHosted? 'self_hosted_radio': 'hosted_radio'}/${radio.id}/`, { method: 'DELETE' }).then(
+        (response) => {
+          const data = response.data.value;
+          const error = response.error.value;
+          if (error) {
+            deleteRadioFailed.value = true;
+            console.log("Error", error);
+          }
+          else {
+            deleteRadioSuccess.value = true;
+            console.log("OK", response);
+            isSelfHosted ? reloadSelfHostedRadios() : reloadHostedRadios();        
+          }
+        },
+        (error) => {
+          console.log("failed");
+          deleteRadioFailed.value = true;
+        }
+      ).finally(() => {
+        radio.beingDeleted = false;
+      });
 
-function deleteRadio() {
-
-  dialog.value = false;
-  clearNuxtData();
-  deleteRadioTarget.beingDeleted = true;
-
-  const isSelfHosted = Boolean(deleteRadioTarget.ip);
-  useFetchAuth(`${config.public.baseURL}/${ isSelfHosted? 'self_hosted_radio': 'hosted_radio'}/${deleteRadioTarget.id}/`, { method: 'DELETE' }).then(
-    (response) => {
-      const data = response.data.value;
-      const error = response.error.value;
-      if (error) {
-        deleteRadioFailed.value = true;
-        console.log("Error", error);
-      }
-      else {
-        deleteRadioSuccess.value = true;
-        console.log("OK", response);
-        isSelfHosted ? reloadSelfHostedRadios() : reloadHostedRadios();        
-      }
-    },
-    (error) => {
-      console.log("failed");
-      deleteRadioFailed.value = true;
     }
-  ).finally(() => {
-    deleteRadioTarget.beingDeleted = false;
-    // deleteRadioTarget = null;
-  });
-
+    else{
+      dialog.value = false;
+    }
+  })
 }
 
 async function reloadSelfHostedRadios() {
