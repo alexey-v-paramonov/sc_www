@@ -170,8 +170,8 @@ function deleteRadio(radio) {
   new Promise((resolve) => {
     answerDialog = resolve;
   }).then((res) => {
+    dialog.value = false;
     if(res){
-      dialog.value = false;
       clearNuxtData();
       radio.beingDeleted = true;
 
@@ -197,10 +197,6 @@ function deleteRadio(radio) {
       ).finally(() => {
         radio.beingDeleted = false;
       });
-
-    }
-    else{
-      dialog.value = false;
     }
   })
 }

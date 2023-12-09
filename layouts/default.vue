@@ -22,18 +22,6 @@ getUserData();
 const sDrawer = ref(true);
 
 
-
-/// const { data } = await useAsyncData('user', () => ststateUserore.getUserData())
-
-
-// const loading = ref(true);
-
-//import Sidebar from "~~/components/layoutComponents/sidebar/Sidebar.vue";
-//import Header from "~~/components/layoutComponents/header/Header.vue";
-//useMeta({
-//  title: "MaterialPro Free NuxtJs 3  Dashboard",
-//});
-
 const drawer = ref(undefined || true);
 //const innerW = window.innerWidth;
 const innerW = 1024;
@@ -43,6 +31,12 @@ onMounted(() => {
     drawer.value = !drawer.value;
   }
 });
+
+function Logout(){
+  const router = useRouter();
+  stateUser.Logout();
+  router.push("/login");
+}
 
 </script>
 
@@ -94,6 +88,9 @@ onMounted(() => {
       <v-spacer></v-spacer>
 
       <NuxtLink v-if="stateUser && stateUser.user && stateUser.user.userData && stateUser.user.userData.balance !== null" to="/billing"><v-chip>{{stateUser.user.userData.balance}} {{ $t('currency')}}</v-chip></NuxtLink>
+      <v-btn v-if="stateUser && stateUser.user" append-icon="mdi-logout" variant="plain" @click="Logout()">
+        {{ $t('logout')}}
+      </v-btn>
 
       <v-progress-linear
         :active="Boolean(stateUI.loading)"

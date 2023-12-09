@@ -11,7 +11,7 @@ const defaultUser = {
 };
 
 export const useUserStore = defineStore('user', () => {
-    const user = reactive( process.client ? JSON.parse(localStorage.getItem(LOCAL_STORE_NAME)) || defaultUser : defaultUser);
+    let user = reactive( process.client ? JSON.parse(localStorage.getItem(LOCAL_STORE_NAME)) || defaultUser : defaultUser);
     const config = useRuntimeConfig();
     user.userData = {
         balance: null
@@ -31,9 +31,16 @@ export const useUserStore = defineStore('user', () => {
         localStorage.setItem(LOCAL_STORE_NAME, JSON.stringify(user));
     }
 
+    const Logout = () => {
+        user = defaultUser;
+        localStorage.removeItem(LOCAL_STORE_NAME);
+    }
+
+
     return{
         user,
         setUserData,
-        getUserData
+        getUserData,
+        Logout
     }
 })    
