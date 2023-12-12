@@ -11,6 +11,11 @@
     "chars_min_8": "At least 8 characters",
     "currency": "₽",
     "close": "Close",
+    "loading": "Loading",
+    "pass_reset_email_addr": "Enter your email address",
+    "pass_reset_cta": "Reset Password",
+    "pass_reset_back_to_login": "Back to login",
+    "account_creation_hint": "Don't have an account?",
 
     "nav_home": "Home",
     "nav_streams": "Streams",

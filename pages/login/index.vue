@@ -23,7 +23,7 @@
             <v-btn type="submit" :disabled="isSignupSubmitting" block class="mt-2">{{ isSignupSubmitting ? $t('logging_in') : $t('login') }}</v-btn>
           </v-form>
           <div class="mt-2">
-            <p class="text-body-2">Don't have an account? <NuxtLink to="/signup">{{ $t('signup') }}</NuxtLink>
+            <p class="text-body-2">{{ $t('account_creation_hint') }} <NuxtLink to="/signup">{{ $t('signup') }}</NuxtLink>
             </p>
           </div>
         </v-col>

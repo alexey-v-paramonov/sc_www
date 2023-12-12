@@ -19,6 +19,11 @@
     "nav_ios": "Apple iOs",
     "currency": "₽",
     "close": "Закрыть",
+    "loading": "Загрузка",
+    "pass_reset_email_addr": "Укажите email для ",
+    "pass_reset_cta": "Сбросить пароль",
+    "pass_reset_back_to_login": "На страницу входа",
+    "account_creation_hint": "Еще нет аккаунта?",
 
     "nav_settings": "Настройки",
     "nav_settings_account": "Аккаунт",
