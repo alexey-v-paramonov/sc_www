@@ -28,25 +28,17 @@
   <script setup>
   import { useField, useForm } from 'vee-validate';
   import { ref } from 'vue'
-  import { useUserStore } from '@/stores/user.js';
   
   definePageMeta({
     layout: false,
   });
-  
-  let badCredentials = ref(false);
-  const userStore = useUserStore();
-  const router = useRouter();
-  const showPass = ref(false);
-  
-  async function loginRequest(data) {
+    
+  async function resetPasswordRequest(data) {
     const config = useRuntimeConfig();
     return await useFetch(`${config.public.baseURL}/api-token-auth/`, {
-      //return await useFetch(`http://localhost:8000/api/v1/api-token-auth/`, {
       method: 'POST',
       body: {
-        'username': data.email,
-        'password': data.password
+        'email': data.email,
       }
     });
   }
@@ -54,22 +46,20 @@
   const { handleSubmit, isSubmitting: isPassResetSubmitting, setErrors } = useForm();
   
   const email = useField('email', "required|email");
-  const password = useField('password', "required|min:8");
   
   const resetPassword = handleSubmit(async values => {
-    badCredentials.value = false;
-    const response = await loginRequest(values);
+    const response = await resetPasswordRequest(values);
     const error = response.error.value;
     if (!error) {
-      userStore.setUserData(response.data.value);
-      router.push("/");
-      return;
+        return;
     }
-    if (error.data['non_field_errors'] == 'bad_credentials') {
-      badCredentials.value = true;
-      return;
+    //console.log("Errors: ", error.data)
+    let errors = {};
+    for (const error_field in error.data) {
+        errors[error_field] = t(`${error_field}.errors.${error.data[error_field]}`);
     }
-    badCredentials.value = true;
+    setErrors(errors);
+
   
   });
   
