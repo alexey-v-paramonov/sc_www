@@ -11,10 +11,7 @@
     "chars_min_8": "At least 8 characters",
     "currency": "₽",
     "close": "Close",
-    "loading": "Loading",
-    "pass_reset_email_addr": "Enter your email address",
-    "pass_reset_cta": "Reset Password",
-    "pass_reset_back_to_login": "Back to login",
+    "loading": "Loading...",
     "account_creation_hint": "Don't have an account?",
 
     "nav_home": "Home",
@@ -138,5 +135,21 @@
         "delete_success": "The radio has been removed successfully"
 
     },
+    "password_reset": {
+        "email_address": "Enter your email address",
+        "cta": "Reset Password",
+        "back_to_login": "Back to login",
+        "check_inbox": "Check your inbox",
+        "check_inbox_email": "An email as been sent to",
+        "check_inbox_hint_head": "Can't find your email?",
+        "check_inbox_hint_text": "We can only senf password reset instructions to registered emails with an existing account. If the email doesn't appear in your inbox or spam folder, please check email you entered or click below to send a new email.",
+        "resend": "Resend email",
+        "errors": {
+            "email": {
+                "user_not_found": "We do not have an account with such email address"
+            }
+        }
+    },
+
     "password_confirmation": "Confirm Password"
 }
