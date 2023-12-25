@@ -60,14 +60,14 @@
   const resetConfirmMode = ref(Boolean(resetToken.value) && Boolean(resetUID.value));
   
   const resetConfirmDone = ref(false);
-  const password = useField("password", "required|min:8");
 
   async function resetConfirmPasswordRequest(data) {
     const config = useRuntimeConfig();
     return await useFetch(`${config.public.baseURL}/password_reset/confirm/`, {
       method: 'POST',
       body: {
-        'email': data.password,
+        'password': data.password,
+        'token': resetToken.value,
         'uid': resetUID.value,
         'lang': locale,
       }
@@ -75,6 +75,7 @@
   }
   
   const { handleSubmit, isSubmitting: isPassResetConfirmSubmitting, setErrors } = useForm();
+  const password = useField("password", "required|min:8");
 
   const resetConfirmPassword = handleSubmit(async values => {
     const response = await resetConfirmPasswordRequest(values);
