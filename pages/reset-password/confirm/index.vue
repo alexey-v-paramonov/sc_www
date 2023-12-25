@@ -68,7 +68,8 @@
       method: 'POST',
       body: {
         'email': data.password,
-        'lang': locale
+        'uid': resetUID.value,
+        'lang': locale,
       }
     });
   }
