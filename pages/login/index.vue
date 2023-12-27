@@ -6,7 +6,7 @@
         <v-col>&nbsp;</v-col>
         <v-col md="6">
           <h1>{{ $t('login') }}</h1>
-          <v-form @submit.prevent="onLoginSubmit">
+          <v-form @submit.prevent="onLoginSubmit" :disabled="isSignupSubmitting">
             <v-alert v-if="badCredentials" :title="$t('login')" color="error" closable border="start"
               icon="mdi-message-alert" :text="$t('bad_credentials')"></v-alert>
             <br>

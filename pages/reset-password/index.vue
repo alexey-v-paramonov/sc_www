@@ -6,7 +6,7 @@
           <v-col>&nbsp;</v-col>
           <v-col md="6">
             <h1>{{ resetDone ? $t('password_reset.check_inbox') : $t('password_reset.email_address') }}</h1>
-            <v-form @submit.prevent="resetPassword" v-if="!resetDone">
+            <v-form @submit.prevent="resetPassword" v-if="!resetDone" :disabled="isPassResetSubmitting">
 
                 <v-text-field v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
                 :label="$t('email')"></v-text-field>

@@ -6,7 +6,7 @@
         <v-col>&nbsp;</v-col>
         <v-col md="6">
           <h1>{{ $t('signup') }}</h1>
-          <form @submit.prevent="onSignupSubmit">
+          <form @submit.prevent="onSignupSubmit" :disabled="isSignupSubmitting">
             <v-text-field v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
               :label="$t('email')"></v-text-field>
 

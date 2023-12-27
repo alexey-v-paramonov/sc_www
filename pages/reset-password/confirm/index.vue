@@ -7,7 +7,7 @@
           <v-col md="6">
             <h1>{{ $t('password_reset.new_pass') }}</h1>
             <!-- Confirm form -->
-            <v-form @submit.prevent="resetConfirmPassword">
+            <v-form @submit.prevent="resetConfirmPassword" :disabled="isPassResetConfirmSubmitting">
 
               <v-text-field v-model="password.value.value" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
               :type="showPass ? 'text' : 'password'" name="password" :label="$t('password')" :hint="$t('chars_min_8')"
