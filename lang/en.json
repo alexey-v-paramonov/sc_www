@@ -145,6 +145,8 @@
         "check_inbox_hint_text": "We can only senf password reset instructions to registered emails with an existing account. If the email doesn't appear in your inbox or spam folder, please check email you entered or click below to send a new email.",
         "resend": "Resend email",
         "new_pass": "Enter a new password",
+        "done_title": "Account password has been changed successfully!",
+        "done_text": "You can now login using your updated password.",
         "errors": {
             "email": {
                 "user_not_found": "We do not have an account with such email address"
