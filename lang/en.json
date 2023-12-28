@@ -147,6 +147,8 @@
         "new_pass": "Enter a new password",
         "done_title": "Account password has been changed successfully!",
         "done_text": "You can now login using your updated password.",
+        "token_is_invalid": "The link has expired",
+        "token_is_invalid_text": "Failed to reset your password. This most likely happened because the password reset link was no longer valid. Try repeating the password reset procedure using the button below",
         "errors": {
             "email": {
                 "user_not_found": "We do not have an account with such email address"
