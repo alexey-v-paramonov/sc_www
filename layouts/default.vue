@@ -15,7 +15,6 @@ async function getUserData(){
   stateUI.setLoading(true);
   await stateUser.getUserData();
   stateUI.setLoading(false);
-
 }
 
 getUserData();

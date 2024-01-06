@@ -13,6 +13,7 @@
     "close": "Close",
     "loading": "Loading...",
     "account_creation_hint": "Don't have an account?",
+    "save": "Save",
 
     "nav_home": "Home",
     "nav_streams": "Streams",
@@ -64,7 +65,8 @@
         "title": "Self-hosted",
         "help": "The best option for most users, with no limits on the number of listeners or disk space. You can use any hosting provider. In this plan we do not require any documents confirming the legality of broadcasting.",
         "description": "To install our software, the server must be completely clean and have no other control panels, databases or websites installed.",
-        "supported_os": "Suppored OS: Ubuntu 20.04, Centos Linux 7",
+        "supported_os": "Suppored OS: Ubuntu 20.04 (recommended), Centos Linux 7",
+        "supported_arch": "Suppored architecture: x86 64bit",
         "ip": "Server IP address",
         "server_domain": "Domain name",
         "root_username": "Username",
@@ -154,6 +156,9 @@
                 "user_not_found": "We do not have an account with such email address"
             }
         }
+    },
+    "settings": {
+        "title": "Account settings"
     },
 
     "password_confirmation": "Confirm Password"

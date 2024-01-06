@@ -37,6 +37,8 @@
                 {{ $t('self_hosted.description') }}
                 <br />
                 {{ $t('self_hosted.supported_os') }}
+                <br />
+                {{ $t('self_hosted.supported_arch') }}
               </v-col>
             </v-row>
 
