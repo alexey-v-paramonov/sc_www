@@ -225,7 +225,7 @@
           <v-row no-gutters>
             <v-col md="12">
 
-              <v-btn type="submit" :disabled="formBusy" block class="mt-2">{{ $t('self_hosted.submit') }}</v-btn>
+              <v-btn type="submit" :disabled="formBusy" block class="mt-2" color="primary" >{{ $t('self_hosted.submit') }}</v-btn>
             </v-col>
           </v-row>
         </v-form>

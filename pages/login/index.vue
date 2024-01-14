@@ -14,7 +14,7 @@
               :label="$t('email')"></v-text-field>
 
             <v-text-field v-model="password.value.value" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
-              :type="showPass ? 'text' : 'password'" name="password" :label="$t('password')" hint="At least 8 characters"
+              :type="showPass ? 'text' : 'password'" name="password" :label="$t('password')" :hint="$t('chars_min_8')"
               counter :error-messages="password.errorMessage.value" @click:append="showPass = !showPass">
             </v-text-field>
 

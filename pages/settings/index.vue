@@ -8,15 +8,15 @@
       <v-row no-gutters md="12">
         <v-col md="12">
           <v-form @submit.prevent="onSettingsSubmit" :disabled="isSettingsSubmitting">
-            <!-- <v-text-field v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
+            <v-text-field v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
               :label="$t('email')"></v-text-field>
 
-            <v-text-field v-model="password.value.value" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
-              :type="showPass ? 'text' : 'password'" name="password" :label="$t('password')" hint="At least 8 characters"
+            <v-text-field  autocomplete="null" v-model="password.value.value" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="showPass ? 'text' : 'password'" name="password" :label="$t('password')" :hint="$t('chars_min_8')"
               counter :error-messages="password.errorMessage.value" @click:append="showPass = !showPass">
-            </v-text-field> -->
+            </v-text-field>
 
-            <v-btn type="submit" :disabled="isSettingsSubmitting" block class="mt-2">{{ isSettingsSubmitting ? $t('loading') : $t('save') }}</v-btn>
+            <v-btn type="submit" :disabled="isSettingsSubmitting" block class="mt-2" color="primary">{{ isSettingsSubmitting ? $t('loading') : $t('save') }}</v-btn>
           </v-form>
         </v-col>
       </v-row>
@@ -28,34 +28,25 @@
 import { useField, useForm } from 'vee-validate';
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user.js';
+import { useUiStateStore } from '@/stores/ui'
 
 const stateUser = useUserStore()
 const stateUI = useUiStateStore()
-import { useUiStateStore } from '@/stores/ui'
+const showPass = ref(false);
 
 definePageMeta({
   layout: "default",
 });
 
-const { handleSubmit, isSubmitting: isSignupisSettingsSubmittingSubmitting, setErrors } = useForm();
+const { handleSubmit, isSubmitting: isSignupisSettingsSubmittingSubmitting, setErrors } = useForm({
+  initialValues: {
+    email: stateUser.user.email,
+    password: ''
+  }
+});
 
 const email = useField('email', "required|email");
 const password = useField('password', "required|min:8");
-
-async function getUserData(){
-  stateUI.setLoading(true);
-  isSignupisSettingsSubmittingSubmitting.value = true;
-  await stateUser.getUserData();
-  stateUI.setLoading(false);
-  isSignupisSettingsSubmittingSubmitting.value = false;
-}
-
-//getUserData();
-
-console.log("######################################")
-console.log(stateUser.email, " ?????????")
-//email.value = stateUser.email;
-
 
 async function saveSettingsRequest(data) {
   const config = useRuntimeConfig();
@@ -71,7 +62,6 @@ async function saveSettingsRequest(data) {
 
 
 const onSettingsSubmit = handleSubmit(async values => {
-  console.log("User: ", stateUser.email);
   // badCredentials.value = false;
   // const response = await loginRequest(values);
   // const error = response.error.value;
