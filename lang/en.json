@@ -158,7 +158,8 @@
         }
     },
     "settings": {
-        "title": "Account settings"
+        "title": "Account settings",
+        "save_success": "Account settings have been saved successfully"
     },
 
     "password_confirmation": "Confirm Password"

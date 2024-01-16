@@ -22,6 +22,16 @@
       </v-row>
 
     </v-container>
+    <v-snackbar v-model="settingsSaveSuccess" color="success">
+      {{ $t('settings.save_success') }}
+
+      <template v-slot:actions>
+        <v-btn color="white" variant="text" @click="settingsSaveSuccess = false">
+          {{ $t('close') }}
+        </v-btn>
+      </template>
+    </v-snackbar>
+
   </template>
   
 <script setup>
@@ -34,6 +44,7 @@ const stateUser = useUserStore()
 
 const stateUI = useUiStateStore()
 const showPass = ref(false);
+let settingsSaveSuccess = ref(false);
 
 definePageMeta({
   layout: "default",
@@ -72,6 +83,7 @@ const onSettingsSubmit = handleSubmit(async values => {
   const error = response.error.value;
   if (!error) {
     stateUser.setUserEmail(values.email);
+    settingsSaveSuccess.value = true;
     return;
   }
   if (error.data['non_field_errors'] == 'bad_credentials') {
