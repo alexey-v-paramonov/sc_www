@@ -11,8 +11,8 @@
             <v-text-field v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
               :label="$t('email')"></v-text-field>
 
-            <v-text-field  autocomplete="null" v-model="password.value.value" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
-              :type="showPass ? 'text' : 'password'" name="password" :label="$t('password')" :hint="$t('chars_min_8')"
+            <v-text-field  autocomplete="one-time-code" v-model="password.value.value" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="showPass ? 'text' : 'password'" name="password" :label="$t('password')" :hint="$t('password_reset.new_pass')"
               counter :error-messages="password.errorMessage.value" @click:append="showPass = !showPass">
             </v-text-field>
 
@@ -38,7 +38,7 @@ definePageMeta({
   layout: "default",
 });
 
-const { handleSubmit, isSubmitting: isSignupisSettingsSubmittingSubmitting, setErrors } = useForm({
+const { handleSubmit, isSubmitting: isSettingsSubmitting, setErrors } = useForm({
   initialValues: {
     email: stateUser.user.email,
     password: ''
@@ -46,35 +46,40 @@ const { handleSubmit, isSubmitting: isSignupisSettingsSubmittingSubmitting, setE
 });
 
 const email = useField('email', "required|email");
-const password = useField('password', "required|min:8");
+const password = useField('password', "min:8");
 
 async function saveSettingsRequest(data) {
+  
   const config = useRuntimeConfig();
-  return await useFetch(`${config.public.baseURL}/api-token-auth/`, {
-    //return await useFetch(`http://localhost:8000/api/v1/api-token-auth/`, {
-    method: 'POST',
+  return await useFetch(`${config.public.baseURL}/users/${stateUser.user.id}/settings/`, {
+    method: 'PUT',
     body: {
-      'username': data.email,
-      'password': data.password
+      'email': data.email,
+      'new_password': data.password
     }
   });
 }
 
 
 const onSettingsSubmit = handleSubmit(async values => {
-  // badCredentials.value = false;
-  // const response = await loginRequest(values);
-  // const error = response.error.value;
-  // if (!error) {
-  //   userStore.setUserData(response.data.value);
-  //   router.push("/");
-  //   return;
-  // }
-  // if (error.data['non_field_errors'] == 'bad_credentials') {
-  //   badCredentials.value = true;
-  //   return;
-  // }
-  // badCredentials.value = true;
+  const somethingHasChanged = values.password || values.email != stateUser.user.email;
+  if(!somethingHasChanged){
+    return;
+  }
+  
+  const response = await saveSettingsRequest(values);
+  const error = response.error.value;
+  if (!error) {
+    userStore.setUserEmail(values.email);
+    return;
+  }
+  if (error.data['non_field_errors'] == 'bad_credentials') {
+    badCredentials.value = true;
+    return;
+  }
+  else{
+    console.log("HERE!")
+  }
 
 });
 

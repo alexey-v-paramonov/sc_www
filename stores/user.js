@@ -31,6 +31,11 @@ export const useUserStore = defineStore('user', () => {
         localStorage.setItem(LOCAL_STORE_NAME, JSON.stringify(user));
     }
 
+    const setUserEmail = (email) => {
+        user.email = email;
+        localStorage.setItem(LOCAL_STORE_NAME, JSON.stringify(user));
+    }
+
     const Logout = () => {
         user = defaultUser;
         localStorage.removeItem(LOCAL_STORE_NAME);
@@ -41,6 +46,7 @@ export const useUserStore = defineStore('user', () => {
         user,
         setUserData,
         getUserData,
+        setUserEmail,
         Logout
     }
 })    
