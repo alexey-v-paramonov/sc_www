@@ -59,8 +59,7 @@ const { handleSubmit, isSubmitting: isSettingsSubmitting, setErrors } = useForm(
 });
 
 const email = useField('email', "required|email");
-//const password = useField('password', "min:8");
-const password = useField('password');
+const password = useField('password', "min:8");
 
 async function saveSettingsRequest(data) {
   
