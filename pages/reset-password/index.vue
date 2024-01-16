@@ -78,7 +78,6 @@
       resetDone.value = true;
       return;
     }
-    //console.log("Errors: ", error.data)
     let errors = {};
     for (const error_field in error.data) {
         errors[error_field] = t(`password_reset.errors.${error_field}.${error.data[error_field]}`);

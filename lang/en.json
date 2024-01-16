@@ -32,7 +32,7 @@
 
     "email.errors.unique": "Email address is already in use",
     "email.errors.syntax": "Email address is invalid",
-    "email.errors.undeliverable": "Email address is invalid",
+    "email.errors.undeliverable": "Email address is invalid (undeliverable)",
     "cancel": "Cancel",
     "delete": "Delete",
     
@@ -159,7 +159,19 @@
     },
     "settings": {
         "title": "Account settings",
-        "save_success": "Account settings have been saved successfully"
+        "save_success": "Account settings have been saved successfully",
+        "errors": {
+            "email":{
+                "unique": "Email address is already in use",
+                "syntax": "Email address is invalid",
+                "undeliverable": "Email address is invalid (undeliverable)",
+                "email": "Email address is invalid"
+            },
+            "password": {
+                "length": "Password is too short"
+            }
+        }
+
     },
 
     "password_confirmation": "Confirm Password"

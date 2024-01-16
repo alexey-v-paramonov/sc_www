@@ -41,6 +41,7 @@ import { useUserStore } from '@/stores/user.js';
 import { useUiStateStore } from '@/stores/ui'
 
 const stateUser = useUserStore()
+const { t } = useI18n();
 
 const stateUI = useUiStateStore()
 const showPass = ref(false);
@@ -58,7 +59,8 @@ const { handleSubmit, isSubmitting: isSettingsSubmitting, setErrors } = useForm(
 });
 
 const email = useField('email', "required|email");
-const password = useField('password', "min:8");
+//const password = useField('password', "min:8");
+const password = useField('password');
 
 async function saveSettingsRequest(data) {
   
@@ -67,7 +69,7 @@ async function saveSettingsRequest(data) {
     method: 'PUT',
     body: {
       'email': data.email,
-      'new_password': data.password
+      'password': data.password
     }
   });
 }
@@ -86,13 +88,11 @@ const onSettingsSubmit = handleSubmit(async values => {
     settingsSaveSuccess.value = true;
     return;
   }
-  if (error.data['non_field_errors'] == 'bad_credentials') {
-    badCredentials.value = true;
-    return;
+  let errors = {};
+  for (const error_field in error.data) {
+      errors[error_field] = t(`settings.errors.${error_field}.${error.data[error_field]}`);
   }
-  else{
-    console.log("HERE!")
-  }
+  setErrors(errors);
 
 });
 
