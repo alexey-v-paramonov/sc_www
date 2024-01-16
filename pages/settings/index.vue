@@ -31,6 +31,7 @@ import { useUserStore } from '@/stores/user.js';
 import { useUiStateStore } from '@/stores/ui'
 
 const stateUser = useUserStore()
+
 const stateUI = useUiStateStore()
 const showPass = ref(false);
 
@@ -51,7 +52,7 @@ const password = useField('password', "min:8");
 async function saveSettingsRequest(data) {
   
   const config = useRuntimeConfig();
-  return await useFetch(`${config.public.baseURL}/users/${stateUser.user.id}/settings/`, {
+  return await useFetchAuth(`${config.public.baseURL}/users/${stateUser.user.id}/profile/`, {
     method: 'PUT',
     body: {
       'email': data.email,
@@ -70,7 +71,7 @@ const onSettingsSubmit = handleSubmit(async values => {
   const response = await saveSettingsRequest(values);
   const error = response.error.value;
   if (!error) {
-    userStore.setUserEmail(values.email);
+    stateUser.setUserEmail(values.email);
     return;
   }
   if (error.data['non_field_errors'] == 'bad_credentials') {
