@@ -173,6 +173,10 @@
         }
 
     },
+    "billing": {
+        "title": "Billing",
+        "balance": "Account balance:"
+    },
 
     "password_confirmation": "Confirm Password"
 }

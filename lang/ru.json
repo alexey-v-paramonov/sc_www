@@ -170,6 +170,10 @@
             }
         }
     },
+    "billing": {
+        "title": "Платежи",
+        "balance": "Баланс личного счета:"
+    },
 
     "password": "Пароль",
     "password_confirmation": "Пароль еще раз"
