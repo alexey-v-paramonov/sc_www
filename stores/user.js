@@ -18,9 +18,10 @@ export const useUserStore = defineStore('user', () => {
     };
 
     async function getUserData(){
-        user.userData = await useFetchAuth(`${config.public.baseURL}/users/${user.id}/`, {
+        const { data } = await useFetchAuth(`${config.public.baseURL}/users/${user.id}/`, {
             method: 'GET',
         });
+        user.userData = data.value;
     }
 
     const setUserData = (data) => {
