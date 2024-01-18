@@ -6,6 +6,7 @@ export async function useFetchAuth(url, opts) {
 
   const { user } = useUserStore();
     const stateUI = useUiStateStore();
+    const router = useRouter();
 
     let response;
     stateUI.setLoading(true);
@@ -16,6 +17,9 @@ export async function useFetchAuth(url, opts) {
     };
     try{
       response = await useFetch(url, { ...opts, headers });
+      if(response?.error?.value?.statusCode == 401){
+        router.push("/login");
+      }
     }
     catch(e){
       throw e;

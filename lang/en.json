@@ -180,7 +180,7 @@
             "title": "Request an invoice by email",
             "internation_payment_hint": "Works for international payments, you can pay with your card",
             "service_fee": "Service fee",
-            "amount": "Amount",
+            "amount": "Amount (USD)",
             "amount_hint": "The amount (excluding the payment service fee) will be credited to your account and you will be able to use these funds to pay for services",
             "request": "Request invoice",
             "invoice_request_accepted": "Invoice request accepted. We will send you an invoice by email",

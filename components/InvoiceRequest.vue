@@ -77,7 +77,7 @@ const amount = useField('amount', "required|min_value:20");
 async function invoiceRequest(data) {
   
   const config = useRuntimeConfig();
-  return await useFetchAuth(`${config.public.baseURL}/billing/invoice_request/`, {
+  return await useFetchAuth(`${config.public.baseURL}/invoice_request/`, {
     method: 'POST',
     body: {
       'email': data.email,
