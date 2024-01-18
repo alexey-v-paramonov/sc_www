@@ -178,6 +178,7 @@
         "balance": "Account balance:",
         "invoice_request": {
             "title": "Request an invoice by email",
+            "amount": "Amount",
             "request": "Request invoice",
             "invoice_request_accepted": "Invoice request accepted. We will send you an invoice by email",
             "invoice_request_failed": "Failed to submit invoice request, please contact support or try again later",

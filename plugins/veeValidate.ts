@@ -70,7 +70,7 @@ export default defineNuxtPlugin(nuxtApp => {
           "max_value": "Поле {field} должно быть числом 0:{max} или меньше",
           "max": "Поле {field} не может быть длиннее 0:{length} символов",
           "mimes": "Поле {field} должно иметь допустимый тип файла",
-          "min_value": "Поле {field} должно быть числом 0:{min} или больше",
+          "min_value": "{min} или больше",
           "min": "Поле {field} должно быть не короче 0:{length} символов",
           "numeric": "Поле {field} должно быть числом",
           "one_of": "Поле {field} должно быть допустимым значением",

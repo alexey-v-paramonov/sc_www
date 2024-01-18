@@ -12,6 +12,11 @@
             <v-text-field v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
               :label="$t('email')"
               :hint="$t('billing.invoice_request.hint')" persistent-hint></v-text-field>
+
+            <v-text-field v-model="amount.value.value" type="number" :error-messages="amount.errorMessage.value"
+              :label="$t('billing.invoice_request.amount')"
+            ></v-text-field>
+
             <v-btn type="submit" :disabled="isInvoiceRequestSubmitting" block class="mt-2" color="primary">{{ isInvoiceRequestSubmitting ? $t('loading') : $t('billing.invoice_request.request') }}</v-btn>
           </v-form>
         </v-col>
@@ -64,6 +69,7 @@ const { handleSubmit, isSubmitting: isInvoiceRequestSubmitting, setErrors } = us
 });
 
 const email = useField('email', "required|email");
+const amount = useField('amount', "required|min_value:20");
 
 async function invoiceRequest(data) {
   
@@ -72,6 +78,7 @@ async function invoiceRequest(data) {
     method: 'POST',
     body: {
       'email': data.email,
+      'amount': data.amount,
     }
   });
 }
