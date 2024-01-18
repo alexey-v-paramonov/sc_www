@@ -4,6 +4,8 @@
       <v-row no-gutters md="12">
         <v-col>
           <div class="text-h6">{{ $t('billing.invoice_request.title') }}</div>
+          <p class="font-italic">{{ $t('billing.invoice_request.internation_payment_hint') }}</p>
+          <p>{{ $t('billing.invoice_request.service_fee') }}: <strong>13%</strong></p>
         </v-col>
       </v-row>    
       <v-row no-gutters md="12">
@@ -15,6 +17,7 @@
 
             <v-text-field v-model="amount.value.value" type="number" :error-messages="amount.errorMessage.value"
               :label="$t('billing.invoice_request.amount')"
+              :hint="$t('billing.invoice_request.amount_hint')" persistent-hint
             ></v-text-field>
 
             <v-btn type="submit" :disabled="isInvoiceRequestSubmitting" block class="mt-2" color="primary">{{ isInvoiceRequestSubmitting ? $t('loading') : $t('billing.invoice_request.request') }}</v-btn>

@@ -178,11 +178,14 @@
         "balance": "Account balance:",
         "invoice_request": {
             "title": "Request an invoice by email",
+            "internation_payment_hint": "Works for international payments, you can pay with your card",
+            "service_fee": "Service fee",
             "amount": "Amount",
+            "amount_hint": "The amount (excluding the payment service fee) will be credited to your account and you will be able to use these funds to pay for services",
             "request": "Request invoice",
             "invoice_request_accepted": "Invoice request accepted. We will send you an invoice by email",
             "invoice_request_failed": "Failed to submit invoice request, please contact support or try again later",
-            "hint": "We will send you an invoice to this email. Depending on the payment type, an additional payment fee of 13-15% is possible."
+            "hint": "We will send you an invoice to this email."
         }
     },
 
