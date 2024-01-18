@@ -5,7 +5,7 @@
         <v-col>
           <div class="text-h6">{{ $t('billing.invoice_request.title') }}</div>
           <p class="font-italic">{{ $t('billing.invoice_request.internation_payment_hint') }}</p>
-          <p>{{ $t('billing.invoice_request.service_fee') }}: <strong>13%</strong></p>
+          <p>{{ $t('billing.invoice_request.service_fee') }}: <strong>13%</strong> <span class="font-italic">({{ $t('billing.invoice_request.looking') }})</span></p>
         </v-col>
       </v-row>    
       <v-row no-gutters md="12">
@@ -55,7 +55,7 @@ import { ref } from 'vue'
 import { useUserStore } from '@/stores/user.js';
 
 const stateUser = useUserStore()
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 let invoiceRequesSuccess = ref(false);
 let invoiceRequesFailed = ref(false);
