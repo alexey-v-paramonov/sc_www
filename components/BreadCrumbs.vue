@@ -1,5 +1,4 @@
 
-import { parseCache } from 'vue/compiler-sfc';
 <template>
     <v-breadcrumbs :items="crumbs" icon="mdi-android">
         <template v-slot:prepend>

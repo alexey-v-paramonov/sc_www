@@ -83,7 +83,7 @@ function Logout(){
       </div>
     </v-navigation-drawer>
     <v-app-bar elevation="0" height="70">
-      <v-app-bar-nav-icon class="" @click="drawer = !drawer" />
+      <!-- <v-app-bar-nav-icon class="" @click="drawer = !drawer" /> -->
       <v-spacer></v-spacer>
 
       <NuxtLink v-if="stateUser && stateUser.user && stateUser.user.userData && stateUser.user.userData.balance !== null" to="/billing"><v-chip>{{stateUser.user.userData.balance}} {{ $t('currency')}}</v-chip></NuxtLink>

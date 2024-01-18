@@ -175,7 +175,14 @@
     },
     "billing": {
         "title": "Billing",
-        "balance": "Account balance:"
+        "balance": "Account balance:",
+        "invoice_request": {
+            "title": "Request an invoice by email",
+            "request": "Request invoice",
+            "invoice_request_accepted": "Invoice request accepted. We will send you an invoice by email",
+            "invoice_request_failed": "Failed to submit invoice request, please contact support or try again later",
+            "hint": "We will send you an invoice to this email. Depending on the payment type, an additional payment fee of 13-15% is possible."
+        }
     },
 
     "password_confirmation": "Confirm Password"
