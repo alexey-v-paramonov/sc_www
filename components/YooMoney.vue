@@ -10,7 +10,7 @@
       </v-row>    
       <v-row no-gutters md="12">
         <v-col md="12">
-          <v-form @submit="onInvoiceRequestSubmit" action="https://yoomoney.ru/eshop.xml" method="POST">
+          <v-form action="https://yoomoney.ru/eshop.xml" method="POST">
 
             <v-text-field v-model="amount.value.value" type="number" :error-messages="amount.errorMessage.value"
               label="Сумма пополнения, минимум 100 рублей"
@@ -37,30 +37,23 @@
 
 <script setup>
 import { useField, useForm } from 'vee-validate';
-import { ref } from 'vue'
 import { useUserStore } from '@/stores/user.js';
 
 const stateUser = useUserStore()
 let customerNumber = stateUser.user.id;
 let invID = Date.now();
 
-invID
-
 definePageMeta({
   layout: "default",
 });
 
-const { handleSubmit, setErrors } = useForm({
+useForm({
   initialValues: {
     email: stateUser.user.email,
-  }
+    amount: 1000,
+  },
 });
 
 const amount = useField('amount', "required|min_value:100");
-
-const onInvoiceRequestSubmit = handleSubmit(async values => {
-    console.log(values)
-    return true;
-});
 
 </script>

@@ -8,8 +8,11 @@
 
       <v-row no-gutters md="12">
         <v-col cols="12">
-          <!-- <InvoiceRequest /> -->
-          <YooMoney />
+
+          <YooMoney v-if="locale=='ru'"/>
+
+          <InvoiceRequest />
+          
         </v-col>
       </v-row>
 
@@ -20,5 +23,7 @@
 
 import { useUserStore } from '~/stores/user'
 const stateUser = useUserStore()
+const { locale } = useI18n();
+
 
 </script>
