@@ -1,0 +1,66 @@
+
+<template>
+    <v-container>
+      <v-row no-gutters md="12">
+        <v-col>
+          <div class="text-h6">Пополнить счёт через ЮKassa</div>
+          <p class="font-italic">Оплата только картами РФ, после оплаты Вы получите чек</p>
+          <p>Комиссия сервиса: <strong>0%</strong></p>
+        </v-col>
+      </v-row>    
+      <v-row no-gutters md="12">
+        <v-col md="12">
+          <v-form @submit="onInvoiceRequestSubmit" action="https://yoomoney.ru/eshop.xml" method="POST">
+
+            <v-text-field v-model="amount.value.value" type="number" :error-messages="amount.errorMessage.value"
+              label="Сумма пополнения, минимум 100 рублей"
+              name="sum"
+            ></v-text-field>
+
+            <input type="hidden" name="paymentType" value="">
+            <input type="hidden" name="shopId" value="55810">
+            <input type="hidden" name="scid"  value="52660">
+            <input type="hidden" name="customerNumber"  :value="customerNumber">
+            <input type="hidden" name="paymentType"  value="">
+            <input type="hidden" name="InvId"  :value="invID">
+            <input name="ym_merchant_receipt" id="ym_merchant_receipt" value='' type="hidden" />
+
+            <v-btn type="submit" block class="mt-2" color="primary">Перейти к оплате</v-btn>
+          </v-form>
+        </v-col>
+      </v-row>
+
+    </v-container>
+
+</template>
+
+
+<script setup>
+import { useField, useForm } from 'vee-validate';
+import { ref } from 'vue'
+import { useUserStore } from '@/stores/user.js';
+
+const stateUser = useUserStore()
+let customerNumber = stateUser.user.id;
+let invID = Date.now();
+
+invID
+
+definePageMeta({
+  layout: "default",
+});
+
+const { handleSubmit, setErrors } = useForm({
+  initialValues: {
+    email: stateUser.user.email,
+  }
+});
+
+const amount = useField('amount', "required|min_value:100");
+
+const onInvoiceRequestSubmit = handleSubmit(async values => {
+    console.log(values)
+    return true;
+});
+
+</script>

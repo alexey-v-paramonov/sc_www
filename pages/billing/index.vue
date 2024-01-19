@@ -8,8 +8,8 @@
 
       <v-row no-gutters md="12">
         <v-col cols="12">
-          <InvoiceRequest />
-
+          <!-- <InvoiceRequest /> -->
+          <YooMoney />
         </v-col>
       </v-row>
 
