@@ -12,9 +12,18 @@
           <YooMoney v-if="locale=='ru'"/>
 
           <InvoiceRequest />
-          
-        </v-col>
+
+          </v-col>
       </v-row>
+      <hr />
+      <v-row md="12"  v-for="(val, key) in customPaymentMethods" :key="key">
+        <v-col cols="12">
+          <div class="text-h6">{{ val['title'][locale] }}</div>
+          <div class="font-italic" v-if="val['note'][locale]">{{ val['note'][locale] }}</div>
+          <div>{{ $t('billing.invoice_request.service_fee') }}: <strong>{{ val['fee'] }}%</strong></div>
+          <div v-html="val['html'][locale]"></div>
+        </v-col>
+      </v-row>    
 
     </v-container>
   </template>
@@ -24,6 +33,25 @@
 import { useUserStore } from '~/stores/user'
 const stateUser = useUserStore()
 const { locale } = useI18n();
+import { ref, reactive, onMounted } from 'vue';
 
+let customPaymentMethods = reactive({});
+
+onMounted(() => {
+  getCustomPaymentMethods();
+})
+
+async function getCustomPaymentMethods() {
+  
+  const config = useRuntimeConfig();
+  const paymentMethods = await useFetchAuth(`${config.public.baseURL}/custom_payment_methods/`, {
+    method: 'GET',
+  });
+
+  Object.assign(customPaymentMethods, paymentMethods.data.value)
+
+
+  console.log("METHODS: ", customPaymentMethods)
+}
 
 </script>
