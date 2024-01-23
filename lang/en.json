@@ -192,7 +192,8 @@
     "apps": {
         "title": "Mobile application for your radio",
         "description": "Allows you to significantly expand your listeners audience. The application can be created both for radios built using our platform or for any others that is using Shoutcast or Icecast protocol.",
-
+        "app_name": "Application Name",
+        "app_name_hint": "30 characters maximum",
         "platform": "Platform",
         "android": {
             "help": "Android smartphones, tablets, Android TV and Android Auto are also supported. Application is native Java, we are not using HTML or hybrid applications."

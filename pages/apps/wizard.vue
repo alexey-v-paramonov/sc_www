@@ -14,6 +14,16 @@
 
     <v-row>
       <v-col md="12">
+        <div class="text-h5">{{ $t('apps.app_name') }}</div>
+      </v-col>
+      <v-col md="12">
+        <v-text-field v-model="app_name.value.value" type="text" :error-messages="app_name.errorMessage.value"
+          :hint="$t('apps.app_name_hint')" persistent-hint :label="$t('apps.app_name')" maxlength="30"></v-text-field>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col md="12">
         <div class="text-h5">{{ $t('apps.platform') }}</div>
       </v-col>
     </v-row>
@@ -67,13 +77,6 @@
                   рублей. Если, например, всего станций 8 - то стоимость составит 400 + 3 * 80 = 640 рублей в месяц.
                 </template>
 
-              </v-col>
-            </v-row>
-
-            <v-row>
-              <v-col md="12">
-                <v-text-field v-model="ip.value.value" type="text" :error-messages="ip.errorMessage.value"
-                  :hint="$t('self_hosted.ip_hint')" persistent-hint :label="$t('self_hosted.ip')"></v-text-field>
               </v-col>
             </v-row>
 
@@ -318,18 +321,8 @@ const DISK_QUOTAS = [5, 6, 7, 9, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90, 100
 const { handleSubmit, isSubmitting: formBusy, setErrors, errorBag } = useForm();
 
 // Self-hosted params
-const ip = useField('ip', (value) => {
-  if(isHosted()){
-    return true;
-  }
-  if(isSelfHosted() && !value){
-    return t("errors.required");
-  }
-  if (!/((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}/g.test(value)) {
-      return t('errors.ip_invalid');
-  }
-  return true;
-});
+const app_name = useField('app_name', "required|max:30");
+
 const install_myself = useField('install_myself');
 const ssh_username = useField('ssh_username', sshParamsValidation);
 const ssh_password = useField('ssh_password', sshParamsValidation);
