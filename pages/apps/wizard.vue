@@ -52,96 +52,19 @@
             </v-radio>
           </v-radio-group>
 
-          <!-- Self hosted form -->
-          <template v-if="isSelfHosted()">
-            <v-row>
-              <v-col md="12">
-                {{ $t('self_hosted.description') }}
-                <br />
-                {{ $t('self_hosted.supported_os') }}
-                <br />
-                {{ $t('self_hosted.supported_arch') }}
-              </v-col>
-            </v-row>
-
-            <v-row>
-              <v-col md="1"><strong>{{ $t('service_price') }}</strong></v-col>
-              <v-col md="11">
-                <template v-if="locale == 'en'">
-                  <b>10$ per month</b> if you have up to 5 radio stations.<br /> Each additional station costs $1, so if
-                  your server is running 10 stations the price is: 10$ + 5*1$ = 15$ per month.
-                </template>
-
-                <template v-else>
-                  <b>400 рублей</b> в месяц, включено до 5 станций.<br /> Каждая дополнительная станция - дополнительно 80
-                  рублей. Если, например, всего станций 8 - то стоимость составит 400 + 3 * 80 = 640 рублей в месяц.
-                </template>
-
-              </v-col>
-            </v-row>
-
-            <v-row no-gutters>
-              <v-col md="12">
-                <v-checkbox v-model="install_myself.value.value" :error-messages="install_myself.errorMessage.value"
-                  value="1" :label="$t('self_hosted.include_installation')" type="checkbox"
-                  :hint="$t('self_hosted.include_installation_hint')" persistent-hint></v-checkbox>
-              </v-col>
-            </v-row>
-
-            <v-row no-gutters v-if="install_myself.value.value == '1'">
-              <v-col md="12">
-                <v-text-field v-model="domain.value.value" type="text"
-                  :error-messages="domain.errorMessage.value" :label="$t('self_hosted.server_domain')"
-                  :hint="$t('self_hosted.server_domain_hint')" persistent-hint></v-text-field>
-              </v-col>
-            </v-row>
-
-            <v-row no-gutters v-if="install_myself.value.value == '1'">
-              <v-col md="12">
-                <v-text-field v-model="ssh_username.value.value" type="text"
-                  :error-messages="ssh_username.errorMessage.value" :label="$t('self_hosted.root_username')"
-                  :hint="$t('self_hosted.root_username_hint')" persistent-hint></v-text-field>
-              </v-col>
-            </v-row>
-
-            <v-row no-gutters v-if="install_myself.value.value == '1'">
-              <v-col md="12">
-                <v-text-field v-model="ssh_password.value.value" type="text"
-                  :error-messages="ssh_password.errorMessage.value" :label="$t('self_hosted.root_password')"
-                  :hint="$t('self_hosted.root_password_hint')" persistent-hint></v-text-field>
-              </v-col>
-            </v-row>
-
-            <v-row no-gutters v-if="install_myself.value.value == '1'">
-              <v-col md="12">
-                <v-text-field v-model="ssh_port.value.value" type="text"
-                  :error-messages="ssh_port.errorMessage.value" :label="$t('self_hosted.server_port')"></v-text-field>
-              </v-col>
-            </v-row>
 
 
-            <v-row v-if="install_myself.value.value != '1'">
-              <v-col md="12">
-                {{ $t('self_hosted.install_command') }}:<br />
-                <b>bash &lt;(wget -qO- https://streaming.center/dist/install.sh)</b>
-              </v-col>
-            </v-row>
-
-          </template>
-
-
-          <v-row v-if="isHosted()">
+          <v-row >
             <v-col md="12">
-              <div class="text-h5">{{ $t('hosted.legal') }}</div>
+              <div class="text-h5">{{ $t('apps.copyright.title') }}</div>
+              <div class="text-caption">{{ $t('apps.copyright.description') }}</div>
 
 
-              <v-radio-group v-model="legal_type.value.value">
+              <v-radio-group v-model="copyright_type.value.value">
                 <v-radio value="1">
                   <template #label>
                     <div>
-                      {{ $t('hosted.legal_1') }}
-
-                      <div class="text-caption">{{ $t('hosted.legal_1_help') }}</div>
+                      {{ $t('apps.copyright.sc') }}
                     </div>
                   </template>
                 </v-radio>
@@ -149,8 +72,7 @@
                 <v-radio value="2">
                   <template #label>
                     <div>
-                      {{ $t('hosted.legal_2') }}
-                      <div class="text-caption">{{ $t('hosted.legal_2_help') }}</div>
+                      {{ $t('apps.copyright.whitelabel') }}
                     </div>
                   </template>
                 </v-radio>
@@ -158,8 +80,7 @@
                 <v-radio value="3">
                   <template #label>
                     <div>
-                      {{ $t('hosted.legal_3') }}
-                      <div class="text-caption">{{ $t('hosted.legal_3_help') }}</div>
+                      {{ $t('apps.copyright.custom') }}
                     </div>
                   </template>
                 </v-radio>
@@ -342,7 +263,7 @@ function sshParamsValidation(value){
 }
 
 // Hosted params 
-const legal_type = useField('legal_type', "required");
+const copyright_type = useField('copyright_type', "required");
 const login = useField('login', value => {
   if(isSelfHosted()){
     return true;
@@ -359,7 +280,7 @@ const login = useField('login', value => {
 ssh_username.value.value = "root";
 ssh_port.value.value = "22";
 install_myself.value.value = "1";
-legal_type.value.value = "1";
+copyright_type.value.value = "1";
 const domain_name = ref('');
 const ssh_root_pass = ref('');
 const additional_notes = ref('');
