@@ -189,6 +189,17 @@
             "hint": "We will send you an invoice to this email."
         }
     },
+    "apps": {
+        "title": "Mobile application for your radio",
+        "description": "Allows you to significantly expand your listeners audience. The application can be created both for radios built using our platform or for any others that is using Shoutcast or Icecast protocol.",
 
+        "platform": "Platform",
+        "android": {
+            "help": "Android smartphones, tablets, Android TV and Android Auto are also supported. Application is native Java, we are not using HTML or hybrid applications."
+        },
+        "ios": {
+            "help": "iPhone, iPad applications. Application is native ObjectiveC, we are not using HTML or hybrid applications."
+        }
+    },
     "password_confirmation": "Confirm Password"
 }
