@@ -32,7 +32,7 @@
     </v-row>
 
     <v-row no-gutters md="12">
-      <v-col cols="12" class="text-center"><NuxtLink to="/radio/wizard">{{ $t('radio.wizard') }}</NuxtLink></v-col>
+      <v-col cols="12" class="text-center"><v-btn prepend-icon="mdi-plus" to="/radio/wizard" color="primary">{{ $t('radio.wizard') }}</v-btn></v-col>
     </v-row>
 
     <v-row>
@@ -68,7 +68,7 @@
       </v-col>
     </v-row>
     <v-row no-gutters md="12">
-      <v-col cols="12" class="text-center">Create new</v-col>
+      <v-col cols="12" class="text-center"><v-btn prepend-icon="mdi-plus" to="/apps/wizard" color="primary">{{ $t('apps.wizard') }}</v-btn></v-col>
     </v-row>
 
   </v-container>

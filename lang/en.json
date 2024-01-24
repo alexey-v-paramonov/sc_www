@@ -190,6 +190,7 @@
         }
     },
     "apps": {
+        "wizard": "Create a mobile app",
         "title": "Mobile application for your radio",
         "description": "Allows you to significantly expand your listeners audience. The application can be created both for radios built using our platform or for any others that is using Shoutcast or Icecast protocol.",
         "app_name": "Application Name",
@@ -199,7 +200,11 @@
             "description": "Application has a coppyright link to your project on the \"Info\" page. You can keep our original copyright or use a custom link and a custom title for your app.",
             "sc": "Keep Streaming.center Copyright",
             "whitelabel": "Remove any copyright (white-label)",
-            "custom": "Use your own copyright"
+            "custom": "Use your own copyright",
+            "text_hint": "Displayed as your copyright tex in the information section of the app at the bottom of the screen",
+            "text_label": "Copyright text",
+            "link_hint": "URL to your website or a project, usewd as a link for the copyright text",
+            "link_label": "Copyright link"
         },
         "platform": "Platform",
         "android": {

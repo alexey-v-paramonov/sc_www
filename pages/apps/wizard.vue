@@ -87,24 +87,14 @@
 
               </v-radio-group>
 
-              <v-text-field v-model="login.value.value" type="text" :error-messages="login.errorMessage.value" name="login"
-                :hint="$t('hosted.station_id_hint')" persistent-hint :label="$t('hosted.station_id')"></v-text-field>
+              <v-text-field v-if="copyright_type.value.value == '3'" v-model="copyright_text.value.value" type="text" :error-messages="copyright_text.errorMessage.value" name="copyright_text"
+                :hint="$t('apps.copyright.text_hint')" persistent-hint :label="$t('apps.copyright.text_label')"></v-text-field>
+
+              <v-text-field v-if="copyright_type.value.value == '3'" v-model="copyright_link.value.value" type="text" :error-messages="copyright_link.errorMessage.value" name="copyright_link"
+                :hint="$t('apps.copyright.link_hint')" persistent-hint :label="$t('apps.copyright.link_label')"></v-text-field>
 
             </v-col>
           </v-row>
-
-          <v-row v-if="isHosted() && login.value.value">
-            <v-col md="12">
-              <strong>{{ $t('hosted.station_url') }}:</strong>
-              <blockquote class="blockquote">
-                <p>
-                  https://{{ login.value.value }}<template
-                    v-if="locale == 'en'">.streaming.center</template><template v-else>.radio-tochka.com</template>
-                </p>
-              </blockquote>
-            </v-col>
-          </v-row>
-
 
 
           <!-- Price section -->
@@ -241,26 +231,15 @@ const DISK_QUOTAS = [5, 6, 7, 9, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90, 100
 // Form
 const { handleSubmit, isSubmitting: formBusy, setErrors, errorBag } = useForm();
 
-// Self-hosted params
 const app_name = useField('app_name', "required|max:30");
 
 const install_myself = useField('install_myself');
-const ssh_username = useField('ssh_username', sshParamsValidation);
-const ssh_password = useField('ssh_password', sshParamsValidation);
-const ssh_port = useField('ssh_port', sshParamsValidation);
+const copyright_text = useField('copyright_text');
+const copyright_link = useField('copyright_link', 'url');
 
 const domain = useField('domain');
 const comment = useField('comment');
 
-function sshParamsValidation(value){
-  if(!install_myself.value.value){
-    return true;
-  }
-  if(isSelfHosted() && !value){
-    return t("errors.required");
-  }
-  return true;
-}
 
 // Hosted params 
 const copyright_type = useField('copyright_type', "required");
@@ -277,12 +256,8 @@ const login = useField('login', value => {
   return true;
 });
 
-ssh_username.value.value = "root";
-ssh_port.value.value = "22";
-install_myself.value.value = "1";
 copyright_type.value.value = "1";
-const domain_name = ref('');
-const ssh_root_pass = ref('');
+
 const additional_notes = ref('');
 // Hosted params
 const username = ref('');
