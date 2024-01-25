@@ -191,10 +191,22 @@
     },
     "apps": {
         "wizard": "Create a mobile app",
+        "price": "Price",
+        "price_description": "One-time payment, no recurring charges. You you want additional custom features in your application - please contact us, the price may change according to your requirements",
         "title": "Mobile application for your radio",
         "description": "Allows you to significantly expand your listeners audience. The application can be created both for radios built using our platform or for any others that is using Shoutcast or Icecast protocol.",
         "app_name": "Application Name",
         "app_name_hint": "30 characters maximum",
+        "comments": "Additional comments or feature requests",
+        "submit": "Start creating an application",
+        "publishing": {
+            "title": "Publishing settings",
+            "description": "To make your application available publicly you need to publish it in an application store - Apple App Store for iOs applications and Google Play for Android (we also provide other stores for Android per request).",
+            "sc": "I do not have a developer account, please publish using your Streaming.center developer account",
+            "other": "I will provide my developer account credentials for publishing",
+            "no": "No need to publish, I just need application APK file"
+        },
+
         "copyright": {
             "title": "Copyright settings",
             "description": "Application has a coppyright link to your project on the \"Info\" page. You can keep our original copyright or use a custom link and a custom title for your app.",
