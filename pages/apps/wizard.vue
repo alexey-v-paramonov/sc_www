@@ -14,7 +14,6 @@
 
     <v-form @submit.prevent="onAppSubmit" :disabled="formBusy">
       <v-row>
-
         <v-col md="12">
           <div class="text-h5">{{ $t('apps.app_name') }}</div>
         </v-col>
@@ -33,7 +32,7 @@
 
       <v-row>
         <v-col>
-          <v-radio-group v-model="platform">
+          <v-radio-group v-model="platform" @change="platformChanged()">
             <v-radio value="1">
               <template #label>
                 <div>
@@ -206,13 +205,40 @@ definePageMeta({
 const stateUI = useUiStateStore()
 const stateUser = useUserStore()
 const router = useRouter();
-
+const config = useRuntimeConfig();
 const { locale, t } = useI18n();
-const platform = ref('1');
 
-let price = reactive({ price: null, du_price: null })
+const platform = ref('1');
 let notifyRadioCreated = ref(false);
 let notifyRadioFailed = ref(false);
+
+
+// Form
+const { handleSubmit, isSubmitting: formBusy, setErrors, errorBag } = useForm();
+
+const app_name = useField('app_name', "required|max:30");
+const copyright_type = useField('copyright_type', "required");
+const copyright_text = useField('copyright_text');
+const copyright_link = useField('copyright_link', 'url');
+const publishing_type = useField('publishing_type', "required");
+const comment = useField('comment');
+
+// Initial values
+copyright_type.value.value = "1";
+publishing_type.value.value = "1";
+
+function isAndroid() {
+  return platform.value == '1';
+}
+
+function isIos() {
+  return platform.value == '2';
+}
+
+
+function platformChanged(){
+  publishing_type.value.value = "1";
+}
 
 const appPrice = computed(() => {
   let baseIosPrice;
@@ -250,103 +276,37 @@ const appPrice = computed(() => {
       price += 30;
     }
   }
-
-
-
   return price;
 })
 
-
-// Form
-const { handleSubmit, isSubmitting: formBusy, setErrors, errorBag } = useForm();
-
-const app_name = useField('app_name', "required|max:30");
-
-const install_myself = useField('install_myself');
-const copyright_text = useField('copyright_text');
-const copyright_link = useField('copyright_link', 'url');
-
-const domain = useField('domain');
-const comment = useField('comment');
-
-
-// Hosted params 
-const copyright_type = useField('copyright_type', "required");
-const publishing_type = useField('publishing_type', "required");
-
-copyright_type.value.value = "1";
-publishing_type.value.value = "1";
-
-const additional_notes = ref('');
-// Hosted params
-const username = ref('');
-const config = useRuntimeConfig();
-
-function isAndroid() {
-  return platform.value == '1';
-}
-
-function isIos() {
-  return platform.value == '2';
-}
-
-
-async function selfHostedRequest(values) {
-  return await useFetchAuth(`${config.public.baseURL}/self_hosted_radio/`, {
+async function appCreationRequest(values) {
+  const platform = isAndroid() ? "android" : "ios";
+  return await useFetchAuth(`${config.public.baseURL}/mobile_apps/${platform}/`, {
     method: 'POST',
     body: values
   });
-
 }
-
-async function hostedRequest(values) {
-  return await useFetchAuth(`${config.public.baseURL}/hosted_radio/`, {
-    method: 'POST',
-    body: {
-      login: values.login,
-      bitrate: audio_bitrate.value,
-      listeners: audio_listeners.value,
-      disk_quota: disk_quota.value,
-      is_demo: legal_type.value.value == '3',
-      user: stateUser.user.id,
-
-      initial_bitrate: audio_bitrate.value,
-      initial_listeners: audio_listeners.value,
-      initial_du: disk_quota.value,
-      comment: comment.value.value
-    }
-  });
-}
-
 
 const onAppSubmit = handleSubmit(async values => {
   values.user = stateUser.user.id;
-  delete values.install_myself;
-  delete values.legal_type;
-  stateUI.setLoading(true);
-  // //const request = isSelfHosted() ? selfHostedRequest : hostedRequest;
+  console.log(values)
 
-  // try {
-  //   const response = await request(values);
-  //   console.log(response);
-  // }
-  // catch (e) {
-  //   notifyRadioFailed.value = true;
-  //   const errorData = e.data;
-  //   for (const [field, errors] of Object.entries(errorData)) {
-  //     for (const errCode of errors) {
-  //       setErrors({ [field]: t(`radio_wizard.errors.${field}.${errCode}`) })
-  //     }
-  //   }
+  try {
+    const response = await appCreationRequest(values);
+    console.log(response);
+  }
+  catch (e) {
+    // notifyRadioFailed.value = true;
+    const errorData = e.data;
+    for (const [field, errors] of Object.entries(errorData)) {
+      for (const errCode of errors) {
+        setErrors({ [field]: t(`apps.errors.${field}.${errCode}`) })
+      }
+    }
+  }
 
-  //   return;
-  // }
-  // finally {
-  //   stateUI.setLoading(false);
-  // }
-  // // Notify
   // notifyRadioCreated.value = true;
-  router.push("/radio");
+  //router.push("/radio");
 });
 
 
