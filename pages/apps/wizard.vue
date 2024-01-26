@@ -18,7 +18,7 @@
           <div class="text-h5">{{ $t('apps.app_name') }}</div>
         </v-col>
         <v-col md="12">
-          <v-text-field v-model="app_name.value.value" type="text" :error-messages="app_name.errorMessage.value"
+          <v-text-field v-model="title.value.value" type="text" :error-messages="title.errorMessage.value"
             :hint="$t('apps.app_name_hint')" persistent-hint :label="$t('apps.app_name')" maxlength="30"></v-text-field>
         </v-col>
       </v-row>
@@ -133,13 +133,13 @@
 
           </v-radio-group>
 
-          <v-text-field v-if="copyright_type.value.value == '3'" v-model="copyright_text.value.value" type="text"
-            :error-messages="copyright_text.errorMessage.value" name="copyright_text"
+          <v-text-field v-if="copyright_type.value.value == '3'" v-model="copyright_title.value.value" type="text"
+            :error-messages="copyright_title.errorMessage.value" name="copyright_title"
             :hint="$t('apps.copyright.text_hint')" persistent-hint
             :label="$t('apps.copyright.text_label')"></v-text-field>
 
-          <v-text-field v-if="copyright_type.value.value == '3'" v-model="copyright_link.value.value" type="text"
-            :error-messages="copyright_link.errorMessage.value" name="copyright_link"
+          <v-text-field v-if="copyright_type.value.value == '3'" v-model="copyright_url.value.value" type="text"
+            :error-messages="copyright_url.errorMessage.value" name="copyright_url"
             :hint="$t('apps.copyright.link_hint')" persistent-hint
             :label="$t('apps.copyright.link_label')"></v-text-field>
 
@@ -216,10 +216,10 @@ let notifyRadioFailed = ref(false);
 // Form
 const { handleSubmit, isSubmitting: formBusy, setErrors, errorBag } = useForm();
 
-const app_name = useField('app_name', "required|max:30");
+const title = useField('title', "required|max:30");
 const copyright_type = useField('copyright_type', "required");
-const copyright_text = useField('copyright_text');
-const copyright_link = useField('copyright_link', 'url');
+const copyright_title = useField('copyright_title');
+const copyright_url = useField('copyright_url', 'url');
 const publishing_type = useField('publishing_type', "required");
 const comment = useField('comment');
 
@@ -289,24 +289,25 @@ async function appCreationRequest(values) {
 
 const onAppSubmit = handleSubmit(async values => {
   values.user = stateUser.user.id;
+  values.email = stateUser.user.email;
+  const platform = isAndroid() ? "android" : "ios";
   console.log(values)
+  let response;
 
   try {
-    const response = await appCreationRequest(values);
+    response = await appCreationRequest(values);
     console.log(response);
   }
   catch (e) {
-    // notifyRadioFailed.value = true;
     const errorData = e.data;
     for (const [field, errors] of Object.entries(errorData)) {
       for (const errCode of errors) {
         setErrors({ [field]: t(`apps.errors.${field}.${errCode}`) })
       }
     }
+    return;
   }
-
-  // notifyRadioCreated.value = true;
-  //router.push("/radio");
+  router.push(`/apps/${platform}/${response.data.value.id}`);
 });
 
 
