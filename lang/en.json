@@ -228,5 +228,13 @@
             "help": "iPhone, iPad applications. Application is native ObjectiveC, we are not using HTML or hybrid applications."
         }
     },
+    "app": {
+        "android": {
+            "title": "Android application"
+        },
+        "ios": {
+            "title": "iOS application"
+        }
+    },
     "password_confirmation": "Confirm Password"
 }

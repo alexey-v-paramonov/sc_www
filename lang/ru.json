@@ -229,6 +229,15 @@
         }
 
     },
+    "app": {
+        "android": {
+            "title": "Android приложение"
+        },
+        "ios": {
+            "title": "Apple iOS приложение"
+        }
+
+    },
 
     "password": "Пароль",
     "password_confirmation": "Пароль еще раз"
