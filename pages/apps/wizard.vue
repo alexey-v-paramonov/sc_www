@@ -138,7 +138,7 @@
             :hint="$t('apps.copyright.text_hint')" persistent-hint
             :label="$t('apps.copyright.text_label')"></v-text-field>
 
-          <v-text-field v-if="copyright_type.value.value == '3'" v-model="copyright_url.value.value" type="text"
+          <v-text-field v-if="copyright_type.value.value == '3'" v-model="copyright_url.value.value" type="url"
             :error-messages="copyright_url.errorMessage.value" name="copyright_url"
             :hint="$t('apps.copyright.link_hint')" persistent-hint
             :label="$t('apps.copyright.link_label')"></v-text-field>
