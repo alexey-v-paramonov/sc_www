@@ -235,7 +235,8 @@
         },
         "ios": {
             "title": "Apple iOS приложение"
-        }
+        },
+        "request_failed": "Failed to load application data, please check later or contact support."
 
     },
 

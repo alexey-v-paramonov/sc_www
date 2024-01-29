@@ -233,8 +233,9 @@
             "title": "Android application"
         },
         "ios": {
-            "title": "iOS application"
-        }
+            "title": "Apple iOS application"
+        },
+        "request_failed": "При загрузке данных приложения произошла ошибка, попробуйте позже или обратитесь в тех. поддержку."
     },
     "password_confirmation": "Confirm Password"
 }
