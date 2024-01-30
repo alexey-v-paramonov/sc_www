@@ -1,36 +1,72 @@
 <template>
     <v-container>
-        <v-row no-gutters md="12" v-if="pending">
-            <v-col>
-                <v-progress-circular indeterminate></v-progress-circular>
-            </v-col>
-        </v-row>
+        <v-tabs v-model="tab" bg-color="deep-purple-accent-4" centered stacked grow>
+            <v-tab value="app_info">
+                <v-icon>mdi-information</v-icon>
+                {{ $t('app.tabs.info') }}
+            </v-tab>
 
-        <v-row no-gutters md="12">
-            <v-col md="12">
-                <v-form @submit.prevent="onAppSubmit" :disabled="isSettingsSubmitting">
-                    <v-text-field v-model="title.value.value" type="text" :error-messages="title.errorMessage.value"
-                        :label="$t('app.title')" maxlength="30"></v-text-field>
+            <v-tab value="app_design">
+                <v-icon>mdi-palette</v-icon>
+                {{ $t('app.tabs.design') }}
+            </v-tab>
 
-                    <v-text-field v-if="isAndroid()" v-model="description_short.value.value" type="text"
-                        :error-messages="description_short.errorMessage.value" :label="$t('app.description_short')"
-                        :hint="$t('app.description_short_hint')" persistent-hint maxlength="80"></v-text-field>
+            <v-tab value="app_radios">
+                <v-icon>mdi-radio</v-icon>
+                {{ $t('app.tabs.radios') }}
+            </v-tab>
+        </v-tabs>
 
-                    <v-textarea v-model="description.value.value" :label="$t('app.description')"
-                        :hint="$t('app.description_hint')" persistent-hint></v-textarea>
 
-                    <v-text-field v-model="website_url.value.value" type="url"
-                        :error-messages="website_url.errorMessage.value" name="website_url"
-                        :label="$t('app.website_url_label')"></v-text-field>
+        <v-window v-model="tab">
+            <!-- APP INFO -->
+            <v-window-item value="app_info">
+                <v-row no-gutters md="12" v-if="pending">
+                    <v-col>
+                        <v-progress-circular indeterminate></v-progress-circular>
+                    </v-col>
+                </v-row>
 
-                    <v-text-field v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
-                        :label="$t('email')"></v-text-field>
+                <v-row no-gutters md="12">
+                    <v-col md="12">
+                        <v-form @submit.prevent="onAppSubmit" :disabled="isSettingsSubmitting">
+                            <v-text-field v-model="title.value.value" type="text" :error-messages="title.errorMessage.value"
+                                :label="$t('app.title')" maxlength="30"></v-text-field>
 
-                    <v-btn type="submit" :disabled="isSettingsSubmitting" block class="mt-2" color="primary">{{
-                        isSettingsSubmitting ? $t('loading') : $t('save') }}</v-btn>
-                </v-form>
-            </v-col>
-        </v-row>
+                            <v-text-field v-if="isAndroid()" v-model="description_short.value.value" type="text"
+                                :error-messages="description_short.errorMessage.value" :label="$t('app.description_short')"
+                                :hint="$t('app.description_short_hint')" persistent-hint maxlength="80"></v-text-field>
+
+                            <v-textarea v-model="description.value.value" :label="$t('app.description')"
+                                :hint="$t('app.description_hint')" persistent-hint></v-textarea>
+
+                            <v-text-field v-model="website_url.value.value" type="url"
+                                :error-messages="website_url.errorMessage.value" name="website_url"
+                                :label="$t('app.website_url_label')"></v-text-field>
+
+                            <v-text-field v-model="email.value.value" type="email"
+                                :error-messages="email.errorMessage.value" :label="$t('email')"></v-text-field>
+
+                            <v-btn type="submit" :disabled="isSettingsSubmitting" block class="mt-2" color="primary">{{
+                                isSettingsSubmitting ? $t('loading') : $t('save') }}</v-btn>
+                        </v-form>
+                    </v-col>
+                </v-row>
+            </v-window-item>
+
+            <!-- APP DESIGN -->
+            <v-window-item value="app_design">
+                2
+            </v-window-item>
+
+            <!-- APP RADIOS -->
+            <v-window-item value="app_radios">
+                3
+            </v-window-item>
+
+        </v-window>
+
+
     </v-container>
 
     <v-snackbar v-model="appRequesFailed" color="error">
@@ -56,6 +92,7 @@ const props = defineProps({ platform: String, id: Number })
 
 let appData = reactive({});
 let appRequesFailed = ref(false);
+let tab = ref("app_info");
 
 const { data, pending, error } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/`);
 appData.value = data.value || {};
