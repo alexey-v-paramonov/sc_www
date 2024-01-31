@@ -38,6 +38,7 @@
                                 :hint="$t('app.description_short_hint')" persistent-hint maxlength="80"></v-text-field>
 
                             <v-textarea v-model="description.value.value" :label="$t('app.description')"
+                                :error-messages="description.errorMessage.value"
                                 :hint="$t('app.description_hint')" persistent-hint></v-textarea>
 
                             <v-text-field v-model="website_url.value.value" type="url"
@@ -48,6 +49,8 @@
                                 :error-messages="email.errorMessage.value" :label="$t('email')"></v-text-field>
 
                             <v-file-input prepend-icon="mdi-account-box-outline" show-size :label="$t('app.icon')"
+                                name="icon"
+                                v-model="icon.value.value"
                                 accept="image/png"
                                 :hint="$t('app.icon_hint') + icon_resolution + $t('app.icon_pixels')" persistent-hint>
                             </v-file-input>
@@ -56,6 +59,8 @@
 
 
                             <v-file-input prepend-icon="mdi-image" show-size :label="$t('app.logo')"
+                                name="logo"
+                                v-model="logo.value.value"
                                 accept="image/png"
                                 :hint="$t('app.icon_hint') + logo_resolution + $t('app.icon_pixels')" persistent-hint></v-file-input>
 
@@ -101,6 +106,7 @@ import { useField, useForm } from 'vee-validate';
 
 
 const config = useRuntimeConfig();
+const stateUser = useUserStore();
 const props = defineProps({ platform: String, id: Number })
 // const router = useRouter();
 
@@ -109,8 +115,14 @@ let appRequesFailed = ref(false);
 let tab = ref("app_info");
 const icon_resolution = ref(props.platform == 'android'? '512x512' : '1536x1536');
 
+// Load app data
 const { data, pending, error } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/`);
 appData.value = data.value || {};
+
+if (error.value) {
+    appRequesFailed.value = true;
+    // router.push(`/apps/${props.platform}/`);
+}
 
 
 
@@ -118,6 +130,7 @@ appData.value = data.value || {};
 const { handleSubmit, isSubmitting: isSettingsSubmitting, setErrors } = useForm({
     initialValues: {
         title: appData.value.title,
+        email: appData.value.email || stateUser.user.email
     }
 });
 
@@ -126,15 +139,12 @@ const description_short = useField('description_short', "required|max:80");
 const description = useField('description', "required");
 const website_url = useField('website_url', "url");
 const email = useField('email', "required|email");
+const icon = useField('icon', "image");
+const logo = useField('logo', "image");
 
 
 
 
-
-if (error.value) {
-    appRequesFailed.value = true;
-    // router.push(`/apps/${props.platform}/`);
-}
 
 function isAndroid() {
     return props.platform == 'android';
@@ -143,6 +153,47 @@ function isAndroid() {
 function isIos() {
     return props.platform == 'ios';
 }
+
+async function appUpdateRequest(values) {
+  const platform = isAndroid() ? "android" : "ios";
+  let formData = new FormData();
+  formData.append('title', values.title);
+  formData.append('user', stateUser.user.id);
+  formData.append('description', values.description);
+  formData.append('description_short', values.description_short);
+  values.website_url && formData.append('website_url', values.website_url);
+  formData.append('email', values.email);
+  values.icon && formData.append('icon', values.icon);
+  values.logo && formData.append('logo', values.logo);
+
+  return await useFetchAuth(`${config.public.baseURL}/mobile_apps/${platform}/${props.id}/`, {
+    method: 'PATCH',
+    body: formData
+  });
+
+}
+
+
+const onAppSubmit = handleSubmit(async values => {
+  console.log("VALUES: ", values);
+
+  let response;
+  try {
+    response = await appUpdateRequest(values);
+    console.log(response);
+  }
+  catch (e) {
+    console.log("Exception: ", e)
+    const errorData = e.data;
+    for (const [field, errors] of Object.entries(errorData)) {
+      for (const errCode of errors) {
+        setErrors({ [field]: t(`app.errors.${field}.${errCode}`) })
+      }
+    }
+    return;
+  }
+  // router.push(`/apps/${platform}/${response.data.value.id}`);
+});
 
 
 </script>
