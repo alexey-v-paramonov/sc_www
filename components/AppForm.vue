@@ -47,17 +47,19 @@
                             <v-text-field v-model="email.value.value" type="email"
                                 :error-messages="email.errorMessage.value" :label="$t('email')"></v-text-field>
 
-                            <v-file-input prepend-icon="mdi-account-box-outline" show-size label="File input"
+                            <v-file-input prepend-icon="mdi-account-box-outline" show-size :label="$t('app.icon')"
                                 accept="image/png"
-                                :hint="$t('app.description_short_hint')" persistent-hint>
+                                :hint="$t('app.icon_hint') + icon_resolution + $t('app.icon_pixels')" persistent-hint>
                             </v-file-input>
 
-                            <img src="/img/app_icon.png" alt="Discover Nuxt 3" />
+                            <img src="/img/app_icon.png" :alt="$t('app.icon')" />
 
 
-                            <v-file-input prepend-icon="mdi-image" show-size label="File input"
+                            <v-file-input prepend-icon="mdi-image" show-size :label="$t('app.logo')"
                                 accept="image/png"
-                                :hint="$t('app.description_short_hint')" persistent-hint></v-file-input>
+                                :hint="$t('app.icon_hint') + logo_resolution + $t('app.icon_pixels')" persistent-hint></v-file-input>
+
+                            <img src="/img/app_logo.png" :alt="$t('app.logo')" />
 
                             <v-btn type="submit" :disabled="isSettingsSubmitting" block class="mt-2" color="primary">{{
                                 isSettingsSubmitting ? $t('loading') : $t('save') }}</v-btn>
@@ -105,6 +107,7 @@ const props = defineProps({ platform: String, id: Number })
 let appData = reactive({});
 let appRequesFailed = ref(false);
 let tab = ref("app_info");
+const icon_resolution = ref(props.platform == 'android'? '512x512' : '1536x1536');
 
 const { data, pending, error } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/`);
 appData.value = data.value || {};
