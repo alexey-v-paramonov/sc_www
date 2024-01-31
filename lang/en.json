@@ -248,6 +248,8 @@
         "icon": "Application icon",
         "icon_hint": "Displayed at the application store, and in the list of applications on a device. PNG, resolution: ",
         "icon_pixels": " pixels",
+        "logo": "Application logo",
+        "logo_hint": "Displayed on the main screen of the application. Image format - PNG",
         "tabs": {
             "info": "Information",
             "design": "Design",

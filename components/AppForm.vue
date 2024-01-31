@@ -51,6 +51,7 @@
                             <v-file-input prepend-icon="mdi-account-box-outline" show-size :label="$t('app.icon')"
                                 name="icon"
                                 v-model="icon.value.value"
+                                :error-messages="icon.errorMessage.value"
                                 accept="image/png"
                                 :hint="$t('app.icon_hint') + icon_resolution + $t('app.icon_pixels')" persistent-hint>
                             </v-file-input>
@@ -61,8 +62,9 @@
                             <v-file-input prepend-icon="mdi-image" show-size :label="$t('app.logo')"
                                 name="logo"
                                 v-model="logo.value.value"
+                                :error-messages="logo.errorMessage.value"
                                 accept="image/png"
-                                :hint="$t('app.icon_hint') + logo_resolution + $t('app.icon_pixels')" persistent-hint></v-file-input>
+                                :hint="$t('app.logo_hint')" persistent-hint></v-file-input>
 
                             <img src="/img/app_logo.png" :alt="$t('app.logo')" />
 
@@ -114,6 +116,7 @@ let appData = reactive({});
 let appRequesFailed = ref(false);
 let tab = ref("app_info");
 const icon_resolution = ref(props.platform == 'android'? '512x512' : '1536x1536');
+const icon_resolution_rule = props.platform == 'android'? '512,512' : '1536,1536';
 
 // Load app data
 const { data, pending, error } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/`);
@@ -129,8 +132,11 @@ if (error.value) {
 // Form
 const { handleSubmit, isSubmitting: isSettingsSubmitting, setErrors } = useForm({
     initialValues: {
-        title: appData.value.title,
-        email: appData.value.email || stateUser.user.email
+        title: appData.value.title || '',
+        email: appData.value.email || stateUser.user.email,
+        description: appData.value.description || '',
+        description_short: appData.value.description_short || '',
+        website_url: appData.value.website_url || '',
     }
 });
 
@@ -139,8 +145,8 @@ const description_short = useField('description_short', "required|max:80");
 const description = useField('description', "required");
 const website_url = useField('website_url', "url");
 const email = useField('email', "required|email");
-const icon = useField('icon', "image");
-const logo = useField('logo', "image");
+const icon = useField('icon', "image|size:2000|dimensions:" + icon_resolution_rule);
+const logo = useField('logo', "image|size:2000");
 
 
 
@@ -163,8 +169,8 @@ async function appUpdateRequest(values) {
   formData.append('description_short', values.description_short);
   values.website_url && formData.append('website_url', values.website_url);
   formData.append('email', values.email);
-  values.icon && formData.append('icon', values.icon);
-  values.logo && formData.append('logo', values.logo);
+  values.icon && formData.append('icon', values.icon[0]);
+  values.logo && formData.append('logo', values.logo[0]);
 
   return await useFetchAuth(`${config.public.baseURL}/mobile_apps/${platform}/${props.id}/`, {
     method: 'PATCH',
