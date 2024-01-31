@@ -50,6 +50,7 @@
 
                             <v-file-input prepend-icon="mdi-account-box-outline" show-size :label="$t('app.icon')"
                                 @change="generateIconPreview()"
+                                @click:clear="generateIconPreview()"
                                 name="icon"
                                 v-model="icon.value.value"
                                 :error-messages="icon.errorMessage.value"
@@ -63,6 +64,7 @@
 
                             <v-file-input prepend-icon="mdi-image" show-size :label="$t('app.logo')"
                                 @change="generateLogoPreview()"
+                                @click:clear="generateLogoPreview()"
                                 name="logo"
                                 v-model="logo.value.value"
                                 :error-messages="logo.errorMessage.value"
@@ -156,13 +158,11 @@ const previewLogo = ref();
 
 
 function generateIconPreview(){
-    console.log("generateIconPreview", icon.value.value[0])
-    previewIcon.value = URL.createObjectURL(icon.value.value[0]);
+    previewIcon.value = icon.value.value[0] ? URL.createObjectURL(icon.value.value[0]) : undefined;
 }
 
 function generateLogoPreview(){
-    console.log("generateLogoPreview", logo.value.value[0])
-    previewLogo.value = URL.createObjectURL(logo.value.value[0]);
+    previewLogo.value = logo.value.value[0] ? URL.createObjectURL(logo.value.value[0]) : undefined;
 }
 
 
