@@ -49,6 +49,7 @@
                                 :error-messages="email.errorMessage.value" :label="$t('email')"></v-text-field>
 
                             <v-file-input prepend-icon="mdi-account-box-outline" show-size :label="$t('app.icon')"
+                                @change="generateIconPreview()"
                                 name="icon"
                                 v-model="icon.value.value"
                                 :error-messages="icon.errorMessage.value"
@@ -56,15 +57,19 @@
                                 :hint="$t('app.icon_hint') + icon_resolution + $t('app.icon_pixels')" persistent-hint>
                             </v-file-input>
 
+                            <img v-if="previewIcon" :src="previewIcon" class="app-image-preview" />
                             <img src="/img/app_icon.png" :alt="$t('app.icon')" />
 
 
                             <v-file-input prepend-icon="mdi-image" show-size :label="$t('app.logo')"
+                                @change="generateLogoPreview()"
                                 name="logo"
                                 v-model="logo.value.value"
                                 :error-messages="logo.errorMessage.value"
                                 accept="image/png"
                                 :hint="$t('app.logo_hint')" persistent-hint></v-file-input>
+
+                            <img v-if="previewLogo" :src="previewLogo" class="app-image-preview" />
 
                             <img src="/img/app_logo.png" :alt="$t('app.logo')" />
 
@@ -116,7 +121,6 @@ let appData = reactive({});
 let appRequesFailed = ref(false);
 let tab = ref("app_info");
 const icon_resolution = ref(props.platform == 'android'? '512x512' : '1536x1536');
-const icon_resolution_rule = props.platform == 'android'? '512,512' : '1536,1536';
 
 // Load app data
 const { data, pending, error } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/`);
@@ -145,11 +149,21 @@ const description_short = useField('description_short', "required|max:80");
 const description = useField('description', "required");
 const website_url = useField('website_url', "url");
 const email = useField('email', "required|email");
-const icon = useField('icon', "image|size:2000|dimensions:" + icon_resolution_rule);
+const icon = useField('icon', "image|size:2000|dimensions:" + (props.platform == 'android'? '512,512' : '1536,1536'));
 const logo = useField('logo', "image|size:2000");
+const previewIcon = ref();
+const previewLogo = ref();
 
 
+function generateIconPreview(){
+    console.log("generateIconPreview", icon.value.value[0])
+    previewIcon.value = URL.createObjectURL(icon.value.value[0]);
+}
 
+function generateLogoPreview(){
+    console.log("generateLogoPreview", logo.value.value[0])
+    previewLogo.value = URL.createObjectURL(logo.value.value[0]);
+}
 
 
 function isAndroid() {
@@ -203,3 +217,10 @@ const onAppSubmit = handleSubmit(async values => {
 
 
 </script>
+
+<style scoped>
+.app-image-preview{
+    max-height: 300px; 
+    max-width: 300px;
+}
+</style>
