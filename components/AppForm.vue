@@ -47,10 +47,17 @@
                             <v-text-field v-model="email.value.value" type="email"
                                 :error-messages="email.errorMessage.value" :label="$t('email')"></v-text-field>
 
-                            <v-file-input prepend-icon="mdi-palette" show-size label="File input"
-                                :hint="$t('app.description_short_hint')" persistent-hint></v-file-input>
+                            <v-file-input prepend-icon="mdi-account-box-outline" show-size label="File input"
+                                accept="image/png"
+                                :hint="$t('app.description_short_hint')" persistent-hint>
+                            </v-file-input>
 
-                            <v-file-input prepend-icon="mdi-image" show-size label="File input"></v-file-input>
+                            <img src="/img/app_icon.png" alt="Discover Nuxt 3" />
+
+
+                            <v-file-input prepend-icon="mdi-image" show-size label="File input"
+                                accept="image/png"
+                                :hint="$t('app.description_short_hint')" persistent-hint></v-file-input>
 
                             <v-btn type="submit" :disabled="isSettingsSubmitting" block class="mt-2" color="primary">{{
                                 isSettingsSubmitting ? $t('loading') : $t('save') }}</v-btn>
