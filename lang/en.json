@@ -87,7 +87,7 @@
         "help": "The number of listeners, quality and disk space are charged. You will need to provide documents confirming the legality of the broadcast.",
         "legal_1": "I will provide the necessary documents",
         "legal_1_help": "You will have 5 days to send us documents",
-        "legal_2": "I will not use copyrighted content.",
+        "legal_2": "I will not use copyrighted content or my stream is not public",
         "legal_2_help": "If you break the rules, your account will be blocked without the possibility of a refund.",
         "legal_3": "Test account",
         "legal_3_help": "You can test the operation of the radio control panel without installation on your server for 5 days.",
