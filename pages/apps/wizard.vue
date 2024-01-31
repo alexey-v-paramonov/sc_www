@@ -9,6 +9,9 @@
     <v-row>
       <v-col md="12">
         <div class="text-caption">{{ $t('apps.description') }}</div>
+        <div class="text-caption">{{ $t('apps.note1') }}</div>
+        <p class="text-caption">{{ $t('apps.note2') }}</p>
+        <p class="text-caption">{{ $t('apps.note3') }}</p>
       </v-col>
     </v-row>
 
