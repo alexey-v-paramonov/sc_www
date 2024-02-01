@@ -254,6 +254,22 @@
             "info": "Information",
             "design": "Design",
             "radios": "Radios"
+        },
+        "design": {
+            "bg_color": "Background gradient color from",
+            "bg_color_gradient": "To",
+            "font_color": "Main font color",
+            "text_secondary_color": "Secondary font color",
+            "button_text_color": "Button text color",
+            "tabs_color": "Top and bottom bar background color",
+            "tabs_icon_color": "Icon and text color at the bottom bar",
+            "tabs_icon_selected_color": "Active icon and text color at the bottom bar",
+            "main_theme_color": "Main theme color",
+            "play_button_border_color": "Stroke color around the Play button and voting buttons",
+            "volume_buttons_color": "Volume button color",
+            "volume_bar_active_color": "Volume bar color (to the left of the volume button)",
+            "volume_bar_inactive_color": "Volume bar color (to the right of the volume button)",
+            "choose_skin": "Select a ready-made skin"
         }
     },
     "password_confirmation": "Confirm Password"
