@@ -157,12 +157,15 @@ const previewIcon = ref();
 const previewLogo = ref();
 
 
-function generateIconPreview(){
-    previewIcon.value = icon.value.value[0] ? URL.createObjectURL(icon.value.value[0]) : undefined;
+async function generateIconPreview(){
+    const { valid } = await icon.validate();
+    previewIcon.value = valid && icon.value.value[0] ? URL.createObjectURL(icon.value.value[0]) : undefined;
 }
 
-function generateLogoPreview(){
-    previewLogo.value = logo.value.value[0] ? URL.createObjectURL(logo.value.value[0]) : undefined;
+async function generateLogoPreview(){
+    const { valid } = await icon.validate();
+
+    previewLogo.value = valid && logo.value.value[0] ? URL.createObjectURL(logo.value.value[0]) : undefined;
 }
 
 
