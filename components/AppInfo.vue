@@ -1,13 +1,8 @@
 <template>
-    <v-row no-gutters md="12" v-if="pending">
-    <v-col>
-        <v-progress-circular indeterminate></v-progress-circular>
-    </v-col>
-</v-row>
-
 <v-row no-gutters md="12">
     <v-col md="12">
-        <v-form @submit.prevent="onAppSubmit" :disabled="isSettingsSubmitting">
+
+        <v-form @submit.prevent="onAppSubmit" :disabled="isAppInfoSubmitting">
             <v-text-field v-model="title.value.value" type="text" :error-messages="title.errorMessage.value"
                 :label="$t('app.title')" maxlength="30"></v-text-field>
 
@@ -34,7 +29,7 @@
 
             <v-row>
                 <v-col cols="6" class="text-center">
-                    <img v-if="appData.value.icon || previewIcon" :src="previewIcon ? previewIcon : appData.value.icon" class="app-image-preview" />
+                    <img v-if="appData.icon || previewIcon" :src="previewIcon ? previewIcon : appData.icon" class="app-image-preview" />
                     <v-icon v-else icon="mdi-tooltip-image-outline" size="x-large"
                         style="font-size: 300px;"></v-icon>
                 </v-col>
@@ -52,7 +47,7 @@
 
             <v-row>
                 <v-col cols="6" class="text-center">
-                    <img v-if="appData.value.logo || previewLogo" :src="previewLogo? previewLogo : appData.value.logo" class="app-image-preview" />
+                    <img v-if="appData.logo || previewLogo" :src="previewLogo? previewLogo : appData.logo" class="app-image-preview" />
                     <v-icon v-else icon="mdi-tooltip-image-outline" size="x-large"
                         style="font-size: 300px;"></v-icon>
                 </v-col>
@@ -61,51 +56,34 @@
                 </v-col>
             </v-row>
 
-            
 
-            
-
-            <v-btn type="submit" :disabled="isSettingsSubmitting" block class="mt-2" color="primary">{{
-                isSettingsSubmitting ? $t('loading') : $t('save') }}</v-btn>
+            <v-btn type="submit" :disabled="isAppInfoSubmitting" block class="mt-2" color="primary">{{
+                isAppInfoSubmitting ? $t('loading') : $t('save') }}</v-btn>
         </v-form>
     </v-col>
 </v-row>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, watch } from 'vue';
 import { useField, useForm } from 'vee-validate';
+const emit = defineEmits(['AppInfoRefresh',])
 
 
 const config = useRuntimeConfig();
 const stateUser = useUserStore();
-const props = defineProps({ platform: String, id: Number })
-// const router = useRouter();
-
-let appData = reactive({});
-let appRequesFailed = ref(false);
-
+const props = defineProps({ platform: String, id: Number, appData: Object })
 const icon_resolution = ref(props.platform == 'android' ? '512x512' : '1536x1536');
-
-// Load app data
-const { data, pending, error, refresh } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/`);
-appData.value = data.value || {};
-
-if (error.value) {
-    appRequesFailed.value = true;
-    // router.push(`/apps/${props.platform}/`);
-}
-
-
+let appData = reactive(props.appData);
 
 // Form
-const { handleSubmit, isSubmitting: isSettingsSubmitting, setErrors } = useForm({
+const { handleSubmit, isSubmitting: isAppInfoSubmitting, setErrors } = useForm({
     initialValues: {
-        title: appData.value.title || '',
-        email: appData.value.email || stateUser.user.email,
-        description: appData.value.description || '',
-        description_short: appData.value.description_short || '',
-        website_url: appData.value.website_url || '',
+        title: appData.title || '',
+        email: appData.email || stateUser.user.email,
+        description: appData.description || '',
+        description_short: appData.description_short || '',
+        website_url: appData.website_url || '',
     }
 });
 
@@ -134,10 +112,6 @@ async function generateLogoPreview() {
 
 function isAndroid() {
     return props.platform == 'android';
-}
-
-function isIos() {
-    return props.platform == 'ios';
 }
 
 async function appUpdateRequest(values) {
@@ -177,9 +151,9 @@ const onAppSubmit = handleSubmit(async values => {
         }
         return;
     }
-    refresh();
-    // icon.value = undefined;
-    // logo.value = undefined;
+    emit('AppInfoRefresh');
+    icon.value.value = '';
+    logo.value.value = '';
     // router.push(`/apps/${platform}/${response.data.value.id}`);
 });
 

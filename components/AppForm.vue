@@ -17,21 +17,25 @@
             </v-tab>
         </v-tabs>
 
-
-        <v-window v-model="tab">
+        <v-row no-gutters md="12" v-if="pending">
+            <v-col>
+                <v-progress-circular indeterminate></v-progress-circular>
+            </v-col>
+        </v-row>
+        <v-window v-model="tab" v-if="!pending">
             <!-- APP INFO -->
             <v-window-item value="app_info">
-                <AppInfo />
+                <AppInfo :platform="props.platform" :id="props.id" :app-data="appData" @app-info-refresh="refresh()" />
             </v-window-item>
 
             <!-- APP DESIGN -->
             <v-window-item value="app_design">
-                <AppDesign />
+                <AppDesign :platform="props.platform" :id="props.id" :app-data="appData" />
             </v-window-item>
 
             <!-- APP RADIOS -->
             <v-window-item value="app_radios">
-                <AppRadios />
+                <AppRadios :id="props.id" />
             </v-window-item>
 
         </v-window>
@@ -51,7 +55,22 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
+const props = defineProps({ platform: String, id: Number })
+const config = useRuntimeConfig();
+// const router = useRouter();
 
-    let tab = ref("app_info");
+let appRequesFailed = ref(false);
+let tab = ref("app_info");
+// let appData = reactive({});
+
+// Load app data
+const { data: appData, pending, error, refresh } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/`);
+// appData.value = data.value || {};
+
+if (error.value) {
+    appRequesFailed.value = true;
+    // router.push(`/apps/${props.platform}/`);
+}
+
 </script>
