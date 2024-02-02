@@ -1,5 +1,11 @@
 <template>
-    <v-container>
+  <v-container>
+    <v-row no-gutters md="12">
+      <v-col class="text-right">
+        <v-btn prepend-icon="mdi-plus" to="/apps/wizard" color="primary">{{ $t('apps.wizard') }}</v-btn>
+      </v-col>
+    </v-row>
+
     <v-row no-gutters md="12">
       <v-col>
         <div class="text-h5">{{ $t('nav_android') }}</div>
@@ -22,8 +28,12 @@
           <tbody>
 
             <tr v-if="android_apps.length > 0" v-for="item in android_apps" :key="item.id">
-              <td><NuxtLink :to="'/apps/android/' + item.id + '/'">{{ item.title }}</NuxtLink></td>
-              <td><NuxtLink :to="'/apps/android/' + item.id + '/'"><v-btn icon="mdi-pencil"></v-btn></NuxtLink></td>
+              <td>
+                <NuxtLink :to="'/apps/android/' + item.id + '/'">{{ item.title }}</NuxtLink>
+              </td>
+              <td>
+                <NuxtLink :to="'/apps/android/' + item.id + '/'"><v-btn icon="mdi-pencil"></v-btn></NuxtLink>
+              </td>
             </tr>
 
             <tr v-else-if="apps_loading">
@@ -45,8 +55,8 @@
 
     </v-row>
 
-    </v-container>
-  </template>
+  </v-container>
+</template>
   
 <script setup>
 const config = useRuntimeConfig();

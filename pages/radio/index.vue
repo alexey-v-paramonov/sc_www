@@ -1,5 +1,12 @@
 <template>
   <v-container>
+
+    <v-row no-gutters md="12">
+      <v-col class="text-right">
+        <v-btn prepend-icon="mdi-plus" to="/radio/wizard" color="primary">{{ $t('radio.wizard') }}</v-btn>
+      </v-col>
+    </v-row>
+
     <!-- SELF Hosted list -->
     <v-row no-gutters md="12">
       <v-col>

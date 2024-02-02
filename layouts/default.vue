@@ -63,8 +63,8 @@ function Logout(){
           <v-list-item to="/apps/ios" prepend-icon="mdi-apple" rounded class="mb-1" active-color="primary" :title="$t('nav_ios')"></v-list-item>
 
           <!-- Catalog -->
-          <v-list-subheader color="darkText" class="smallCap text-uppercase text-subtitle-2 mt-5 font-weight-bold" :title="$t('nav_catalog')"></v-list-subheader>
-          <v-list-item to="/catalog" prepend-icon="mdi-bookmark-box-multiple" rounded class="mb-1" active-color="primary" :title="$t('nav_catalog_stations')"></v-list-item>
+          <!-- <v-list-subheader color="darkText" class="smallCap text-uppercase text-subtitle-2 mt-5 font-weight-bold" :title="$t('nav_catalog')"></v-list-subheader>
+          <v-list-item to="/catalog" prepend-icon="mdi-bookmark-box-multiple" rounded class="mb-1" active-color="primary" :title="$t('nav_catalog_stations')"></v-list-item> -->
 
           <!-- Billing -->
           <v-list-subheader color="darkText" class="smallCap text-uppercase text-subtitle-2 mt-5 font-weight-bold" :title="$t('nav_billing')"></v-list-subheader>

@@ -87,12 +87,10 @@ const ssh_port = useField('ssh_port');
 
 
 async function saveSelfHostedRequest(values) {
-    console.log("VALUES: ", values)
   return await fetchAuth(`${config.public.baseURL}/self_hosted_radio/${route.params.id}/`, {
       method: 'PATCH',
       body: values
   });
-
 }
 
 const onSelfHostedSubmit = handleSubmit(async values => {

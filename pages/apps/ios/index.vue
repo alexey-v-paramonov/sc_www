@@ -1,5 +1,10 @@
 <template>
   <v-container>
+    <v-row no-gutters md="12">
+      <v-col class="text-right">
+        <v-btn prepend-icon="mdi-plus" to="/apps/wizard" color="primary">{{ $t('apps.wizard') }}</v-btn>
+      </v-col>
+    </v-row>
 
     <v-row no-gutters md="12">
     <v-col>
