@@ -97,7 +97,14 @@
         "price_stream": "Поток",
         "price_disk": "Диск",
         "price_total": "Всего",
-        "legal": "Легальность вещания"
+        "legal": "Легальность вещания",
+        "status": {
+            "being_created": "Создаётся",
+            "being_deleted": "Удаляется",
+            "running": "Работает",
+            "suspended": "Приостановлен",
+            "error": "Ошибка"
+        }
     },
 
     "errors": {

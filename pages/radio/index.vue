@@ -15,12 +15,9 @@
               <th class="text-left">
                 {{ $t('radios.self_hosted.server') }}
               </th>
-              <th class="text-left">
+              <!-- <th class="text-left">
                 {{ $t('radios.self_hosted.radios_num') }}
-              </th>
-              <th class="text-left">
-                {{ $t('radios.self_hosted.status') }}
-              </th>
+              </th> -->
               <th>
                 &nbsp;
               </th>
@@ -29,8 +26,7 @@
           <tbody>
             <tr v-if="self_hosted_radios.length > 0" v-for="item in self_hosted_radios" :key="item.id">
               <td>{{ item.ip }}</td>
-              <td>{{ item.radios_num }}</td>
-              <td>{{ item.status }}</td>
+              <!-- <td>{{ item.radios_num }}</td> -->
               <td><v-btn icon="mdi-delete" @click="deleteRadio(item)" :disabled="item.beingDeleted"></v-btn></td>
             </tr>
             <tr v-else-if="self_hosted_radios_loading">
@@ -76,6 +72,9 @@
               <th class="text-left">
                 {{ $t('hosted.station_id') }}
               </th>
+              <th class="text-left">
+                {{ $t('radios.self_hosted.status') }}
+              </th>
               <th>
                 &nbsp;
               </th>
@@ -84,6 +83,13 @@
           <tbody>
             <tr v-if="hosted_radios.length > 0" v-for="item in hosted_radios" :key="item.name">
               <td>{{ item.login }}</td>
+              <td>
+                <v-chip v-if="item.status == 0 || item.status == 3" variant="flat" color="green">{{ $t('hosted.status.being_created') }}</v-chip>
+                <v-chip v-if="item.status == 2" variant="flat" color="primary">{{ $t('hosted.status.running') }}</v-chip>
+                <v-chip v-if="item.status == 4" variant="flat" color="primary">{{ $t('hosted.status.being_deleted') }}</v-chip>
+                <v-chip v-if="item.status == 5" variant="flat" color="red">{{ $t('hosted.status.suspended') }}</v-chip>
+                <v-chip v-if="item.status == 6" variant="flat" color="red">{{ $t('hosted.status.error') }}</v-chip>
+              </td>
               <td><v-btn icon="mdi-delete" @click="deleteRadio(item)" :disabled="item.beingDeleted"></v-btn></td>
             </tr>
             <tr v-else-if="hosted_radios_loading">
@@ -233,3 +239,4 @@ reloadHostedRadios();
 
 
 </script>
+
