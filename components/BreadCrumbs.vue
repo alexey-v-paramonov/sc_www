@@ -38,22 +38,42 @@ export default {
             const params = fullPath.startsWith('/')
                 ? fullPath.substring(1).split('/')
                 : fullPath.split('/')
-            let path = ''
+            let no_href_paths = ['self_hosted', 'apps']
+            let full_href = '';
             this.crumbs = [{
                 title: this.$t("nav.home"), 
                 href: "/"
             }];
-            let no_href_paths = ['self_hosted', 'apps']
-            let full_href = '';
+            console.log("route: ", route, crumbs, " !!")
             params.forEach((param, index) => {
                 if(!param){
                     return;
                 }
                 full_href += `/${param}`;
-                this.crumbs.push({
-                    title: this.$t('nav.' + param),
-                    href: no_href_paths.includes(param) ? undefined : full_href
-                })
+                if(/\/apps\/android\/\d+/.test(full_href)){
+                    this.crumbs.push({
+                        title: this.$t('nav.android_app'),
+                        href: undefined
+                    })
+                }
+                else if(/\/apps\/ios\/\d+/.test(full_href)){
+                    this.crumbs.push({
+                        title: this.$t('nav.ios_app'),
+                        href: undefined
+                    })
+                }
+                else if(/\/radio\/self_hosted\/\d+/.test(full_href)){
+                    this.crumbs.push({
+                        title: this.$t('nav.selfhosted_radio'),
+                        href: undefined
+                    })
+                }
+                else{
+                    this.crumbs.push({
+                        title: this.$t('nav.' + param),
+                        href: no_href_paths.includes(param) ? undefined : full_href
+                    })
+                }
                 console.log("HREF: ", param, no_href_paths.includes(param), full_href)
             })
         },

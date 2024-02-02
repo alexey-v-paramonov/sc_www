@@ -124,7 +124,10 @@
         "ios": "iOS",
         "android": "Android",
         "billing": "Биллинг",
-        "settings": "Настройки"
+        "settings": "Настройки",
+        "android_app": "Android приложение",
+        "ios_app": "iOs приложение",
+        "selfhosted_radio": "Радио"
     },
     "radios":{
         "self_hosted":{

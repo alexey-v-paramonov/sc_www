@@ -126,11 +126,14 @@
         "wizard": "Add new",
         "catalog": "Catalog",
         "apps": "Mobile applications",
-        "ios": "iOS",
-        "android": "Android",
+        "ios": "iOS apps",
+        "android": "Android apps",
         "billing": "Billing",
-        "self_hosted": "Selft hosted",
-        "settings": "Setting"
+        "self_hosted": "Selft hosted",  
+        "settings": "Setting",
+        "android_app": "Android application",
+        "ios_app": "iOs application",
+        "selfhosted_radio": "Radio"
     },
     "radios":{
         "self_hosted":{
