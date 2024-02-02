@@ -15,9 +15,9 @@
               <th class="text-left">
                 {{ $t('radios.self_hosted.server') }}
               </th>
-              <!-- <th class="text-left">
-                {{ $t('radios.self_hosted.radios_num') }}
-              </th> -->
+              <th class="text-left">
+                {{ $t('self_hosted.server_domain') }}
+              </th>
               <th>
                 &nbsp;
               </th>
@@ -26,9 +26,9 @@
           <tbody>
             <tr v-if="self_hosted_radios.length > 0" v-for="item in self_hosted_radios" :key="item.id">
               <td>{{ item.ip }}</td>
-              <!-- <td>{{ item.radios_num }}</td> -->
+              <td>{{ item.domain }}</td>
               <td>
-                <NuxtLink :to="'/radio/self_hosted/' + item.id + '/'"><v-btn icon="mdi-pencil" @click="deleteRadio(item)" ></v-btn></NuxtLink>
+                <NuxtLink :to="'/radio/self_hosted/' + item.id + '/'"><v-btn icon="mdi-pencil"></v-btn></NuxtLink>
                 &nbsp;
                 <v-btn icon="mdi-delete" @click="deleteRadio(item)" :disabled="item.beingDeleted"></v-btn>
               </td>
