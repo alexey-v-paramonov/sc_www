@@ -24,7 +24,7 @@
 
           <tr v-if="ios_apps.length > 0" v-for="item in ios_apps" :key="item.id">
             <td><NuxtLink :to="'/apps/ios/' + item.id + '/'">{{ item.title }}</NuxtLink></td>
-            <td><NuxtLink :to="'/apps/ios/' + item.id + '/'"><v-btn icon="mdi-pencil" @click="deleteRadio(item)" :disabled="item.beingDeleted"></v-btn></NuxtLink></td>
+            <td><NuxtLink :to="'/apps/ios/' + item.id + '/'"><v-btn icon="mdi-pencil"></v-btn></NuxtLink></td>
           </tr>
 
           <tr v-else-if="apps_loading">

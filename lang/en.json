@@ -81,6 +81,9 @@
         "root_password_hint": "SSH password",
         "server_port": "SSH port: 22 by default",
         "install_command": "To install the software, run this command in the server terminal and follow the installation script instructions",
+        "radio": {
+            "title": "Self hosted radio"
+        }
     },
     "hosted": {
         "title": "Hosted at Streaming.center",

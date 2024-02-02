@@ -27,7 +27,11 @@
             <tr v-if="self_hosted_radios.length > 0" v-for="item in self_hosted_radios" :key="item.id">
               <td>{{ item.ip }}</td>
               <!-- <td>{{ item.radios_num }}</td> -->
-              <td><v-btn icon="mdi-delete" @click="deleteRadio(item)" :disabled="item.beingDeleted"></v-btn></td>
+              <td>
+                <NuxtLink :to="'/radio/self_hosted/' + item.id + '/'"><v-btn icon="mdi-pencil" @click="deleteRadio(item)" ></v-btn></NuxtLink>
+                &nbsp;
+                <v-btn icon="mdi-delete" @click="deleteRadio(item)" :disabled="item.beingDeleted"></v-btn>
+              </td>
             </tr>
             <tr v-else-if="self_hosted_radios_loading">
               <td colspan="10" class="text-center"><v-progress-circular indeterminate></v-progress-circular></td>
