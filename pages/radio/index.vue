@@ -90,7 +90,7 @@
                 <v-chip v-if="item.status == 5" variant="flat" color="red">{{ $t('hosted.status.suspended') }}</v-chip>
                 <v-chip v-if="item.status == 6" variant="flat" color="red">{{ $t('hosted.status.error') }}</v-chip>
               </td>
-              <td><v-btn icon="mdi-delete" @click="deleteRadio(item)" :disabled="item.beingDeleted"></v-btn></td>
+              <td><v-btn v-if="[2, 5, 6].includes(item.status)" icon="mdi-delete" @click="deleteRadio(item)" :disabled="item.beingDeleted"></v-btn></td>
             </tr>
             <tr v-else-if="hosted_radios_loading">
               <td colspan="10" class="text-center"><v-progress-circular indeterminate></v-progress-circular></td>
