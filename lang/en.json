@@ -129,6 +129,7 @@
         "ios": "iOS",
         "android": "Android",
         "billing": "Billing",
+        "self_hosted": "Selft hosted",
         "settings": "Setting"
     },
     "radios":{

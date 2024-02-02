@@ -43,10 +43,10 @@
             <tr v-else>
               <td class="text-center" colspan="3">
                 <br />
-                {{ $t('radios.self_hosted.empty') }}
+                {{ $t('apps.android_empty') }}
                 <br />
                 <br />
-                <v-btn color="primary" to="/radio/wizard" class="mt-2">{{ $t('radio.wizard') }}</v-btn>
+                <v-btn color="primary" to="/apps/wizard" class="mt-2">{{ $t('apps.wizard') }}</v-btn>
               </td>
             </tr>
           </tbody>

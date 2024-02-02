@@ -5,9 +5,12 @@
             <v-icon size="small" icon="mdi-home"></v-icon>
         </template>
         <template v-slot:title="{ item }">
-            <NuxtLink :to="item.href" class="v-breadcrumbs-item v-breadcrumbs-item--link">
+            <NuxtLink v-if="item.href" :to="item.href" class="v-breadcrumbs-item v-breadcrumbs-item--link">
                 {{ item.title }}
             </NuxtLink>
+            <span v-else>
+                {{ item.title }}
+            </span>
         </template>
     </v-breadcrumbs>
 </template>
@@ -40,14 +43,18 @@ export default {
                 title: this.$t("nav.home"), 
                 href: "/"
             }];
+            let no_href_paths = ['self_hosted', 'apps']
+            let full_href = '';
             params.forEach((param, index) => {
                 if(!param){
                     return;
                 }
+                full_href += `/${param}`;
                 this.crumbs.push({
                     title: this.$t('nav.' + param),
-                    href: param
+                    href: no_href_paths.includes(param) ? undefined : full_href
                 })
+                console.log("HREF: ", param, no_href_paths.includes(param), full_href)
             })
         },
 
