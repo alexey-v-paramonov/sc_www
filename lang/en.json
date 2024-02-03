@@ -293,10 +293,13 @@
             "empty": "Your application does not have any radios yet, please add a new radio"
         },
         "radio": {
+            "toolbar": "Application radio",
             "is_sc_panel": "Radio is using Streaming.center control panel",
             "sc_api_url": "Streaming.center broadcaster interface URL",
             "sc_api_url_hint": "Your broadcaster interface URL",
             "sc_server_id_hint": "Radio server ID",
+            "logo": "Radio logo",
+            "logo_hint": "Displayed on the main screen of the application. Image format - PNG",    
             "title": "Radio name",
             "description": "Description",
             "description_hint": "Radio description disbpaled in the \"Information\" section of the application",

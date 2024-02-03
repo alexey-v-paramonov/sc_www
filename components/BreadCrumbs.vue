@@ -44,7 +44,6 @@ export default {
                 title: this.$t("nav.home"), 
                 href: "/"
             }];
-            console.log("route: ", route, crumbs, " !!")
             params.forEach((param, index) => {
                 if(!param){
                     return;
@@ -74,7 +73,6 @@ export default {
                         href: no_href_paths.includes(param) ? undefined : full_href
                     })
                 }
-                console.log("HREF: ", param, no_href_paths.includes(param), full_href)
             })
         },
 
