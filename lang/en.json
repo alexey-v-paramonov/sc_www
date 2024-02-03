@@ -290,7 +290,10 @@
             "title": "Radios",
             "description": "You can add multiple radios to your application, and the application will allow you to switch between them",
             "add": "Add new radio to the app",
-            "empty": "Your application does not have any radios yet, please add a new radio"
+            "empty": "Your application does not have any radios yet, please add a new radio",
+            "delete_confirmation": "Are you sure you want to remove this radio from your application?",
+            "delete_failed": "Failed to remove this radio, try again later or contact support.",
+            "delete_success": "The radio has been removed successfully from your application"
         },
         "radio": {
             "toolbar": "Application radio",
