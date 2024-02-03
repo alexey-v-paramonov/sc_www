@@ -11,6 +11,9 @@
                 <v-table>
                     <thead>
                         <tr>
+                            <th>
+                                &nbsp;
+                            </th>
                             <th class="text-left">
                                 {{ $t('app.radio.title') }}
                             </th>
@@ -21,13 +24,16 @@
                     </thead>
                     <tbody>
 
-                        <tr v-if="appRadios.length > 0" v-for="item in android_apps" :key="item.id">
+                        <tr v-if="appRadios.length > 0" v-for="appRadio in appRadios" :key="appRadio.id">
+                            <td style="width: 100px;">
+                                <img :src="appRadio.logo" class="app-image-thumbnail">
+                            </td>
+
                             <td>
-                                <NuxtLink :to="'/apps/android/' + item.id + '/'">{{ item.title }}</NuxtLink>
+                                {{ appRadio.title }}
                             </td>
                             <td>
-                                <NuxtLink :to="'/apps/android/' + item.id + '/'"><v-btn icon="mdi-pencil"></v-btn>
-                                </NuxtLink>
+                                <v-btn icon="mdi-pencil"></v-btn>
                             </td>
                         </tr>
 
@@ -141,7 +147,7 @@ const { locale, t } = useI18n();
 
 let appData = reactive(props.appData);
 let radioDialog = ref(false);
-let appRadios = ref([]);
+// let appRadios = ref([]);
 let scRadios = ref([]);
 const appRadio = ref({});
 
@@ -169,7 +175,13 @@ allow_shoutbox.value.value = "1";
 allow_likes.value.value = "1";
 allow_dislikes.value.value = "1";
 
+const { data: appRadios, pending, error, refresh } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/radio/${props.platform}/`);
+console.log("APP RADIOS: ", appRadios);
 
+
+function isAndroid() {
+    return props.platform == 'android';
+}
 function setRadioData(v) {
     const id = v || sc_server_id.value.value;
     let radio = scRadios.value.find(r => r.id === id);
@@ -202,11 +214,33 @@ async function checkSCPanelURL() {
     sc_server_id.value.value = scRadios.value[0].id;
     setRadioData();
 }
+
+async function saveAppRadioRequest(values) {
+    const platform = isAndroid() ? "android" : "ios";
+    let formData = new FormData();
+    
+    formData.append('app', appData.id);
+    formData.append('title', values.title);
+    // formData.append('user', stateUser.user.id);
+    formData.append('description', values.description);
+    //formData.append('description_short', values.description_short);
+    //values.website_url && formData.append('website_url', values.website_url);
+    //formData.append('email', values.email);
+    // values.icon && formData.append('icon', values.icon[0]);
+    values.logo && formData.append('logo', values.logo[0]);
+
+    return await useFetchAuth(`${config.public.baseURL}/mobile_apps/radio/${platform}/`, {
+        method: 'POST',
+        body: formData
+    });
+}
+
+
 const onAppRadioSubmit = handleSubmit(async values => {
 
     let response;
     try {
-        response = await appUpdateRequest(values);
+        response = await saveAppRadioRequest(values);
         console.log(response);
     }
     catch (e) {
@@ -219,10 +253,9 @@ const onAppRadioSubmit = handleSubmit(async values => {
         }
         return;
     }
-    emit('AppInfoRefresh');
-    icon.value.value = '';
+    refresh();
+    radioDialog.value = false;
     logo.value.value = '';
-    // router.push(`/apps/${platform}/${response.data.value.id}`);
 });
 
 
@@ -232,4 +265,10 @@ const onAppRadioSubmit = handleSubmit(async values => {
     max-height: 200px;
     max-width: 200px;
 }
+
+.app-image-thumbnail {
+    max-height: 100px;
+    max-width: 100px;
+}
+
 </style>
