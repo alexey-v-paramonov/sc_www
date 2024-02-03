@@ -17,6 +17,13 @@ export default defineNuxtPlugin(nuxtApp => {
     return true;
   });
 
+  defineRule("required_if", (value, [target, targetValue]: [string, any], ctx) => {
+    if (targetValue === ctx.form[target]) {
+        return AllRules.required(value);
+    }
+    return true;
+});  
+
   configure({
     generateMessage: localize({
       en: {

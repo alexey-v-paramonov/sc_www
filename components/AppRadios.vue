@@ -67,8 +67,9 @@
                         persistent-hint></v-text-field>
 
                     <v-select v-if="is_sc_panel.value.value == '1' && scRadios.length > 0" @update:modelValue="setRadioData"
-                        v-model="sc_server_id.value.value" :hint="$t('app.radio.sc_server_id_hint')" :items="scRadios" item-title="id" item-value="id"
-                        :label="$t('app.radio.sc_server_id_hint')" persistent-hint single-line></v-select>
+                        v-model="sc_server_id.value.value" :hint="$t('app.radio.sc_server_id_hint')" :items="scRadios"
+                        item-title="id" item-value="id" :label="$t('app.radio.sc_server_id_hint')" persistent-hint
+                        single-line></v-select>
 
 
                     <v-text-field v-model="title.value.value" type="text" :error-messages="title.errorMessage.value"
@@ -80,11 +81,17 @@
                     <v-checkbox v-if="is_sc_panel.value.value == '1'" v-model="allow_shoutbox.value.value" value="1"
                         :label="$t('app.radio.allow_shoutbox')" type="checkbox"></v-checkbox>
 
-                    <v-checkbox v-if="is_sc_panel.value.value == '1'" v-model="allow_likes.value.value" value="1"
-                        :label="$t('app.radio.allow_likes')" type="checkbox"></v-checkbox>
+                    <v-row no-gutters md="12">
+                        <v-col cols="6">
+                            <v-checkbox v-if="is_sc_panel.value.value == '1'" v-model="allow_likes.value.value" value="1"
+                                :label="$t('app.radio.allow_likes')" type="checkbox"></v-checkbox>
 
-                    <v-checkbox v-if="is_sc_panel.value.value == '1'" v-model="allow_dislikes.value.value" value="1"
-                        :label="$t('app.radio.allow_dislikes')" type="checkbox"></v-checkbox>
+                        </v-col>
+                        <v-col cols="6">
+                            <v-checkbox v-if="is_sc_panel.value.value == '1'" v-model="allow_dislikes.value.value" value="1"
+                                :label="$t('app.radio.allow_dislikes')" type="checkbox"></v-checkbox>
+                        </v-col>
+                    </v-row>
 
                     <v-btn type="submit" :disabled="isAppRadioBusy" block class="mt-2" color="primary">{{
                         isAppRadioBusy ? $t('loading') : $t('save') }}</v-btn>
@@ -115,8 +122,8 @@ const { handleSubmit, isSubmitting: isAppRadioBusy, setErrors } = useForm({
 
 
 const is_sc_panel = useField('is_sc_panel');
-const sc_api_url = useField('sc_api_url', "required|url");
-const sc_server_id = useField('sc_server_id', "required");
+const sc_api_url = useField('sc_api_url', "url|required_if:is_sc_panel,1");
+const sc_server_id = useField('sc_server_id', "required_if:is_sc_panel,1");
 
 const title = useField('title', "required");
 const description = useField('description', "required");
@@ -124,13 +131,18 @@ const allow_shoutbox = useField('allow_shoutbox');
 const allow_likes = useField('allow_likes');
 const allow_dislikes = useField('allow_dislikes');
 
-function setRadioData(v){
+allow_shoutbox.value.value = "1";
+allow_likes.value.value = "1";
+allow_dislikes.value.value = "1";
+
+
+function setRadioData(v) {
     const id = v || sc_server_id.value.value;
     let radio = scRadios.value.find(r => r.id === id);
-    if(radio.title){
+    if (radio.title) {
         title.value.value = radio.title;
     }
-    if(radio.description){
+    if (radio.description) {
         description.value.value = radio.description;
     }
 }
