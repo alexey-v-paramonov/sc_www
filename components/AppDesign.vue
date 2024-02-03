@@ -94,7 +94,7 @@
             </v-card>
 
 
-            <v-btn color="primary" block @click="skinDialog = false">Close Dialog</v-btn>
+            <v-btn color="primary" block @click="skinDialog = false">{{ $t('close') }}</v-btn>
         </v-dialog>
 
     </v-container>

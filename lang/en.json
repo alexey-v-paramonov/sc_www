@@ -285,6 +285,11 @@
             "volume_bar_active_color": "Volume bar color (to the left of the volume button)",
             "volume_bar_inactive_color": "Volume bar color (to the right of the volume button)",
             "choose_skin": "Select a ready-made skin"
+        },
+        "radios": {
+            "title": "Radios",
+            "description": "You can add multiple radios to your application, and the application will allow you to switch between them",
+            "add": "Add new radio to the app"
         }
     },
     "password_confirmation": "Confirm Password"

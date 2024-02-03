@@ -69,7 +69,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, watch } from 'vue';
+import { ref, reactive } from 'vue';
 import { useField, useForm } from 'vee-validate';
 const emit = defineEmits(['AppInfoRefresh',])
 
