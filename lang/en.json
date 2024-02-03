@@ -293,9 +293,20 @@
             "empty": "Your application does not have any radios yet, please add a new radio"
         },
         "radio": {
+            "is_sc_panel": "Radio is using Streaming.center control panel",
+            "sc_api_url": "Streaming.center broadcaster interface URL",
+            "sc_api_url_hint": "Your broadcaster interface URL",
+            "sc_server_id_hint": "Radio server ID",
             "title": "Radio name",
             "description": "Description",
-            "description_hint": "Radio description disbpaled in the \"Information\" section of the application"
+            "description_hint": "Radio description disbpaled in the \"Information\" section of the application",
+            "allow_shoutbox": "Enable Shoutbox section (track requests)",
+            "allow_likes": "Enable likes",
+            "allow_dislikes": "Enable dislikes",
+            "errors":{
+                "invalid_sc_url": "Invalid broadcaster interface URL, please contact support if you can not find this URL for your radio."
+            }
+            
         }
     },
     "password_confirmation": "Confirm Password"
