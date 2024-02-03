@@ -59,7 +59,7 @@
                 <v-btn icon dark @click="radioDialog = false">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
-                <v-toolbar-title>{{ $t('app.radio.toolbar') }}</v-toolbar-title>
+                <v-toolbar-title>{{ $t('app.radio.toolbar') }} {{ appData.title }}</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
                     <v-btn variant="text" @click="radioDialog = false">
@@ -83,10 +83,23 @@
                         item-title="id" item-value="id" :label="$t('app.radio.sc_server_id_hint')" persistent-hint
                         single-line></v-select>
 
-                    <v-file-input prepend-icon="mdi-image" show-size :label="$t('app.radio.logo')"
-                        @change="generateLogoPreview()" @click:clear="generateLogoPreview()" name="logo"
-                        v-model="logo.value.value" :error-messages="logo.errorMessage.value" accept="image/png"
-                        :hint="$t('app.radio.logo_hint')" persistent-hint></v-file-input>
+                    <!-- Logo -->
+                    <v-row no-gutters md="12">
+                        <v-col cols="6" class="text-center">
+                            <img v-if="appRadio.logo || previewLogo" :src="previewLogo ? previewLogo : appRadio.logo"
+                                class="app-image-preview" />
+                            <v-icon v-else icon="mdi-camera" size="x-large"
+                                style="font-size: 100px;"></v-icon>
+                        </v-col>
+                        <v-col cols="6">
+                            <v-file-input prepend-icon="mdi-image" show-size :label="$t('app.radio.logo')"
+                                @change="generateLogoPreview()" @click:clear="generateLogoPreview()" name="logo"
+                                v-model="logo.value.value" :error-messages="logo.errorMessage.value" accept="image/png"
+                                :hint="$t('app.radio.logo_hint')" persistent-hint></v-file-input>
+                        </v-col>
+                    </v-row>
+
+
 
                     <v-text-field v-model="title.value.value" type="text" :error-messages="title.errorMessage.value"
                         :label="$t('app.radio.title')" maxlength="150"></v-text-field>
@@ -130,6 +143,8 @@ let appData = reactive(props.appData);
 let radioDialog = ref(false);
 let appRadios = ref([]);
 let scRadios = ref([]);
+const appRadio = ref({});
+
 const previewLogo = ref();
 
 const { handleSubmit, isSubmitting: isAppRadioBusy, setErrors } = useForm({
@@ -166,7 +181,7 @@ function setRadioData(v) {
     }
 }
 async function generateLogoPreview() {
-    const { valid } = await icon.validate();
+    const { valid } = await logo.validate();
 
     previewLogo.value = valid && logo.value.value[0] ? URL.createObjectURL(logo.value.value[0]) : undefined;
 }
@@ -212,3 +227,9 @@ const onAppRadioSubmit = handleSubmit(async values => {
 
 
 </script>
+<style scoped>
+.app-image-preview {
+    max-height: 200px;
+    max-width: 200px;
+}
+</style>

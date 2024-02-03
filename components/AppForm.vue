@@ -35,7 +35,7 @@
 
             <!-- APP RADIOS -->
             <v-window-item value="app_radios">
-                <AppRadios :id="props.id" />
+                <AppRadios :platform="props.platform" :id="props.id" :app-data="appData" />
             </v-window-item>
 
         </v-window>

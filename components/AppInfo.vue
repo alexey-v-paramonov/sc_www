@@ -108,7 +108,7 @@ async function generateIconPreview() {
 }
 
 async function generateLogoPreview() {
-    const { valid } = await icon.validate();
+    const { valid } = await logo.validate();
 
     previewLogo.value = valid && logo.value.value[0] ? URL.createObjectURL(logo.value.value[0]) : undefined;
 }
