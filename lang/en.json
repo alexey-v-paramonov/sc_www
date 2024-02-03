@@ -289,7 +289,13 @@
         "radios": {
             "title": "Radios",
             "description": "You can add multiple radios to your application, and the application will allow you to switch between them",
-            "add": "Add new radio to the app"
+            "add": "Add new radio to the app",
+            "empty": "Your application does not have any radios yet, please add a new radio"
+        },
+        "radio": {
+            "title": "Radio name",
+            "description": "Description",
+            "description_hint": "Radio description disbpaled in the \"Information\" section of the application"
         }
     },
     "password_confirmation": "Confirm Password"

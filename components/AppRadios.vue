@@ -4,11 +4,52 @@
             <v-col md="12">
                 <div class="text-h5">{{ $t('app.radios.title') }}</div>
                 <div class="text-caption">{{ $t('app.radios.description') }}</div>
-
             </v-col>
         </v-row>
+        <v-row no-gutters md="12">
+            <v-col>
+                <v-table>
+                    <thead>
+                        <tr>
+                            <th class="text-left">
+                                {{ $t('app.radio.title') }}
+                            </th>
+                            <th>
+                                &nbsp;
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-        <v-btn block color="primary" prepend-icon="mdi-plus" @click="radioDialog = true">{{ $t('app.radios.add') }}</v-btn>
+                        <tr v-if="appRadios.length > 0" v-for="item in android_apps" :key="item.id">
+                            <td>
+                                <NuxtLink :to="'/apps/android/' + item.id + '/'">{{ item.title }}</NuxtLink>
+                            </td>
+                            <td>
+                                <NuxtLink :to="'/apps/android/' + item.id + '/'"><v-btn icon="mdi-pencil"></v-btn>
+                                </NuxtLink>
+                            </td>
+                        </tr>
+
+                        <tr v-else-if="radios_loading">
+                            <td colspan="10" class="text-center"><v-progress-circular indeterminate></v-progress-circular>
+                            </td>
+                        </tr>
+
+                        <tr v-else>
+                            <td class="text-center" colspan="3">
+                                <br />
+                                {{ $t('app.radios.empty') }}
+                                <br />
+                                <br />
+                            </td>
+                        </tr>
+                    </tbody>
+                </v-table>
+            </v-col>
+        </v-row>
+        <v-btn block color="primary" prepend-icon="mdi-plus" @click="radioDialog = true">{{ $t('app.radios.add')
+        }}</v-btn>
 
     </v-container>
 
@@ -18,9 +59,9 @@
                 <v-form @submit.prevent="onAppRadioSubmit" :disabled="isAppRadioBusy">
 
                     <v-text-field v-model="title.value.value" type="text" :error-messages="title.errorMessage.value"
-                        :label="$t('app.title')" maxlength="30"></v-text-field>
-                    <v-textarea v-model="description.value.value" :label="$t('app.description')"
-                        :error-messages="description.errorMessage.value" :hint="$t('app.description_hint')"
+                        :label="$t('app.radio.title')" maxlength="150"></v-text-field>
+                    <v-textarea v-model="description.value.value" :label="$t('app.radio.description')"
+                        :error-messages="description.errorMessage.value" :hint="$t('app.radio.description_hint')"
                         persistent-hint></v-textarea>
 
                     <v-btn type="submit" :disabled="isAppRadioBusy" block class="mt-2" color="primary">{{
@@ -40,7 +81,8 @@ const props = defineProps({ platform: String, id: Number, appData: Object })
 const config = useRuntimeConfig();
 
 let appData = reactive(props.appData);
-let radioDialog = ref(false)
+let radioDialog = ref(false);
+let appRadios = ref([]);
 
 const { handleSubmit, isSubmitting: isAppRadioBusy, setErrors } = useForm({
     initialValues: {
