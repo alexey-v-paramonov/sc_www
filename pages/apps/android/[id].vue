@@ -6,7 +6,7 @@
             </v-col>
         </v-row>
     </v-container>
-    <AppForm platform="android" :id="route.params.id" />
+    <AppForm platform="android" :id="parseInt(route.params.id)" />
 </template>
 
 <script setup>

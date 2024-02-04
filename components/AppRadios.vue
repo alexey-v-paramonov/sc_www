@@ -24,7 +24,7 @@
                     </thead>
                     <tbody>
 
-                        <tr v-if="appRadios.length > 0 && !pending" v-for="appRadio in appRadios" :key="appRadio.id">
+                        <tr v-if="appRadios.length > 0 && !pending" v-for="(appRadio, index) in appRadios" :key="appRadio.id">
                             <td style="width: 100px;">
                                 <img :src="appRadio.logo" class="app-image-thumbnail">
                             </td>
@@ -33,6 +33,8 @@
                                 {{ appRadio.title }}
                             </td>
                             <td>
+                                <v-btn icon="mdi-menu-up" :disabled="index ==0" @click="setOrder(appRadio, index, index - 1)"></v-btn>
+                                <v-btn icon="mdi-menu-down" :disabled="index == (appRadios.length-1)" @click="setOrder(appRadio, index, index + 1)"></v-btn>&nbsp;
                                 <v-btn icon="mdi-pencil"></v-btn>
                                 <v-btn icon="mdi-delete" @click="deleteRadio(appRadio)"></v-btn>
                             </td>
@@ -229,6 +231,24 @@ function setRadioData(v) {
     if (radio.description) {
         description.value.value = radio.description;
     }
+}
+
+async function setOrder(radio, index, indexNew){
+    if(indexNew < 0 || indexNew >= appRadios.length){
+        return;
+    }
+
+    let appRadiosTempCopy = [...appRadios.value];
+    [appRadiosTempCopy[index], appRadiosTempCopy[indexNew]] = [appRadiosTempCopy[indexNew], appRadiosTempCopy[index]];
+    var appRadioIDs = appRadiosTempCopy.map(r => r.id);
+
+    await fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${radio.id}/set_radio_order/`, {
+      method: 'PUT',
+      body: appRadioIDs
+    });
+
+    refresh();
+
 }
 
 async function generateLogoPreview() {

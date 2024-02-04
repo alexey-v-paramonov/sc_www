@@ -97,7 +97,7 @@
               <td>
                 <v-chip v-if="item.status == 0 || item.status == 3" variant="flat" color="green">{{ $t('hosted.status.being_created') }}</v-chip>
                 <v-chip v-if="item.status == 2" variant="flat" color="primary">{{ $t('hosted.status.running') }}</v-chip>
-                <v-chip v-if="item.status == 4" variant="flat" color="primary">{{ $t('hosted.status.being_deleted') }}</v-chip>
+                <v-chip v-if="item.status == 4" variant="flat" color="red">{{ $t('hosted.status.being_deleted') }}</v-chip>
                 <v-chip v-if="item.status == 5" variant="flat" color="red">{{ $t('hosted.status.suspended') }}</v-chip>
                 <v-chip v-if="item.status == 6" variant="flat" color="red">{{ $t('hosted.status.error') }}</v-chip>
               </td>
