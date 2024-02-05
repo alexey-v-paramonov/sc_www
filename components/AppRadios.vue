@@ -24,7 +24,8 @@
                     </thead>
                     <tbody>
 
-                        <tr v-if="appRadios.length > 0 && !pending" v-for="(appRadio, index) in appRadios" :key="appRadio.id">
+                        <tr v-if="appRadios.length > 0 && !pending" v-for="(appRadio, index) in appRadios"
+                            :key="appRadio.id">
                             <td style="width: 100px;">
                                 <img :src="appRadio.logo" class="app-image-thumbnail">
                             </td>
@@ -33,8 +34,10 @@
                                 {{ appRadio.title }}
                             </td>
                             <td>
-                                <v-btn icon="mdi-menu-up" :disabled="index ==0" @click="setOrder(appRadio, index, index - 1)"></v-btn>
-                                <v-btn icon="mdi-menu-down" :disabled="index == (appRadios.length-1)" @click="setOrder(appRadio, index, index + 1)"></v-btn>&nbsp;
+                                <v-btn icon="mdi-menu-up" :disabled="index == 0"
+                                    @click="setOrder(appRadio, index, index - 1)"></v-btn>
+                                <v-btn icon="mdi-menu-down" :disabled="index == (appRadios.length - 1)"
+                                    @click="setOrder(appRadio, index, index + 1)"></v-btn>&nbsp;
                                 <v-btn icon="mdi-pencil"></v-btn>
                                 <v-btn icon="mdi-delete" @click="deleteRadio(appRadio)"></v-btn>
                             </td>
@@ -108,27 +111,53 @@
                     </v-row>
 
 
-
-                    <v-text-field v-model="title.value.value" type="text" :error-messages="title.errorMessage.value"
-                        :label="$t('app.radio.title')" maxlength="150"></v-text-field>
-                    <v-textarea v-model="description.value.value" :label="$t('app.radio.description')"
-                        :error-messages="description.errorMessage.value" :hint="$t('app.radio.description_hint')"
-                        persistent-hint></v-textarea>
-
-                    <v-checkbox v-if="is_sc_panel.value.value == '1'" v-model="allow_shoutbox.value.value" value="1"
-                        :label="$t('app.radio.allow_shoutbox')" type="checkbox"></v-checkbox>
-
                     <v-row no-gutters md="12">
                         <v-col cols="6">
-                            <v-checkbox v-if="is_sc_panel.value.value == '1'" v-model="allow_likes.value.value" value="1"
-                                :label="$t('app.radio.allow_likes')" type="checkbox"></v-checkbox>
 
+                            <v-text-field v-model="title.value.value" type="text" :error-messages="title.errorMessage.value"
+                                :label="$t('app.radio.title')" maxlength="150"></v-text-field>
+                            <v-textarea v-model="description.value.value" :label="$t('app.radio.description')"
+                                :error-messages="description.errorMessage.value" :hint="$t('app.radio.description_hint')"
+                                persistent-hint></v-textarea>
+
+                            <v-checkbox v-if="is_sc_panel.value.value == '1'" v-model="allow_shoutbox.value.value" value="1"
+                                :label="$t('app.radio.allow_shoutbox')" type="checkbox"></v-checkbox>
+
+                            <v-row no-gutters>
+                                <v-col cols="6">
+                                    <v-checkbox v-if="is_sc_panel.value.value == '1'" v-model="allow_likes.value.value"
+                                        value="1" :label="$t('app.radio.allow_likes')" type="checkbox"></v-checkbox>
+
+                                </v-col>
+                                <v-col cols="6">
+                                    <v-checkbox v-if="is_sc_panel.value.value == '1'" v-model="allow_dislikes.value.value"
+                                        value="1" :label="$t('app.radio.allow_dislikes')" type="checkbox"></v-checkbox>
+                                </v-col>
+                            </v-row>
                         </v-col>
                         <v-col cols="6">
-                            <v-checkbox v-if="is_sc_panel.value.value == '1'" v-model="allow_dislikes.value.value" value="1"
-                                :label="$t('app.radio.allow_dislikes')" type="checkbox"></v-checkbox>
+                            <div class="text-h5 text-center">{{ $t('app.radio.channels.title') }}</div>
+                            <v-text-field v-model="stream_url.value.value" type="url"
+                                :label="$t('app.radio.channels.stream_url')"></v-text-field>
+
+                                <v-select 
+                                v-model="bitrate.value.value"
+                                :hint="$t('app.radio.sc_server_id_hint')" :items="scRadios" item-title="id" item-value="id"
+                                :label="$t('app.radio.sc_server_id_hint')" persistent-hint single-line></v-select>
+
+                                <v-select 
+                                v-model="audio_format.value.value"
+                                :hint="$t('app.radio.sc_server_id_hint')" :items="scRadios" item-title="id" item-value="id"
+                                :label="$t('app.radio.sc_server_id_hint')" persistent-hint single-line></v-select>
+
+                                <v-select 
+                                v-model="server_type.value.value"
+                                :hint="$t('app.radio.sc_server_id_hint')" :items="scRadios" item-title="id" item-value="id"
+                                :label="$t('app.radio.sc_server_id_hint')" persistent-hint single-line></v-select>
+
                         </v-col>
                     </v-row>
+
 
                     <v-btn type="submit" :disabled="isAppRadioBusy" block class="mt-2" color="primary">{{
                         isAppRadioBusy ? $t('loading') : $t('save') }}</v-btn>
@@ -196,6 +225,9 @@ const deleteRadioFailed = ref(false);
 
 
 const previewLogo = ref();
+const AUDIO_FORMATS = [{ "value": "mp3", "title": 'MP3' }, { "value": "aac", "title": 'AAC' }, { "value": "flac", "title": 'FLAC' }];
+const BITRATES_MP3 = [16, 24, 32, 48, 64, 96, 128, 160, 192, 256, 320];
+
 
 const { handleSubmit, isSubmitting: isAppRadioBusy, setErrors } = useForm({
     initialValues: {
@@ -233,8 +265,8 @@ function setRadioData(v) {
     }
 }
 
-async function setOrder(radio, index, indexNew){
-    if(indexNew < 0 || indexNew >= appRadios.length){
+async function setOrder(radio, index, indexNew) {
+    if (indexNew < 0 || indexNew >= appRadios.length) {
         return;
     }
 
@@ -243,8 +275,8 @@ async function setOrder(radio, index, indexNew){
     var appRadioIDs = appRadiosTempCopy.map(r => r.id);
 
     await fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${radio.id}/set_radio_order/`, {
-      method: 'PUT',
-      body: appRadioIDs
+        method: 'PUT',
+        body: appRadioIDs
     });
 
     refresh();

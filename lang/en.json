@@ -311,6 +311,9 @@
             "allow_dislikes": "Enable dislikes",
             "errors":{
                 "invalid_sc_url": "Invalid broadcaster interface URL, please contact support if you can not find this URL for your radio."
+            },
+            "channels":{
+                "title": "Radio streams"
             }
             
         }
