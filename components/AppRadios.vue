@@ -142,17 +142,17 @@
 
                                 <v-select 
                                 v-model="bitrate.value.value"
-                                :hint="$t('app.radio.sc_server_id_hint')" :items="scRadios" item-title="id" item-value="id"
+                                :hint="$t('app.radio.sc_server_id_hint')" :items="BITRATES_MP3" item-title="id" item-value="id"
                                 :label="$t('app.radio.sc_server_id_hint')" persistent-hint single-line></v-select>
 
                                 <v-select 
                                 v-model="audio_format.value.value"
-                                :hint="$t('app.radio.sc_server_id_hint')" :items="scRadios" item-title="id" item-value="id"
+                                :hint="$t('app.radio.sc_server_id_hint')" :items="AUDIO_FORMATS" item-title="id" item-value="id"
                                 :label="$t('app.radio.sc_server_id_hint')" persistent-hint single-line></v-select>
 
                                 <v-select 
                                 v-model="server_type.value.value"
-                                :hint="$t('app.radio.sc_server_id_hint')" :items="scRadios" item-title="id" item-value="id"
+                                :hint="$t('app.radio.sc_server_id_hint')" :items="SERVER_TYPES" item-title="id" item-value="id"
                                 :label="$t('app.radio.sc_server_id_hint')" persistent-hint single-line></v-select>
 
                         </v-col>
@@ -227,6 +227,7 @@ const deleteRadioFailed = ref(false);
 const previewLogo = ref();
 const AUDIO_FORMATS = [{ "value": "mp3", "title": 'MP3' }, { "value": "aac", "title": 'AAC' }, { "value": "flac", "title": 'FLAC' }];
 const BITRATES_MP3 = [16, 24, 32, 48, 64, 96, 128, 160, 192, 256, 320];
+const SERVER_TYPES = [{ "value": "icecast", "title": 'Icecast' }, { "value": "shoutcast", "title": 'Shoutcast' }];
 
 
 const { handleSubmit, isSubmitting: isAppRadioBusy, setErrors } = useForm({
@@ -246,6 +247,16 @@ const description = useField('description', "required");
 const allow_shoutbox = useField('allow_shoutbox');
 const allow_likes = useField('allow_likes');
 const allow_dislikes = useField('allow_dislikes');
+
+const stream_url = useField('stream_url', "url|required");
+const bitrate = useField('bitrate',);
+const audio_format = useField('audio_format',);
+const server_type = useField('server_type',);
+
+
+bitrate.value.value = 128;
+audio_format.value.value = "mp3";
+server_type.value.value = "icecast";
 
 allow_shoutbox.value.value = "1";
 allow_likes.value.value = "1";
