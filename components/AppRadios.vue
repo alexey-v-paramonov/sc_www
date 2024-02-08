@@ -24,7 +24,7 @@
                     </thead>
                     <tbody>
 
-                        <tr v-if="appRadios.length > 0 && !pending" v-for="(appRadio, index) in appRadios"
+                        <tr v-if="appRadios && appRadios.length > 0 && !pending" v-for="(appRadio, index) in appRadios"
                             :key="appRadio.id">
                             <td style="width: 100px;">
                                 <img :src="appRadio.logo" class="app-image-thumbnail">
@@ -112,7 +112,7 @@
 
 
                     <v-row no-gutters md="12">
-                        <v-col cols="6">
+                        <v-col cols="12">
 
                             <v-text-field v-model="title.value.value" type="text" :error-messages="title.errorMessage.value"
                                 :label="$t('app.radio.title')" maxlength="150"></v-text-field>
@@ -135,29 +135,38 @@
                                 </v-col>
                             </v-row>
                         </v-col>
-                        <v-col cols="6">
-                            <div class="text-h5 text-center">{{ $t('app.radio.channels.title') }}</div>
-                            <v-text-field v-model="stream_url.value.value" type="url"
-                                :label="$t('app.radio.channels.stream_url')"></v-text-field>
+                    </v-row>
+                    <v-row no-gutters md="12">
+                        <v-col cols="12">
 
-                                <v-select 
-                                v-model="bitrate.value.value"
-                                :hint="$t('app.radio.sc_server_id_hint')" :items="BITRATES_MP3" item-title="id" item-value="id"
-                                :label="$t('app.radio.sc_server_id_hint')" persistent-hint single-line></v-select>
+                    <div class="text-h5 text-center">{{ $t('app.radio.channels.title') }}</div>
+                            <v-row no-gutters>
+                                <v-col cols="12">
+                                    <v-text-field v-model="stream_url.value.value" type="url"
+                                        :label="$t('app.radio.channels.stream_url')"></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row no-gutters>
+                                <v-col cols="4">
+                                    <v-select v-model="bitrate.value.value" :hint="$t('app.radio.sc_server_id_hint')"
+                                        :items="BITRATES_MP3" item-title="id" item-value="id"
+                                        :label="$t('app.radio.sc_server_id_hint')" persistent-hint single-line></v-select>
+                                </v-col>
 
-                                <v-select 
-                                v-model="audio_format.value.value"
-                                :hint="$t('app.radio.sc_server_id_hint')" :items="AUDIO_FORMATS" item-title="id" item-value="id"
-                                :label="$t('app.radio.sc_server_id_hint')" persistent-hint single-line></v-select>
+                                <v-col cols="4">
+                                    <v-select v-model="audio_format.value.value" :hint="$t('app.radio.sc_server_id_hint')"
+                                        :items="AUDIO_FORMATS" item-title="id" item-value="id"
+                                        :label="$t('app.radio.sc_server_id_hint')" persistent-hint single-line></v-select>
+                                </v-col>
 
-                                <v-select 
-                                v-model="server_type.value.value"
-                                :hint="$t('app.radio.sc_server_id_hint')" :items="SERVER_TYPES" item-title="id" item-value="id"
-                                :label="$t('app.radio.sc_server_id_hint')" persistent-hint single-line></v-select>
-
+                                <v-col cols="4">
+                                    <v-select v-model="server_type.value.value" :hint="$t('app.radio.sc_server_id_hint')"
+                                        :items="SERVER_TYPES" item-title="id" item-value="id"
+                                        :label="$t('app.radio.sc_server_id_hint')" persistent-hint single-line></v-select>
+                                </v-col>
+                            </v-row>
                         </v-col>
                     </v-row>
-
 
                     <v-btn type="submit" :disabled="isAppRadioBusy" block class="mt-2" color="primary">{{
                         isAppRadioBusy ? $t('loading') : $t('save') }}</v-btn>
