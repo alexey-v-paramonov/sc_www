@@ -139,7 +139,7 @@
                     <v-row no-gutters md="12">
                         <v-col cols="12">
 
-                    <div class="text-h5 text-center">{{ $t('app.radio.channels.title') }}</div>
+                            <div class="text-h5 text-center">{{ $t('app.radio.channels.title') }}</div>
                             <v-row no-gutters>
                                 <v-col cols="12">
                                     <v-text-field v-model="stream_url.value.value" type="url"
@@ -168,8 +168,20 @@
                         </v-col>
                     </v-row>
 
-                    <v-btn type="submit" :disabled="isAppRadioBusy" block class="mt-2" color="primary">{{
-                        isAppRadioBusy ? $t('loading') : $t('save') }}</v-btn>
+                    <v-row>
+                        <v-col cols="12">
+                            <v-btn :disabled="isAppRadioBusy" block class="mt-2" @click="addStream()" color="secondary">{{ $t('app.radio.channels.add_new') }}</v-btn>
+                        </v-col>
+                    </v-row>
+
+                    <v-row>
+                        <v-col cols="12">
+
+                            <v-btn type="submit" :disabled="isAppRadioBusy" block class="mt-2" color="primary">{{
+                                isAppRadioBusy ? $t('loading') : $t('save') }}</v-btn>
+                        </v-col>
+                    </v-row>
+
                 </v-form>
             </v-card-text>
         </v-card>
@@ -344,6 +356,10 @@ function deleteRadio(r) {
             );
         }
     })
+}
+
+function addStream() {
+    console.log("Add stream!")
 }
 
 async function saveAppRadioRequest(values) {
