@@ -314,6 +314,12 @@
             },
             "channels":{
                 "title": "Radio streams",
+                "add_new_title": "Add new stream to the radio",
+                "stream_url": "Steram URL",
+                "bitrate": "Bitrate",
+                "audio_format": "Audio format",
+                "server_type": "Server",
+                "empty": "Your radio does not have any streams yes, please add a new stream using the form below",
                 "add_new": "Add stream"
             }
             

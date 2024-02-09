@@ -136,33 +136,120 @@
                             </v-row>
                         </v-col>
                     </v-row>
+
+                    <v-row no-gutters>
+                        <v-col cols="12">
+                            <div class="text-h5 text-center">{{ $t('app.radio.channels.title') }}</div>
+                        </v-col>
+                    </v-row>
+
+                    <v-row>
+                        <v-col cols="12">
+                            <v-table>
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            &nbsp;
+                                        </th>
+                                        <th>
+                                            {{ $t('app.radio.channels.stream_url') }}
+                                        </th>
+                                        <th>
+                                            {{ $t('app.radio.channels.bitrate') }}
+                                        </th>
+                                        <th>
+                                            {{ $t('app.radio.channels.audio_format') }}
+                                        </th>
+                                        <th>
+                                            {{ $t('app.radio.channels.server_type') }}
+                                        </th>
+                                        <th>
+                                            &nbsp;
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-if="radioStreams && radioStreams.length > 0 && !pending"
+                                        v-for="(stream, index) in radioStreams">
+                                        <td>
+                                            <a :href="stream.stream_url" target="_blank">{{ stream.stream_url }}</a>
+                                        </td>
+
+                                        <td>
+                                            {{ stream.bitrate }}kbps
+                                        </td>
+
+                                        <td>
+                                            {{ stream.audio_format }}
+                                        </td>
+
+                                        <td>
+                                            {{ stream.server_type }}
+                                        </td>
+
+                                        <td>
+                                            <v-btn icon="mdi-menu-up" :disabled="index == 0"
+                                                @click="setOrder(appRadio, index, index - 1)"></v-btn>
+                                            <v-btn icon="mdi-menu-down" :disabled="index == (appRadios.length - 1)"
+                                                @click="setOrder(appRadio, index, index + 1)"></v-btn>&nbsp;
+                                            <!-- <v-btn icon="mdi-pencil"></v-btn> -->
+                                            <v-btn icon="mdi-delete" @click="deleteRadio(appRadio)"></v-btn>
+                                        </td>
+                                    </tr>
+
+                                    <tr v-else-if="pending">
+                                        <td colspan="10" class="text-center"><v-progress-circular
+                                                indeterminate></v-progress-circular>
+                                        </td>
+                                    </tr>
+
+                                    <tr v-else>
+                                        <td class="text-center" colspan="10">
+                                            <br />
+                                            {{ $t('app.radio.channels.empty') }}
+                                            <br />
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </v-table>
+                        </v-col>
+                    </v-row>
+
+
+                    <!-- New stream form -->
                     <v-row no-gutters md="12">
                         <v-col cols="12">
 
-                            <div class="text-h5 text-center">{{ $t('app.radio.channels.title') }}</div>
+                            <div class="text-h5 text-center">{{ $t('app.radio.channels.add_new_title') }}</div>
                             <v-row no-gutters>
                                 <v-col cols="12">
-                                    <v-text-field v-model="stream_url.value.value" type="url"
+                                    <v-text-field v-model="new_channel_stream_url.value.value" type="url"
+                                        :error-messages="new_channel_stream_url.errorMessage.value"
                                         :label="$t('app.radio.channels.stream_url')"></v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row no-gutters>
                                 <v-col cols="4">
-                                    <v-select v-model="bitrate.value.value" :hint="$t('app.radio.sc_server_id_hint')"
-                                        :items="BITRATES_MP3" item-title="id" item-value="id"
-                                        :label="$t('app.radio.sc_server_id_hint')" persistent-hint single-line></v-select>
+                                    <v-select v-model="new_channel_bitrate.value.value"
+                                        :hint="$t('app.radio.sc_server_id_hint')" :items="BITRATES_MP3" item-title="id"
+                                        item-value="id" :label="$t('app.radio.sc_server_id_hint')" persistent-hint
+                                        single-line></v-select>
                                 </v-col>
 
                                 <v-col cols="4">
-                                    <v-select v-model="audio_format.value.value" :hint="$t('app.radio.sc_server_id_hint')"
-                                        :items="AUDIO_FORMATS" item-title="id" item-value="id"
-                                        :label="$t('app.radio.sc_server_id_hint')" persistent-hint single-line></v-select>
+                                    <v-select v-model="new_channel_audio_format.value.value"
+                                        :hint="$t('app.radio.sc_server_id_hint')" :items="AUDIO_FORMATS" item-title="id"
+                                        item-value="id" :label="$t('app.radio.sc_server_id_hint')" persistent-hint
+                                        single-line></v-select>
                                 </v-col>
 
                                 <v-col cols="4">
-                                    <v-select v-model="server_type.value.value" :hint="$t('app.radio.sc_server_id_hint')"
-                                        :items="SERVER_TYPES" item-title="id" item-value="id"
-                                        :label="$t('app.radio.sc_server_id_hint')" persistent-hint single-line></v-select>
+                                    <v-select v-model="new_channel_server_type.value.value"
+                                        :hint="$t('app.radio.sc_server_id_hint')" :items="SERVER_TYPES" item-title="id"
+                                        item-value="id" :label="$t('app.radio.sc_server_id_hint')" persistent-hint
+                                        single-line></v-select>
                                 </v-col>
                             </v-row>
                         </v-col>
@@ -170,7 +257,8 @@
 
                     <v-row>
                         <v-col cols="12">
-                            <v-btn :disabled="isAppRadioBusy" block class="mt-2" @click="addStream()" color="secondary">{{ $t('app.radio.channels.add_new') }}</v-btn>
+                            <v-btn :disabled="isAppRadioBusy" block class="mt-2" @click="addStream()" color="secondary">{{
+                                $t('app.radio.channels.add_new') }}</v-btn>
                         </v-col>
                     </v-row>
 
@@ -243,6 +331,8 @@ const delDialog = ref(false);
 let answerDialog = ref();
 const deleteRadioSuccess = ref(false);
 const deleteRadioFailed = ref(false);
+let radioStreams = ref([]);
+
 
 
 const previewLogo = ref();
@@ -269,15 +359,15 @@ const allow_shoutbox = useField('allow_shoutbox');
 const allow_likes = useField('allow_likes');
 const allow_dislikes = useField('allow_dislikes');
 
-const stream_url = useField('stream_url', "url|required");
-const bitrate = useField('bitrate',);
-const audio_format = useField('audio_format',);
-const server_type = useField('server_type',);
+const new_channel_stream_url = useField('new_channel_stream_url', "url|required");
+const new_channel_bitrate = useField('new_channel_bitrate',);
+const new_channel_audio_format = useField('new_channel_audio_format',);
+const new_channel_server_type = useField('new_channel_server_type',);
 
 
-bitrate.value.value = 128;
-audio_format.value.value = "mp3";
-server_type.value.value = "icecast";
+new_channel_bitrate.value.value = 128;
+new_channel_audio_format.value.value = "mp3";
+new_channel_server_type.value.value = "icecast";
 
 allow_shoutbox.value.value = "1";
 allow_likes.value.value = "1";
@@ -360,6 +450,13 @@ function deleteRadio(r) {
 
 function addStream() {
     console.log("Add stream!")
+    radioStreams.value.push({
+        stream_url: new_channel_stream_url.value.value,
+        // stream_url_fallback: new_channel_stream_url_fallback,
+        bitrate: new_channel_bitrate.value.value,
+        audio_format: new_channel_audio_format.value.value,
+        server_type: new_channel_server_type.value.value,
+    });
 }
 
 async function saveAppRadioRequest(values) {
