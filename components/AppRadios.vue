@@ -193,7 +193,7 @@
                                             <v-btn icon="mdi-menu-down" :disabled="index == (appRadios.length - 1)"
                                                 @click="setOrder(appRadio, index, index + 1)"></v-btn>&nbsp;
                                             <!-- <v-btn icon="mdi-pencil"></v-btn> -->
-                                            <v-btn icon="mdi-delete" @click="deleteRadio(appRadio)"></v-btn>
+                                            <v-btn icon="mdi-delete" @click="deleteChannel(index)"></v-btn>
                                         </td>
                                     </tr>
 
@@ -351,6 +351,7 @@ const is_sc_panel = useField('is_sc_panel');
 const sc_api_url = useField('sc_api_url', "url|required_if:is_sc_panel,1");
 const sc_server_id = useField('sc_server_id', "required_if:is_sc_panel,1");
 
+// required_if:is_sc_panel,1
 const logo = useField('logo', "image|size:2000");
 
 const title = useField('title', "required");
@@ -359,7 +360,7 @@ const allow_shoutbox = useField('allow_shoutbox');
 const allow_likes = useField('allow_likes');
 const allow_dislikes = useField('allow_dislikes');
 
-const new_channel_stream_url = useField('new_channel_stream_url', "url|required");
+const new_channel_stream_url = useField('new_channel_stream_url', "url");
 const new_channel_bitrate = useField('new_channel_bitrate',);
 const new_channel_audio_format = useField('new_channel_audio_format',);
 const new_channel_server_type = useField('new_channel_server_type',);
@@ -373,8 +374,7 @@ allow_shoutbox.value.value = "1";
 allow_likes.value.value = "1";
 allow_dislikes.value.value = "1";
 
-const { data: appRadios, pending, error, refresh } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/radio/${props.platform}/`);
-
+const { data: appRadios, pending, error, refresh } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/radios/`);
 
 function setRadioData(v) {
     const id = v || sc_server_id.value.value;
@@ -435,7 +435,7 @@ function deleteRadio(r) {
     }).then((res) => {
         delDialog.value = false;
         if (res) {
-            fetchAuth(`${config.public.baseURL}/mobile_apps/radio/${props.platform}/${r.id}/`, { method: 'DELETE' }).then(
+            fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/radios/${r.id}/`, { method: 'DELETE' }).then(
                 () => {
                     deleteRadioSuccess.value = true;
                     refresh();
@@ -471,8 +471,7 @@ async function saveAppRadioRequest(values) {
     //formData.append('email', values.email);
     // values.icon && formData.append('icon', values.icon[0]);
     values.logo && formData.append('logo', values.logo[0]);
-
-    return await useFetchAuth(`${config.public.baseURL}/mobile_apps/radio/${props.platform}/`, {
+    return await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/radios/`, {
         method: 'POST',
         body: formData
     });
