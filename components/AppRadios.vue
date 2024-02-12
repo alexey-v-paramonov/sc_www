@@ -38,7 +38,7 @@
                                     @click="setOrder(appRadio, index, index - 1)"></v-btn>
                                 <v-btn icon="mdi-menu-down" :disabled="index == (appRadios.length - 1)"
                                     @click="setOrder(appRadio, index, index + 1)"></v-btn>&nbsp;
-                                <v-btn icon="mdi-pencil"></v-btn>
+                                <v-btn icon="mdi-pencil" @click="openRadioDialog(appRadio)"></v-btn>
                                 <v-btn icon="mdi-delete" @click="deleteRadio(appRadio)"></v-btn>
                             </td>
                         </tr>
@@ -60,7 +60,7 @@
                 </v-table>
             </v-col>
         </v-row>
-        <v-btn block color="primary" prepend-icon="mdi-plus" @click="radioDialog = true">{{ $t('app.radios.add')
+        <v-btn block color="primary" prepend-icon="mdi-plus" @click="openRadioDialog();">{{ $t('app.radios.add')
         }}</v-btn>
 
     </v-container>
@@ -90,10 +90,10 @@
                         :label="$t('app.radio.sc_api_url')" :hint="$t('app.radio.sc_api_url_hint')"
                         persistent-hint></v-text-field>
 
-                    <v-select v-if="is_sc_panel.value.value == '1' && scRadios.length > 0" @update:modelValue="setRadioData"
-                        v-model="sc_server_id.value.value" :hint="$t('app.radio.sc_server_id_hint')" :items="scRadios"
-                        item-title="id" item-value="id" :label="$t('app.radio.sc_server_id_hint')" persistent-hint
-                        single-line></v-select>
+                    <v-select v-if="is_sc_panel.value.value == '1' && (scRadios.length > 0 || sc_server_id.value.value)"
+                        @update:modelValue="setRadioData" v-model="sc_server_id.value.value"
+                        :hint="$t('app.radio.sc_server_id_hint')" :items="scRadios" item-title="id" item-value="id"
+                        :label="$t('app.radio.sc_server_id_hint')" persistent-hint single-line></v-select>
 
                     <!-- Logo -->
                     <v-row no-gutters md="12">
@@ -116,6 +116,7 @@
 
                             <v-text-field v-model="title.value.value" type="text" :error-messages="title.errorMessage.value"
                                 :label="$t('app.radio.title')" maxlength="150"></v-text-field>
+
                             <v-textarea v-model="description.value.value" :label="$t('app.radio.description')"
                                 :error-messages="description.errorMessage.value" :hint="$t('app.radio.description_hint')"
                                 persistent-hint></v-textarea>
@@ -354,8 +355,8 @@ const sc_server_id = useField('sc_server_id', "required_if:is_sc_panel,1");
 // required_if:is_sc_panel,1
 const logo = useField('logo', "image|size:2000");
 
-const title = useField('title', "required");
-const description = useField('description', "required");
+const title = useField('title', "required", { validateOnValueUpdate: false });
+const description = useField('description', "required", { validateOnValueUpdate: false });
 const allow_shoutbox = useField('allow_shoutbox');
 const allow_likes = useField('allow_likes');
 const allow_dislikes = useField('allow_dislikes');
@@ -428,6 +429,25 @@ async function checkSCPanelURL() {
 }
 
 
+function openRadioDialog(r = null) {
+    if (r) {
+        title.value.value = r.title;
+        description.value.value = r.description;
+        is_sc_panel.value.value = r.sc_api_url ? "1" : null;
+        if (is_sc_panel.value.value) {
+            sc_api_url.value.value = r.sc_api_url;
+            sc_server_id.value.value = r.sc_server_id;
+        }
+    }
+    else {
+        title.value.value = '';
+        description.value.value = '';
+        is_sc_panel.value.value = null;
+    }
+    radioDialog.value = true;
+}
+
+
 function deleteRadio(r) {
     delDialog.value = true;
     new Promise((resolve) => {
@@ -449,7 +469,6 @@ function deleteRadio(r) {
 }
 
 function addStream() {
-    console.log("Add stream!")
     radioStreams.value.push({
         stream_url: new_channel_stream_url.value.value,
         // stream_url_fallback: new_channel_stream_url_fallback,
@@ -460,19 +479,17 @@ function addStream() {
 }
 
 async function saveAppRadioRequest(values) {
+    const isEditMode = Boolean(appRadio.value.id);
     let formData = new FormData();
 
     formData.append('app', appData.id);
     formData.append('title', values.title);
-    // formData.append('user', stateUser.user.id);
     formData.append('description', values.description);
-    //formData.append('description_short', values.description_short);
-    //values.website_url && formData.append('website_url', values.website_url);
-    //formData.append('email', values.email);
-    // values.icon && formData.append('icon', values.icon[0]);
     values.logo && formData.append('logo', values.logo[0]);
-    return await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/radios/`, {
-        method: 'POST',
+    formData.append('channels', JSON.stringify(radioStreams.value));
+
+    return await fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/radios/`, {
+        method: isEditMode ? 'PUT' : 'POST',
         body: formData
     });
 }
@@ -488,9 +505,11 @@ const onAppRadioSubmit = handleSubmit(async values => {
     catch (e) {
         console.log("Exception: ", e)
         const errorData = e.data;
-        for (const [field, errors] of Object.entries(errorData)) {
-            for (const errCode of errors) {
-                setErrors({ [field]: t(`app.errors.${field}.${errCode}`) })
+        if (typeof errorData == 'object') {
+            for (const [field, errors] of Object.entries(errorData)) {
+                for (const errCode of errors) {
+                    setErrors({ [field]: t(`app.errors.${field}.${errCode}`) })
+                }
             }
         }
         return;
