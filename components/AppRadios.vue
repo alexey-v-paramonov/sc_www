@@ -374,6 +374,7 @@ new_channel_server_type.value.value = "icecast";
 allow_shoutbox.value.value = "1";
 allow_likes.value.value = "1";
 allow_dislikes.value.value = "1";
+// new_channel_stream_url.value.value = "https://demoaccount.s02.radio-tochka.com:8080/"
 
 const { data: appRadios, pending, error, refresh } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/radios/`);
 
@@ -486,7 +487,10 @@ async function saveAppRadioRequest(values) {
     formData.append('title', values.title);
     formData.append('description', values.description);
     values.logo && formData.append('logo', values.logo[0]);
-    formData.append('channels', JSON.stringify(radioStreams.value));
+    // formData.append('channels', JSON.stringify(radioStreams.value));
+    var blob = new Blob([JSON.stringify(radioStreams.value)], {type: "application/json"});
+    formData.append('channels', blob);
+
 
     return await fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/radios/`, {
         method: isEditMode ? 'PUT' : 'POST',
