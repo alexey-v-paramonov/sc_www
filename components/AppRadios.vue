@@ -150,9 +150,6 @@
                                 <thead>
                                     <tr>
                                         <th>
-                                            &nbsp;
-                                        </th>
-                                        <th>
                                             {{ $t('app.radio.channels.stream_url') }}
                                         </th>
                                         <th>
@@ -181,11 +178,11 @@
                                         </td>
 
                                         <td>
-                                            {{ stream.audio_format }}
+                                            {{ getAudioFormat(stream.audio_format) }}
                                         </td>
 
                                         <td>
-                                            {{ stream.server_type }}
+                                            {{ getServerType(stream.server_type) }}
                                         </td>
 
                                         <td>
@@ -234,29 +231,30 @@
                             <v-row no-gutters>
                                 <v-col cols="4">
                                     <v-select v-model="new_channel_bitrate.value.value"
-                                        :hint="$t('app.radio.sc_server_id_hint')" :items="BITRATES_MP3" item-title="id"
-                                        item-value="id" :label="$t('app.radio.sc_server_id_hint')" persistent-hint
+                                        :items="BITRATES_MP3" item-title="id"
+                                        item-value="id" :label="$t('app.radio.channels.bitrate')" 
                                         single-line></v-select>
                                 </v-col>
 
                                 <v-col cols="4">
                                     <v-select v-model="new_channel_audio_format.value.value"
-                                        :hint="$t('app.radio.sc_server_id_hint')" :items="AUDIO_FORMATS" item-title="id"
-                                        item-value="id" :label="$t('app.radio.sc_server_id_hint')" persistent-hint
+                                        :items="AUDIO_FORMATS" item-title="title"
+
+                                        item-value="value" :label="$t('app.radio.channels.audio_format')" 
                                         single-line></v-select>
                                 </v-col>
 
                                 <v-col cols="4">
                                     <v-select v-model="new_channel_server_type.value.value"
-                                        :hint="$t('app.radio.sc_server_id_hint')" :items="SERVER_TYPES" item-title="id"
-                                        item-value="id" :label="$t('app.radio.sc_server_id_hint')" persistent-hint
+                                        :items="SERVER_TYPES" item-title="title"
+                                        item-value="value" :label="$t('app.radio.channels.server_type')"
                                         single-line></v-select>
                                 </v-col>
                             </v-row>
                         </v-col>
                     </v-row>
 
-                    <v-row>
+                    <v-row  no-gutters>
                         <v-col cols="12">
                             <v-btn :disabled="isAppRadioBusy" block class="mt-2" @click="addStream()" color="secondary">{{
                                 $t('app.radio.channels.add_new') }}</v-btn>
@@ -368,15 +366,22 @@ const new_channel_server_type = useField('new_channel_server_type',);
 
 
 new_channel_bitrate.value.value = 128;
-new_channel_audio_format.value.value = "mp3";
-new_channel_server_type.value.value = "icecast";
+new_channel_audio_format.value.value = AUDIO_FORMATS[0].value;
+new_channel_server_type.value.value = SERVER_TYPES[0].value;
 
 allow_shoutbox.value.value = "1";
 allow_likes.value.value = "1";
 allow_dislikes.value.value = "1";
-// new_channel_stream_url.value.value = "https://demoaccount.s02.radio-tochka.com:8080/"
 
 const { data: appRadios, pending, error, refresh } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/radios/`);
+
+function getAudioFormat(v){
+    return AUDIO_FORMATS.filter((t) => t.value == v)[0].title;
+}
+
+function getServerType(v){
+    return SERVER_TYPES.filter((t) => t.value == v)[0].title;
+}
 
 function setRadioData(v) {
     const id = v || sc_server_id.value.value;
@@ -449,6 +454,9 @@ function openRadioDialog(r = null) {
         if (is_sc_panel.value.value) {
             sc_api_url.value.value = r.sc_api_url;
             sc_server_id.value.value = r.sc_server_id;
+            allow_shoutbox.value.value = r.allow_shoutbox ? '1' : null;
+            allow_likes.value.value = r.allow_likes ? '1' : null;
+            allow_dislikes.value.value = r.allow_dislikes ? '1' : null;
         }
         radioStreams.value = [...r.channels];
 
@@ -464,7 +472,11 @@ function resetRadioForm(){
     description.value.value = '';
     is_sc_panel.value.value = null;
     logo.value.value = '';
-
+    sc_api_url.value.value = '';
+    sc_server_id.value.value = '';
+    new_channel_bitrate.value.value = 128;
+    new_channel_audio_format.value.value = AUDIO_FORMATS[0].value;
+    new_channel_server_type.value.value = SERVER_TYPES[0].value;
     radioStreams.value = [];
 
 }
@@ -503,6 +515,10 @@ function addStream() {
     });
 }
 
+function isScRadio(){
+    return is_sc_panel.value.value == '1';
+}
+
 async function saveAppRadioRequest(values) {
     const isEditMode = Boolean(appRadio.value.id);
     let formData = new FormData();
@@ -511,6 +527,21 @@ async function saveAppRadioRequest(values) {
     formData.append('title', values.title);
     formData.append('description', values.description);
     values.logo && formData.append('logo', values.logo[0]);
+    if(isScRadio()){
+        formData.append('sc_api_url', sc_api_url.value.value);
+        formData.append('sc_server_id', sc_server_id.value.value);
+        formData.append('allow_shoutbox', allow_shoutbox.value.value == '1');
+        formData.append('allow_likes', allow_likes.value.value == '1');
+        formData.append('allow_dislikes', allow_dislikes.value.value == '1');
+
+    }
+    else{
+        formData.append('sc_api_url', '');
+        formData.append('sc_server_id', '');
+        formData.append('allow_shoutbox', false);
+        formData.append('allow_likes', false);
+        formData.append('allow_dislikes', false);
+    }
     // formData.append('channels', JSON.stringify(radioStreams.value));
     var blob = new Blob([JSON.stringify(radioStreams.value)], {type: "application/json"});
     console.log("Channels: ", JSON.stringify(radioStreams.value))
