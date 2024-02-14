@@ -66,9 +66,9 @@ const password = useField('password', "required|min:8");
 const onLoginSubmit = handleSubmit(async values => {
   badCredentials.value = false;
   const response = await loginRequest(values);
-  const error = response.error.value;
+  const error = response.error;
   if (!error) {
-    userStore.setUserData(response.data.value);
+    userStore.setUserData(response);
     router.push("/");
     return;
   }

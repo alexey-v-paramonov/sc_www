@@ -86,9 +86,9 @@ const password2 = useField(t("password_confirmation"), "required|min:8|confirmed
 
 const onSignupSubmit = handleSubmit(async values => {
   const response = await signUpRequest(values);
-  const error = response.error.value;
+  const error = response.error;
   if (!error) {
-    userStore.setUserData(response.data.value);
+    userStore.setUserData(response);
     router.push("/");
     return;
   }
