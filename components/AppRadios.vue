@@ -190,10 +190,9 @@
 
                                         <td>
                                             <v-btn icon="mdi-menu-up" :disabled="index == 0"
-                                                @click="setOrder(appRadio, index, index - 1)"></v-btn>
-                                            <v-btn icon="mdi-menu-down" :disabled="index == (appRadios.length - 1)"
-                                                @click="setOrder(appRadio, index, index + 1)"></v-btn>&nbsp;
-                                            <!-- <v-btn icon="mdi-pencil"></v-btn> -->
+                                                @click="setChannelOrder(index, index - 1)"></v-btn>
+                                            <v-btn icon="mdi-menu-down" :disabled="index == (radioStreams.length - 1)"
+                                                @click="setChannelOrder(index, index + 1)"></v-btn>&nbsp;
                                             <v-btn icon="mdi-delete" @click="deleteChannel(index)"></v-btn>
                                         </td>
                                     </tr>
@@ -408,6 +407,15 @@ async function setOrder(radio, index, indexNew) {
 
 }
 
+
+function setChannelOrder(index, indexNew) {
+    if (indexNew < 0 || indexNew >= radioStreams.value.length) {
+        return;
+    }
+    [radioStreams.value[index], radioStreams.value[indexNew]] = [radioStreams.value[indexNew], radioStreams.value[index]];
+
+}
+
 async function generateLogoPreview() {
     const { valid } = await logo.validate();
     previewLogo.value = valid && logo.value.value[0] ? URL.createObjectURL(logo.value.value[0]) : undefined;
@@ -479,6 +487,10 @@ function deleteRadio(r) {
             );
         }
     })
+}
+
+function deleteChannel(channel_index){
+    radioStreams.value.splice(channel_index, 1);
 }
 
 function addStream() {
