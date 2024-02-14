@@ -64,7 +64,7 @@ const password = useField('password', "min:8");
 async function saveSettingsRequest(data) {
   
   const config = useRuntimeConfig();
-  return await useFetchAuth(`${config.public.baseURL}/users/${stateUser.user.id}/profile/`, {
+  return await fetchAuth(`${config.public.baseURL}/users/${stateUser.user.id}/profile/`, {
     method: 'PUT',
     body: {
       'email': data.email,

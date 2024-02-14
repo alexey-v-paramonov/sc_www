@@ -284,7 +284,7 @@ const appPrice = computed(() => {
 
 async function appCreationRequest(values) {
   const platform = isAndroid() ? "android" : "ios";
-  return await useFetchAuth(`${config.public.baseURL}/mobile_apps/${platform}/`, {
+  return await fetchAuth(`${config.public.baseURL}/mobile_apps/${platform}/`, {
     method: 'POST',
     body: values
   });

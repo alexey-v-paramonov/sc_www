@@ -130,7 +130,7 @@ async function appUpdateRequest(values) {
     values.icon && formData.append('icon', values.icon[0]);
     values.logo && formData.append('logo', values.logo[0]);
 
-    return await useFetchAuth(`${config.public.baseURL}/mobile_apps/${platform}/${props.id}/`, {
+    return await fetchAuth(`${config.public.baseURL}/mobile_apps/${platform}/${props.id}/`, {
         method: 'PATCH',
         body: formData
     });
@@ -139,6 +139,7 @@ async function appUpdateRequest(values) {
 
 
 const onAppSubmit = handleSubmit(async values => {
+    console.log("onAppSubmit!")
 
     let response;
     try {

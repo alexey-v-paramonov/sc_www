@@ -193,7 +193,7 @@ function deleteRadio(radio) {
       radio.beingDeleted = true;
 
       const isSelfHosted = Boolean(radio.ip);
-      useFetchAuth(`${config.public.baseURL}/${ isSelfHosted? 'self_hosted_radio': 'hosted_radio'}/${radio.id}/`, { method: 'DELETE' }).then(
+      fetchAuth(`${config.public.baseURL}/${ isSelfHosted? 'self_hosted_radio': 'hosted_radio'}/${radio.id}/`, { method: 'DELETE' }).then(
         (response) => {
           const data = response.data.value;
           const error = response.error.value;

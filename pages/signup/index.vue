@@ -51,7 +51,7 @@ onMounted(() => {
 
 async function signUpRequest(data) {
   const config = useRuntimeConfig();
-  return await useFetch(`${config.public.baseURL}/users/`, {
+  return await $fetch(`${config.public.baseURL}/users/`, {
     //return await useFetch(`http://127.0.0.1:8000/api/v1/users/`, {
     method: 'POST',
     body: {

@@ -48,7 +48,7 @@ const showPass = ref(false);
 
 async function loginRequest(data) {
   const config = useRuntimeConfig();
-  return await useFetch(`${config.public.baseURL}/api-token-auth/`, {
+  return await $fetch(`${config.public.baseURL}/api-token-auth/`, {
     //return await useFetch(`http://localhost:8000/api/v1/api-token-auth/`, {
     method: 'POST',
     body: {

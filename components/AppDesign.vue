@@ -353,7 +353,7 @@ function isAndroid() {
 async function appDesignUpdateRequest(values) {
     const platform = isAndroid() ? "android" : "ios";
 
-    return await useFetchAuth(`${config.public.baseURL}/mobile_apps/${platform}/${props.id}/`, {
+    return await fetchAuth(`${config.public.baseURL}/mobile_apps/${platform}/${props.id}/`, {
         method: 'PATCH',
         body: {
             bg_color: bg_color.value.value,

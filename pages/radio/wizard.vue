@@ -382,7 +382,7 @@ async function priceRequest(data) {
 }
 
 async function selfHostedRequest(values) {
-  return await useFetchAuth(`${config.public.baseURL}/self_hosted_radio/`, {
+  return await fetchAuth(`${config.public.baseURL}/self_hosted_radio/`, {
       method: 'POST',
       body: values
   });
@@ -390,7 +390,7 @@ async function selfHostedRequest(values) {
 }
 
 async function hostedRequest(values) {
-  return await useFetchAuth(`${config.public.baseURL}/hosted_radio/`, {
+  return await fetchAuth(`${config.public.baseURL}/hosted_radio/`, {
       method: 'POST',
       body: {
         login: values.login,
