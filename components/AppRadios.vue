@@ -228,6 +228,7 @@
                                 <v-col cols="12">
                                     <v-text-field v-model="new_channel_stream_url.value.value" type="url"
                                         :error-messages="new_channel_stream_url.errorMessage.value"
+                                        maxlength="200"
                                         :label="$t('app.radio.channels.stream_url')"></v-text-field>
                                 </v-col>
                             </v-row>
@@ -432,6 +433,8 @@ async function checkSCPanelURL() {
 
 function openRadioDialog(r = null) {
     if (r) {
+        console.log(r.id);
+        appRadio.value = { ...r }
         title.value.value = r.title;
         description.value.value = r.description;
         is_sc_panel.value.value = r.sc_api_url ? "1" : null;
@@ -439,15 +442,24 @@ function openRadioDialog(r = null) {
             sc_api_url.value.value = r.sc_api_url;
             sc_server_id.value.value = r.sc_server_id;
         }
+        radioStreams.value = [...r.channels];
+
     }
     else {
-        title.value.value = '';
-        description.value.value = '';
-        is_sc_panel.value.value = null;
+        resetRadioForm();
     }
     radioDialog.value = true;
 }
 
+function resetRadioForm(){
+    title.value.value = '';
+    description.value.value = '';
+    is_sc_panel.value.value = null;
+    logo.value.value = '';
+
+    radioStreams.value = [];
+
+}
 
 function deleteRadio(r) {
     delDialog.value = true;
@@ -489,10 +501,11 @@ async function saveAppRadioRequest(values) {
     values.logo && formData.append('logo', values.logo[0]);
     // formData.append('channels', JSON.stringify(radioStreams.value));
     var blob = new Blob([JSON.stringify(radioStreams.value)], {type: "application/json"});
+    console.log("Channels: ", JSON.stringify(radioStreams.value))
     formData.append('channels', blob);
 
 
-    return await fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/radios/`, {
+    return await fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/radios/` + (isEditMode? appRadio.value.id + '/' : ''), {
         method: isEditMode ? 'PUT' : 'POST',
         body: formData
     });
@@ -500,6 +513,7 @@ async function saveAppRadioRequest(values) {
 
 
 const onAppRadioSubmit = handleSubmit(async values => {
+    console.log("Submit: ", values);
 
     let response;
     try {
@@ -507,7 +521,6 @@ const onAppRadioSubmit = handleSubmit(async values => {
         console.log(response);
     }
     catch (e) {
-        console.log("Exception: ", e)
         const errorData = e.data;
         if (typeof errorData == 'object') {
             for (const [field, errors] of Object.entries(errorData)) {
@@ -519,8 +532,9 @@ const onAppRadioSubmit = handleSubmit(async values => {
         return;
     }
     refresh();
+    resetRadioForm();
+
     radioDialog.value = false;
-    logo.value.value = '';
 });
 
 
