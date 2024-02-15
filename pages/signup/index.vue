@@ -22,7 +22,7 @@
               {{ isSignupBusy ? $t('loading') : $t('create_account') }}</v-btn>
 
             <div class="mt-2">
-              <p class="text-body-2">Already have an account? <NuxtLink to="/login">{{ $t('login') }}</NuxtLink>
+              <p class="text-body-2">{{$t('have_account')}} <NuxtLink to="/login">{{ $t('login') }}</NuxtLink>
               </p>
             </div>
           </v-form>

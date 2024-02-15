@@ -35,6 +35,7 @@
     "email.errors.undeliverable": "Email address is invalid (undeliverable)",
     "cancel": "Cancel",
     "delete": "Delete",
+    "have_account": "Already have an account?",
     
 
     "radio.wizard": "Create a new radio",

@@ -34,6 +34,7 @@
     "email.errors.undeliverable": "Email адрес не работает",
     "cancel": "Отмена",
     "delete": "Удалить",
+    "have_account": "Уже есть аккаунт?",
 
     "radio.wizard": "Создание нового радио",
     "radio_wizard": {
