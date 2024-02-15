@@ -23,7 +23,6 @@
           <input type="hidden" name="InvId" :value="invID">
           <input name="ym_merchant_receipt" id="ym_merchant_receipt" :value="receipt" type="hidden" />
 
-          {{ receipt }}
           <v-btn type="submit" block class="mt-2" color="primary">Перейти к оплате</v-btn>
         </v-form>
       </v-col>
