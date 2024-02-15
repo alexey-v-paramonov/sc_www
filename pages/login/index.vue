@@ -49,7 +49,6 @@ const showPass = ref(false);
 async function loginRequest(data) {
   const config = useRuntimeConfig();
   return await $fetch(`${config.public.baseURL}/api-token-auth/`, {
-    //return await useFetch(`http://localhost:8000/api/v1/api-token-auth/`, {
     method: 'POST',
     body: {
       'username': data.email,
@@ -58,25 +57,26 @@ async function loginRequest(data) {
   });
 }
 
-const { handleSubmit, isSubmitting: isSignupSubmitting, setErrors } = useForm();
+const { handleSubmit, isSubmitting: isSignupSubmitting } = useForm();
 
 const email = useField('email', "required|email");
 const password = useField('password', "required|min:8");
 
 const onLoginSubmit = handleSubmit(async values => {
   badCredentials.value = false;
-  const response = await loginRequest(values);
-  const error = response.error;
-  if (!error) {
-    userStore.setUserData(response);
-    router.push("/");
-    return;
+  let response;
+  try{
+    response = await loginRequest(values);
   }
-  if (error.data['non_field_errors'] == 'bad_credentials') {
+  catch(e){
     badCredentials.value = true;
+    // if (e.data['non_field_errors'] == 'bad_credentials') {
+    //   return;
+    // }
     return;
   }
-  badCredentials.value = true;
+  userStore.setUserData(response);
+  router.push("/");
 
 });
 

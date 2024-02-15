@@ -556,7 +556,6 @@ async function saveAppRadioRequest(values) {
 
 
 const onAppRadioSubmit = handleSubmit(async values => {
-    console.log("Submit: ", values);
 
     let response;
     try {

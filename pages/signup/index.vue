@@ -6,7 +6,7 @@
         <v-col>&nbsp;</v-col>
         <v-col md="6">
           <h1>{{ $t('signup') }}</h1>
-          <form @submit.prevent="onSignupSubmit" :disabled="isSignupSubmitting">
+          <v-form @submit.prevent="onSignupSubmit" :disabled="isSignupBusy">
             <v-text-field v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
               :label="$t('email')"></v-text-field>
 
@@ -18,13 +18,14 @@
               :hint="$t('chars_min_8')" counter :error-messages="password2.errorMessage.value"
               @click:append="showPass = !showPass"></v-text-field>
 
+            <v-btn type="submit" :disabled="isSignupBusy" block class="mt-2">
+              {{ isSignupBusy ? $t('loading') : $t('create_account') }}</v-btn>
 
-            <v-btn type="submit" :disabled="isSignupSubmitting" block class="mt-2">{{ $t('create_account') }}</v-btn>
             <div class="mt-2">
               <p class="text-body-2">Already have an account? <NuxtLink to="/login">{{ $t('login') }}</NuxtLink>
               </p>
             </div>
-          </form>
+          </v-form>
         </v-col>
       </v-row>
     </v-container>
@@ -52,7 +53,6 @@ onMounted(() => {
 async function signUpRequest(data) {
   const config = useRuntimeConfig();
   return await $fetch(`${config.public.baseURL}/users/`, {
-    //return await useFetch(`http://127.0.0.1:8000/api/v1/users/`, {
     method: 'POST',
     body: {
       'email': data.email,
@@ -63,42 +63,29 @@ async function signUpRequest(data) {
   });
 }
 
-// const formValues = {
-//   email: 'test@test.com',
-//   password1: '123123123',
-//   password2: '123123123',
-// };    
-
-const formValues = {
-  email: '',
-  password1: '',
-  password2: '',
-};
-
-const { handleSubmit, isSubmitting: isSignupSubmitting, setErrors } = useForm({
-  //initialValues: formValues,
-});
+const { handleSubmit, isSubmitting: isSignupBusy, setErrors } = useForm();
 const email = useField('email', "required|email");
-// const password1 = useField(t("password"), "required|min:8");
-// const password2 = useField(t("password_confirmation"), "required|min:8|confirmed:@password1");
 const password1 = useField("password1", "required|min:8");
 const password2 = useField(t("password_confirmation"), "required|min:8|confirmed:@password1");
 
 const onSignupSubmit = handleSubmit(async values => {
-  const response = await signUpRequest(values);
-  const error = response.error;
-  if (!error) {
-    userStore.setUserData(response);
-    router.push("/");
+  let response;
+  try {
+    response = await signUpRequest(values);
+  }
+  catch (e) {
+    if (typeof e == 'object') {
+      let errors = {};
+      for (const error_field in e.data) {
+        errors[error_field] = t(`${error_field}.errors.${e.data[error_field]}`);
+      }
+      setErrors(errors);
+    }
+
     return;
   }
-  //console.log("Errors: ", error.data)
-  let errors = {};
-  for (const error_field in error.data) {
-    errors[error_field] = t(`${error_field}.errors.${error.data[error_field]}`);
-  }
-
-  setErrors(errors);
+  userStore.setUserData(response);
+  router.push("/");
 });
 
 </script>
