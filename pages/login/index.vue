@@ -1,35 +1,40 @@
 <template>
-  <NuxtLayout name="auth">
+  <div>
+    <NuxtLayout name="auth">
 
-    <v-container>
-      <v-row no-gutters md="6">
-        <v-col>&nbsp;</v-col>
-        <v-col md="6">
-          <h1>{{ $t('login') }}</h1>
-          <v-form @submit.prevent="onLoginSubmit" :disabled="isSignupSubmitting">
-            <v-alert v-if="badCredentials" :title="$t('login')" color="error" closable border="start"
-              icon="mdi-message-alert" :text="$t('bad_credentials')"></v-alert>
-            <br>
-            <v-text-field v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
-              :label="$t('email')"></v-text-field>
+      <v-container>
+        <v-row no-gutters md="6">
+          <v-col>&nbsp;</v-col>
+          <v-col md="6">
+            <h1>{{ $t('login') }}</h1>
+            <v-form @submit.prevent="onLoginSubmit" :disabled="isSignupSubmitting">
+              <v-alert v-if="badCredentials" :title="$t('login')" color="error" closable border="start"
+                icon="mdi-message-alert" :text="$t('bad_credentials')"></v-alert>
+              <br>
+              <v-text-field v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
+                :label="$t('email')"></v-text-field>
 
-            <v-text-field v-model="password.value.value" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
-              :type="showPass ? 'text' : 'password'" name="password" :label="$t('password')" :hint="$t('chars_min_8')"
-              counter :error-messages="password.errorMessage.value" @click:append="showPass = !showPass">
-            </v-text-field>
+              <v-text-field v-model="password.value.value" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="showPass ? 'text' : 'password'" name="password" :label="$t('password')" :hint="$t('chars_min_8')"
+                counter :error-messages="password.errorMessage.value" @click:append="showPass = !showPass">
+              </v-text-field>
 
-            <NuxtLink to="/reset-password" class="text-body-2 font-weight-regular">{{ $t('forgot_password') }}</NuxtLink>
+              <NuxtLink to="/reset-password" class="text-body-2 font-weight-regular">{{ $t('forgot_password') }}
+              </NuxtLink>
 
-            <v-btn type="submit" :disabled="isSignupSubmitting" block class="mt-2">{{ isSignupSubmitting ? $t('logging_in') : $t('login') }}</v-btn>
-          </v-form>
-          <div class="mt-2">
-            <p class="text-body-2">{{ $t('account_creation_hint') }} <NuxtLink to="/signup">{{ $t('signup') }}</NuxtLink>
-            </p>
-          </div>
-        </v-col>
-      </v-row>
-    </v-container>
-  </NuxtLayout>
+              <v-btn type="submit" :disabled="isSignupSubmitting" block class="mt-2">{{ isSignupSubmitting ?
+                $t('logging_in') : $t('login') }}</v-btn>
+            </v-form>
+            <div class="mt-2">
+              <p class="text-body-2">{{ $t('account_creation_hint') }} <NuxtLink to="/signup">{{ $t('signup') }}
+                </NuxtLink>
+              </p>
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
+    </NuxtLayout>
+  </div>
 </template>
   
 <script setup>
@@ -65,10 +70,10 @@ const password = useField('password', "required|min:8");
 const onLoginSubmit = handleSubmit(async values => {
   badCredentials.value = false;
   let response;
-  try{
+  try {
     response = await loginRequest(values);
   }
-  catch(e){
+  catch (e) {
     badCredentials.value = true;
     // if (e.data['non_field_errors'] == 'bad_credentials') {
     //   return;
