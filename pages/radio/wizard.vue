@@ -364,6 +364,7 @@ async function priceRequest(data) {
       'bitrate': audio_bitrate.value,
       'listeners': audio_listeners.value,
       'disk_quota': disk_quota.value,
+      'currency': locale.value == 'en' ? 0 : 1,
     }
   });
 }

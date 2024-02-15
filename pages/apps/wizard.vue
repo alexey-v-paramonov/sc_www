@@ -142,9 +142,8 @@
             :label="$t('apps.copyright.text_label')"></v-text-field>
 
           <v-text-field v-if="copyright_type.value.value == '3'" v-model="copyright_url.value.value" type="url"
-            :error-messages="copyright_url.errorMessage.value" name="copyright_url"
-            :hint="$t('apps.copyright.link_hint')" persistent-hint
-            :label="$t('apps.copyright.link_label')"></v-text-field>
+            :error-messages="copyright_url.errorMessage.value" name="copyright_url" :hint="$t('apps.copyright.link_hint')"
+            persistent-hint :label="$t('apps.copyright.link_label')"></v-text-field>
 
         </v-col>
       </v-row>
@@ -239,7 +238,7 @@ function isIos() {
 }
 
 
-function platformChanged(){
+function platformChanged() {
   publishing_type.value.value = "1";
 }
 
@@ -291,26 +290,29 @@ async function appCreationRequest(values) {
 }
 
 const onAppSubmit = handleSubmit(async values => {
+
   values.user = stateUser.user.id;
   values.email = stateUser.user.email;
+
   const platform = isAndroid() ? "android" : "ios";
-  console.log(values)
+
   let response;
 
   try {
     response = await appCreationRequest(values);
-    console.log(response);
   }
   catch (e) {
-    const errorData = e.data;
-    for (const [field, errors] of Object.entries(errorData)) {
-      for (const errCode of errors) {
-        setErrors({ [field]: t(`apps.errors.${field}.${errCode}`) })
+    if (typeof e == 'object') {
+      const errorData = e.data;
+      for (const [field, errors] of Object.entries(errorData)) {
+        for (const errCode of errors) {
+          setErrors({ [field]: t(`apps.errors.${field}.${errCode}`) })
+        }
       }
     }
     return;
   }
-  router.push(`/apps/${platform}/${response.data.value.id}`);
+  router.push(`/apps/${platform}/${response.id}`);
 });
 
 
