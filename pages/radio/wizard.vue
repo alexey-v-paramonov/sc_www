@@ -173,7 +173,7 @@
 
 
           <!-- Price section -->
-          <v-tempplate v-if="isHosted() && legal_type.value.value != '3'">
+          <template v-if="isHosted() && legal_type.value.value != '3'">
             <v-row>
               <v-col md="12">
                 <div class="text-h5">{{ $t('service_price') }}</div>
@@ -215,7 +215,7 @@
               <v-col md="2">{{ price.price + price.du_price }} {{ $t('currency') }}</v-col>
 
             </v-row>
-          </v-tempplate>
+          </template>
 
           <v-row>
             <v-col md="12">
@@ -358,7 +358,7 @@ function isHosted() {
 }
 
 async function priceRequest(data) {
-  return await useFetch(`${config.public.baseURL}/pricing/`, {
+  return await $fetch(`${config.public.baseURL}/pricing/`, {
     method: 'GET',
     params: {
       'bitrate': audio_bitrate.value,
@@ -403,7 +403,7 @@ async function calculatePrice() {
   formBusy.value = true;
   stateUI.setLoading(true);
   const response = await priceRequest();
-  Object.assign(price, response.data.value)
+  Object.assign(price, response)
   formBusy.value = false;
   stateUI.setLoading(false);
 
