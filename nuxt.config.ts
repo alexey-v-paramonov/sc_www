@@ -25,10 +25,13 @@ export default defineNuxtConfig({
         code: 'ru',
         file: 'ru.json',
         domain: 'app.radio-tochka.com'
+        // domain: 'localhost'
       },
     ],
     lazy: true,
     langDir: 'lang',
+    differentDomains: true,
+    detectBrowserLanguage: false,
     defaultLocale: 'en'
   },
   runtimeConfig: {
