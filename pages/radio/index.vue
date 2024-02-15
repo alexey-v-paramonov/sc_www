@@ -31,7 +31,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-if="self_hosted_radios.length > 0" v-for="item in self_hosted_radios" :key="item.id">
+            <tr v-if="self_hosted_radios.length > 0 && !self_hosted_radios_loading" v-for="item in self_hosted_radios" :key="item.id">
               <td>{{ item.ip }}</td>
               <td>{{ item.domain }}</td>
               <td>
@@ -92,7 +92,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-if="hosted_radios.length > 0" v-for="item in hosted_radios" :key="item.name">
+            <tr v-if="hosted_radios.length > 0 && !hosted_radios_loading" v-for="item in hosted_radios" :key="item.name">
               <td>{{ item.login }}</td>
               <td>
                 <v-chip v-if="item.status == 0 || item.status == 3" variant="flat" color="green">{{ $t('hosted.status.being_created') }}</v-chip>
@@ -171,16 +171,14 @@ definePageMeta({
   layout: "default",
 });
 const config = useRuntimeConfig();
-const stateUI = useUiStateStore()
-let self_hosted_radios = ref([]);
-let hosted_radios = ref([]);
-let self_hosted_radios_loading = ref(false);
-let hosted_radios_loading = ref(false);
+
 let dialog = ref(false);
 let deleteRadioFailed = ref(false);
 let deleteRadioSuccess = ref(false);
 let answerDialog = ref();
 
+const { data: self_hosted_radios, pending: self_hosted_radios_loading, refresh: reloadSelfHostedRadios } = await useFetchAuth(`${config.public.baseURL}/self_hosted_radio/`);
+const { data: hosted_radios, pending: hosted_radios_loading, refresh: reloadHostedRadios } = await useFetchAuth(`${config.public.baseURL}/hosted_radio/`);
 
 function deleteRadio(radio) {
   dialog.value = true;
@@ -194,21 +192,11 @@ function deleteRadio(radio) {
 
       const isSelfHosted = Boolean(radio.ip);
       fetchAuth(`${config.public.baseURL}/${ isSelfHosted? 'self_hosted_radio': 'hosted_radio'}/${radio.id}/`, { method: 'DELETE' }).then(
-        (response) => {
-          const data = response.data.value;
-          const error = response.error.value;
-          if (error) {
-            deleteRadioFailed.value = true;
-            console.log("Error", error);
-          }
-          else {
+        (r) => {
             deleteRadioSuccess.value = true;
-            console.log("OK", response);
             isSelfHosted ? reloadSelfHostedRadios() : reloadHostedRadios();        
-          }
         },
-        (error) => {
-          console.log("failed");
+        (e) => {
           deleteRadioFailed.value = true;
         }
       ).finally(() => {
@@ -217,37 +205,6 @@ function deleteRadio(radio) {
     }
   })
 }
-
-async function reloadSelfHostedRadios() {
-  let response;
-  self_hosted_radios.value = [];
-  self_hosted_radios_loading.value = true;
-  try {
-    response = await useFetchAuth(`${config.public.baseURL}/self_hosted_radio/`);
-  }
-  catch (e) {
-  }
-  self_hosted_radios.value = response.data.value || [];
-  self_hosted_radios_loading.value = false;
-}
-
-async function reloadHostedRadios() {
-  let response;
-  hosted_radios.value = [];
-  hosted_radios_loading.value = true;
-  try {
-    response = await useFetchAuth(`${config.public.baseURL}/hosted_radio/`);
-  }
-  catch (e) {
-    console.log("Error: ", e);
-  }
-  hosted_radios.value = response.data.value || [];
-  hosted_radios_loading.value = false;
-}
-
-reloadSelfHostedRadios();
-reloadHostedRadios();
-
 
 </script>
 

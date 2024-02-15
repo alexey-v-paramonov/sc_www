@@ -75,9 +75,9 @@
 
             <v-row no-gutters v-if="install_myself.value.value == '1'">
               <v-col md="12">
-                <v-text-field v-model="domain.value.value" type="text"
-                  :error-messages="domain.errorMessage.value" :label="$t('self_hosted.server_domain')"
-                  :hint="$t('self_hosted.server_domain_hint')" persistent-hint></v-text-field>
+                <v-text-field v-model="domain.value.value" type="text" :error-messages="domain.errorMessage.value"
+                  :label="$t('self_hosted.server_domain')" :hint="$t('self_hosted.server_domain_hint')"
+                  persistent-hint></v-text-field>
               </v-col>
             </v-row>
 
@@ -99,8 +99,8 @@
 
             <v-row no-gutters v-if="install_myself.value.value == '1'">
               <v-col md="12">
-                <v-text-field v-model="ssh_port.value.value" type="text"
-                  :error-messages="ssh_port.errorMessage.value" :label="$t('self_hosted.server_port')"></v-text-field>
+                <v-text-field v-model="ssh_port.value.value" type="text" :error-messages="ssh_port.errorMessage.value"
+                  :label="$t('self_hosted.server_port')"></v-text-field>
               </v-col>
             </v-row>
 
@@ -151,8 +151,9 @@
 
               </v-radio-group>
 
-              <v-text-field v-model="login.value.value" type="text" :error-messages="login.errorMessage.value" name="login"
-                :hint="$t('hosted.station_id_hint')" persistent-hint :label="$t('hosted.station_id')"></v-text-field>
+              <v-text-field v-model="login.value.value" type="text" :error-messages="login.errorMessage.value"
+                name="login" :hint="$t('hosted.station_id_hint')" persistent-hint
+                :label="$t('hosted.station_id')"></v-text-field>
 
             </v-col>
           </v-row>
@@ -162,8 +163,8 @@
               <strong>{{ $t('hosted.station_url') }}:</strong>
               <blockquote class="blockquote">
                 <p>
-                  https://{{ login.value.value }}<template
-                    v-if="locale == 'en'">.streaming.center</template><template v-else>.radio-tochka.com</template>
+                  https://{{ login.value.value }}<template v-if="locale == 'en'">.streaming.center</template><template
+                    v-else>.radio-tochka.com</template>
                 </p>
               </blockquote>
             </v-col>
@@ -225,7 +226,8 @@
           <v-row no-gutters>
             <v-col md="12">
 
-              <v-btn type="submit" :disabled="formBusy" block class="mt-2" color="primary" >{{ $t('self_hosted.submit') }}</v-btn>
+              <v-btn type="submit" :disabled="formBusy" block class="mt-2" color="primary">{{ $t('self_hosted.submit')
+              }}</v-btn>
             </v-col>
           </v-row>
         </v-form>
@@ -234,40 +236,25 @@
       </v-col>
     </v-row>
   </v-container>
-  <v-snackbar
-      v-model="notifyRadioCreated"
-      color="success"
-    >
-      {{ $t('radio_wizard.created') }}
+  <v-snackbar v-model="notifyRadioCreated" color="success">
+    {{ $t('radio_wizard.created') }}
 
-      <template v-slot:actions>
-        <v-btn
-          color="white"
-          variant="text"
-          @click="notifyRadioCreated = false"
-        >
-          {{ $t('close') }}
-        </v-btn>
-      </template>
-  </v-snackbar>  
+    <template v-slot:actions>
+      <v-btn color="white" variant="text" @click="notifyRadioCreated = false">
+        {{ $t('close') }}
+      </v-btn>
+    </template>
+  </v-snackbar>
 
-  <v-snackbar
-      v-model="notifyRadioFailed"
-      color="error"
-    >
-      {{ $t('radio_wizard.failed') }}
+  <v-snackbar v-model="notifyRadioFailed" color="error">
+    {{ $t('radio_wizard.failed') }}
 
-      <template v-slot:actions>
-        <v-btn
-          color="white"
-          variant="text"
-          @click="notifyRadioFailed = false"
-        >
-          {{ $t('close') }}
-        </v-btn>
-      </template>
-  </v-snackbar>  
-
+    <template v-slot:actions>
+      <v-btn color="white" variant="text" @click="notifyRadioFailed = false">
+        {{ $t('close') }}
+      </v-btn>
+    </template>
+  </v-snackbar>
 </template>
   
 <script setup>
@@ -307,14 +294,14 @@ const { handleSubmit, isSubmitting: formBusy, setErrors, errorBag } = useForm();
 
 // Self-hosted params
 const ip = useField('ip', (value) => {
-  if(isHosted()){
+  if (isHosted()) {
     return true;
   }
-  if(isSelfHosted() && !value){
+  if (isSelfHosted() && !value) {
     return t("errors.required");
   }
   if (!/((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}/g.test(value)) {
-      return t('errors.ip_invalid');
+    return t('errors.ip_invalid');
   }
   return true;
 });
@@ -326,11 +313,11 @@ const ssh_port = useField('ssh_port', sshParamsValidation);
 const domain = useField('domain');
 const comment = useField('comment');
 
-function sshParamsValidation(value){
-  if(!install_myself.value.value){
+function sshParamsValidation(value) {
+  if (!install_myself.value.value) {
     return true;
   }
-  if(isSelfHosted() && !value){
+  if (isSelfHosted() && !value) {
     return t("errors.required");
   }
   return true;
@@ -339,13 +326,13 @@ function sshParamsValidation(value){
 // Hosted params 
 const legal_type = useField('legal_type', "required");
 const login = useField('login', value => {
-  if(isSelfHosted()){
+  if (isSelfHosted()) {
     return true;
   }
-  if(!value){
+  if (!value) {
     return t("errors.required");
   }
-  if(!/[a-z0-9A-Z]+$/.test(value)){
+  if (!/[a-z0-9A-Z]+$/.test(value)) {
     return t("errors.regex");;
   }
   return true;
@@ -383,28 +370,28 @@ async function priceRequest(data) {
 
 async function selfHostedRequest(values) {
   return await fetchAuth(`${config.public.baseURL}/self_hosted_radio/`, {
-      method: 'POST',
-      body: values
+    method: 'POST',
+    body: values
   });
 
 }
 
 async function hostedRequest(values) {
   return await fetchAuth(`${config.public.baseURL}/hosted_radio/`, {
-      method: 'POST',
-      body: {
-        login: values.login,
-        bitrate: audio_bitrate.value,
-        listeners: audio_listeners.value,
-        disk_quota: disk_quota.value,
-        is_demo: legal_type.value.value == '3',
-        user: stateUser.user.id,
-        initial_audio_format: audio_format.value,
-        initial_bitrate: audio_bitrate.value,
-        initial_listeners: audio_listeners.value,
-        initial_du: disk_quota.value,
-        comment: comment.value.value
-      }
+    method: 'POST',
+    body: {
+      login: values.login,
+      bitrate: audio_bitrate.value,
+      listeners: audio_listeners.value,
+      disk_quota: disk_quota.value,
+      is_demo: legal_type.value.value == '3',
+      user: stateUser.user.id,
+      initial_audio_format: audio_format.value,
+      initial_bitrate: audio_bitrate.value,
+      initial_listeners: audio_listeners.value,
+      initial_du: disk_quota.value,
+      comment: comment.value.value
+    }
   });
 }
 
@@ -428,19 +415,20 @@ const onRadioSubmit = handleSubmit(async values => {
   stateUI.setLoading(true);
   const request = isSelfHosted() ? selfHostedRequest : hostedRequest;
 
-  try{
+  try {
     const response = await request(values);
-    console.log(response);
   }
-  catch(e){
+  catch (e) {
     notifyRadioFailed.value = true;
-    const errorData = e.data;
-    for (const [field, errors] of Object.entries(errorData)) {
-      for(const errCode of errors){
-        setErrors({ [field]: t(`radio_wizard.errors.${field}.${errCode}`) })
-      }      
+    if (typeof e == 'object') {
+      const errorData = e.data;
+      for (const [field, errors] of Object.entries(errorData)) {
+        for (const errCode of errors) {
+          setErrors({ [field]: t(`radio_wizard.errors.${field}.${errCode}`) })
+        }
+      }
     }
-    
+
     return;
   }
   finally {
