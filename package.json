@@ -8,7 +8,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@nuxtjs/i18n": "^8.0.0-rc.5",
+    "@nuxtjs/i18n": "8.1.1",
     "@pinia/nuxt": "^0.5.1",
     "@vee-validate/i18n": "^4.11.8",
     "@vee-validate/rules": "^4.11.8",
