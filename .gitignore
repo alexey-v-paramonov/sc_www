@@ -13,6 +13,7 @@ dist
 package-lock.json
 start_dev
 build
+upload
 
 *.log*
 .nitro
