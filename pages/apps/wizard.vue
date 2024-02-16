@@ -247,7 +247,7 @@ const appPrice = computed(() => {
   let baseAndroidPrice;
   let price = 0;
 
-  if (locale == 'ru') {
+  if (locale.value == 'ru') {
     baseIosPrice = 18000;
     baseAndroidPrice = 14500;
   }
@@ -259,7 +259,7 @@ const appPrice = computed(() => {
   if (isAndroid()) {
     price += baseAndroidPrice;
     if (publishing_type.value.value != '3') {
-      if (locale == 'ru') {
+      if (locale.value == 'ru') {
         price += 2000;
       }
       else {
@@ -271,7 +271,7 @@ const appPrice = computed(() => {
     price += baseIosPrice;
   }
   if (copyright_type.value.value != '1') {
-    if (locale == 'ru') {
+    if (locale.value == 'ru') {
       price += 2000;
     }
     else {
