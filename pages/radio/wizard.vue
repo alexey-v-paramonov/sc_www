@@ -428,6 +428,10 @@ const onRadioSubmit = handleSubmit(async values => {
           setErrors({ [field]: t(`radio_wizard.errors.${field}.${errCode}`) })
         }
       }
+      if (errorData['non_field_errors'] == 'unique_login_server') {
+        setErrors({ 'login': t(`radio_wizard.errors.login.unique`) })
+      }
+
     }
 
     return;

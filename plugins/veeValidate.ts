@@ -1,11 +1,12 @@
 import { configure, defineRule } from 'vee-validate'
-import { localize } from '@vee-validate/i18n';
+import { localize, setLocale } from '@vee-validate/i18n';
 import * as AllRules from '@vee-validate/rules';
 
 
 
 export default defineNuxtPlugin(nuxtApp => {
   const $t = nuxtApp.$i18n.t;
+  setLocale(nuxtApp.$i18n.locale.value)
   Object.entries(AllRules).forEach(([id, validator]) => {
     defineRule(id, validator);
   });
@@ -19,14 +20,17 @@ export default defineNuxtPlugin(nuxtApp => {
 
   defineRule("required_if", (value, [target, targetValue]: [string, any], ctx) => {
     if (targetValue === ctx.form[target]) {
-        return AllRules.required(value);
+      return AllRules.required(value);
     }
     return true;
-});  
+  });
 
   configure({
     generateMessage: localize({
       en: {
+        names: {
+          "password1": 'Password',
+        },
         messages: {
           "_default": "The {field} is not valid",
           "alpha": "The {field} field may only contain alphabetic characters",
@@ -58,6 +62,14 @@ export default defineNuxtPlugin(nuxtApp => {
         },
       },
       ru: {
+        fields: {
+          password1: {
+            required: 'Укажите пароль',
+          },
+        },        
+        names: {
+          "password1": 'Пароль',
+        },
         "messages": {
           "_default": "Поле {field} некорректно",
           "alpha": "Поле {field} может содержать только буквы",
@@ -78,7 +90,7 @@ export default defineNuxtPlugin(nuxtApp => {
           "max": "Поле {field} не может быть длиннее 0:{length} символов",
           "mimes": "Поле {field} должно иметь допустимый тип файла",
           "min_value": "{min} или больше",
-          "min": "Поле {field} должно быть не короче 0:{length} символов",
+          "min": "Поле \"{field}\" должно быть не короче 0:{length} символов",
           "numeric": "Поле {field} должно быть числом",
           "one_of": "Поле {field} должно быть допустимым значением",
           "regex": "Поле имеет некорректный формат",
