@@ -3,35 +3,30 @@
     <NuxtLayout name="auth">
 
       <v-container>
-        <v-row no-gutters md="6">
-          <v-col>&nbsp;</v-col>
-          <v-col md="6">
-            <h1>{{ $t('login') }}</h1>
-            <v-form @submit.prevent="onLoginSubmit" :disabled="isSignupSubmitting">
-              <v-alert v-if="badCredentials" :title="$t('login')" color="error" closable border="start"
-                icon="mdi-message-alert" :text="$t('bad_credentials')"></v-alert>
-              <br>
-              <v-text-field v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
-                :label="$t('email')"></v-text-field>
+        <h1>{{ $t('login') }}</h1>
+        <v-form @submit.prevent="onLoginSubmit" :disabled="isSignupSubmitting">
+          <v-alert v-if="badCredentials" :title="$t('login')" color="error" closable border="start"
+            icon="mdi-message-alert" :text="$t('bad_credentials')"></v-alert>
+          <br>
+          <v-text-field v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
+            :label="$t('email')"></v-text-field>
 
-              <v-text-field v-model="password.value.value" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="showPass ? 'text' : 'password'" name="password" :label="$t('password')" :hint="$t('chars_min_8')"
-                counter :error-messages="password.errorMessage.value" @click:append="showPass = !showPass">
-              </v-text-field>
+          <v-text-field v-model="password.value.value" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showPass ? 'text' : 'password'" name="password" :label="$t('password')" :hint="$t('chars_min_8')"
+            counter :error-messages="password.errorMessage.value" @click:append="showPass = !showPass">
+          </v-text-field>
 
-              <NuxtLink to="/reset-password" class="text-body-2 font-weight-regular">{{ $t('forgot_password') }}
-              </NuxtLink>
+          <NuxtLink to="/reset-password" class="text-body-2 font-weight-regular">{{ $t('forgot_password') }}
+          </NuxtLink>
 
-              <v-btn type="submit" :disabled="isSignupSubmitting" block class="mt-2">{{ isSignupSubmitting ?
-                $t('logging_in') : $t('login') }}</v-btn>
-            </v-form>
-            <div class="mt-2">
-              <p class="text-body-2">{{ $t('account_creation_hint') }} <NuxtLink to="/signup">{{ $t('signup') }}
-                </NuxtLink>
-              </p>
-            </div>
-          </v-col>
-        </v-row>
+          <v-btn type="submit" :disabled="isSignupSubmitting" block class="mt-2">{{ isSignupSubmitting ?
+            $t('logging_in') : $t('login') }}</v-btn>
+        </v-form>
+        <div class="mt-2">
+          <p class="text-body-2">{{ $t('account_creation_hint') }} <NuxtLink to="/signup">{{ $t('signup') }}
+            </NuxtLink>
+          </p>
+        </div>
       </v-container>
     </NuxtLayout>
   </div>

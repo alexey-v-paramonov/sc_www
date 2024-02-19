@@ -3,53 +3,48 @@
     <NuxtLayout name="auth">
 
       <v-container>
-        <v-row no-gutters md="6">
-          <v-col>&nbsp;</v-col>
-          <v-col md="6">
-            <h1 v-if="!resetConfirmDone && !badToken">{{ $t('password_reset.new_pass') }}</h1>
+        <h1 v-if="!resetConfirmDone && !badToken">{{ $t('password_reset.new_pass') }}</h1>
 
-            <!-- Confirm form -->
-            <v-form v-if="!resetConfirmDone && !badToken" @submit.prevent="resetConfirmPassword"
-              :disabled="isPassResetConfirmSubmitting">
+        <!-- Confirm form -->
+        <v-form v-if="!resetConfirmDone && !badToken" @submit.prevent="resetConfirmPassword"
+          :disabled="isPassResetConfirmSubmitting">
 
-              <v-text-field v-model="password.value.value" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="showPass ? 'text' : 'password'" name="password" :label="$t('password')" :hint="$t('chars_min_8')"
-                counter :error-messages="password.errorMessage.value" @click:append="showPass = !showPass"></v-text-field>
+          <v-text-field v-model="password.value.value" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showPass ? 'text' : 'password'" name="password" :label="$t('password')" :hint="$t('chars_min_8')"
+            counter :error-messages="password.errorMessage.value" @click:append="showPass = !showPass"></v-text-field>
 
-              <NuxtLink to="/login" class="text-body-2 font-weight-regular">{{ $t('password_reset.back_to_login') }}
-              </NuxtLink>
+          <NuxtLink to="/login" class="text-body-2 font-weight-regular">{{ $t('password_reset.back_to_login') }}
+          </NuxtLink>
 
-              <v-btn type="submit" :disabled="isPassResetConfirmSubmitting" block class="mt-2">{{
-                isPassResetConfirmSubmitting ? $t('loading') : $t('password_reset.cta') }}</v-btn>
-            </v-form>
+          <v-btn type="submit" :disabled="isPassResetConfirmSubmitting" block class="mt-2">{{
+            isPassResetConfirmSubmitting ? $t('loading') : $t('password_reset.cta') }}</v-btn>
+        </v-form>
 
-            <div class="mt-2" v-if="badToken">
-              <v-card :title="$t('password_reset.token_is_invalid')" :text="$t('password_reset.token_is_invalid_text')"
-                prepend-icon="mdi-alert">
-                <v-card-actions>
-                  <v-btn @click="goToPasswordReset()">
-                    {{ $t('password_reset.cta') }}
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </div>
-            <div class="mt-2" v-if="resetConfirmDone">
-              <v-card :title="$t('password_reset.done_title')" :text="$t('password_reset.done_text')"
-                prepend-icon="mdi-check">
-                <v-card-actions>
-                  <v-btn @click="goToLogin()">
-                    {{ $t('password_reset.back_to_login') }}
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </div>
-            <div class="mt-2" v-if="!resetConfirmDone">
-              <p class="text-body-2">{{ $t('account_creation_hint') }} <NuxtLink to="/signup">{{ $t('signup') }}
-                </NuxtLink>
-              </p>
-            </div>
-          </v-col>
-        </v-row>
+        <div class="mt-2" v-if="badToken">
+          <v-card :title="$t('password_reset.token_is_invalid')" :text="$t('password_reset.token_is_invalid_text')"
+            prepend-icon="mdi-alert">
+            <v-card-actions>
+              <v-btn @click="goToPasswordReset()">
+                {{ $t('password_reset.cta') }}
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </div>
+        <div class="mt-2" v-if="resetConfirmDone">
+          <v-card :title="$t('password_reset.done_title')" :text="$t('password_reset.done_text')"
+            prepend-icon="mdi-check">
+            <v-card-actions>
+              <v-btn @click="goToLogin()">
+                {{ $t('password_reset.back_to_login') }}
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </div>
+        <div class="mt-2" v-if="!resetConfirmDone">
+          <p class="text-body-2">{{ $t('account_creation_hint') }} <NuxtLink to="/signup">{{ $t('signup') }}
+            </NuxtLink>
+          </p>
+        </div>
       </v-container>
     </NuxtLayout>
   </div>

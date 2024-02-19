@@ -46,7 +46,8 @@ function Logout(){
     <v-navigation-drawer left elevation="0" class="leftSidebar" v-model="sDrawer">
       <!---Logo part -->
       <div class="pa-5">
-        LOGO
+        <v-img class="mx-auto" to="/" :width="50" src="/img/logo_trans.png"></v-img>
+  
       </div>
 
       <!---Navigation -->

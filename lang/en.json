@@ -29,6 +29,8 @@
     "nav_catalog": "Catalog",
     "nav_catalog_stations": "Stations",
 
+    "copyright": "Streaming.center: we ♥ Internet-radio",
+
 
     "email.errors.unique": "Email address is already in use",
     "email.errors.syntax": "Email address is invalid",
