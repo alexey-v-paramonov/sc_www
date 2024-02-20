@@ -25,6 +25,9 @@
               <th class="text-left">
                 {{ $t('self_hosted.server_domain') }}
               </th>
+              <th class="text-left">
+                {{ $t('service_price') }}
+              </th>
               <th>
                 &nbsp;
               </th>
@@ -34,6 +37,7 @@
             <tr v-if="self_hosted_radios.length > 0 && !self_hosted_radios_loading" v-for="item in self_hosted_radios" :key="item.id">
               <td>{{ item.ip }}</td>
               <td>{{ item.domain }}</td>
+              <td>{{ item.price }}{{ $t('currency')}}</td>
               <td>
                 <NuxtLink :to="'/radio/self_hosted/' + item.id + '/'"><v-btn icon="mdi-pencil"></v-btn></NuxtLink>
                 &nbsp;
@@ -86,6 +90,9 @@
               <th class="text-left">
                 {{ $t('radios.self_hosted.status') }}
               </th>
+              <th class="text-left">
+                {{ $t('service_price') }}
+              </th>
               <th>
                 &nbsp;
               </th>
@@ -101,6 +108,8 @@
                 <v-chip v-if="item.status == 5" variant="flat" color="red">{{ $t('hosted.status.suspended') }}</v-chip>
                 <v-chip v-if="item.status == 6" variant="flat" color="red">{{ $t('hosted.status.error') }}</v-chip>
               </td>
+              <td>{{ item.price }}{{ $t('currency')}}</td>
+
               <td><v-btn v-if="[2, 5, 6].includes(item.status)" icon="mdi-delete" @click="deleteRadio(item)" :disabled="item.beingDeleted"></v-btn></td>
             </tr>
             <tr v-else-if="hosted_radios_loading">
