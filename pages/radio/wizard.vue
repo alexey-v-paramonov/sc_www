@@ -386,6 +386,7 @@ async function hostedRequest(values) {
       listeners: audio_listeners.value,
       disk_quota: disk_quota.value,
       is_demo: legal_type.value.value == '3',
+      copyright_type: legal_type.value.value,
       user: stateUser.user.id,
       initial_audio_format: audio_format.value,
       initial_bitrate: audio_bitrate.value,

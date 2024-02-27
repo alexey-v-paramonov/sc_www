@@ -76,6 +76,7 @@ const onLoginSubmit = handleSubmit(async values => {
     return;
   }
   userStore.setUserData(response);
+  userStore.getUserData();
   router.push("/");
 
 });
