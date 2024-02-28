@@ -42,8 +42,14 @@
               </v-col>
             </v-row>
 
+            <v-row v-if="locale == 'ru'">
+              <v-col md="12">
+                <b>Где арендовать сервер под радио: </b> <a href="https://radio-tochka.com/content/howto/radio_vps_firstvds" target="_blank">пример аренды сервера у провайдера FirstVDS</a> (Вы можете выбрать любой другой провайдер)
+              </v-col>
+            </v-row>
+
             <v-row>
-              <v-col md="1"><strong>{{ $t('service_price') }}</strong></v-col>
+              <v-col md="1"><strong>{{ $t('service_price') }}:</strong></v-col>
               <v-col md="11">
                 <template v-if="locale == 'en'">
                   <b>10$ per month</b> if you have up to 5 radio stations.<br /> Each additional station costs $1, so if
@@ -383,7 +389,7 @@ async function hostedRequest(values) {
     body: {
       login: values.login,
       bitrate: audio_bitrate.value,
-      listeners: audio_listeners.value,
+      listeners: legal_type.value.value == '3' ? 5 : audio_listeners.value,
       disk_quota: disk_quota.value,
       is_demo: legal_type.value.value == '3',
       copyright_type: legal_type.value.value,
