@@ -5,6 +5,12 @@
         <v-col cols="6" class="text-center" >{{ $t('billing.balance') }}</v-col>
         <v-col cols="6" class="text-center" >{{stateUser.user.userData.balance}} {{ $t('currency')}}</v-col>
       </v-row>
+      <v-row no-gutters md="12">
+        <v-col cols="6" class="text-center" >{{ $t('billing.mothly_charges') }}</v-col>
+        <v-col cols="6" class="text-center" >{{ charges ? charges.total : '-'}} {{ $t('currency')}}</v-col>
+      </v-row>
+
+      
 
       <v-row no-gutters md="12">
         <v-col cols="12">
@@ -34,12 +40,22 @@ import { useUserStore } from '~/stores/user'
 const stateUser = useUserStore()
 const { locale } = useI18n();
 import { ref, reactive, onMounted } from 'vue';
-
+let charges = null;
 let customPaymentMethods = reactive({});
 
 onMounted(() => {
   getCustomPaymentMethods();
+  getMonthlyTotalCharge();
 })
+
+async function getMonthlyTotalCharge() {
+  const config = useRuntimeConfig();
+
+  charges = await fetchAuth(`${config.public.baseURL}/month_total_charge/`, {
+        method: 'GET',
+  });
+  
+}
 
 async function getCustomPaymentMethods() {
   

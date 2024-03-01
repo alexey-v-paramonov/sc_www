@@ -194,6 +194,7 @@
     "billing": {
         "title": "Billing",
         "balance": "Account balance:",
+        "mothly_charges": "Charged this month:",
         "invoice_request": {
             "title": "Request an invoice by email",
             "internation_payment_hint": "Works for international payments, you can pay with your card",

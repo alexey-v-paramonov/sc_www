@@ -190,6 +190,7 @@
     "billing": {
         "title": "Платежи",
         "balance": "Баланс личного счета:",
+        "mothly_charges": "Расходы в этом месяце:",
         "invoice_request": {
             "title": "Запросить счёт на email",
             "internation_payment_hint": "Работает для международных платежей, можно оплатить картой",
