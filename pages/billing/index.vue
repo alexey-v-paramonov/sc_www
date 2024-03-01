@@ -7,7 +7,7 @@
       </v-row>
       <v-row no-gutters md="12">
         <v-col cols="6" class="text-center" >{{ $t('billing.mothly_charges') }}</v-col>
-        <v-col cols="6" class="text-center" >{{ charges ? charges.total : '-'}} {{ $t('currency')}}</v-col>
+        <v-col cols="6" class="text-center" >{{ charges.value ? charges.value.total : '-'}} {{ $t('currency')}}</v-col>
       </v-row>
 
       
@@ -40,7 +40,7 @@ import { useUserStore } from '~/stores/user'
 const stateUser = useUserStore()
 const { locale } = useI18n();
 import { ref, reactive, onMounted } from 'vue';
-let charges = null;
+let charges = reactive({});
 let customPaymentMethods = reactive({});
 
 onMounted(() => {
@@ -51,10 +51,10 @@ onMounted(() => {
 async function getMonthlyTotalCharge() {
   const config = useRuntimeConfig();
 
-  charges = await fetchAuth(`${config.public.baseURL}/month_total_charge/`, {
+  charges.value = await fetchAuth(`${config.public.baseURL}/month_total_charge/`, {
         method: 'GET',
   });
-  
+ 
 }
 
 async function getCustomPaymentMethods() {
