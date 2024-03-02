@@ -198,7 +198,7 @@
         "service": "Услуга",
         "service_self_hosted": "Сервер",
         "service_hosted": "Радио",
-        "service_du": "Диск",
+        "service_du": "Диск (мб)",
         "invoice_request": {
             "title": "Запросить счёт на email",
             "internation_payment_hint": "Работает для международных платежей, можно оплатить картой",

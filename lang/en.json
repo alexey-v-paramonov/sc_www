@@ -202,7 +202,7 @@
         "service": "Service",
         "service_self_hosted": "Server",
         "service_hosted": "Radio",
-        "service_du": "Disk",
+        "service_du": "Disk (mb)",
         "invoice_request": {
             "title": "Request an invoice by email",
             "internation_payment_hint": "Works for international payments, you can pay with your card",
