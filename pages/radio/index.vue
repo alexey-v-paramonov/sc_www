@@ -102,7 +102,7 @@
             <tr v-if="hosted_radios.length > 0 && !hosted_radios_loading" v-for="item in hosted_radios" :key="item.name">
               <td>
                 <div>{{ item.login }}</div>
-                <div v-if="item.status == 2 || item.status == 5 || item.status == 4"><a :href="'https://' + item.login + '.' + item.server.nodename + '.radio-tochka.com:8080'" target="_blank">https://{{item.login}}.{{ item.server.nodename }}.radio-tochka.com:8080</a></div>
+                <div v-if="item.status == 2 || item.status == 5 || item.status == 4"><a :href="'https://' + item.login + '.' + item.server_data.nodename + '.radio-tochka.com:8080'" target="_blank">https://{{item.login}}.{{ item.server.nodename }}.radio-tochka.com:8080</a></div>
               </td>
               <td>
                 <v-chip v-if="item.status == 0 || item.status == 3" variant="flat" color="green">{{ $t('hosted.status.being_created') }}</v-chip>
