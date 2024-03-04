@@ -88,7 +88,8 @@
       </v-col>
     </v-row>
     <hr />
-    <v-row md="12" v-for="(val, key) in customPaymentMethods" :key="key">
+    <template v-for="(val, key) in customPaymentMethods" :key="key">
+    <v-row md="12" v-if="val['title'][locale]">
       <v-col cols="12">
         <div class="text-h6">{{ val['title'][locale] }}</div>
         <div class="font-italic" v-if="val['note'][locale]">{{ val['note'][locale] }}</div>
@@ -96,6 +97,7 @@
         <div v-html="val['html'][locale]"></div>
       </v-col>
     </v-row>
+    </template>
 
   </v-container>
 </template>
