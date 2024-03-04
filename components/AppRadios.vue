@@ -360,7 +360,7 @@ const sc_api_url = useField('sc_api_url', "url|required_if:is_sc_panel,1");
 const sc_server_id = useField('sc_server_id', "required_if:is_sc_panel,1");
 
 // required_if:is_sc_panel,1
-const logo = useField('logo', "required|image|size:2000");
+const logo = useField('logo', "image|size:2000");
 
 const title = useField('title', "required", { validateOnValueUpdate: false });
 const description = useField('description', "required", { validateOnValueUpdate: false });
@@ -368,7 +368,7 @@ const allow_shoutbox = useField('allow_shoutbox');
 const allow_likes = useField('allow_likes');
 const allow_dislikes = useField('allow_dislikes');
 
-const new_channel_stream_url = useField('new_channel_stream_url', "url|required");
+const new_channel_stream_url = useField('new_channel_stream_url', "url");
 const new_channel_bitrate = useField('new_channel_bitrate',);
 const new_channel_audio_format = useField('new_channel_audio_format',);
 const new_channel_server_type = useField('new_channel_server_type',);
@@ -528,6 +528,11 @@ function addStream() {
         audio_format: new_channel_audio_format.value.value,
         server_type: new_channel_server_type.value.value,
     });
+    new_channel_stream_url.value.value = '';
+    new_channel_bitrate.value.value = 128;
+    new_channel_audio_format.value.value = AUDIO_FORMATS[0].value;
+    new_channel_server_type.value.value = SERVER_TYPES[0].value;
+
 }
 
 function isScRadio(){
@@ -535,7 +540,6 @@ function isScRadio(){
 }
 
 async function saveAppRadioRequest(values) {
-    const isEditMode = Boolean(appRadio.value.id);
     let formData = new FormData();
 
     formData.append('app', appData.id);
@@ -572,6 +576,15 @@ async function saveAppRadioRequest(values) {
 
 const onAppRadioSubmit = handleSubmit(async values => {
     noChannels.value = false;
+
+    const isEditMode = Boolean(appRadio.value.id);
+    console.log("isEditMode: ", isEditMode);
+    if(!isEditMode){
+        if(!logo.value.value){
+            setErrors({ ['logo']: t(`errors.required`) });
+            return;
+        }
+    }
 
     let response;
     try {
