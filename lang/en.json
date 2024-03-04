@@ -280,6 +280,19 @@
         "logo_hint": "Displayed on the main screen of the application. Image format - PNG",
         "status": "Status",
         "missing_parts": "Steps to complete:",
+        "build": "Create the application",
+        "refresh_build_status": "Update the build status",
+        "version": "Version number",
+        "build_date": "Build date",
+        "download_apk": "Download APK",
+        "download_aab": "Download Android App Bundle",
+        "ios_ready": "Technical support will contact you as soon as application is ready",
+        "buil_status": {
+            "default": "Ready for assembly",
+            "queued": "Working...",
+            "done": "Done",
+            "error": "Build finished with error, please contact support"
+        },
         "missing": {
             "payment": "Top up your balance",
             "info": "Fill in all the required fields in the 'Info' section below",

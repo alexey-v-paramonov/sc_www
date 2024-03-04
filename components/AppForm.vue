@@ -15,6 +15,28 @@
                             {{ $t('app.missing.' + missing_code) }}
                         </v-chip>
                     </div>
+                </template>
+                <template v-else>
+
+
+                    <v-chip v-if="appData.status == 0" variant="flat" color="default">{{ $t('app.buil_status.default') }}</v-chip>
+                    <v-chip v-if="appData.status == 1" variant="flat" color="primary">{{ $t('app.buil_status.queued') }}</v-chip>
+                    <v-chip v-if="appData.status == 2" variant="flat" color="green">
+                        {{ $t('app.buil_status.done') }}
+                    </v-chip>
+                    <v-chip v-if="appData.status == 3" variant="flat" color="red">{{ $t('app.buil_status.error') }}</v-chip>
+                    <div v-if="appData.status == 2">
+                        {{ $t('app.version') }}: {{ appData.version }}  {{ $t('app.build_date') }}: {{ appData.build_date }}
+                        <v-btn v-if="isAndroid()" prepend-icon="mdi-download-box" color="primary">{{ $t('app.download_apk') }}</v-btn>
+                        <v-btn v-if="isAndroid()" prepend-icon="mdi-download-box" color="primary">{{ $t('app.download_aab') }}</v-btn>
+                        <div v-if="!isAndroid()">{{ $t('app.ios_ready') }}</div>
+                    </div>                    
+                    <div v-if="appData.is_paid && appData.status != 1">
+                        <v-btn prepend-icon="mdi-wrench" color="primary" @click="buildApplication()">{{ $t('app.build') }}</v-btn>
+                    </div>
+                    <div v-if="appData.status == 1">
+                        <v-btn prepend-icon="mdi-refresh" color="primary" @click="refresh()">{{ $t('app.refresh_build_status') }}</v-btn>
+                    </div>
 
                 </template>
             </v-col>
@@ -84,6 +106,15 @@ const config = useRuntimeConfig();
 let appRequesFailed = ref(false);
 let tab = ref("app_info");
 // let appData = reactive({});
+
+function isAndroid() {
+    return props.platform = 'android';
+}
+
+function buildApplication(){
+    console.log("Build!");
+    refresh();
+}
 
 // Load app data
 const { data: appData, pending, error, refresh } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/`);
