@@ -203,7 +203,14 @@
                                     <tr v-else>
                                         <td class="text-center" colspan="10">
                                             <br />
-                                            {{ $t('app.radio.channels.empty') }}
+
+                                            <v-alert v-if="noChannels" color="error" closable border="start"
+                                                icon="mdi-message-alert" :text="$t('app.radio.channels.empty')"></v-alert>
+
+                                            <p v-else>
+                                                {{ $t('app.radio.channels.empty') }}
+                                            </p>
+
                                             <br />
                                             <br />
                                         </td>
@@ -331,6 +338,7 @@ let answerDialog = ref();
 const deleteRadioSuccess = ref(false);
 const deleteRadioFailed = ref(false);
 let radioStreams = ref([]);
+let noChannels = ref(false);
 
 
 
@@ -506,6 +514,7 @@ function deleteChannel(channel_index){
 }
 
 function addStream() {
+    noChannels.value = false;
     radioStreams.value.push({
         stream_url: new_channel_stream_url.value.value,
         // stream_url_fallback: new_channel_stream_url_fallback,
@@ -556,6 +565,7 @@ async function saveAppRadioRequest(values) {
 
 
 const onAppRadioSubmit = handleSubmit(async values => {
+    noChannels.value = false;
 
     let response;
     try {
@@ -566,6 +576,9 @@ const onAppRadioSubmit = handleSubmit(async values => {
         const errorData = e.data;
         if (typeof errorData == 'object') {
             for (const [field, errors] of Object.entries(errorData)) {
+                if(field == 'channels' && errors.indexOf('required') >= 0){
+                    noChannels.value = true;
+                }
                 for (const errCode of errors) {
                     setErrors({ [field]: t(`app.errors.${field}.${errCode}`) })
                 }
