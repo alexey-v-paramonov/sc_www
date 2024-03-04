@@ -249,7 +249,7 @@ const appPrice = computed(() => {
 
   if (locale.value == 'ru') {
     baseIosPrice = 18000;
-    baseAndroidPrice = 14500;
+    baseAndroidPrice = 15000;
   }
   else {
     baseIosPrice = 300;
@@ -272,7 +272,7 @@ const appPrice = computed(() => {
   }
   if (copyright_type.value.value != '1') {
     if (locale.value == 'ru') {
-      price += 2000;
+      price += 1500;
     }
     else {
       price += 30;

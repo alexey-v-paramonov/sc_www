@@ -540,6 +540,8 @@ function isScRadio(){
 }
 
 async function saveAppRadioRequest(values) {
+    const isEditMode = Boolean(appRadio.value.id);
+
     let formData = new FormData();
 
     formData.append('app', appData.id);
@@ -563,7 +565,6 @@ async function saveAppRadioRequest(values) {
     }
     // formData.append('channels', JSON.stringify(radioStreams.value));
     var blob = new Blob([JSON.stringify(radioStreams.value)], {type: "application/json"});
-    console.log("Channels: ", JSON.stringify(radioStreams.value))
     formData.append('channels', blob);
 
 
@@ -578,14 +579,12 @@ const onAppRadioSubmit = handleSubmit(async values => {
     noChannels.value = false;
 
     const isEditMode = Boolean(appRadio.value.id);
-    console.log("isEditMode: ", isEditMode);
     if(!isEditMode){
         if(!logo.value.value){
             setErrors({ ['logo']: t(`errors.required`) });
             return;
         }
     }
-
     let response;
     try {
         response = await saveAppRadioRequest(values);

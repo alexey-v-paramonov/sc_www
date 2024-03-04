@@ -183,6 +183,7 @@
             <v-row>
               <v-col md="12">
                 <div class="text-h5">{{ $t('service_price') }}</div>
+                <p>{{ $t('service_price_free_period') }}</p>
               </v-col>
             </v-row>
 

@@ -64,6 +64,7 @@
     },
     "service_type": "Service type",
     "service_price": "Price",
+    "service_price_free_period": "You will have 5 days of service for free for testing",
     "self_hosted": {
         "title": "Self-hosted",
         "help": "The best option for most users, with no limits on the number of listeners or disk space. You can use any hosting provider. In this plan we do not require any documents confirming the legality of broadcasting.",
@@ -277,6 +278,13 @@
         "icon_pixels": " pixels",
         "logo": "Application logo",
         "logo_hint": "Displayed on the main screen of the application. Image format - PNG",
+        "status": "Status",
+        "missing_parts": "Steps to complete:",
+        "missing": {
+            "payment": "Top up your balance",
+            "info": "Fill in all the required fields in the 'Info' section below",
+            "radio": "Add at least one radio to your application"
+        },
         "tabs": {
             "info": "Information",
             "design": "Design",

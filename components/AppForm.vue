@@ -1,5 +1,26 @@
 <template>
     <v-container>
+        <v-row>
+            <v-col cols="2">
+                <p class="font-weight-bold">
+                    {{ $t('app.status') }}:
+                </p>
+            </v-col>
+            <v-col cols="10">
+                <template v-if="appData.missing_parts.length > 0">
+                    {{ $t('app.missing_parts') }}
+                    <div class="d-flex justify-center ga-2 mt-2">
+
+                        <v-chip color="secondary" variant="flat" v-for="missing_code in appData.missing_parts">
+                            {{ $t('app.missing.' + missing_code) }}
+                        </v-chip>
+                    </div>
+
+                </template>
+            </v-col>
+
+        </v-row>
+        <v-spacer>&nbsp;</v-spacer>
         <v-tabs v-model="tab" bg-color="deep-purple-accent-4" centered stacked grow>
             <v-tab value="app_info">
                 <v-icon>mdi-information</v-icon>
