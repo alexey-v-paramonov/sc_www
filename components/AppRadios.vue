@@ -232,6 +232,7 @@
                                     <v-text-field v-model="new_channel_stream_url.value.value" type="url"
                                         :error-messages="new_channel_stream_url.errorMessage.value"
                                         maxlength="200"
+                                        name="new_channel_stream_url"
                                         :label="$t('app.radio.channels.stream_url')"></v-text-field>
                                 </v-col>
                             </v-row>
@@ -359,7 +360,7 @@ const sc_api_url = useField('sc_api_url', "url|required_if:is_sc_panel,1");
 const sc_server_id = useField('sc_server_id', "required_if:is_sc_panel,1");
 
 // required_if:is_sc_panel,1
-const logo = useField('logo', "image|size:2000");
+const logo = useField('logo', "required|image|size:2000");
 
 const title = useField('title', "required", { validateOnValueUpdate: false });
 const description = useField('description', "required", { validateOnValueUpdate: false });
@@ -367,7 +368,7 @@ const allow_shoutbox = useField('allow_shoutbox');
 const allow_likes = useField('allow_likes');
 const allow_dislikes = useField('allow_dislikes');
 
-const new_channel_stream_url = useField('new_channel_stream_url', "url");
+const new_channel_stream_url = useField('new_channel_stream_url', "url|required");
 const new_channel_bitrate = useField('new_channel_bitrate',);
 const new_channel_audio_format = useField('new_channel_audio_format',);
 const new_channel_server_type = useField('new_channel_server_type',);
@@ -515,6 +516,11 @@ function deleteChannel(channel_index){
 
 function addStream() {
     noChannels.value = false;
+    if(!new_channel_stream_url.value.value){
+        setErrors({ ['new_channel_stream_url']: t(`errors.required`) });
+        return;
+    }
+    
     radioStreams.value.push({
         stream_url: new_channel_stream_url.value.value,
         // stream_url_fallback: new_channel_stream_url_fallback,

@@ -327,7 +327,7 @@
             "channels":{
                 "title": "Radio streams",
                 "add_new_title": "Add new stream to the radio",
-                "stream_url": "Steram URL",
+                "stream_url": "Stream URL",
                 "bitrate": "Bitrate",
                 "audio_format": "Audio format",
                 "server_type": "Server",
