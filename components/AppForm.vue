@@ -95,25 +95,43 @@
             </v-btn>
         </template>
     </v-snackbar>
+
+    <v-snackbar v-model="appBuildScheduled" color="success">
+        <span v-if="isAndroid()">
+            {{ $t('app.build_scheduled_android') }}
+        </span>
+        <span v-else>
+            {{ $t('app.build_scheduled_ios') }}
+        </span>
+
+        <template v-slot:actions>
+            <v-btn color="white" variant="text" @click="appBuildScheduled = false">
+                {{ $t('close') }}
+            </v-btn>
+        </template>
+    </v-snackbar>
+
 </template>
 
 <script setup>
 import { ref, reactive } from 'vue';
 const props = defineProps({ platform: String, id: Number })
 const config = useRuntimeConfig();
-// const router = useRouter();
 
 let appRequesFailed = ref(false);
+let appBuildScheduled = ref(false);
 let tab = ref("app_info");
-// let appData = reactive({});
 
 function isAndroid() {
     return props.platform = 'android';
 }
 
-function buildApplication(){
-    console.log("Build!");
-    refresh();
+async function buildApplication(){
+  await fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/build/`, {
+    method: 'PATCH',
+  });
+  appBuildScheduled.value = true;
+  refresh();
 }
 
 // Load app data
