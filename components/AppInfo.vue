@@ -22,6 +22,17 @@
                     <v-text-field v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
                         :label="$t('email')"></v-text-field>
 
+                    <v-text-field v-if="locale == 'ru'" v-model="yandex_appmetrica_key.value.value" type="text"
+                        :error-messages="yandex_appmetrica_key.errorMessage.value" label="API ключ Яндекс AppMetrica"
+                        >
+                        <template #details >
+                            <div class="text-left">
+                                Вы можете зарегистрировать своё приложение на <a href="https://appmetrica.yandex.ru/" target="_blank">Яндекс AppMetrica</a>, получить ключ, внести его в это поле и собирать дополнительную статистику по приложению.
+                            </div>
+                            
+                        </template>
+                    </v-text-field>
+
                     <v-file-input prepend-icon="mdi-account-box-outline" show-size :label="$t('app.icon')"
                         @change="generateIconPreview()" @click:clear="generateIconPreview()" name="icon"
                         v-model="icon.value.value" :error-messages="icon.errorMessage.value" accept="image/png"
@@ -42,10 +53,10 @@
 
 
 
-                    <v-file-input prepend-icon="mdi-image" show-size :label="$t('app.logo')" @change="generateLogoPreview()"
-                        @click:clear="generateLogoPreview()" name="logo" v-model="logo.value.value"
-                        :error-messages="logo.errorMessage.value" accept="image/png" :hint="$t('app.logo_hint')"
-                        persistent-hint></v-file-input>
+                    <v-file-input prepend-icon="mdi-image" show-size :label="$t('app.logo')"
+                        @change="generateLogoPreview()" @click:clear="generateLogoPreview()" name="logo"
+                        v-model="logo.value.value" :error-messages="logo.errorMessage.value" accept="image/png"
+                        :hint="$t('app.logo_hint')" persistent-hint></v-file-input>
 
                     <v-row>
                         <v-col cols="6" class="text-center">
@@ -61,7 +72,7 @@
 
 
                     <v-btn type="submit" :disabled="isAppInfoSubmitting" block class="mt-2" color="primary">{{
-                        isAppInfoSubmitting ? $t('loading') : $t('save') }}</v-btn>
+                    isAppInfoSubmitting ? $t('loading') : $t('save') }}</v-btn>
                 </v-form>
             </v-col>
         </v-row>
@@ -72,6 +83,7 @@
 import { ref, reactive } from 'vue';
 import { useField, useForm } from 'vee-validate';
 const emit = defineEmits(['AppInfoRefresh',])
+const { locale } = useI18n();
 
 
 const config = useRuntimeConfig();
@@ -96,6 +108,8 @@ const description_short = useField('description_short', "required|max:80");
 const description = useField('description', "required");
 const website_url = useField('website_url', "url");
 const email = useField('email', "required|email");
+const yandex_appmetrica_key = useField('yandex_appmetrica_key', "");
+
 const icon = useField('icon', "image|size:2000|dimensions:" + (props.platform == 'android' ? '512,512' : '1536,1536'));
 const logo = useField('logo', "image|size:2000");
 const previewIcon = ref();
