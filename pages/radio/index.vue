@@ -26,6 +26,9 @@
                 {{ $t('self_hosted.server_domain') }}
               </th>
               <th class="text-left">
+                {{ $t('radios.self_hosted.status') }}
+              </th>
+              <th class="text-left">
                 {{ $t('service_price') }}
               </th>
               <th>
@@ -37,6 +40,11 @@
             <tr v-if="self_hosted_radios.length > 0 && !self_hosted_radios_loading" v-for="item in self_hosted_radios" :key="item.id">
               <td>{{ item.ip }}</td>
               <td>{{ item.domain }}</td>
+              <td>
+                <v-chip v-if="(item.status == 0 || item.status == 3) && !item.is_blocked" variant="flat" color="green">{{ $t('self_hosted.status.being_created') }}</v-chip>
+                <v-chip v-if="item.status == 2 && !item.is_blocked" variant="flat" color="primary">{{ $t('self_hosted.status.running') }}</v-chip>
+                <v-chip v-if="item.status == 5 || item.is_blocked" variant="flat" color="red">{{ $t('self_hosted.status.suspended') }}</v-chip>
+              </td>
               <td>{{ item.price }}{{ $t('currency')}}</td>
               <td>
                 <NuxtLink :to="'/radio/self_hosted/' + item.id + '/'"><v-btn icon="mdi-pencil"></v-btn></NuxtLink>

@@ -52,6 +52,7 @@
                 "wrong_ip": "The domain is assigned to a different IP address, configure the DNS so that this domain points to the server’s IP address"
             },
             "ip": {
+                "unique": "This IP is already in use",
                 "ssh_port_connection_failed": "SSH connection failed, check connection parameters",
                 "ssh_connection_failed": "SSH login failed, check credentials",
                 "wrong_os": "Unsupported OS, please see the list of supported operating systems above"
@@ -87,6 +88,11 @@
         "install_command": "To install the software, run this command in the server terminal and follow the installation script instructions",
         "radio": {
             "title": "Self hosted radio"
+        },
+        "status": {
+            "being_created": "The software is being configured",
+            "running": "Running",
+            "suspended": "Suspended"
         }
     },
     "hosted": {
@@ -111,7 +117,6 @@
         "legal": "Legal",
         "status": {
             "being_created": "Being created",
-            "being_deleted": "Being deleted",
             "running": "Running",
             "suspended": "Suspended",
             "error": "Error"

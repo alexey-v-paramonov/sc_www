@@ -260,7 +260,7 @@ const appPrice = computed(() => {
     price += baseAndroidPrice;
     if (publishing_type.value.value != '3') {
       if (locale.value == 'ru') {
-        price += 2000;
+        price += 1500;
       }
       else {
         price += 30;

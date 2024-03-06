@@ -358,6 +358,18 @@ async function appDesignUpdateRequest(values) {
         body: {
             bg_color: bg_color.value.value,
             bg_color_gradient: bg_color_gradient.value.value,
+            font_color: font_color.value.value,
+            button_text_color: button_text_color.value.value,
+            text_secondary_color: text_secondary_color.value.value,
+            main_theme_color: main_theme_color.value.value,
+            play_button_border_color: play_button_border_color.value.value,
+            tabs_color: tabs_color.value.value,
+            tabs_icon_color: tabs_icon_color.value.value,
+            tabs_icon_selected_color: tabs_icon_selected_color.value.value,
+            text_secondary_color: text_secondary_color.value.value,
+            volume_bar_active_color: volume_bar_active_color.value.value,
+            volume_bar_inactive_color: volume_bar_inactive_color.value.value,
+            volume_buttons_color: volume_buttons_color.value.value,
         }
     });
 }
