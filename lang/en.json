@@ -324,7 +324,9 @@
             "volume_buttons_color": "Volume button color",
             "volume_bar_active_color": "Volume bar color (to the left of the volume button)",
             "volume_bar_inactive_color": "Volume bar color (to the right of the volume button)",
-            "choose_skin": "Select a ready-made skin"
+            "choose_skin": "Select a ready-made skin",
+            "copy_colors": "Copy colors from",
+            "copy_colors_hint": "You can copy color pallete from your other application"
         },
         "radios": {
             "title": "Radios",

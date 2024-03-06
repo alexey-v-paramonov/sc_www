@@ -61,6 +61,13 @@
 
 
                         <v-btn color="primary" @click="skinDialog = true;">{{ $t('app.design.choose_skin') }}</v-btn>
+                        <br />
+                        <br />
+                        <v-select v-if="otherApps.length > 0"
+                            @update:modelValue="copyColors" 
+                            :hint="$t('app.design.copy_colors_hint')" :items="otherApps" item-title="title" item-value="lookup"
+                            :label="$t('app.design.copy_colors')" persistent-hint single-line>
+                        </v-select>
 
                     </div>
                 </v-col>
@@ -102,7 +109,7 @@
 
 <script setup>
 // https://www.codeply.com/p/UlWxdd02jP
-import { ref, reactive } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useField, useForm } from 'vee-validate';
 const emit = defineEmits(['AppInfoRefresh',])
 const props = defineProps({ platform: String, id: Number, appData: Object })
@@ -305,6 +312,9 @@ let SKINS = {
     }
 };
 
+const otherApps = ref([]);
+let appsAndroid = [];
+let appsIos = [];
 
 
 const { handleSubmit, isSubmitting: isAppDesignSubmitting } = useForm({
@@ -394,6 +404,62 @@ const onAppDesignSubmit = handleSubmit(async values => {
     emit('AppInfoRefresh');
 });
 
+
+async function loadAllApplications(){
+
+    appsAndroid = await fetchAuth(`${config.public.baseURL}/mobile_apps/android/`);
+    appsIos = await fetchAuth(`${config.public.baseURL}/mobile_apps/ios/`);
+
+    for (let androidApp of appsAndroid) {
+        if(androidApp.id != props.id){
+            androidApp.title = 'Android: ' + androidApp.title;
+            androidApp.lookup = 'android_' + androidApp.id;
+            otherApps.value.push(androidApp);
+        }
+    }
+    for (let iosApp of appsIos) {
+        if(iosApp.id != props.id){
+            iosApp.title = 'iOS: ' + iosApp.title;
+            iosApp.lookup = 'ios_' + iosApp.id;
+            otherApps.value.push(iosApp);
+        }
+    }
+
+}
+
+function copyColors(srcApp){
+    const d = srcApp.split('_');
+    const platform = d[0];
+    const appID = d[1];
+    let app = undefined;
+
+    if(platform == 'android'){
+        app = appsAndroid.find((app) => app.id == appID);
+    }
+    else if(platform == 'ios'){
+        app = appsIos.find((app) => app.id == appID);
+    }
+    if(app){
+        bg_color.value.value = app.bg_color;
+        bg_color_gradient.value.value = app.bg_color_gradient;
+        font_color.value.value = app.font_color;
+        text_secondary_color.value.value = app.text_secondary_color;
+        button_text_color.value.value = app.button_text_color;
+        tabs_color.value.value = app.tabs_color;
+        tabs_icon_color.value.value = app.tabs_icon_color;
+        tabs_icon_selected_color.value.value = app.tabs_icon_selected_color;
+        main_theme_color.value.value = app.main_theme_color;
+        play_button_border_color.value.value = app.play_button_border_color;
+        volume_buttons_color.value.value = app.volume_buttons_color;
+        volume_bar_active_color.value.value = app.volume_bar_active_color;
+        volume_bar_inactive_color.value.value = app.volume_bar_inactive_color;
+    }
+
+}
+
+onMounted(() => {
+    loadAllApplications();
+});
 
 </script>
 
