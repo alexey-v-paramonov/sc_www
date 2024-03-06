@@ -70,7 +70,6 @@
                         </v-col>
                     </v-row>
 
-
                     <v-btn type="submit" :disabled="isAppInfoSubmitting" block class="mt-2" color="primary">{{
                     isAppInfoSubmitting ? $t('loading') : $t('save') }}</v-btn>
                 </v-form>
@@ -105,7 +104,7 @@ const { handleSubmit, isSubmitting: isAppInfoSubmitting, setErrors } = useForm({
 });
 
 const title = useField('title', "required|max:30");
-const description_short = useField('description_short', "required|max:80");
+const description_short = useField('description_short', "max:80");
 const description = useField('description', "required");
 const website_url = useField('website_url', "url");
 const email = useField('email', "required|email");
