@@ -78,7 +78,7 @@
 
             <!-- APP RADIOS -->
             <v-window-item value="app_radios">
-                <AppRadios :platform="props.platform" :id="props.id" :app-data="appData" />
+                <AppRadios :platform="props.platform" :id="props.id" :app-data="appData"  @app-info-refresh="refresh()"/>
             </v-window-item>
 
         </v-window>

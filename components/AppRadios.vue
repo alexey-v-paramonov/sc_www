@@ -325,6 +325,7 @@
 import { ref, reactive } from 'vue';
 import { useField, useForm } from 'vee-validate';
 const props = defineProps({ platform: String, id: Number, appData: Object })
+const emit = defineEmits(['AppInfoRefresh',])
 
 const config = useRuntimeConfig();
 const { locale, t } = useI18n();
@@ -500,6 +501,9 @@ function deleteRadio(r) {
             fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/radios/${r.id}/`, { method: 'DELETE' }).then(
                 () => {
                     deleteRadioSuccess.value = true;
+                    if(appRadios.value.length == 1){
+                        emit('AppInfoRefresh');
+                    }
                     refresh();
                 },
                 () => {
@@ -588,7 +592,7 @@ const onAppRadioSubmit = handleSubmit(async values => {
     let response;
     try {
         response = await saveAppRadioRequest(values);
-        console.log(response);
+
     }
     catch (e) {
         const errorData = e.data;
@@ -604,6 +608,10 @@ const onAppRadioSubmit = handleSubmit(async values => {
         }
         return;
     }
+    if(appRadios.value.length == 0){
+        emit('AppInfoRefresh');
+    }
+
     refresh();
     resetRadioForm();
 
