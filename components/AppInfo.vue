@@ -100,6 +100,7 @@ const { handleSubmit, isSubmitting: isAppInfoSubmitting, setErrors } = useForm({
         description: appData.description || '',
         description_short: appData.description_short || '',
         website_url: appData.website_url || '',
+        yandex_appmetrica_key: appData.yandex_appmetrica_key || ''
     }
 });
 
@@ -143,6 +144,7 @@ async function appUpdateRequest(values) {
     formData.append('email', values.email);
     values.icon && formData.append('icon', values.icon[0]);
     values.logo && formData.append('logo', values.logo[0]);
+    values.yandex_appmetrica_key && formData.append('yandex_appmetrica_key', values.yandex_appmetrica_key);
 
     return await fetchAuth(`${config.public.baseURL}/mobile_apps/${platform}/${props.id}/`, {
         method: 'PATCH',
