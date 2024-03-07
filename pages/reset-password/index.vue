@@ -59,7 +59,7 @@ async function resetPasswordRequest(data) {
     method: 'POST',
     body: {
       'email': data.email,
-      'lang': locale
+      'lang': locale.value
     }
   });
 }
@@ -69,17 +69,23 @@ const { handleSubmit, isSubmitting: isPassResetSubmitting, setErrors } = useForm
 const email = useField('email', "required|email");
 
 const resetPassword = handleSubmit(async values => {
-  const response = await resetPasswordRequest(values);
-  const error = response.error.value;
-  if (!error) {
-    resetDone.value = true;
+
+  let response;
+  try{
+    response = await resetPasswordRequest(values);
+  }
+  catch(e){
+    if (typeof e == 'object') {
+      let errors = {};
+      for (const error_field in e.data) {
+        errors[error_field] = t(`password_reset.errors.${error_field}.${e.data[error_field]}`);
+      }
+      setErrors(errors);
+    }
     return;
   }
-  let errors = {};
-  for (const error_field in error.data) {
-    errors[error_field] = t(`password_reset.errors.${error_field}.${error.data[error_field]}`);
-  }
-  setErrors(errors);
+  
+  resetDone.value = true;
 
 
 });

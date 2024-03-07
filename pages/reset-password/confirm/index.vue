@@ -92,26 +92,31 @@ const password = useField("password", "required|min:8");
 
 const resetConfirmPassword = handleSubmit(async values => {
   badToken.value = false;
+  let response;
 
-  const response = await resetConfirmPasswordRequest(values);
-  const error = response.error.value;
-  if (!error) {
-    resetConfirmDone.value = true;
+  try{
+    response = await resetConfirmPasswordRequest(values);
+  }
+  catch(e){
+    if (typeof e == 'object') {
+      if (e.data['non_field_errors'] == 'token_invalid') {
+        badToken.value = true;
+        return;
+      }
+
+      let errors = {};
+      for (const error_field in e.data) {
+        error_field = 'password';
+        errors[error_field] = t(`password_reset.errors.${error_field}.${error.data[error_field]}`);
+      }
+      setErrors(errors);
+    }
     return;
+
   }
 
-  if (error.data['non_field_errors'] == 'token_invalid') {
-    badToken.value = true;
-    return;
-  }
+  resetConfirmDone.value = true;
 
-  let errors = {};
-  for (const error_field in error.data) {
-    // Put all errors into the password field
-    error_field = 'password';
-    errors[error_field] = t(`password_reset.errors.${error_field}.${error.data[error_field]}`);
-  }
-  setErrors(errors);
 });
 
 function goToPasswordReset() {
