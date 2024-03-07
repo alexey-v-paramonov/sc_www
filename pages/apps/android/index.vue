@@ -81,11 +81,11 @@ async function reloadAndroidApps() {
   android_apps.value = [];
   apps_loading.value = true;
   try {
-    response = await useFetchAuth(`${config.public.baseURL}/mobile_apps/android/`);
+    response = await fetchAuth(`${config.public.baseURL}/mobile_apps/android/`);
   }
   catch (e) {
   }
-  android_apps.value = response.data.value || [];
+  android_apps.value = response || [];
   apps_loading.value = false;
 }
 

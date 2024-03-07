@@ -103,11 +103,11 @@ async function reloadSelfHostedRadios() {
   self_hosted_radios.value = [];
   self_hosted_radios_loading.value = true;
   try {
-    response = await useFetchAuth(`${config.public.baseURL}/self_hosted_radio/`);
+    response = await fetchAuth(`${config.public.baseURL}/self_hosted_radio/`);
   }
   catch (e) {
   }
-  self_hosted_radios.value = response.data.value || [];
+  self_hosted_radios.value = response || [];
   self_hosted_radios_loading.value = false;
 }
 
@@ -116,11 +116,11 @@ async function reloadHostedRadios() {
   hosted_radios.value = [];
   hosted_radios_loading.value = true;
   try {
-    response = await useFetchAuth(`${config.public.baseURL}/hosted_radio/`);
+    response = await fetchAuth(`${config.public.baseURL}/hosted_radio/`);
   }
   catch (e) {
   }
-  hosted_radios.value = response.data.value || [];
+  hosted_radios.value = response || [];
   hosted_radios_loading.value = false;
 }
 
@@ -129,11 +129,11 @@ async function reloadAndroidApps() {
   android_apps.value = [];
   android_apps_loading.value = true;
   try {
-    response = await useFetchAuth(`${config.public.baseURL}/mobile_apps/android/`);
+    response = await fetchAuth(`${config.public.baseURL}/mobile_apps/android/`);
   }
   catch (e) {
   }
-  android_apps.value = response.data.value || [];
+  android_apps.value = response || [];
   android_apps_loading.value = false;
 }
 
@@ -142,11 +142,11 @@ async function reloadIosApps() {
   ios_apps.value = [];
   ios_apps_loading.value = true;
   try {
-    response = await useFetchAuth(`${config.public.baseURL}/mobile_apps/ios/`);
+    response = await fetchAuth(`${config.public.baseURL}/mobile_apps/ios/`);
   }
   catch (e) {
   }
-  ios_apps.value = response.data.value || [];
+  ios_apps.value = response || [];
   ios_apps_loading.value = false;
 }
 

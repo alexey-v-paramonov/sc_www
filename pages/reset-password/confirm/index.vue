@@ -77,7 +77,7 @@ const resetConfirmDone = ref(false);
 
 async function resetConfirmPasswordRequest(data) {
   const config = useRuntimeConfig();
-  return await useFetch(`${config.public.baseURL}/password_reset/confirm/`, {
+  return await $fetch(`${config.public.baseURL}/password_reset/confirm/`, {
     method: 'POST',
     body: {
       'password': data.password,

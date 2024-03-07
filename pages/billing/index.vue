@@ -144,14 +144,12 @@ async function getUserPayments() {
 
 async function getCustomPaymentMethods() {
 
-  const paymentMethods = await useFetchAuth(`${config.public.baseURL}/custom_payment_methods/`, {
+  const paymentMethods = await fetchAuth(`${config.public.baseURL}/custom_payment_methods/`, {
     method: 'GET',
   });
 
-  Object.assign(customPaymentMethods, paymentMethods.data.value)
+  Object.assign(customPaymentMethods, paymentMethods)
 
-
-  console.log("METHODS: ", customPaymentMethods)
 }
 
 </script>

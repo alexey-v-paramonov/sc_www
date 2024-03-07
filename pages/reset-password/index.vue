@@ -55,7 +55,7 @@ const resetDone = ref(false);
 
 async function resetPasswordRequest(data) {
   const config = useRuntimeConfig();
-  return await useFetch(`${config.public.baseURL}/password_reset/`, {
+  return await $fetch(`${config.public.baseURL}/password_reset/`, {
     method: 'POST',
     body: {
       'email': data.email,

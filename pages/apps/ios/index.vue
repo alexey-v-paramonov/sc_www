@@ -77,11 +77,11 @@ let response;
 ios_apps.value = [];
 apps_loading.value = true;
 try {
-  response = await useFetchAuth(`${config.public.baseURL}/mobile_apps/ios/`);
+  response = await fetchAuth(`${config.public.baseURL}/mobile_apps/ios/`);
 }
 catch (e) {
 }
-ios_apps.value = response.data.value || [];
+ios_apps.value = response || [];
 apps_loading.value = false;
 }
 

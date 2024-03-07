@@ -25,6 +25,7 @@ export const useUserStore = defineStore('user', () => {
     }
 
     const setUserData = (data) => {
+        console.log("Set user data: ", JSON.stringify(data))
         user.isAuthenticated = true;
         user.token = data.token;
         user.id = data.id;
