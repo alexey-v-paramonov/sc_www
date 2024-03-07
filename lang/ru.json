@@ -89,7 +89,8 @@
         "status": {
             "being_created": "Идёт настройка",
             "running": "Работает",
-            "suspended": "Приостановлен"
+            "suspended": "Приостановлен",
+            "trial_period": "2 дня бесплатно"
         }
         
     },

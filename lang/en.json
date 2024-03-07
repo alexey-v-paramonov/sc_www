@@ -92,7 +92,8 @@
         "status": {
             "being_created": "The software is being configured",
             "running": "Running",
-            "suspended": "Suspended"
+            "suspended": "Suspended",
+            "trial_period": "2 days free trial"
         }
     },
     "hosted": {

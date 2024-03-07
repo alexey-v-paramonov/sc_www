@@ -41,9 +41,11 @@
               <td>{{ item.ip }}</td>
               <td>{{ item.domain }}</td>
               <td>
-                <v-chip v-if="(item.status == 0 || item.status == 3) && !item.is_blocked" variant="flat" color="green">{{ $t('self_hosted.status.being_created') }}</v-chip>
-                <v-chip v-if="item.status == 2 && !item.is_blocked" variant="flat" color="primary">{{ $t('self_hosted.status.running') }}</v-chip>
-                <v-chip v-if="item.status == 5 || item.is_blocked" variant="flat" color="red">{{ $t('self_hosted.status.suspended') }}</v-chip>
+                <v-chip v-if="selfHostedStatus(item) == RADIO_STATUS.PENDING || selfHostedStatus(item) == RADIO_STATUS.BEING_CREATED" variant="flat" color="green">{{ $t('self_hosted.status.being_created') }}</v-chip>
+                <v-chip v-if="selfHostedStatus(item) == RADIO_STATUS.READY" variant="flat" color="primary">{{ $t('self_hosted.status.running') }}</v-chip>
+                <v-chip v-if="selfHostedStatus(item) == RADIO_STATUS.SUSPENDED" variant="flat" color="red">{{ $t('self_hosted.status.suspended') }}</v-chip>
+                <v-chip v-if="isTrial(item)" variant="flat" color="green">{{ $t('self_hosted.status.trial_period') }}</v-chip>
+                
               </td>
               <td>{{ item.price }}{{ $t('currency')}}</td>
               <td>
@@ -110,14 +112,14 @@
             <tr v-if="hosted_radios.length > 0 && !hosted_radios_loading" v-for="item in hosted_radios" :key="item.name">
               <td>
                 <div>{{ item.login }}</div>
-                <div v-if="item.status == 2 || item.status == 5 || item.status == 4"><a :href="'https://' + item.login + '.' + item.server_data.nodename + '.radio-tochka.com:8080'" target="_blank">https://{{item.login}}.{{ item.server.nodename }}.radio-tochka.com:8080</a></div>
+                <div v-if="item.status == RADIO_STATUS.READY || item.status == RADIO_STATUS.SUSPENDED || item.status == RADIO_STATUS.BEING_DELETED"><a :href="'https://' + item.login + '.' + item.server_data.nodename + '.radio-tochka.com:8080'" target="_blank">https://{{item.login}}.{{ item.server.nodename }}.radio-tochka.com:8080</a></div>
               </td>
               <td>
-                <v-chip v-if="item.status == 0 || item.status == 3" variant="flat" color="green">{{ $t('hosted.status.being_created') }}</v-chip>
-                <v-chip v-if="item.status == 2" variant="flat" color="primary">{{ $t('hosted.status.running') }}</v-chip>
-                <v-chip v-if="item.status == 4" variant="flat" color="red">{{ $t('hosted.status.being_deleted') }}</v-chip>
-                <v-chip v-if="item.status == 5" variant="flat" color="red">{{ $t('hosted.status.suspended') }}</v-chip>
-                <v-chip v-if="item.status == 6" variant="flat" color="red">{{ $t('hosted.status.error') }}</v-chip>
+                <v-chip v-if="item.status == RADIO_STATUS.PENDING || item.status == RADIO_STATUS.BEING_CREATED" variant="flat" color="green">{{ $t('hosted.status.being_created') }}</v-chip>
+                <v-chip v-if="item.status == RADIO_STATUS.READY" variant="flat" color="primary">{{ $t('hosted.status.running') }}</v-chip>
+                <v-chip v-if="item.status == RADIO_STATUS.BEING_DELETED" variant="flat" color="red">{{ $t('hosted.status.being_deleted') }}</v-chip>
+                <v-chip v-if="item.status == RADIO_STATUS.SUSPENDED" variant="flat" color="red">{{ $t('hosted.status.suspended') }}</v-chip>
+                <v-chip v-if="item.status == RADIO_STATUS.ERROR" variant="flat" color="red">{{ $t('hosted.status.error') }}</v-chip>
               </td>
               <td>{{ item.price }}{{ $t('currency')}}</td>
 
@@ -185,7 +187,8 @@
 <script setup>
 import { ref } from 'vue';
 
-import { useUiStateStore } from '@/stores/ui'
+import { useUserStore } from '~/stores/user'
+const stateUser = useUserStore()
 
 definePageMeta({
   layout: "default",
@@ -197,9 +200,35 @@ let deleteRadioFailed = ref(false);
 let deleteRadioSuccess = ref(false);
 let answerDialog = ref();
 
+const RADIO_STATUS = {
+  PENDING: 0,
+  CHECKING: 1,
+  READY: 2,
+  BEING_CREATED: 3,
+  BEING_DELETED: 4,
+  SUSPENDED: 5,
+  ERROR: 6,
+}
+
 const { data: self_hosted_radios, pending: self_hosted_radios_loading, refresh: reloadSelfHostedRadios } = await useFetchAuth(`${config.public.baseURL}/self_hosted_radio/`);
 const { data: hosted_radios, pending: hosted_radios_loading, refresh: reloadHostedRadios } = await useFetchAuth(`${config.public.baseURL}/hosted_radio/`);
 
+function isTrial(radio){
+  return radio.status == RADIO_STATUS.READY && radio.is_trial_period && stateUser.user.userData.balance == 0 && radio.status != RADIO_STATUS.SUSPENDED && radio.status != RADIO_STATUS.ERROR;
+}
+function selfHostedStatus(radio){
+  const zeroBalance = stateUser.user.userData.balance == 0;
+  if (radio.is_blocked){
+    return RADIO_STATUS.SUSPENDED;
+  }
+  if(isTrial(radio) && radio.status == RADIO_STATUS.READY){
+    return RADIO_STATUS.READY;
+  }
+  if(!isTrial(radio) && zeroBalance && radio.status == RADIO_STATUS.READY){
+    return RADIO_STATUS.SUSPENDED;
+  }
+  return radio.status;
+}
 function deleteRadio(radio) {
   dialog.value = true;
   new Promise((resolve) => {

@@ -37,7 +37,6 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       baseURL: 'https://streaming.center/api/v1',
-      //baseURL: 'https://streaming.center:8080/api/v1',
       //baseURL: 'http://localhost:9191/api/v1',
     },
   },
