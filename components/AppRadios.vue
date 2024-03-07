@@ -456,7 +456,6 @@ async function checkSCPanelURL() {
 
 function openRadioDialog(r = null) {
     if (r) {
-        console.log(r.id);
         appRadio.value = { ...r }
         title.value.value = r.title;
         description.value.value = r.description;

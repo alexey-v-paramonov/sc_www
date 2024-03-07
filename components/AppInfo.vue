@@ -154,15 +154,11 @@ async function appUpdateRequest(values) {
 
 
 const onAppSubmit = handleSubmit(async values => {
-    console.log("onAppSubmit!")
-
     let response;
     try {
         response = await appUpdateRequest(values);
-        console.log(response);
     }
     catch (e) {
-        console.log("Exception: ", e)
         const errorData = e.data;
         for (const [field, errors] of Object.entries(errorData)) {
             for (const errCode of errors) {

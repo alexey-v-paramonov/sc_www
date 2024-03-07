@@ -98,7 +98,6 @@ const onSelfHostedSubmit = handleSubmit(async values => {
 
   try{
     const response = await saveSelfHostedRequest(values);
-    console.log(response);
   }
   catch(e){
     const errorData = e.data;

@@ -389,10 +389,8 @@ const onAppDesignSubmit = handleSubmit(async values => {
     let response;
     try {
         response = await appDesignUpdateRequest(values);
-        console.log(response);
     }
     catch (e) {
-        console.log("Exception: ", e)
         const errorData = e.data;
         for (const [field, errors] of Object.entries(errorData)) {
             for (const errCode of errors) {
