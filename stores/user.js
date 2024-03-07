@@ -7,21 +7,22 @@ const defaultUser = {
     isAuthenticated: false,
     token: null,
     id: null,
-    email: null
+    email: null,
+    userData: {
+        balance: null
+    }
+
 };
 
 export const useUserStore = defineStore('user', () => {
-    let user = reactive( process.client ? JSON.parse(localStorage.getItem(LOCAL_STORE_NAME)) || defaultUser : defaultUser);
+    let user = reactive(process.client ? JSON.parse(localStorage.getItem(LOCAL_STORE_NAME)) || defaultUser : defaultUser);
     const config = useRuntimeConfig();
-    user.userData = {
-        balance: null
-    };
 
-    async function getUserData(){
+    async function getUserData() {
         const response = await fetchAuth(`${config.public.baseURL}/users/${user.id}/`, {
             method: 'GET',
         });
-        user.userData = response;
+        Object.assign(user.userData, response);
     }
 
     const setUserData = (data) => {
@@ -38,12 +39,12 @@ export const useUserStore = defineStore('user', () => {
     }
 
     const Logout = () => {
-        user = defaultUser;
+        Object.assign(user, defaultUser);
         localStorage.removeItem(LOCAL_STORE_NAME);
     }
 
 
-    return{
+    return {
         user,
         setUserData,
         getUserData,

@@ -1,21 +1,20 @@
 import { useUserStore } from '~/stores/user'
 import { useUiStateStore } from '@/stores/ui'
-import { ref } from 'vue';
 
 
 export async function useFetchAuth(url, opts) {
 
-  const { user } =  useUserStore();
+  const { user } =  storeToRefs(useUserStore());
+
   const stateUI = useUiStateStore();
   const router = useRouter();
-  const token = ref(user.token);
-  
+
   let response;
   stateUI.setLoading(true);
   // timeout: 30000
   const headers = {
     ...(opts?.headers || {}),
-    ...(token.value && { Authorization: `Token ${token.value}` }),
+    ...(user.value.token && { Authorization: `Token ${user.value.token}` }),
   };
   try {
     response = await useFetch(url, { ...opts, headers });
@@ -36,17 +35,15 @@ export async function useFetchAuth(url, opts) {
 
 export async function fetchAuth(url, opts) {
 
-  const { user } =  useUserStore();
+  const { user } =  storeToRefs(useUserStore());
   const stateUI = useUiStateStore();
   const router = useRouter();
-  const token = ref(user.token);
-  
   let response;
   stateUI.setLoading(true);
   // timeout: 30000
   const headers = {
     ...(opts?.headers || {}),
-    ...(token.value && { Authorization: `Token ${token.value}` }),
+    ...(user.value.token && { Authorization: `Token ${user.value.token}` }),
   };
   try {
     response = await $fetch(url, { ...opts, headers });

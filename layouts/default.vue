@@ -9,6 +9,7 @@ import { useUserStore } from '~/stores/user'
 
 const stateUser = useUserStore()
 const stateUI = useUiStateStore()
+const { user } =  storeToRefs(useUserStore());
 
 
 async function getUserData(){
@@ -87,8 +88,8 @@ function Logout(){
       <!-- <v-app-bar-nav-icon class="" @click="drawer = !drawer" /> -->
       <v-spacer></v-spacer>
 
-      <NuxtLink v-if="stateUser && stateUser.user && stateUser.user.userData && stateUser.user.userData.balance !== null" to="/billing"><v-chip>{{stateUser.user.userData.email}} &nbsp;&nbsp; <span class="font-weight-black">{{stateUser.user.userData.balance}} {{ $t('currency')}}</span></v-chip></NuxtLink>
-      <v-btn v-if="stateUser && stateUser.user" append-icon="mdi-logout" variant="plain" @click="Logout()">
+      <NuxtLink v-if="user && user.userData && user.userData.balance !== null" to="/billing"><v-chip>{{user.userData.email}} &nbsp;&nbsp; <span class="font-weight-black">{{user.userData.balance}} {{ $t('currency')}}</span></v-chip></NuxtLink>
+      <v-btn v-if="user" append-icon="mdi-logout" variant="plain" @click="Logout()">
         {{ $t('logout')}}
       </v-btn>
 
