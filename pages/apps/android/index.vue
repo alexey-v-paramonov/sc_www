@@ -32,7 +32,9 @@
                 <NuxtLink :to="'/apps/android/' + item.id + '/'">{{ item.title }}</NuxtLink>
               </td>
               <td>
+                
                 <NuxtLink :to="'/apps/android/' + item.id + '/'"><v-btn icon="mdi-pencil"></v-btn></NuxtLink>
+                <v-btn @click=openPushNotificationDialog(item.id) v-if="item.is_paid && item.enable_push" icon="mdi-message-badge-outline" :title="$t('apps.send_push')"></v-btn>
               </td>
             </tr>
 
@@ -75,6 +77,9 @@ definePageMeta({
 });
 
 
+function openPushNotificationDialog(app_id){
+  console.log("sendPushNotification: ", app_id);
+}
 
 async function reloadAndroidApps() {
   let response;

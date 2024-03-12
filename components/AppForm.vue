@@ -26,7 +26,8 @@
                     </v-chip>
                     <v-chip v-if="appData.status == 3" variant="flat" color="red">{{ $t('app.buil_status.error') }}</v-chip>
                     <div v-if="appData.status == 2">
-                        {{ $t('app.version') }}: {{ appData.version }}  {{ $t('app.build_date') }}: {{ appData.build_date }}
+                        <div>{{ $t('app.version') }}: {{ appData.version }}</div> 
+                        <div>{{ $t('app.build_date') }}: {{ appData.build_date }}</div>
                         <v-btn v-if="isAndroid()" :href="apkLink" prepend-icon="mdi-download-box" color="primary">{{ $t('app.download_apk') }}</v-btn>
                         <v-btn v-if="isAndroid()" :href="aabLink" prepend-icon="mdi-download-box" color="primary">{{ $t('app.download_aab') }}</v-btn>
                         <div v-if="!isAndroid()">{{ $t('app.ios_ready') }}</div>

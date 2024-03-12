@@ -238,6 +238,7 @@
         "submit": "Start creating an application",
         "android_empty": "You do not have any Android applications yet",
         "ios_empty": "You do not have any iOS applications yet",
+        "send_push": "Send PUSH notification",
         "publishing": {
             "title": "Publishing settings",
             "description": "To make your application available publicly you need to publish it in an application store - Apple App Store for iOs applications and Google Play for Android (we also provide other stores for Android per request).",
