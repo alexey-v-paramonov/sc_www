@@ -27,8 +27,8 @@
                     <v-chip v-if="appData.status == 3" variant="flat" color="red">{{ $t('app.buil_status.error') }}</v-chip>
                     <div v-if="appData.status == 2">
                         {{ $t('app.version') }}: {{ appData.version }}  {{ $t('app.build_date') }}: {{ appData.build_date }}
-                        <v-btn v-if="isAndroid()" prepend-icon="mdi-download-box" color="primary">{{ $t('app.download_apk') }}</v-btn>
-                        <v-btn v-if="isAndroid()" prepend-icon="mdi-download-box" color="primary">{{ $t('app.download_aab') }}</v-btn>
+                        <v-btn v-if="isAndroid()" :href="apkLink" prepend-icon="mdi-download-box" color="primary">{{ $t('app.download_apk') }}</v-btn>
+                        <v-btn v-if="isAndroid()" :href="aabLink" prepend-icon="mdi-download-box" color="primary">{{ $t('app.download_aab') }}</v-btn>
                         <div v-if="!isAndroid()">{{ $t('app.ios_ready') }}</div>
                     </div>                    
                     <div v-if="appData.is_paid && appData.status != 1">
@@ -114,13 +114,21 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, computed } from 'vue';
 const props = defineProps({ platform: String, id: Number })
 const config = useRuntimeConfig();
 
 let appRequesFailed = ref(false);
 let appBuildScheduled = ref(false);
 let tab = ref("app_info");
+
+const apkLink = computed(() => {
+    return `https://streaming.center/radio/android_app/${props.id}/${appData.value.short_package_name}.apk`;
+});
+
+const aabLink = computed(() => {
+    return `https://streaming.center/radio/android_app/${props.id}/${appData.value.short_package_name}.aab`;
+});
 
 function isAndroid() {
     return props.platform = 'android';
@@ -136,7 +144,6 @@ async function buildApplication(){
 
 // Load app data
 const { data: appData, pending, error, refresh } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/`);
-// appData.value = data.value || {};
 
 if (error.value) {
     appRequesFailed.value = true;
