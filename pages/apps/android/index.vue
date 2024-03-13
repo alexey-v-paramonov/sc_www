@@ -32,9 +32,10 @@
                 <NuxtLink :to="'/apps/android/' + item.id + '/'">{{ item.title }}</NuxtLink>
               </td>
               <td>
-                
+
                 <NuxtLink :to="'/apps/android/' + item.id + '/'"><v-btn icon="mdi-pencil"></v-btn></NuxtLink>
-                <v-btn @click=openPushNotificationDialog(item.id) v-if="item.is_paid && item.enable_push" icon="mdi-message-badge-outline" :title="$t('apps.send_push')"></v-btn>
+                <v-btn @click=openPushNotificationDialog(item.id) v-if="item.is_paid && item.enable_push"
+                  icon="mdi-message-badge-outline" :title="$t('apps.send_push')"></v-btn>
               </td>
             </tr>
 
@@ -49,7 +50,10 @@
                 <br />
                 <br />
 
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/SMSvpNqAAFU?si=gl1Eh_WPYsmVzDDB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/SMSvpNqAAFU?si=gl1Eh_WPYsmVzDDB"
+                  title="YouTube video player" frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen></iframe>
 
                 <br />
                 <br />
@@ -63,22 +67,28 @@
     </v-row>
 
   </v-container>
+  <PushDialog v-model="pushNotificationDialog" platform="android" :id="app_push_id" />
 </template>
-  
+
 <script setup>
+
 const config = useRuntimeConfig();
 
 
 let android_apps = ref([]);
 let apps_loading = ref(false);
+let app_push_id = 0;
+let pushNotificationDialog = ref(false);
+
 
 definePageMeta({
   layout: "default",
 });
 
 
-function openPushNotificationDialog(app_id){
-  console.log("sendPushNotification: ", app_id);
+function openPushNotificationDialog(app_id) {
+  pushNotificationDialog.value = true;
+  app_push_id = app_id;
 }
 
 async function reloadAndroidApps() {

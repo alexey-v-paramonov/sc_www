@@ -59,7 +59,7 @@
             </tr>
 
             <tr v-else>
-              <td class="text-center" colspan="3">
+              <td class="text-center" colspan="10">
                 <br />
                 {{ $t('radios.self_hosted.empty') }}
                 <br />
@@ -130,7 +130,7 @@
             </tr>
 
             <tr v-else>
-              <td class="text-center" colspan="3">
+              <td class="text-center" colspan="10">
                 <br />
                 {{ $t('radios.hosted.empty') }}
                 <br />

@@ -29,7 +29,12 @@
 
           <tr v-if="ios_apps.length > 0" v-for="item in ios_apps" :key="item.id">
             <td><NuxtLink :to="'/apps/ios/' + item.id + '/'">{{ item.title }}</NuxtLink></td>
-            <td><NuxtLink :to="'/apps/ios/' + item.id + '/'"><v-btn icon="mdi-pencil"></v-btn></NuxtLink></td>
+            <td>
+              <NuxtLink :to="'/apps/ios/' + item.id + '/'"><v-btn icon="mdi-pencil"></v-btn></NuxtLink>
+              <v-btn @click=openPushNotificationDialog(item.id) v-if="item.is_paid && item.enable_push"
+                  icon="mdi-message-badge-outline" :title="$t('apps.send_push')"></v-btn>
+
+            </td>
           </tr>
 
           <tr v-else-if="apps_loading">
@@ -57,6 +62,8 @@
   </v-row>
 
   </v-container>
+  <PushDialog v-model="pushNotificationDialog" platform="ios" :id="app_push_id" />
+
 </template>
 
 <script setup>
@@ -65,11 +72,18 @@ const config = useRuntimeConfig();
 
 let ios_apps = ref([]);
 let apps_loading = ref(false);
+let pushNotificationDialog = ref(false);
+let app_push_id = 0;
 
 definePageMeta({
-layout: "default",
+  layout: "default",
 });
 
+
+function openPushNotificationDialog(app_id) {
+  pushNotificationDialog.value = true;
+  app_push_id = app_id;
+}
 
 
 async function reloadIosApps() {
