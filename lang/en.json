@@ -242,6 +242,8 @@
         "send_push_cta": "Send PUSH",
         "push_title": "Title",
         "push_text": "Message text",
+        "push_failed": "Failed to send PUSH notification",
+        "push_success": "PUSH notification has been sent",
         "publishing": {
             "title": "Publishing settings",
             "description": "To make your application available publicly you need to publish it in an application store - Apple App Store for iOs applications and Google Play for Android (we also provide other stores for Android per request).",

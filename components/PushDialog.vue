@@ -29,7 +29,7 @@ import { useField, useForm } from 'vee-validate';
 const props = defineProps({ platform: String, id: Number, modelValue: Boolean })
 
 const config = useRuntimeConfig();
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'pushResult'])
 
 
 const { handleSubmit, isSubmitting: pushNotificationInProgress } = useForm({
@@ -53,10 +53,10 @@ const sendPushNotification = handleSubmit(async values => {
             }
         });
         emit('update:modelValue', false)
+        emit('pushResult', true)
     }
     catch (e) {
-        
-        return;
+        emit('pushResult', false)
     }
 
 });

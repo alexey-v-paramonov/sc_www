@@ -67,7 +67,28 @@
     </v-row>
 
   </v-container>
-  <PushDialog v-model="pushNotificationDialog" platform="android" :id="app_push_id" />
+  <PushDialog v-model="pushNotificationDialog" platform="android" :id="app_push_id"
+    @push-result="showPushResultNotification" />
+  <v-snackbar v-model="pushFailed" color="error">
+    {{ $t('apps.push_failed') }}
+
+    <template v-slot:actions>
+      <v-btn color="white" variant="text" @click="pushFailed = false">
+        {{ $t('close') }}
+      </v-btn>
+    </template>
+  </v-snackbar>
+
+  <v-snackbar v-model="pushSuccess" color="success">
+    {{ $t('apps.push_success') }}
+
+    <template v-slot:actions>
+      <v-btn color="white" variant="text" @click="pushSuccess = false">
+        {{ $t('close') }}
+      </v-btn>
+    </template>
+  </v-snackbar>
+
 </template>
 
 <script setup>
@@ -79,6 +100,8 @@ let android_apps = ref([]);
 let apps_loading = ref(false);
 let app_push_id = 0;
 let pushNotificationDialog = ref(false);
+let pushFailed = ref(false);
+let pushSuccess = ref(false);
 
 
 definePageMeta({
@@ -89,6 +112,15 @@ definePageMeta({
 function openPushNotificationDialog(app_id) {
   pushNotificationDialog.value = true;
   app_push_id = app_id;
+}
+
+function showPushResultNotification(result) {
+  if (result) {
+    pushSuccess.value = true;
+  }
+  else {
+    pushFailed.value = true;
+  }
 }
 
 async function reloadAndroidApps() {
