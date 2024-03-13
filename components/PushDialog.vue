@@ -34,8 +34,8 @@ const emit = defineEmits(['update:modelValue'])
 
 const { handleSubmit, isSubmitting: pushNotificationInProgress } = useForm({
     initialValues: {
-        title: '',
-        text: '',
+        push_title: '',
+        push_text: '',
     }
 });
 
@@ -43,21 +43,22 @@ const push_title = useField('push_title', "required|max:65");
 const push_text = useField('push_text', "required|max:200");
 
 const sendPushNotification = handleSubmit(async values => {
-    console.log("YO!", props.platform, props.id);
     let response;
-    // try {
-    //     response = await appDesignUpdateRequest(values);
-    // }
-    // catch (e) {
-    //     const errorData = e.data;
-    //     for (const [field, errors] of Object.entries(errorData)) {
-    //         for (const errCode of errors) {
-    //             setErrors({ [field]: t(`app.errors.${field}.${errCode}`) })
-    //         }
-    //     }
-    //     return;
-    // }
-    // emit('AppInfoRefresh');
+    try {
+        response = await fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/send_push/`, {
+            method: 'POST',
+            body: {
+                title: values.push_title,
+                text: values.push_text,
+            }
+        });
+        emit('update:modelValue', false)
+    }
+    catch (e) {
+        
+        return;
+    }
+
 });
 
 

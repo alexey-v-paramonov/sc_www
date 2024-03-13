@@ -56,6 +56,7 @@
                 <v-col cols="6" class="text-center">
                     <div class="sticky-top">
 
+                        <!-- <div><AppPreview /></div> -->
 
                         <div><v-icon icon="mdi-cellphone" size="x-large" style="font-size: 300px;"></v-icon></div>
 
