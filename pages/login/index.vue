@@ -60,7 +60,7 @@ async function loginRequest(data) {
 const { handleSubmit, isSubmitting: isSignupSubmitting } = useForm();
 
 const email = useField('email', "required|email");
-const password = useField('password', "required|min:8");
+const password = useField('password', "required|min:7");
 
 const onLoginSubmit = handleSubmit(async values => {
   badCredentials.value = false;

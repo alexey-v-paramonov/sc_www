@@ -140,7 +140,8 @@
         "settings": "Настройки",
         "android_app": "Android приложение",
         "ios_app": "iOs приложение",
-        "selfhosted_radio": "Радио"
+        "selfhosted_radio": "Радио",
+        "self_hosted": "Сервер"
     },
     "radios":{
         "self_hosted":{

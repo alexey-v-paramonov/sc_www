@@ -139,11 +139,11 @@
         "ios": "iOS apps",
         "android": "Android apps",
         "billing": "Billing",
-        "self_hosted": "Selft hosted",  
+        "self_hosted": "Self hosted",  
         "settings": "Setting",
         "android_app": "Android application",
         "ios_app": "iOs application",
-        "selfhosted_radio": "Radio"
+        "selfhosted_radio": "Radio",
     },
     "radios":{
         "self_hosted":{
