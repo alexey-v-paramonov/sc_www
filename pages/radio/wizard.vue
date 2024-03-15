@@ -38,6 +38,8 @@
                 <br />
                 {{ $t('self_hosted.supported_os') }}
                 <br />
+                {{ $t('self_hosted.minimal_requirements') }}
+                <br />
                 {{ $t('self_hosted.supported_arch') }}
               </v-col>
             </v-row>

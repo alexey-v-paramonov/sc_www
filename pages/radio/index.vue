@@ -37,7 +37,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-if="self_hosted_radios.length > 0 && !self_hosted_radios_loading" v-for="item in self_hosted_radios" :key="item.id">
+            <tr v-if="self_hosted_radios && self_hosted_radios.length > 0 && !self_hosted_radios_loading" v-for="item in self_hosted_radios" :key="item.id">
               <td>{{ item.ip }}</td>
               <td>{{ item.domain }}</td>
               <td>
@@ -109,7 +109,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-if="hosted_radios.length > 0 && !hosted_radios_loading" v-for="item in hosted_radios" :key="item.name">
+            <tr v-if="hosted_radios && hosted_radios.length > 0 && !hosted_radios_loading" v-for="item in hosted_radios" :key="item.name">
               <td>
                 <div>{{ item.login }}</div>
                 <div v-if="item.status == RADIO_STATUS.READY || item.status == RADIO_STATUS.SUSPENDED || item.status == RADIO_STATUS.BEING_DELETED"><a :href="'https://' + item.login + '.' + item.server_data.nodename + '.radio-tochka.com:8080'" target="_blank">https://{{item.login}}.{{ item.server.nodename }}.radio-tochka.com:8080</a></div>
