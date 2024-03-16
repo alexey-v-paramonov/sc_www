@@ -301,7 +301,7 @@
         "download_aab": "Download Android App Bundle",
         "ios_ready": "Technical support will contact you as soon as application is ready",
         "build_scheduled_android": "You request has been accepted, the process may take up to 15-20 minutes for Android applications",
-        "build_scheduled_iod": "You request has been accepted, we will contact you by email when your applcation is ready",
+        "build_scheduled_ios": "You request has been accepted, we will contact you by email when your applcation is ready",
         "buil_status": {
             "default": "Ready for assembly",
             "queued": "Working...",

@@ -302,6 +302,8 @@
         "download_apk": "Скачать APK",
         "download_aab": "Скачать Android App Bundle",
         "ios_ready": "Тех. поддержка свяжется с Вами, когда приложение будет готово",
+        "build_scheduled_android": "Запрос принят, сборка Android приложения может занимать до 10-15 минут",
+        "build_scheduled_ios": "Запрос принят, мы свяжемся с Вами когда приложение будет готово",
 
         "buil_status": {
             "default": "Готово к сборке",
