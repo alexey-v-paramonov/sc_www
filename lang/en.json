@@ -347,9 +347,9 @@
         },
         "radio": {
             "toolbar": "Application radio",
-            "is_sc_panel": "Radio is using Streaming.center control panel",
+            "is_sc_panel": "Radio is using Streaming.center control panel (if set - more options will be available)",
             "sc_api_url": "Streaming.center broadcaster interface URL",
-            "sc_api_url_hint": "Your broadcaster interface URL",
+            "sc_api_url_hint": "Your broadcaster interface URL. Example: https://stream.radiosite.com:8080",
             "sc_server_id_hint": "Radio server ID",
             "logo": "Radio logo",
             "logo_hint": "Displayed on the main screen of the application. Image format - PNG",    

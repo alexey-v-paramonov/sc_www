@@ -92,7 +92,7 @@
 
                     <v-select v-if="is_sc_panel.value.value == '1' && (scRadios.length > 0 || sc_server_id.value.value)"
                         @update:modelValue="setRadioData" v-model="sc_server_id.value.value"
-                        :hint="$t('app.radio.sc_server_id_hint')" :items="scRadios" item-title="id" item-value="id"
+                        :hint="$t('app.radio.sc_server_id_hint')" :items="scRadios" item-title="id_title" item-value="id"
                         :label="$t('app.radio.sc_server_id_hint')" persistent-hint single-line></v-select>
 
                     <!-- Logo -->
@@ -441,6 +441,9 @@ async function checkSCPanelURL() {
     scRadios.value = [];
     try {
         scRadios.value = await $fetch(`${sc_api_url.value.value}/api/v2/servers/`);
+        for(let i = 0; i < scRadios.value.length; i ++){
+            scRadios.value[i]['id_title'] = `${scRadios.value[i].title} (${scRadios.value[i].id})`
+        }
     }
     catch (e) {
 
