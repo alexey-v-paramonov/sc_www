@@ -224,7 +224,7 @@ function selfHostedStatus(radio){
   if(isTrial(radio) && radio.status == RADIO_STATUS.READY){
     return RADIO_STATUS.READY;
   }
-  if(!isTrial(radio) && zeroBalance && radio.status == RADIO_STATUS.READY){
+  if(!isTrial(radio) && zeroBalance && radio.status == RADIO_STATUS.READY && radio.price > 0){
     return RADIO_STATUS.SUSPENDED;
   }
   return radio.status;
