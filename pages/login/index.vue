@@ -44,7 +44,22 @@ definePageMeta({
 let badCredentials = ref(false);
 const userStore = useUserStore();
 const router = useRouter();
+const route = useRoute();
+
 const showPass = ref(false);
+const token = route.query.t;
+const userID = route.query.id;
+const userEmail = route.query.email;
+
+if(token && userID && userEmail){
+  userStore.setUserData({
+    token: token,
+    id:userID,
+    email: userEmail,
+  });
+  userStore.getUserData();
+  router.push("/");
+}
 
 async function loginRequest(data) {
   const config = useRuntimeConfig();
