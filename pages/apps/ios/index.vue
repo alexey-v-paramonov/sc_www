@@ -33,6 +33,9 @@
               </td>
               <td>
                 <NuxtLink :to="'/apps/ios/' + item.id + '/'"><v-btn icon="mdi-pencil"></v-btn></NuxtLink>
+                <v-btn :href="item.store_url" v-if="item.store_url"  target="_blank"
+                  icon="mdi-apple" :title="$t('apps.send_push')"></v-btn>
+
                 <v-btn @click=openPushNotificationDialog(item.id) v-if="item.is_paid && item.enable_push"
                   icon="mdi-message-badge-outline" :title="$t('apps.send_push')"></v-btn>
 
