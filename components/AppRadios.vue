@@ -86,7 +86,7 @@
                         type="checkbox"></v-checkbox>
 
                     <v-text-field v-if="is_sc_panel.value.value == '1'" v-model="sc_api_url.value.value" type="url"
-                        @change="checkSCPanelURL()" :error-messages="sc_api_url.errorMessage.value" name="sc_api_url"
+                        @change="checkSCPanelURL(true)" :error-messages="sc_api_url.errorMessage.value" name="sc_api_url"
                         :label="$t('app.radio.sc_api_url')" :hint="$t('app.radio.sc_api_url_hint')"
                         persistent-hint></v-text-field>
 
@@ -436,7 +436,7 @@ async function generateLogoPreview() {
     previewLogo.value = valid && logo.value.value[0] ? URL.createObjectURL(logo.value.value[0]) : undefined;
 }
 
-async function checkSCPanelURL() {
+async function checkSCPanelURL(set_data) {
 
     scRadios.value = [];
     try {
@@ -452,8 +452,10 @@ async function checkSCPanelURL() {
         setErrors({ 'sc_api_url': t(`app.radio.errors.invalid_sc_url`) })
         return;
     }
-    sc_server_id.value.value = scRadios.value[0].id;
-    setRadioData();
+    if(set_data){
+        sc_server_id.value.value = scRadios.value[0].id;
+        setRadioData();
+    }
 }
 
 
@@ -469,6 +471,7 @@ function openRadioDialog(r = null) {
             allow_shoutbox.value.value = r.allow_shoutbox ? '1' : null;
             allow_likes.value.value = r.allow_likes ? '1' : null;
             allow_dislikes.value.value = r.allow_dislikes ? '1' : null;
+            checkSCPanelURL(false);
         }
         radioStreams.value = [...r.channels];
 
