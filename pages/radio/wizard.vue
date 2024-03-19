@@ -442,6 +442,10 @@ const onRadioSubmit = handleSubmit(async values => {
         setErrors({ 'login': t(`radio_wizard.errors.login.unique`) })
       }
 
+      if (errorData['is_demo'] == 'demo_exists') {
+        setErrors({ 'login': t(`radio_wizard.errors.login.demo_exists`) })
+      }
+
     }
 
     return;

@@ -45,7 +45,8 @@
         "errors": {
             "login": {
                 "unique": "This station ID already exists, please choose another one",
-                "regex": "Invalid value, please use Lating characters and digits only. Special characters are not allowed"
+                "regex": "Invalid value, please use Lating characters and digits only. Special characters are not allowed",
+                "demo_exists": "You already have a demo account"
             },
             "domain": {
                 "wrong_ip_resolved": "Failed to obtain an IP address for this domain, check that the DNS is configured correctly and the domain is linked to the server IP address",
