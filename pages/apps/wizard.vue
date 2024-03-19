@@ -110,7 +110,7 @@
       <v-row>
         <v-col>
           <v-radio-group v-model="copyright_type.value.value" name="copyright_type">
-            <v-radio value="1">
+            <v-radio value="0">
               <template #label>
                 <div>
                   {{ $t('apps.copyright.sc') }}
@@ -118,7 +118,7 @@
               </template>
             </v-radio>
             <br />
-            <v-radio value="2">
+            <v-radio value="1">
               <template #label>
                 <div>
                   {{ $t('apps.copyright.whitelabel') }}
@@ -126,7 +126,7 @@
               </template>
             </v-radio>
             <br />
-            <v-radio value="3">
+            <v-radio value="2">
               <template #label>
                 <div>
                   {{ $t('apps.copyright.custom') }}
@@ -136,12 +136,12 @@
 
           </v-radio-group>
 
-          <v-text-field v-if="copyright_type.value.value == '3'" v-model="copyright_title.value.value" type="text"
+          <v-text-field v-if="copyright_type.value.value == '2'" v-model="copyright_title.value.value" type="text"
             :error-messages="copyright_title.errorMessage.value" name="copyright_title"
             :hint="$t('apps.copyright.text_hint')" persistent-hint
             :label="$t('apps.copyright.text_label')"></v-text-field>
 
-          <v-text-field v-if="copyright_type.value.value == '3'" v-model="copyright_url.value.value" type="url"
+          <v-text-field v-if="copyright_type.value.value == '2'" v-model="copyright_url.value.value" type="url"
             :error-messages="copyright_url.errorMessage.value" name="copyright_url" :hint="$t('apps.copyright.link_hint')"
             persistent-hint :label="$t('apps.copyright.link_label')"></v-text-field>
 
@@ -226,7 +226,7 @@ const publishing_type = useField('publishing_type', "required");
 const comment = useField('comment');
 
 // Initial values
-copyright_type.value.value = "1";
+copyright_type.value.value = "0";
 publishing_type.value.value = "1";
 
 function isAndroid() {
@@ -270,7 +270,7 @@ const appPrice = computed(() => {
   else {
     price += baseIosPrice;
   }
-  if (copyright_type.value.value != '1') {
+  if (copyright_type.value.value != '0') {
     if (locale.value == 'ru') {
       price += 1500;
     }
@@ -293,6 +293,7 @@ const onAppSubmit = handleSubmit(async values => {
 
   values.user = stateUser.user.id;
   values.email = stateUser.user.email;
+  values.copyright_type = parseInt(values.copyright_type);
 
   const platform = isAndroid() ? "android" : "ios";
 
