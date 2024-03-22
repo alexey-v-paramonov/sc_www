@@ -132,7 +132,7 @@ const aabLink = computed(() => {
 });
 
 function isAndroid() {
-    return props.platform = 'android';
+    return props.platform == 'android';
 }
 
 async function buildApplication(){
