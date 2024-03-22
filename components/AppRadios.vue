@@ -396,10 +396,10 @@ function getServerType(v){
 function setRadioData(v) {
     const id = v || sc_server_id.value.value;
     let radio = scRadios.value.find(r => r.id === id);
-    if (radio.title) {
+    if (radio.title && !title.value.value) {
         title.value.value = radio.title;
     }
-    if (radio.description) {
+    if (radio.description && !description.value.value) {
         description.value.value = radio.description;
     }
 }
