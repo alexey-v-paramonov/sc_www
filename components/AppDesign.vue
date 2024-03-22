@@ -56,9 +56,9 @@
                 <v-col cols="6" class="text-center">
                     <div class="sticky-top">
 
-                        <!-- <div><AppPreview bg_color="#ff0000" /></div> -->
+                        <div><AppPreview bg_color="#ff0000" /></div>
 
-                        <div><v-icon icon="mdi-cellphone" size="x-large" style="font-size: 300px;"></v-icon></div>
+                        <!-- <div><v-icon icon="mdi-cellphone" size="x-large" style="font-size: 300px;"></v-icon></div> -->
 
 
                         <v-btn color="primary" @click="skinDialog = true;">{{ $t('app.design.choose_skin') }}</v-btn>
