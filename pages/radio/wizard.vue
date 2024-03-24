@@ -399,7 +399,7 @@ async function hostedRequest(values) {
       user: stateUser.user.id,
       initial_audio_format: audio_format.value,
       initial_bitrate: audio_bitrate.value,
-      initial_listeners: audio_listeners.value,
+      initial_listeners: legal_type.value.value == '3' ? 5 : audio_listeners.value,
       initial_du: disk_quota.value,
       comment: comment.value.value
     }
