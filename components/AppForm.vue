@@ -124,11 +124,11 @@ let appBuildScheduled = ref(false);
 let tab = ref("app_info");
 
 const apkLink = computed(() => {
-    return `https://streaming.center/radio/android_app/${props.id}/${appData.value.short_package_name}.apk`;
+    return `https://streaming.center/radio/android_app/${props.id}/${appData.value.short_package_name}_${appData.value.version}.apk`;
 });
 
 const aabLink = computed(() => {
-    return `https://streaming.center/radio/android_app/${props.id}/${appData.value.short_package_name}.aab`;
+    return `https://streaming.center/radio/android_app/${props.id}/${appData.value.short_package_name}_${appData.value.version}.aab`;
 });
 
 function isAndroid() {
