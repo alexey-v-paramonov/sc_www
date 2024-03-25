@@ -8,7 +8,7 @@
           <p>{{ $t('billing.invoice_request.service_fee') }}: <strong>15%</strong> <span class="font-italic">({{ $t('billing.invoice_request.looking') }})</span></p>
         </v-col>
       </v-row>    
-      <v-row no-gutters md="12">
+      <v-row no-gutters md="12" v-if="!invoiceRequesSent">
         <v-col md="12">
           <v-form @submit.prevent="onInvoiceRequestSubmit" :disabled="isInvoiceRequestSubmitting">
             <v-text-field v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
@@ -22,6 +22,23 @@
 
             <v-btn type="submit" :disabled="isInvoiceRequestSubmitting" block class="mt-2" color="primary">{{ isInvoiceRequestSubmitting ? $t('loading') : $t('billing.invoice_request.request') }}</v-btn>
           </v-form>
+        </v-col>
+      </v-row>
+
+      <v-row no-gutters md="12" v-else>
+        <v-col md="12">
+          <br />
+          <div v-if="locale == 'ru'">
+            <p>Если вы запрашиваете счет в первый раз, то сначала мы отправим вам приглашение в платежную систему easystuff.io. Сервис позволяет осуществлять международные платежи за разработку программного обеспечения. Для оплаты счёта, вам необходимо принять приглашение и в дальнейшем мы сможем отправить вам счет в формате PDF, который содержит ссылку на оплату.</p>
+            <br />
+            <p><span class="font-weight-black">ВАЖНО: </span> ФИО при регистрации должно совпадать с ФИО плательщика.</p>
+          </div>
+          <div v-else>
+            
+            <p>If you are requesting an invoice for the first time, we will first send you an invitation to Easystuff.io payment system. This service allows you to make international payments for software development. To pay the bill, you need to accept the invitation, so we will be able to send you invoices in PDF format containing a payment link.</p>
+            <br />
+            <p><span class="font-weight-black">Important: </span> your registration name and lastname should be the same as the person why makes the payment.</p>
+          </div>
         </v-col>
       </v-row>
 
@@ -59,7 +76,7 @@ const { t, locale } = useI18n();
 
 let invoiceRequesSuccess = ref(false);
 let invoiceRequesFailed = ref(false);
-
+let invoiceRequesSent = ref(false);
 
 definePageMeta({
   layout: "default",
@@ -88,11 +105,12 @@ async function invoiceRequest(data) {
 
 
 const onInvoiceRequestSubmit = handleSubmit(async values => {
-const response = await invoiceRequest(values);
+  const response = await invoiceRequest(values);
   
-  const error = response.error.value;
+  const error = response.error;
   if (!error) {
     invoiceRequesSuccess.value = true;
+    invoiceRequesSent.value = true;
     return;
   }
 
