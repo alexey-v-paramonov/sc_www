@@ -56,7 +56,24 @@
                 <v-col cols="6" class="text-center">
                     <div class="sticky-top">
 
-                        <div><AppPreview bg_color="#ff0000" /></div>
+                        <div>
+                          <AppPreview
+                              lang="en"
+                              :bg_color="bg_color.value.value"
+                              :bg_color_gradient="bg_color_gradient.value.value"
+                              :font_color="font_color.value.value"
+                              :button_text_color="button_text_color.value.value"
+                              :text_secondary_color="text_secondary_color.value.value"
+                              :main_theme_color="main_theme_color.value.value"
+                              :play_button_border_color="play_button_border_color.value.value"
+                              :tabs_color="tabs_color.value.value"
+                              :tabs_icon_color="tabs_icon_color.value.value"
+                              :tabs_icon_selected_color="tabs_icon_selected_color.value.value"
+                              :volume_bar_active_color="volume_bar_active_color.value.value"
+                              :volume_bar_inactive_color="volume_bar_inactive_color.value.value"
+                              :volume_buttons_color="volume_buttons_color.value.value"
+                          />
+                        </div>
 
                         <!-- <div><v-icon icon="mdi-cellphone" size="x-large" style="font-size: 300px;"></v-icon></div> -->
 
@@ -65,7 +82,7 @@
                         <br />
                         <br />
                         <v-select v-if="otherApps.length > 0"
-                            @update:modelValue="copyColors" 
+                            @update:modelValue="copyColors"
                             :hint="$t('app.design.copy_colors_hint')" :items="otherApps" item-title="title" item-value="lookup"
                             :label="$t('app.design.copy_colors')" persistent-hint single-line>
                         </v-select>
@@ -124,7 +141,6 @@ let SKINS = {
         "bg_color_gradient": "f2f2f2",
         "font_color": "000000",
         "button_text_color": "000000",
-        "text_secondary_color": "ffffff",
         "main_theme_color": "333333",
         "play_button_border_color": "8F8E94",
         "tabs_color": "161616",
@@ -140,7 +156,6 @@ let SKINS = {
         "bg_color_gradient": "e1e1e1",
         "font_color": "000000",
         "button_text_color": "000000",
-        "text_secondary_color": "ffffff",
         "main_theme_color": "333333",
         "play_button_border_color": "8F8E94",
         "tabs_color": "161616",
@@ -156,7 +171,6 @@ let SKINS = {
         "bg_color_gradient": "241333",
         "font_color": "FFFFFF",
         "button_text_color": "D47FA6",
-        "text_secondary_color": "ffffff",
         "main_theme_color": "D47FA6",
         "play_button_border_color": "8F8E94",
         "tabs_color": "161616",
@@ -172,7 +186,6 @@ let SKINS = {
         "bg_color_gradient": "352740",
         "font_color": "FFFFFF",
         "button_text_color": "D47FA6",
-        "text_secondary_color": "ffffff",
         "main_theme_color": "D47FA6",
         "play_button_border_color": "8F8E94",
         "tabs_color": "161616",
@@ -188,7 +201,6 @@ let SKINS = {
         "bg_color_gradient": "3b3a98",
         "font_color": "FFFFFF",
         "button_text_color": "B2B6FF",
-        "text_secondary_color": "ffffff",
         "main_theme_color": "B2B6FF",
         "play_button_border_color": "B2B6FF",
         "tabs_color": "161616",
@@ -203,7 +215,6 @@ let SKINS = {
         "bg_color": "25245e",
         "bg_color_gradient": "474791",
         "font_color": "FFFFFF",
-        "text_secondary_color": "ffffff",
         "button_text_color": "B2B6FF",
         "main_theme_color": "B2B6FF",
         "play_button_border_color": "B2B6FF",
@@ -220,7 +231,6 @@ let SKINS = {
         "bg_color_gradient": "016742",
         "font_color": "FFFFFF",
         "button_text_color": "ABE8F2",
-        "text_secondary_color": "ffffff",
         "main_theme_color": "ABE8F2",
         "play_button_border_color": "A7E8F5",
         "tabs_color": "161616",
@@ -235,7 +245,6 @@ let SKINS = {
         "bg_color": "004028",
         "bg_color_gradient": "176a4c",
         "font_color": "FFFFFF",
-        "text_secondary_color": "ffffff",
         "button_text_color": "ABE8F2",
         "main_theme_color": "ABE8F2",
         "play_button_border_color": "A7E8F5",
@@ -251,7 +260,6 @@ let SKINS = {
         "bg_color": "6d0458",
         "bg_color_gradient": "6d0458",
         "font_color": "FFFFFF",
-        "text_secondary_color": "ffffff",
         "button_text_color": "F2A2AD",
         "main_theme_color": "F2A2AD",
         "play_button_border_color": "F2A2AD",
@@ -267,7 +275,6 @@ let SKINS = {
         "bg_color": "430335",
         "bg_color_gradient": "701b5e",
         "font_color": "FFFFFF",
-        "text_secondary_color": "ffffff",
         "button_text_color": "F2A2AD",
         "main_theme_color": "F2A2AD",
         "play_button_border_color": "F2A2AD",
@@ -284,7 +291,6 @@ let SKINS = {
         "bg_color_gradient": "f1f8fe",
         "font_color": "2F80ED",
         "button_text_color": "2F80ED",
-        "text_secondary_color": "2F80ED",
         "main_theme_color": "6DA8FF",
         "play_button_border_color": "6DA8FF",
         "tabs_color": "161616",
@@ -300,7 +306,6 @@ let SKINS = {
         "bg_color_gradient": "e2e7ed",
         "font_color": "2F80ED",
         "button_text_color": "2F80ED",
-        "text_secondary_color": "2F80ED",
         "main_theme_color": "6DA8FF",
         "play_button_border_color": "6DA8FF",
         "tabs_color": "161616",
@@ -339,19 +344,19 @@ const volume_bar_inactive_color = useField('volume_bar_inactive_color');
 
 function selectSkin(skinNumber) {
     const skin = SKINS[skinNumber];
-    bg_color.value.value = skin["bg_color"];
-    bg_color_gradient.value.value = skin["bg_color_gradient"];
-    font_color.value.value = skin["font_color"];
-    text_secondary_color.value.value = skin["text_secondary_color"];
-    button_text_color.value.value = skin["button_text_color"];
-    tabs_color.value.value = skin["tabs_color"];
-    tabs_icon_color.value.value = skin["tabs_icon_color"];
-    tabs_icon_selected_color.value.value = skin["tabs_icon_selected_color"];
-    main_theme_color.value.value = skin["main_theme_color"];
-    play_button_border_color.value.value = skin["play_button_border_color"];
-    volume_buttons_color.value.value = skin["volume_buttons_color"];
-    volume_bar_active_color.value.value = skin["volume_bar_active_color"];
-    volume_bar_inactive_color.value.value = skin["volume_bar_inactive_color"];
+    bg_color.value.value = `#${skin["bg_color"]}`;
+    bg_color_gradient.value.value = `#${skin["bg_color_gradient"]}`;
+    font_color.value.value = `#${skin["font_color"]}`;
+    text_secondary_color.value.value = `#${skin["text_secondary_color"]}`;
+    button_text_color.value.value = `#${skin["button_text_color"]}`;
+    tabs_color.value.value = `#${skin["tabs_color"]}`;
+    tabs_icon_color.value.value = `#${skin["tabs_icon_color"]}`;
+    tabs_icon_selected_color.value.value = `#${skin["tabs_icon_selected_color"]}`;
+    main_theme_color.value.value = `#${skin["main_theme_color"]}`;
+    play_button_border_color.value.value = `#${skin["play_button_border_color"]}`;
+    volume_buttons_color.value.value = `#${skin["volume_buttons_color"]}`;
+    volume_bar_active_color.value.value = `#${skin["volume_bar_active_color"]}`;
+    volume_bar_inactive_color.value.value = `#${skin["volume_bar_inactive_color"]}`;
 
     skinDialog.value = false;
 }
@@ -371,7 +376,6 @@ async function appDesignUpdateRequest(values) {
             bg_color_gradient: bg_color_gradient.value.value,
             font_color: font_color.value.value,
             button_text_color: button_text_color.value.value,
-            text_secondary_color: text_secondary_color.value.value,
             main_theme_color: main_theme_color.value.value,
             play_button_border_color: play_button_border_color.value.value,
             tabs_color: tabs_color.value.value,
@@ -463,6 +467,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
+
 .sticky-top {
     position: sticky;
     top: 10px;
