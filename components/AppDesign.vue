@@ -1,5 +1,10 @@
 <template>
     <v-container>
+        <v-row no-gutters md="12">
+                <v-col cols="12">{{ $t('app.design.changes_update') }}</v-col>
+        </v-row>
+
+
         <v-form @submit.prevent="onAppDesignSubmit" :disabled="isAppDesignSubmitting">
 
             <v-row no-gutters md="12">

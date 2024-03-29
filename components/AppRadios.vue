@@ -1,5 +1,9 @@
 <template>
     <v-container>
+        <v-row no-gutters md="12">
+                <v-col cols="12">{{ $t('app.radios.changes_update') }}</v-col>
+        </v-row>
+
         <v-row>
             <v-col md="12">
                 <div class="text-h5">{{ $t('app.radios.title') }}</div>

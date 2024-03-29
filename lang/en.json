@@ -335,7 +335,8 @@
             "volume_bar_inactive_color": "Volume bar color (to the right of the volume button)",
             "choose_skin": "Select a ready-made skin",
             "copy_colors": "Copy colors from",
-            "copy_colors_hint": "You can copy color pallete from your other application"
+            "copy_colors_hint": "You can copy color pallete from your other application",
+            "changes_update": "If you change the colors, you need to update the app in Google Play/AppStore if the app has already been published"
         },
         "radios": {
             "title": "Radios",
@@ -344,7 +345,8 @@
             "empty": "Your application does not have any radios yet, please add a new radio",
             "delete_confirmation": "Are you sure you want to remove this radio from your application?",
             "delete_failed": "Failed to remove this radio, try again later or contact support.",
-            "delete_success": "The radio has been removed successfully from your application"
+            "delete_success": "The radio has been removed successfully from your application",
+            "changes_update": "Changing the radio stations of the app does not require updating it in the store"
         },
         "radio": {
             "toolbar": "Application radio",
