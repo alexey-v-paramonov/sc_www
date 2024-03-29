@@ -74,7 +74,7 @@ function Logout(){
 
           <!-- Settings -->
           <v-list-subheader color="darkText" class="smallCap text-uppercase text-subtitle-2 mt-5 font-weight-bold" :title="$t('nav_settings')"></v-list-subheader>
-          <v-list-item to="/settings" prepend-icon="mdi-cash" rounded class="mb-1" active-color="primary" :title="$t('nav_settings_account')"></v-list-item>
+          <v-list-item to="/settings" prepend-icon="mdi-account-box-edit-outline" rounded class="mb-1" active-color="primary" :title="$t('nav_settings_account')"></v-list-item>
 
 
         </v-list>
