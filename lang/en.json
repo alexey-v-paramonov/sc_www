@@ -346,6 +346,7 @@
             "delete_confirmation": "Are you sure you want to remove this radio from your application?",
             "delete_failed": "Failed to remove this radio, try again later or contact support.",
             "delete_success": "The radio has been removed successfully from your application",
+            "change_order_success": "The order of the radios has been successfully changed",
             "changes_update": "Changing the radio stations of the app does not require updating it in the store"
         },
         "radio": {

@@ -323,6 +323,17 @@
             </v-btn>
         </template>
     </v-snackbar>
+
+    <v-snackbar v-model="changeOrderSuccess" color="success">
+        {{ $t('app.radios.change_order_success') }}
+
+        <template v-slot:actions>
+            <v-btn color="white" variant="text" @click="deleteRadioSuccess = false">
+                {{ $t('close') }}
+            </v-btn>
+        </template>
+    </v-snackbar>
+
 </template>
 
 <script setup>
@@ -343,6 +354,7 @@ const delDialog = ref(false);
 let answerDialog = ref();
 const deleteRadioSuccess = ref(false);
 const deleteRadioFailed = ref(false);
+const changeOrderSuccess = ref(false);
 let radioStreams = ref([]);
 let noChannels = ref(false);
 
@@ -421,7 +433,7 @@ async function setOrder(radio, index, indexNew) {
         method: 'PUT',
         body: appRadioIDs
     });
-
+    changeOrderSuccess.value = true;
     refresh();
 
 }
