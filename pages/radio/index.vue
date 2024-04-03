@@ -217,7 +217,7 @@ function isTrial(radio){
   return radio.status == RADIO_STATUS.READY && radio.is_trial_period && stateUser.user.userData.balance == 0 && radio.status != RADIO_STATUS.SUSPENDED && radio.status != RADIO_STATUS.ERROR;
 }
 function selfHostedStatus(radio){
-  const zeroBalance = stateUser.user.userData.balance == 0;
+  const zeroBalance = stateUser.user.userData.balance <= 0;
   if (radio.is_blocked){
     return RADIO_STATUS.SUSPENDED;
   }
