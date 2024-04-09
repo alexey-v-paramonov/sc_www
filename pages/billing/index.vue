@@ -39,6 +39,7 @@
                 <span v-if="charge.service_type == 1">{{ $t('billing.service_self_hosted') }}: </span>
                 <span v-if="charge.service_type == 2">{{ $t('billing.service_hosted') }}: </span>
                 <span v-if="charge.service_type == 3">{{ $t('billing.service_du') }}: </span>
+                <span v-if="charge.service_type == 4">{{ $t('billing.service_tts') }}: </span>
                 {{ charge.description }}              
               </td>
               <td>{{ charge.price }} {{ $t('currency') }}</td>
