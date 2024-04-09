@@ -211,7 +211,7 @@
         "service_self_hosted": "Сервер",
         "service_hosted": "Радио",
         "service_du": "Диск (мб)",
-        "service_tts": "Текст в аудио, символов: ",
+        "service_tts": "Текст в аудио, символов",
         "invoice_request": {
             "title": "Запросить счёт на email",
             "internation_payment_hint": "Работает для международных платежей, можно оплатить картой",
