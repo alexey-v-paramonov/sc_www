@@ -42,7 +42,6 @@ const receipt = ref('');
 const stateUser = useUserStore()
 let customerNumber = stateUser.user.id;
 // TODO: Remove this update billing update
-customerNumber += 100000;
 let invID = parseInt(new Date().getTime() / 1000);
 
 definePageMeta({
