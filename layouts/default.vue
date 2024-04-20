@@ -62,7 +62,7 @@ function Logout(){
             точка
           </div>
 
-          <div class="logo-text">
+          <div class="logo-text" v-else>
             streaming.<br/>
             center
           </div>
