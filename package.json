@@ -8,20 +8,25 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@nuxtjs/google-fonts": "^3.2.0",
     "@nuxtjs/i18n": "8.1.1",
     "@pinia/nuxt": "^0.5.1",
     "@vee-validate/i18n": "^4.12.5",
     "@vee-validate/rules": "^4.12.5",
+    "@vitejs/plugin-vue": "4.6.2",
     "nuxt": "^3.10.2",
     "pinia": "^2.1.7",
     "sass": "^1.70.0",
-    "vuetify": "^3.5.4",
-    "@vitejs/plugin-vue": "4.6.2",
-    "vite": "^5.1.3"
+    "vite": "^5.1.3",
+    "vuetify": "^3.5.4"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
+    "cubic-spline": "^3.0.3",
     "vee-validate": "^4.12.5",
-    "vue": "^3.4.19"
+    "vite-plugin-vuetify": "^2.0.3",
+    "vue": "^3.4.19",
+    "vue3-colorpicker": "^2.3.0",
+    "vue3-perfect-scrollbar": "^2.0.0"
   }
 }

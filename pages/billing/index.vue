@@ -1,21 +1,21 @@
 <template>
   <v-container>
-
+<v-alert type="info" class="mb-4">
     <v-row no-gutters md="12">
-      <v-col cols="6" class="text-center">{{ $t('billing.balance') }}</v-col>
-      <v-col cols="6" class="text-center">{{ stateUser.user.userData.balance }} {{ $t('currency') }}</v-col>
+      <v-col cols="6" class="mb-2">{{ $t('billing.balance') }}</v-col>
+      <v-col cols="6"><strong>{{ stateUser.user.userData.balance }} {{ $t('currency') }}</strong></v-col>
     </v-row>
     <v-row no-gutters md="12">
-      <v-col cols="6" class="text-center">{{ $t('billing.mothly_charges') }}</v-col>
-      <v-col cols="6" class="text-center">{{ monthly_charges ? monthly_charges.total : '-' }} {{ $t('currency') }}</v-col>
+      <v-col cols="6" class="">{{ $t('billing.mothly_charges') }}</v-col>
+      <v-col cols="6"><strong>{{ monthly_charges ? monthly_charges.total : '-' }} {{ $t('currency') }}</strong></v-col>
     </v-row>
-
+</v-alert>
     <v-row no-gutters md="12" v-if="charges.length > 0">
       <v-col>
         <div class="text-h6">{{ $t('billing.latest_charges') }}</div>
       </v-col>
     </v-row>
-    
+
     <v-row no-gutters md="12" v-if="charges.length > 0">
       <v-col cols="12">
         <v-table>
@@ -39,8 +39,7 @@
                 <span v-if="charge.service_type == 1">{{ $t('billing.service_self_hosted') }}: </span>
                 <span v-if="charge.service_type == 2">{{ $t('billing.service_hosted') }}: </span>
                 <span v-if="charge.service_type == 3">{{ $t('billing.service_du') }}: </span>
-                <span v-if="charge.service_type == 4">{{ $t('billing.service_tts') }}: </span>
-                {{ charge.description }}              
+                {{ charge.description }}
               </td>
               <td>{{ charge.price }} {{ $t('currency') }}</td>
             </tr>
@@ -49,7 +48,7 @@
       </v-col>
     </v-row>
 
-    <v-row no-gutters md="12" v-if="payments.length > 0">
+    <v-row no-gutters class="mt-8" md="12" v-if="payments.length > 0">
       <v-col>
         <div class="text-h6">{{ $t('billing.latest_payments') }}</div>
       </v-col>
@@ -82,27 +81,29 @@
     <v-row no-gutters md="12">
       <v-col cols="12">
 
-        <YooMoney v-if="locale == 'ru'" />
+        <YooMoney class="mt-8" v-if="locale == 'ru'" />
 
-        <InvoiceRequest />
+        <InvoiceRequest class="mt-8"/>
 
       </v-col>
     </v-row>
-    <hr />
+    <hr class="mt-8 mb-8"/>
     <template v-for="(val, key) in customPaymentMethods" :key="key">
     <v-row md="12" v-if="val['title'][locale]">
       <v-col cols="12">
         <div class="text-h6">{{ val['title'][locale] }}</div>
+
         <div class="font-italic" v-if="val['note'][locale]">{{ val['note'][locale] }}</div>
-        <div>{{ $t('billing.invoice_request.service_fee') }}: <strong>{{ val['fee'] }}%</strong></div>
-        <div v-html="val['html'][locale]"></div>
+        <div class="ma-4">{{ $t('billing.invoice_request.service_fee') }}: <strong>{{ val['fee'] }}%</strong></div>
+        <div class="ma-4 v-html-content" v-html="val['html'][locale]"></div>
+
       </v-col>
     </v-row>
     </template>
 
   </v-container>
 </template>
-  
+
 <script setup>
 
 import { useUserStore } from '~/stores/user'

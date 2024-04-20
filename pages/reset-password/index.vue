@@ -3,7 +3,11 @@
     <NuxtLayout name="auth">
 
       <v-container>
-        <h1>{{ resetDone ? $t('password_reset.check_inbox') : $t('password_reset.email_address') }}</h1>
+        <div>
+          <h5 class="text-h5 mb-4">
+            {{ resetDone ? $t('password_reset.check_inbox') : $t('password_reset.email_address') }}
+          </h5>
+        </div>
         <v-form @submit.prevent="resetPassword" v-if="!resetDone" :disabled="isPassResetSubmitting">
 
           <v-text-field v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
@@ -12,7 +16,7 @@
           <NuxtLink to="/login" class="text-body-2 font-weight-regular">{{ $t('password_reset.back_to_login') }}
           </NuxtLink>
 
-          <v-btn type="submit" :disabled="isPassResetSubmitting" block class="mt-2">{{ isPassResetSubmitting ?
+          <v-btn type="submit" color="primary" :disabled="isPassResetSubmitting" block class="mt-2">{{ isPassResetSubmitting ?
             $t('loading') : $t('password_reset.cta') }}</v-btn>
         </v-form>
 
@@ -28,7 +32,7 @@
             </v-card-actions>
           </v-card>
         </div>
-        <div class="mt-2">
+        <div class="mt-4">
           <p class="text-body-2">{{ $t('account_creation_hint') }} <NuxtLink to="/signup">{{ $t('signup') }}
             </NuxtLink>
           </p>
@@ -37,7 +41,7 @@
     </NuxtLayout>
   </div>
 </template>
-    
+
 <script setup>
 import { useField, useForm } from 'vee-validate';
 import { ref } from 'vue';
@@ -84,7 +88,7 @@ const resetPassword = handleSubmit(async values => {
     }
     return;
   }
-  
+
   resetDone.value = true;
 
 

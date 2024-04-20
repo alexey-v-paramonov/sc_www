@@ -10,7 +10,8 @@
         <v-form @submit.prevent="onRadioSubmit" :disabled="formBusy">
 
           <v-radio-group v-model="hosting_type">
-            <v-radio value="1">
+            <v-radio off-icon="mdi-radiobox-blank"
+                     on-icon="mdi-radiobox-marked" value="1">
               <template #label>
                 <div>
                   {{ $t('self_hosted.title') }}
@@ -34,6 +35,7 @@
           <template v-if="isSelfHosted()">
             <v-row>
               <v-col md="12">
+                <v-alert type="info">
                 {{ $t('self_hosted.description') }}
                 <br />
                 {{ $t('self_hosted.supported_os') }}
@@ -41,6 +43,7 @@
                 {{ $t('self_hosted.minimal_requirements') }}
                 <br />
                 {{ $t('self_hosted.supported_arch') }}
+                </v-alert>
               </v-col>
             </v-row>
 
@@ -51,8 +54,8 @@
             </v-row>
 
             <v-row>
-              <v-col md="1"><strong>{{ $t('service_price') }}:</strong></v-col>
-              <v-col md="11">
+              <v-col cols="2" md="1"><strong>{{ $t('service_price') }}:</strong></v-col>
+              <v-col cols="10" md="11">
                 <template v-if="locale == 'en'">
                   <b>10$ per month</b> if you have up to 5 radio stations.<br /> Each additional station costs $1, so if
                   your server is running 10 stations the price is: 10$ + 5*1$ = 15$ per month.
@@ -73,7 +76,7 @@
               </v-col>
             </v-row>
 
-            <v-row no-gutters>
+            <v-row>
               <v-col md="12">
                 <v-checkbox v-model="install_myself.value.value" :error-messages="install_myself.errorMessage.value"
                   value="1" :label="$t('self_hosted.include_installation')" type="checkbox"
@@ -81,7 +84,7 @@
               </v-col>
             </v-row>
 
-            <v-row no-gutters v-if="install_myself.value.value == '1'">
+            <v-row v-if="install_myself.value.value == '1'">
               <v-col md="12">
                 <v-text-field v-model="domain.value.value" type="text" :error-messages="domain.errorMessage.value"
                   :label="$t('self_hosted.server_domain')" :hint="$t('self_hosted.server_domain_hint')"
@@ -89,7 +92,7 @@
               </v-col>
             </v-row>
 
-            <v-row no-gutters v-if="install_myself.value.value == '1'">
+            <v-row v-if="install_myself.value.value == '1'">
               <v-col md="12">
                 <v-text-field v-model="ssh_username.value.value" type="text"
                   :error-messages="ssh_username.errorMessage.value" :label="$t('self_hosted.root_username')"
@@ -97,7 +100,7 @@
               </v-col>
             </v-row>
 
-            <v-row no-gutters v-if="install_myself.value.value == '1'">
+            <v-row v-if="install_myself.value.value == '1'">
               <v-col md="12">
                 <v-text-field v-model="ssh_password.value.value" type="text"
                   :error-messages="ssh_password.errorMessage.value" :label="$t('self_hosted.root_password')"
@@ -105,7 +108,7 @@
               </v-col>
             </v-row>
 
-            <v-row no-gutters v-if="install_myself.value.value == '1'">
+            <v-row v-if="install_myself.value.value == '1'">
               <v-col md="12">
                 <v-text-field v-model="ssh_port.value.value" type="text" :error-messages="ssh_port.errorMessage.value"
                   :label="$t('self_hosted.server_port')"></v-text-field>
@@ -125,7 +128,7 @@
 
           <v-row v-if="isHosted()">
             <v-col md="12">
-              <div class="text-h5">{{ $t('hosted.legal') }}</div>
+              <div class="text-h5 mb-4 mt-4">{{ $t('hosted.legal') }}</div>
 
 
               <v-radio-group v-model="legal_type.value.value">
@@ -215,13 +218,13 @@
 
             <v-row v-if="price.price !== null && price.du_price !== null">
               <v-col md="2">{{ $t('hosted.price_stream') }}:</v-col>
-              <v-col md="2">{{ price.price }} {{ $t('currency') }}</v-col>
+              <v-col md="2" class="text-no-wrap">{{ price.price }} {{ $t('currency') }}</v-col>
 
               <v-col md="2">{{ $t('hosted.price_disk') }}:</v-col>
-              <v-col md="2">{{ price.du_price }} {{ $t('currency') }}</v-col>
+              <v-col md="2" class="text-no-wrap">{{ price.du_price }} {{ $t('currency') }}</v-col>
 
               <v-col md="2"><strong>{{ $t('hosted.price_total') }}:</strong></v-col>
-              <v-col md="2">{{ price.price + price.du_price }} {{ $t('currency') }}</v-col>
+              <v-col md="2" class="text-no-wrap">{{ price.price + price.du_price }} {{ $t('currency') }}</v-col>
 
             </v-row>
           </template>
@@ -232,7 +235,7 @@
             </v-col>
           </v-row>
 
-          <v-row no-gutters>
+          <v-row>
             <v-col md="12">
 
               <v-btn type="submit" :disabled="formBusy" block class="mt-2" color="primary">{{ $t('self_hosted.submit')
@@ -265,7 +268,7 @@
     </template>
   </v-snackbar>
 </template>
-  
+
 <script setup>
 
 definePageMeta({
@@ -332,7 +335,7 @@ function sshParamsValidation(value) {
   return true;
 }
 
-// Hosted params 
+// Hosted params
 const legal_type = useField('legal_type', "required");
 const login = useField('login', value => {
   if (isSelfHosted()) {

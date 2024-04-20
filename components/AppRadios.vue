@@ -1,7 +1,9 @@
 <template>
     <v-container>
-        <v-row no-gutters md="12">
-                <v-col cols="12">{{ $t('app.radios.changes_update') }}</v-col>
+        <v-row md="12">
+                <v-col cols="12">
+                  <v-alert type="info">{{ $t('app.radios.changes_update') }}</v-alert>
+                </v-col>
         </v-row>
 
         <v-row>
@@ -10,7 +12,7 @@
                 <div class="text-caption">{{ $t('app.radios.description') }}</div>
             </v-col>
         </v-row>
-        <v-row no-gutters md="12">
+        <v-row md="12">
             <v-col>
                 <v-table>
                     <thead>
@@ -22,7 +24,7 @@
                                 {{ $t('app.radio.title') }}
                             </th>
                             <th>
-                                &nbsp;
+                                &nbsp;{{$t('actions')}}
                             </th>
                         </tr>
                     </thead>
@@ -30,20 +32,20 @@
 
                         <tr v-if="appRadios && appRadios.length > 0 && !pending" v-for="(appRadio, index) in appRadios"
                             :key="appRadio.id">
-                            <td style="width: 100px;">
+                            <td style="width: 100px;" class="pa-2">
                                 <img :src="appRadio.logo" class="app-image-thumbnail">
                             </td>
 
                             <td>
                                 {{ appRadio.title }}
                             </td>
-                            <td>
-                                <v-btn icon="mdi-menu-up" :disabled="index == 0"
+                            <td class="text-no-wrap" :style="display.smAndUp?'width: 240px':''">
+                                <v-btn v-if="display.smAndUp" variant="tonal" size="x-small" class="mr-2" icon="mdi-menu-up" :disabled="index == 0"
                                     @click="setOrder(appRadio, index, index - 1)"></v-btn>
-                                <v-btn icon="mdi-menu-down" :disabled="index == (appRadios.length - 1)"
+                                <v-btn v-if="display.smAndUp" variant="tonal" size="x-small" icon="mdi-menu-down" :disabled="index == (appRadios.length - 1)"
                                     @click="setOrder(appRadio, index, index + 1)"></v-btn>&nbsp;
-                                <v-btn icon="mdi-pencil" @click="openRadioDialog(appRadio)"></v-btn>
-                                <v-btn icon="mdi-delete" @click="deleteRadio(appRadio)"></v-btn>
+                                <v-btn density="compact" icon="mdi-pencil" @click="openRadioDialog(appRadio)"></v-btn>
+                                <v-btn density="compact" icon="mdi-delete" @click="deleteRadio(appRadio)"></v-btn>
                             </td>
                         </tr>
 
@@ -64,7 +66,7 @@
                 </v-table>
             </v-col>
         </v-row>
-        <v-btn block color="primary" prepend-icon="mdi-plus" @click="openRadioDialog();">{{ $t('app.radios.add')
+        <v-btn block class="mt-2" color="primary" prepend-icon="mdi-plus" @click="openRadioDialog();">{{ $t('app.radios.add')
         }}</v-btn>
 
     </v-container>
@@ -244,7 +246,7 @@
                                 <v-col cols="4">
                                     <v-select v-model="new_channel_bitrate.value.value"
                                         :items="BITRATES_MP3" item-title="id"
-                                        item-value="id" :label="$t('app.radio.channels.bitrate')" 
+                                        item-value="id" :label="$t('app.radio.channels.bitrate')"
                                         single-line></v-select>
                                 </v-col>
 
@@ -252,7 +254,7 @@
                                     <v-select v-model="new_channel_audio_format.value.value"
                                         :items="AUDIO_FORMATS" item-title="title"
 
-                                        item-value="value" :label="$t('app.radio.channels.audio_format')" 
+                                        item-value="value" :label="$t('app.radio.channels.audio_format')"
                                         single-line></v-select>
                                 </v-col>
 
@@ -338,9 +340,12 @@
 
 <script setup>
 import { ref, reactive } from 'vue';
+import { useDisplay } from "vuetify";
 import { useField, useForm } from 'vee-validate';
 const props = defineProps({ platform: String, id: Number, appData: Object })
 const emit = defineEmits(['AppInfoRefresh',])
+
+const display = ref(useDisplay())
 
 const config = useRuntimeConfig();
 const { locale, t } = useI18n();
@@ -545,7 +550,7 @@ function addStream() {
         setErrors({ ['new_channel_stream_url']: t(`errors.required`) });
         return;
     }
-    
+
     radioStreams.value.push({
         stream_url: new_channel_stream_url.value.value,
         // stream_url_fallback: new_channel_stream_url_fallback,

@@ -1,21 +1,21 @@
 
 <template>
-    <v-container>
-      <v-row no-gutters md="12">
+    <div class="mt-8">
+      <v-row md="12">
         <v-col>
-          <div class="text-h6">{{ $t('billing.invoice_request.title') }}</div>
+          <div class="text-h6 mb-4" >{{ $t('billing.invoice_request.title') }}</div>
           <p class="font-italic">{{ $t('billing.invoice_request.internation_payment_hint') }}</p>
           <p>{{ $t('billing.invoice_request.service_fee') }}: <strong>15%</strong> <span class="font-italic">({{ $t('billing.invoice_request.looking') }})</span></p>
         </v-col>
-      </v-row>    
-      <v-row no-gutters md="12" v-if="!invoiceRequesSent">
+      </v-row>
+      <v-row md="12" v-if="!invoiceRequesSent">
         <v-col md="12">
           <v-form @submit.prevent="onInvoiceRequestSubmit" :disabled="isInvoiceRequestSubmitting">
-            <v-text-field v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
+            <v-text-field class="mb-4" v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
               :label="$t('email')"
               :hint="$t('billing.invoice_request.hint')" persistent-hint></v-text-field>
 
-            <v-text-field v-model="amount.value.value" type="number" :error-messages="amount.errorMessage.value"
+            <v-text-field class="mb-4" v-model="amount.value.value" type="number" :error-messages="amount.errorMessage.value"
               :label="$t('billing.invoice_request.amount')"
               :hint="$t('billing.invoice_request.amount_hint')" persistent-hint
             ></v-text-field>
@@ -25,7 +25,7 @@
         </v-col>
       </v-row>
 
-      <v-row no-gutters md="12" v-else>
+      <v-row md="12" v-else>
         <v-col md="12">
           <br />
           <div v-if="locale == 'ru'">
@@ -34,7 +34,7 @@
             <p><span class="font-weight-black">ВАЖНО: </span> ФИО при регистрации должно совпадать с ФИО плательщика.</p>
           </div>
           <div v-else>
-            
+
             <p>If you are requesting an invoice for the first time, we will first send you an invitation to Easystuff.io payment system. This service allows you to make international payments for software development. To pay the bill, you need to accept the invitation, so we will be able to send you invoices in PDF format containing a payment link.</p>
             <br />
             <p><span class="font-weight-black">Important: </span> your registration name and lastname should be the same as the person why makes the payment.</p>
@@ -42,7 +42,7 @@
         </v-col>
       </v-row>
 
-    </v-container>
+    </div>
     <v-snackbar v-model="invoiceRequesSuccess" color="success">
       {{ $t('billing.invoice_request.invoice_request_accepted') }}
 
@@ -92,7 +92,7 @@ const email = useField('email', "required|email");
 const amount = useField('amount', "required|min_value:20");
 
 async function invoiceRequest(data) {
-  
+
   const config = useRuntimeConfig();
   return await fetchAuth(`${config.public.baseURL}/invoice_request/`, {
     method: 'POST',
@@ -106,7 +106,7 @@ async function invoiceRequest(data) {
 
 const onInvoiceRequestSubmit = handleSubmit(async values => {
   const response = await invoiceRequest(values);
-  
+
   const error = response.error;
   if (!error) {
     invoiceRequesSuccess.value = true;

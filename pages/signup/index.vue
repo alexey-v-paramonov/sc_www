@@ -3,23 +3,27 @@
     <NuxtLayout name="auth">
 
       <v-container>
-        <h1>{{ $t('signup') }}</h1>
+        <div>
+          <h5 class="text-h5 mb-4">
+            {{ $t('signup') }}
+          </h5>
+        </div>
         <v-form @submit.prevent="onSignupSubmit" :disabled="isSignupBusy">
           <v-text-field v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
             :label="$t('email')"></v-text-field>
 
-          <v-text-field v-model="password1.value.value" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+          <v-text-field v-model="password1.value.value" :append-inner-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showPass ? 'text' : 'password'" name="password" :label="$t('password')" :hint="$t('chars_min_8')"
             counter :error-messages="password1.errorMessage.value" @click:append="showPass = !showPass"></v-text-field>
-          <v-text-field v-model="password2.value.value" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="showPass ? 'text' : 'password'" name="password" :label="$t('password_confirmation')"
+          <v-text-field v-model="password2.value.value" :append-inner-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showPass ? 'text' : 'password'" name="confirm" :label="$t('password_confirmation')"
             :hint="$t('chars_min_8')" counter :error-messages="password2.errorMessage.value"
             @click:append="showPass = !showPass"></v-text-field>
 
-          <v-btn type="submit" :disabled="isSignupBusy" block class="mt-2">
+          <v-btn type="submit" color="primary" :disabled="isSignupBusy" block class="mt-2">
             {{ isSignupBusy ? $t('loading') : $t('create_account') }}</v-btn>
 
-          <div class="mt-2">
+          <div class="mt-4">
             <p class="text-body-2">{{ $t('have_account') }} <NuxtLink to="/login">{{ $t('login') }}</NuxtLink>
             </p>
           </div>

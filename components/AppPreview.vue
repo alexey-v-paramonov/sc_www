@@ -1,5 +1,5 @@
 <template>
-    <svg width="375" height="812" viewBox="0 0 375 812" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 375 812" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="Gradient" x1="0" x2="0" y1="0" y2="1">
           <stop offset="0" stop-color="white" stop-opacity="0" />
@@ -193,7 +193,7 @@
 </template>
 
 <script setup>
-import { defineProps, reactive } from "vue";
+//import { reactive } from "vue";
 const props = defineProps({
   "lang": { type: String, required: false, default: 'ru' },
   "bg_color": { type: String, required: false, default: '' },

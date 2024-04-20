@@ -29,16 +29,16 @@
 
             <tr v-if="android_apps.length > 0" v-for="item in android_apps" :key="item.id">
               <td>
-                <NuxtLink :to="'/apps/android/' + item.id + '/'">{{ item.title }}</NuxtLink>
+                <NuxtLink :to="'/apps/android/' + item.id + '/'"><v-icon v-if="display.smAndUp" icon="mdi-cellphone-text" class="mr-4" />{{ item.title }}</NuxtLink>
               </td>
-              <td>
+              <td :width="display.smAndUp?'150':'100'" style="padding: 0">
 
-                <NuxtLink :to="'/apps/android/' + item.id + '/'"><v-btn icon="mdi-pencil"></v-btn></NuxtLink>
+                <NuxtLink :to="'/apps/android/' + item.id + '/'"><v-btn :density="display.smAndUp?'default':'compact'" icon="mdi-pencil"></v-btn></NuxtLink>
 
-                <v-btn :href="item.store_url" v-if="item.store_url"  target="_blank"
+                <v-btn :density="display.smAndUp?'default':'compact'" :href="item.store_url" v-if="item.store_url"  target="_blank"
                   icon="mdi-android"></v-btn>
 
-                <v-btn @click=openPushNotificationDialog(item.id) v-if="item.is_paid && item.enable_push"
+                <v-btn :density="display.smAndUp?'default':'compact'" @click=openPushNotificationDialog(item.id) v-if="item.is_paid && item.enable_push"
                   icon="mdi-message-badge-outline" :title="$t('apps.send_push')"></v-btn>
               </td>
             </tr>
@@ -107,6 +107,8 @@ let pushNotificationDialog = ref(false);
 let pushFailed = ref(false);
 let pushSuccess = ref(false);
 
+import { useDisplay } from 'vuetify'
+const display = ref(useDisplay())
 
 definePageMeta({
   layout: "default",

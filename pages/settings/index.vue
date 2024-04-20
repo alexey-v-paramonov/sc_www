@@ -1,17 +1,17 @@
 <template>
     <v-container>
-      <v-row no-gutters md="12">
+      <v-row md="12">
         <v-col>
           <div class="text-h5">{{ $t('settings.title') }}</div>
         </v-col>
-      </v-row>    
-      <v-row no-gutters md="12">
+      </v-row>
+      <v-row md="12">
         <v-col md="12">
           <v-form @submit.prevent="onSettingsSubmit" :disabled="isSettingsSubmitting">
             <v-text-field v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
               :label="$t('email')"></v-text-field>
 
-            <v-text-field  autocomplete="one-time-code" v-model="password.value.value" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+            <v-text-field  autocomplete="one-time-code" v-model="password.value.value" :append-inner-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
               :type="showPass ? 'text' : 'password'" name="password" :label="$t('password')" :hint="$t('password_reset.new_pass')"
               counter :error-messages="password.errorMessage.value" @click:append="showPass = !showPass">
             </v-text-field>
@@ -33,7 +33,7 @@
     </v-snackbar>
 
   </template>
-  
+
 <script setup>
 import { useField, useForm } from 'vee-validate';
 import { ref } from 'vue'
@@ -62,7 +62,7 @@ const email = useField('email', "required|email");
 const password = useField('password', "min:8");
 
 async function saveSettingsRequest(data) {
-  
+
   const config = useRuntimeConfig();
   return await fetchAuth(`${config.public.baseURL}/users/${stateUser.user.id}/profile/`, {
     method: 'PUT',
@@ -79,7 +79,7 @@ const onSettingsSubmit = handleSubmit(async values => {
   if(!somethingHasChanged){
     return;
   }
-  
+
   const response = await saveSettingsRequest(values);
   const error = response.error.value;
   if (!error) {

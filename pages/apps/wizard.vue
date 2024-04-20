@@ -63,7 +63,7 @@
       <v-row>
         <v-col md="12">
           <div class="text-h5">{{ $t('apps.publishing.title') }}</div>
-          <div class="text-caption">{{ $t('apps.publishing.description') }}</div>
+          <div class="text-caption mt-2">{{ $t('apps.publishing.description') }}</div>
         </v-col>
       </v-row>
 
@@ -103,7 +103,7 @@
       <v-row>
         <v-col md="12">
           <div class="text-h5">{{ $t('apps.copyright.title') }}</div>
-          <div class="text-caption">{{ $t('apps.copyright.description') }}</div>
+          <div class="text-caption mt-2">{{ $t('apps.copyright.description') }}</div>
         </v-col>
       </v-row>
 
@@ -152,7 +152,7 @@
       <v-row>
         <v-col md="12">
           <div class="text-h5">{{ $t('apps.price') }}: {{ appPrice }} {{ $t('currency') }}</div>
-          <div class="text-caption">{{ $t('apps.price_description') }}</div>
+          <div class="text-caption mt-2">{{ $t('apps.price_description') }}</div>
         </v-col>
       </v-row>
 
@@ -192,7 +192,7 @@
     </template>
   </v-snackbar>
 </template>
-  
+
 <script setup>
 import { ref, reactive, computed } from 'vue';
 import { useField, useForm } from 'vee-validate';

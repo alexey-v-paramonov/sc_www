@@ -1,78 +1,77 @@
 <template>
     <v-container>
-        <v-row no-gutters md="12">
+        <v-row md="12">
             <v-col md="12">
+              <v-form @submit.prevent="onAppSubmit" :disabled="isAppInfoSubmitting">
 
-                <v-form @submit.prevent="onAppSubmit" :disabled="isAppInfoSubmitting">
-                    <v-text-field v-model="title.value.value" type="text" :error-messages="title.errorMessage.value"
+                    <v-text-field class="mt-4" v-model="title.value.value" type="text" :error-messages="title.errorMessage.value"
                         :label="$t('app.title')" maxlength="30"></v-text-field>
 
-                    <v-text-field v-if="isAndroid()" v-model="description_short.value.value" type="text"
+                    <v-text-field class="mt-4" v-if="isAndroid()" v-model="description_short.value.value" type="text"
                         :error-messages="description_short.errorMessage.value" :label="$t('app.description_short')"
                         :hint="$t('app.description_short_hint')" persistent-hint maxlength="80"></v-text-field>
 
-                    <v-textarea v-model="description.value.value" :label="$t('app.description')"
+                    <v-textarea class="mt-4" v-model="description.value.value" :label="$t('app.description')"
                         :error-messages="description.errorMessage.value" :hint="$t('app.description_hint')"
                         persistent-hint></v-textarea>
 
-                    <v-text-field v-model="website_url.value.value" type="url"
+                    <v-text-field class="mt-4" v-model="website_url.value.value" type="url"
                         :error-messages="website_url.errorMessage.value" name="website_url"
                         :label="$t('app.website_url_label')"></v-text-field>
 
-                    <v-text-field v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
+                    <v-text-field class="mt-4" v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
                         :label="$t('email')"></v-text-field>
 
-                    <v-text-field v-if="locale == 'ru'" v-model="yandex_appmetrica_key.value.value" type="text"
+                    <v-text-field class="mt-4" v-if="locale == 'ru'" v-model="yandex_appmetrica_key.value.value" type="text"
                         :error-messages="yandex_appmetrica_key.errorMessage.value" label="API ключ Яндекс AppMetrica"
                         >
                         <template #details >
                             <div class="text-left">
                                 Вы можете зарегистрировать своё приложение на <a href="https://appmetrica.yandex.ru/" target="_blank">Яндекс AppMetrica</a>, получить ключ, внести его в это поле и собирать дополнительную статистику по приложению.
                             </div>
-                            
+
                         </template>
                     </v-text-field>
 
-                    <v-file-input prepend-icon="mdi-account-box-outline" show-size :label="$t('app.icon')"
+                    <v-file-input class="mt-4" prepend-icon="mdi-account-box-outline" show-size :label="$t('app.icon')"
                         @change="generateIconPreview()" @click:clear="generateIconPreview()" name="icon"
                         v-model="icon.value.value" :error-messages="icon.errorMessage.value" accept="image/png"
                         :hint="$t('app.icon_hint') + icon_resolution + $t('app.icon_pixels')" persistent-hint>
                     </v-file-input>
 
-                    <v-row>
+                    <v-row class="mt-4">
                         <v-col cols="6" class="text-center">
                             <img v-if="appData.icon || previewIcon" :src="previewIcon ? previewIcon : appData.icon"
                                 class="app-image-preview" />
-                            <v-icon v-else icon="mdi-tooltip-image-outline" size="x-large"
-                                style="font-size: 300px;"></v-icon>
+                            <v-icon v-else icon="mdi-tooltip-image-outline" color="grey-lighten-1" size="x-large"
+                                style="font-size: 180px;"></v-icon>
                         </v-col>
                         <v-col cols="6" class="text-center">
-                            <img src="/img/app_icon.png" :alt="$t('app.icon')" />
+                            <img src="/img/app_icon.png" :alt="$t('app.icon')" style="max-width: 100%"/>
                         </v-col>
                     </v-row>
 
-
-
-                    <v-file-input prepend-icon="mdi-image" show-size :label="$t('app.logo')"
+                    <v-file-input class="mt-4" prepend-icon="mdi-image" show-size :label="$t('app.logo')"
                         @change="generateLogoPreview()" @click:clear="generateLogoPreview()" name="logo"
                         v-model="logo.value.value" :error-messages="logo.errorMessage.value" accept="image/png"
                         :hint="$t('app.logo_hint')" persistent-hint></v-file-input>
 
-                    <v-row>
+                    <v-row class="mt-4">
                         <v-col cols="6" class="text-center">
                             <img v-if="appData.logo || previewLogo" :src="previewLogo ? previewLogo : appData.logo"
                                 class="app-image-preview" />
-                            <v-icon v-else icon="mdi-tooltip-image-outline" size="x-large"
-                                style="font-size: 300px;"></v-icon>
+                            <v-icon v-else icon="mdi-tooltip-image-outline" color="grey-lighten-1" size="x-large"
+                                style="font-size: 180px;"></v-icon>
                         </v-col>
                         <v-col cols="6" class="text-center">
-                            <img src="/img/app_logo.png" :alt="$t('app.logo')" />
+                            <img src="/img/app_logo.png" :alt="$t('app.logo')" style="max-width: 100%" />
                         </v-col>
                     </v-row>
 
-                    <v-btn type="submit" :disabled="isAppInfoSubmitting" block class="mt-2" color="primary">{{
+                    <v-btn type="submit" :disabled="isAppInfoSubmitting" block class="mt-4" color="primary">{{
                     isAppInfoSubmitting ? $t('loading') : $t('save') }}</v-btn>
                 </v-form>
+
             </v-col>
         </v-row>
     </v-container>
@@ -179,6 +178,7 @@ const onAppSubmit = handleSubmit(async values => {
 <style scoped>
 .app-image-preview {
     max-height: 300px;
-    max-width: 300px;
+    width: 300px;
+    max-width: 100%;
 }
 </style>

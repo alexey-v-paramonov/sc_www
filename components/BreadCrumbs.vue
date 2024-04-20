@@ -1,15 +1,15 @@
 
 <template>
-    <v-breadcrumbs :items="crumbs" icon="mdi-android">
+    <v-breadcrumbs ref="breadcrumbs" v-resize="onResize" :items="crumbs" icon="mdi-android">
         <template v-slot:prepend>
-            <v-icon size="small" icon="mdi-home"></v-icon>
+            <v-icon size="13px" icon="custom:home" class="ml-3" style="opacity: var(--v-medium-emphasis-opacity);"></v-icon>
         </template>
         <template v-slot:title="{ item }">
             <NuxtLink v-if="item.href" :to="item.href" class="v-breadcrumbs-item v-breadcrumbs-item--link">
-                {{ item.title }}
+              <span class="text-truncate d-block" style="max-width:var(--v-breadcrumbs-trancate-width)">{{ item.title }}</span>
             </NuxtLink>
             <span v-else>
-                {{ item.title }}
+              <span class="text-truncate d-block" style="max-width:var(--v-breadcrumbs-trancate-width)">{{ item.title }}</span>
             </span>
         </template>
     </v-breadcrumbs>
@@ -32,7 +32,21 @@ export default {
     created() {
         this.buildCrumbs(this.crumbs, this.$route)
     },
-    methods: {
+    mounted() {
+      this.onResize()
+    },
+  methods: {
+        onResize(){
+          // TODO need debounce
+          //console.log('this.$refs.breadcrumbs.$el.clientWidth',this.$refs.breadcrumbs.$el.clientWidth)
+          //console.log('window.innerWidth',window.innerWidth)
+          if(this.$refs.breadcrumbs.$el.clientWidth + 50 > window.innerWidth) {
+            let max = Math.floor((this.$refs.breadcrumbs.$el.clientWidth - 150) / this.crumbs.length)
+            this.$refs.breadcrumbs.$el.style.cssText = "--v-breadcrumbs-trancate-width: "+max+"px;";
+          }else{
+            this.$refs.breadcrumbs.$el.style.cssText = "--v-breadcrumbs-trancate-width: none";
+          }
+        },
         buildCrumbs(crumbs, route) {
             const fullPath = route.fullPath;
             const params = fullPath.startsWith('/')
@@ -41,7 +55,7 @@ export default {
             let no_href_paths = ['self_hosted', 'apps']
             let full_href = '';
             this.crumbs = [{
-                title: this.$t("nav.home"), 
+                title: this.$t("nav.home"),
                 href: "/"
             }];
             params.forEach((param, index) => {

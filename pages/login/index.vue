@@ -1,37 +1,48 @@
 <template>
   <div>
     <NuxtLayout name="auth">
-
+      <div class="auth-wrapper d-flex align-center justify-center">
       <v-container>
-        <h1>{{ $t('login') }}</h1>
+        <div>
+          <h5 class="text-h5 mb-1">
+            {{ $t('welcome') }}
+          </h5>
+          <p class="mb-0">
+            {{ $t('welcome_message') }}
+          </p>
+        </div>
+       <!-- <h2>{{ $t('login') }}</h2>-->
         <v-form @submit.prevent="onLoginSubmit" :disabled="isSignupSubmitting">
           <v-alert v-if="badCredentials" :title="$t('login')" color="error" closable border="start"
             icon="mdi-message-alert" :text="$t('bad_credentials')"></v-alert>
           <br>
-          <v-text-field v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
+          <v-text-field variant="outlined" v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
             :label="$t('email')"></v-text-field>
 
-          <v-text-field v-model="password.value.value" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+          <v-text-field variant="outlined" v-model="password.value.value" :append-inner-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showPass ? 'text' : 'password'" name="password" :label="$t('password')" :hint="$t('chars_min_8')"
-            counter :error-messages="password.errorMessage.value" @click:append="showPass = !showPass">
+            counter :error-messages="password.errorMessage.value" @click:append-inner="showPass = !showPass">
           </v-text-field>
 
           <NuxtLink to="/reset-password" class="text-body-2 font-weight-regular">{{ $t('forgot_password') }}
           </NuxtLink>
 
-          <v-btn type="submit" :disabled="isSignupSubmitting" block class="mt-2">{{ isSignupSubmitting ?
+          <v-btn type="submit" color="primary" style="text-shadow: 1px 1px rgba(0,0,0,0.1);" elevation="0" :disabled="isSignupSubmitting" block class="text-white mt-8">{{ isSignupSubmitting ?
             $t('logging_in') : $t('login') }}</v-btn>
         </v-form>
-        <div class="mt-2">
+        <div class="mt-4">
           <p class="text-body-2">{{ $t('account_creation_hint') }} <NuxtLink to="/signup">{{ $t('signup') }}
             </NuxtLink>
           </p>
         </div>
       </v-container>
+
+
+      </div>
     </NuxtLayout>
   </div>
 </template>
-  
+
 <script setup>
 import { useField, useForm } from 'vee-validate';
 import { ref } from 'vue'

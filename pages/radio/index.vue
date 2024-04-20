@@ -1,7 +1,7 @@
 <template>
   <v-container>
 
-    <v-row no-gutters md="12">
+    <v-row no-gutters md="12" v-if="display.smAndUp">
       <v-col class="text-right">
         <v-btn prepend-icon="mdi-plus" to="/radio/wizard" color="primary">{{ $t('radio.wizard') }}</v-btn>
       </v-col>
@@ -10,7 +10,7 @@
     <!-- SELF Hosted list -->
     <v-row no-gutters md="12">
       <v-col>
-        <div class="text-h5">{{ $t('radios.self_hosted.title') }}</div>
+        <div class="text-h5 mt-4">{{ $t('radios.self_hosted.title') }}</div>
       </v-col>
     </v-row>
 
@@ -45,7 +45,7 @@
                 <v-chip v-if="selfHostedStatus(item) == RADIO_STATUS.READY" variant="flat" color="primary">{{ $t('self_hosted.status.running') }}</v-chip>
                 <v-chip v-if="selfHostedStatus(item) == RADIO_STATUS.SUSPENDED" variant="flat" color="red">{{ $t('self_hosted.status.suspended') }}</v-chip>
                 <v-chip v-if="isTrial(item)" variant="flat" color="green">{{ $t('self_hosted.status.trial_period') }}</v-chip>
-                
+
               </td>
               <td>{{ item.price }}{{ $t('currency')}}</td>
               <td>
@@ -75,8 +75,8 @@
 
     <v-row>
       <v-col cols="12">
-        <div class="pt-5 pb-5">
-          <v-divider></v-divider>
+        <div class="pa-4">
+        <br/>&nbsp;
         </div>
       </v-col>
     </v-row>
@@ -112,7 +112,7 @@
             <tr v-if="hosted_radios && hosted_radios.length > 0 && !hosted_radios_loading" v-for="item in hosted_radios" :key="item.name">
               <td>
                 <div>{{ item.login }}</div>
-                <div v-if="item.status == RADIO_STATUS.READY || item.status == RADIO_STATUS.SUSPENDED || item.status == RADIO_STATUS.BEING_DELETED"><a :href="'https://' + item.login  + (item.server_data.nodename == 's01' ? '' : `.${item.server_data.nodename}`) + '.radio-tochka.com:8080'" target="_blank">https://{{item.login}}{{ item.server_data.nodename == "s01" ? '' : '.' + item.server_data.nodename }}.radio-tochka.com:8080</a></div>
+                <div v-if="item.status == RADIO_STATUS.READY || item.status == RADIO_STATUS.SUSPENDED || item.status == RADIO_STATUS.BEING_DELETED"><a :href="'https://' + item.login + '.' + item.server_data.nodename + '.radio-tochka.com:8080'" target="_blank">https://{{item.login}}.{{ item.server_data.nodename }}.radio-tochka.com:8080</a></div>
               </td>
               <td>
                 <v-chip v-if="item.status == RADIO_STATUS.PENDING || item.status == RADIO_STATUS.BEING_CREATED" variant="flat" color="green">{{ $t('hosted.status.being_created') }}</v-chip>
@@ -183,12 +183,15 @@
     </template>
   </v-snackbar>
 </template>
-  
+
 <script setup>
 import { ref } from 'vue';
 
 import { useUserStore } from '~/stores/user'
 const stateUser = useUserStore()
+
+import { useDisplay } from 'vuetify'
+const display = ref(useDisplay())
 
 definePageMeta({
   layout: "default",
@@ -243,7 +246,7 @@ function deleteRadio(radio) {
       fetchAuth(`${config.public.baseURL}/${ isSelfHosted? 'self_hosted_radio': 'hosted_radio'}/${radio.id}/`, { method: 'DELETE' }).then(
         (r) => {
             deleteRadioSuccess.value = true;
-            isSelfHosted ? reloadSelfHostedRadios() : reloadHostedRadios();        
+            isSelfHosted ? reloadSelfHostedRadios() : reloadHostedRadios();
         },
         (e) => {
           deleteRadioFailed.value = true;

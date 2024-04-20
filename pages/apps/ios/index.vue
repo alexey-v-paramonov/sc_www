@@ -29,14 +29,14 @@
 
             <tr v-if="ios_apps.length > 0" v-for="item in ios_apps" :key="item.id">
               <td>
-                <NuxtLink :to="'/apps/ios/' + item.id + '/'">{{ item.title }}</NuxtLink>
+                <NuxtLink :to="'/apps/ios/' + item.id + '/'"><v-icon v-if="display.smAndUp" icon="mdi-cellphone-text" class="mr-4" />{{ item.title }}</NuxtLink>
               </td>
-              <td>
-                <NuxtLink :to="'/apps/ios/' + item.id + '/'"><v-btn icon="mdi-pencil"></v-btn></NuxtLink>
-                <v-btn :href="item.store_url" v-if="item.store_url"  target="_blank"
+              <td :width="display.smAndUp?'150':'100'" style="padding: 0">
+                <NuxtLink :to="'/apps/ios/' + item.id + '/'"><v-btn :density="display.smAndUp?'default':'compact'" icon="mdi-pencil"></v-btn></NuxtLink>
+                <v-btn :density="display.smAndUp?'default':'compact'" :href="item.store_url" v-if="item.store_url"  target="_blank"
                   icon="mdi-apple" :title="$t('apps.send_push')"></v-btn>
 
-                <v-btn @click=openPushNotificationDialog(item.id) v-if="item.is_paid && item.enable_push"
+                <v-btn :density="display.smAndUp?'default':'compact'" @click=openPushNotificationDialog(item.id) v-if="item.is_paid && item.enable_push"
                   icon="mdi-message-badge-outline" :title="$t('apps.send_push')"></v-btn>
 
               </td>
@@ -97,6 +97,8 @@
 <script setup>
 const config = useRuntimeConfig();
 
+import { useDisplay } from 'vuetify'
+const display = ref(useDisplay())
 
 let ios_apps = ref([]);
 let apps_loading = ref(false);
