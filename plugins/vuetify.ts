@@ -5,7 +5,7 @@ import { mdi } from "vuetify/iconsets/mdi";
 const lightTheme = {
     dark: false,
     colors: {
-        primary: '#3369e8',
+        primary: '#274C77',
         secondary: '#00A6FF',
         info: '#E1F5F3',
         success: '#13DEB9',
