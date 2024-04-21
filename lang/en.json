@@ -204,6 +204,7 @@
     "settings": {
         "title": "Account settings",
         "save_success": "Account settings have been saved successfully",
+        "subscribed": "Subscribe to the news",
         "errors": {
             "email":{
                 "unique": "Email address is already in use",

@@ -23,6 +23,7 @@ export const useUserStore = defineStore('user', () => {
             method: 'GET',
         });
         Object.assign(user.userData, response);
+        return response;
     }
 
     const setUserData = (data) => {

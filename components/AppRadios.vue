@@ -618,7 +618,6 @@ const onAppRadioSubmit = handleSubmit(async values => {
     let response;
     try {
         response = await saveAppRadioRequest(values);
-
     }
     catch (e) {
         const errorData = e.data;
