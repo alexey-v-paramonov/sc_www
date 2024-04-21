@@ -52,6 +52,11 @@ export async function fetchAuth(url, opts) {
     }
   }
   catch (e) {
+    if(e.status == 401){
+      router.push("/login");
+      return;
+    }
+
     throw e;
   }
   finally {
