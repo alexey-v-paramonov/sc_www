@@ -23,7 +23,7 @@
                         :error-messages="website_url.errorMessage.value" name="website_url"
                         :label="$t('app.website_url_label')"></v-text-field>
 
-                    <v-checkbox v-model="allow_website_url.value.value" :label="$t('app.allow_website_url_label')" type="checkbox"></v-checkbox>
+                    <v-checkbox v-if="isAndroid()" v-model="allow_website_url.value.value" :label="$t('app.allow_website_url_label')" type="checkbox"></v-checkbox>
 
                     <v-text-field class="mt-4" v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
                         :label="$t('email')"></v-text-field>
@@ -154,7 +154,7 @@ async function appUpdateRequest(values) {
     formData.append('description_short', values.description_short);
     isIOS() && formData.append('keywords', values.keywords);
     values.website_url && formData.append('website_url', values.website_url);
-    formData.append('allow_website_url', values.allow_website_url);
+    isAndroid() && formData.append('allow_website_url', values.allow_website_url);
     formData.append('email', values.email);
     values.icon && formData.append('icon', values.icon[0]);
     values.logo && formData.append('logo', values.logo[0]);
