@@ -15,6 +15,10 @@
                         :error-messages="description.errorMessage.value" :hint="$t('app.description_hint')"
                         persistent-hint></v-textarea>
 
+                    <v-textarea class="mt-4" v-if="isIOS()" v-model="keywords.value.value" :label="$t('app.ios.keywords')"
+                        :error-messages="keywords.errorMessage.value" :hint="$t('app.ios.keywords_hint')"
+                        persistent-hint></v-textarea>
+
                     <v-text-field class="mt-4" v-model="website_url.value.value" type="url"
                         :error-messages="website_url.errorMessage.value" name="website_url"
                         :label="$t('app.website_url_label')"></v-text-field>
@@ -81,7 +85,7 @@
 import { ref, reactive } from 'vue';
 import { useField, useForm } from 'vee-validate';
 const emit = defineEmits(['AppInfoRefresh',])
-const { locale } = useI18n();
+const { locale, t } = useI18n();
 
 
 const config = useRuntimeConfig();
@@ -97,6 +101,7 @@ const { handleSubmit, isSubmitting: isAppInfoSubmitting, setErrors } = useForm({
         email: appData.email || stateUser.user.email,
         description: appData.description || '',
         description_short: appData.description_short || '',
+        keywords: appData.keywords || '',
         website_url: appData.website_url || '',
         yandex_appmetrica_key: appData.yandex_appmetrica_key || ''
     }
@@ -105,6 +110,7 @@ const { handleSubmit, isSubmitting: isAppInfoSubmitting, setErrors } = useForm({
 const title = useField('title', "required|max:30");
 const description_short = useField('description_short', "max:80");
 const description = useField('description', "required");
+const keywords = useField('keywords', "max:100" + (isIOS() ? "|required" : ""));
 const website_url = useField('website_url', "url");
 const email = useField('email', "required|email");
 const yandex_appmetrica_key = useField('yandex_appmetrica_key', "");
@@ -131,6 +137,10 @@ function isAndroid() {
     return props.platform == 'android';
 }
 
+function isIOS() {
+    return props.platform == 'ios';
+}
+
 async function appUpdateRequest(values) {
     const platform = isAndroid() ? "android" : "ios";
     let formData = new FormData();
@@ -138,6 +148,7 @@ async function appUpdateRequest(values) {
     formData.append('user', stateUser.user.id);
     formData.append('description', values.description);
     formData.append('description_short', values.description_short);
+    isIOS() && formData.append('keywords', values.keywords);
     values.website_url && formData.append('website_url', values.website_url);
     formData.append('email', values.email);
     values.icon && formData.append('icon', values.icon[0]);

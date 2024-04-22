@@ -296,7 +296,9 @@
             "title": "Android application"
         },
         "ios": {
-            "title": "Apple iOS application"
+            "title": "Apple iOS application",
+            "keywords": "Keywords separated by commas",
+            "keywords_hint": "Listeners can find your application in App Store using these keywords"
         },
         "request_failed": "При загрузке данных приложения произошла ошибка, попробуйте позже или обратитесь в тех. поддержку.",
         "title": "Application Name",
@@ -366,6 +368,11 @@
             "delete_success": "The radio has been removed successfully from your application",
             "change_order_success": "The order of the radios has been successfully changed",
             "changes_update": "Changing the radio stations of the app does not require updating it in the store"
+        },
+        "errors":{
+            "keywords": {
+                "maxlength": "100 characters maximum"
+            }
         },
         "radio": {
             "toolbar": "Application radio",

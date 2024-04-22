@@ -299,7 +299,10 @@
             "title": "Android приложение"
         },
         "ios": {
-            "title": "Apple iOS приложение"
+            "title": "Apple iOS приложение",
+            "keywords": "Ключевые слова через запятую",
+            "keywords_hint": "По которым Ваше приложение можно будет найти в AppStore."
+
         },
         "request_failed": "Failed to load application data, please check later or contact support.",
         "title": "Название приложения",
@@ -370,6 +373,11 @@
             "delete_success": "Радио успешно удалено из приложения",
             "change_order_success": "Порядок радиостанций успешно изменен",
             "changes_update": "Изменение радиостанций приложения не требует его обновления в магазине"
+        },
+        "errors":{
+            "keywords": {
+                "maxlength": "Максимум 100 символов"
+            }
         },
         "radio": {
             "toolbar": "Радио в приложении",
