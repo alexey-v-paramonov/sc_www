@@ -23,6 +23,8 @@
                         :error-messages="website_url.errorMessage.value" name="website_url"
                         :label="$t('app.website_url_label')"></v-text-field>
 
+                    <v-checkbox v-model="allow_website_url.value.value" :label="$t('app.allow_website_url_label')" type="checkbox"></v-checkbox>
+
                     <v-text-field class="mt-4" v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
                         :label="$t('email')"></v-text-field>
 
@@ -103,6 +105,7 @@ const { handleSubmit, isSubmitting: isAppInfoSubmitting, setErrors } = useForm({
         description_short: appData.description_short || '',
         keywords: appData.keywords || '',
         website_url: appData.website_url || '',
+        allow_website_url: appData.allow_website_url,
         yandex_appmetrica_key: appData.yandex_appmetrica_key || ''
     }
 });
@@ -112,6 +115,7 @@ const description_short = useField('description_short', "max:80");
 const description = useField('description', "required");
 const keywords = useField('keywords', "max:100" + (isIOS() ? "|required" : ""));
 const website_url = useField('website_url', "url");
+const allow_website_url = useField('allow_website_url');
 const email = useField('email', "required|email");
 const yandex_appmetrica_key = useField('yandex_appmetrica_key', "");
 
@@ -150,6 +154,7 @@ async function appUpdateRequest(values) {
     formData.append('description_short', values.description_short);
     isIOS() && formData.append('keywords', values.keywords);
     values.website_url && formData.append('website_url', values.website_url);
+    formData.append('allow_website_url', values.allow_website_url);
     formData.append('email', values.email);
     values.icon && formData.append('icon', values.icon[0]);
     values.logo && formData.append('logo', values.logo[0]);

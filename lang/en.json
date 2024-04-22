@@ -307,6 +307,7 @@
         "description": "Description",
         "description_hint": "Full description of the application. Displayed in the application store. Try to tell what the application is for and what it allows your listeners to do.",
         "website_url_label": "Your radiostation website URL. Displayed in the application store and on the application main screen",
+        "allow_website_url_label": "Display the website URL on the main app screen",
         "icon": "Application icon",
         "icon_hint": "Displayed at the application store, and in the list of applications on a device. PNG, resolution: ",
         "icon_pixels": " pixels",
