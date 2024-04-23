@@ -217,8 +217,12 @@
             "password": {
                 "length": "Password is too short"
             }
-        }
-
+        },
+        "delete_account_title": "Delete my account",
+        "delete_account_title_text": "Before sending the request please withraw any money left on your balance and cancel all the services. Our support will review your account data before removing it.",
+        "delete_account_cta": "Send request to remove my account",
+        "delete_account_request_failed": "Failed to send the request, please contact support",
+        "delete_account_request_success": "Your request has been accepted."
     },
     "billing": {
         "title": "Billing",
