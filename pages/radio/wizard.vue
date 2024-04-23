@@ -54,16 +54,24 @@
             </v-row>
 
             <v-row>
+              <v-col md="12">
+                <v-checkbox v-model="is_unbranded.value.value" 
+                  :label="$t('self_hosted.is_unbranded')" type="checkbox"
+                  :hint="$t('self_hosted.is_unbranded_hint')" persistent-hint></v-checkbox>
+              </v-col>
+            </v-row>
+
+            <v-row>
               <v-col cols="2" md="1"><strong>{{ $t('service_price') }}:</strong></v-col>
               <v-col cols="10" md="11">
                 <template v-if="locale == 'en'">
-                  <b>10$ per month</b> if you have up to 5 radio stations.<br /> Each additional station costs $1, so if
-                  your server is running 10 stations the price is: 10$ + 5*1$ = 15$ per month.
+                  <b>{{selfHostedPrice}}$ per month</b> if you have up to 5 radio stations.<br /> Each additional station costs $1, so if
+                  your server is running 10 stations the price is: {{selfHostedPrice}}$ + 5*1$ = {{selfHostedPrice + 5}}$ per month.
                 </template>
 
                 <template v-else>
-                  <b>549 рублей</b> в месяц, включено до 5 станций.<br /> Каждая дополнительная станция - дополнительно 80
-                  рублей. Если, например, всего станций 8 - то стоимость составит 549 + 3 * 80 = 789 рублей в месяц.
+                  <b>{{selfHostedPrice}} рублей</b> в месяц, включено до 5 станций.<br /> Каждая дополнительная станция - дополнительно 80
+                  рублей. Если, например, всего станций 8 - то стоимость составит {{selfHostedPrice}} + 3 * 80 = {{selfHostedPrice + 240}} рублей в месяц.
                 </template>
 
               </v-col>
@@ -276,7 +284,7 @@ definePageMeta({
   middleware: 'auth',
 });
 
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import { useField, useForm } from 'vee-validate';
 import { useUiStateStore } from '@/stores/ui'
 import { useUserStore } from '~/stores/user'
@@ -317,6 +325,7 @@ const ip = useField('ip', (value) => {
   }
   return true;
 });
+const is_unbranded = useField('is_unbranded');
 const install_myself = useField('install_myself');
 const ssh_username = useField('ssh_username', sshParamsValidation);
 const ssh_password = useField('ssh_password', sshParamsValidation);
@@ -324,6 +333,23 @@ const ssh_port = useField('ssh_port', sshParamsValidation);
 
 const domain = useField('domain');
 const comment = useField('comment');
+
+const selfHostedPrice = computed(() => {
+    let price = 0;
+    if(locale.value == 'en'){
+      price = 10;
+      if(is_unbranded.value.value){
+        price += 5;
+      }
+    }
+    else{
+      price = 549;
+      if(is_unbranded.value.value){
+        price += 300;
+      }
+    }
+    return price;
+});
 
 function sshParamsValidation(value) {
   if (!install_myself.value.value) {
@@ -352,6 +378,7 @@ const login = useField('login', value => {
 
 ssh_username.value.value = "root";
 ssh_port.value.value = "22";
+is_unbranded.value.value = false;
 install_myself.value.value = "1";
 legal_type.value.value = "1";
 const domain_name = ref('');

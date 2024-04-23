@@ -13,6 +13,14 @@
             </v-col>
         </v-row>
 
+        <v-row>
+              <v-col md="12">
+                <v-checkbox v-model="is_unbranded.value.value" 
+                  :label="$t('self_hosted.is_unbranded')" type="checkbox"
+                  :hint="$t('self_hosted.is_unbranded_hint')" persistent-hint></v-checkbox>
+              </v-col>
+            </v-row>
+
         <v-row no-gutters>
             <v-col md="12">
                 <v-text-field v-model="domain.value.value" type="text" :error-messages="domain.errorMessage.value"
@@ -72,6 +80,7 @@ const { data: radioData, pending, error, refresh } = await useFetchAuth(`${confi
 const { handleSubmit, isSubmitting: isSelfHostedSubmitting, setErrors, errorBag } = useForm({
     initialValues: {
         ip: radioData.value.ip,
+        is_unbranded: radioData.value.is_unbranded,
         domain: radioData.value.domain,
         ssh_username: radioData.value.ssh_username,
         ssh_password: radioData.value.ssh_password,
@@ -80,6 +89,7 @@ const { handleSubmit, isSubmitting: isSelfHostedSubmitting, setErrors, errorBag 
 });
 
 const ip = useField('ip', 'required');
+const is_unbranded = useField('is_unbranded');
 const domain = useField('domain');
 const ssh_username = useField('ssh_username');
 const ssh_password = useField('ssh_password');
