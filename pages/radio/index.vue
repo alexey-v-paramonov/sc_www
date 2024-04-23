@@ -232,6 +232,7 @@ function selfHostedStatus(radio){
   }
   return radio.status;
 }
+
 function deleteRadio(radio) {
   dialog.value = true;
   new Promise((resolve) => {

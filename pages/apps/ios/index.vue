@@ -38,6 +38,8 @@
 
                 <v-btn :density="display.smAndUp?'default':'compact'" @click=openPushNotificationDialog(item.id) v-if="item.is_paid && item.enable_push"
                   icon="mdi-message-badge-outline" :title="$t('apps.send_push')"></v-btn>
+                
+                  <v-btn v-if="!item.is_paid" icon="mdi-delete" @click="deleteApp(item)" :disabled="item.beingDeleted"></v-btn>
 
               </td>
             </tr>
@@ -92,6 +94,44 @@
     </template>
   </v-snackbar>
 
+  <v-dialog v-model="delAppDialog" width="auto">
+    <v-card>
+      <v-card-text>
+        <div class="py-12 text-center">
+          <v-icon class="mb-6" color="error" icon="mdi-alert-decagram" size="128"></v-icon>
+
+          <div class="text-h4 font-weight-bold">{{ $t('apps.ios.delete_confirmation') }}</div>
+        </div>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn variant="text" color="grey" @click="answerDialog(false)">{{ $t('cancel') }}</v-btn>
+        <v-btn variant="outlined" color="primary" @click="answerDialog(true)">{{ $t('delete') }}</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
+  <v-snackbar v-model="deleteAppFailed" color="error">
+    {{ $t('apps.ios.delete_failed') }}
+
+    <template v-slot:actions>
+      <v-btn color="white" variant="text" @click="deleteAppFailed = false">
+        {{ $t('close') }}
+      </v-btn>
+    </template>
+  </v-snackbar>
+
+
+  <v-snackbar v-model="deleteAppSuccess" color="success">
+    {{ $t('apps.ios.delete_success') }}
+
+    <template v-slot:actions>
+      <v-btn color="white" variant="text" @click="deleteAppSuccess = false">
+        {{ $t('close') }}
+      </v-btn>
+    </template>
+  </v-snackbar>
+
 </template>
 
 <script setup>
@@ -106,6 +146,10 @@ let pushNotificationDialog = ref(false);
 let app_push_id = 0;
 let pushFailed = ref(false);
 let pushSuccess = ref(false);
+let answerDialog = ref();
+let deleteAppFailed = ref(false);
+let deleteAppSuccess = ref(false);
+let delAppDialog = ref(false);
 
 definePageMeta({
   layout: "default",
@@ -140,5 +184,30 @@ async function reloadIosApps() {
 }
 
 reloadIosApps();
+
+function deleteApp(app) {
+  delAppDialog.value = true;
+  new Promise((resolve) => {
+    answerDialog = resolve;
+  }).then((res) => {
+    delAppDialog.value = false;
+    if(res){
+      clearNuxtData();
+      app.beingDeleted = true;
+
+      fetchAuth(`${config.public.baseURL}/mobile_apps/ios/${app.id}/`, { method: 'DELETE' }).then(
+        (r) => {
+            deleteAppSuccess.value = true;
+            reloadIosApps();
+        },
+        (e) => {
+          deleteAppFailed.value = true;
+        }
+      ).finally(() => {
+        app.beingDeleted = false;
+      });
+    }
+  })
+}
 
 </script>

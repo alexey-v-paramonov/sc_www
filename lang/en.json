@@ -285,10 +285,16 @@
         },
         "platform": "Platform",
         "android": {
-            "help": "Android smartphones, tablets, Android TV and Android Auto are also supported. Application is native Java, we are not using HTML or hybrid applications."
+            "help": "Android smartphones, tablets, Android TV and Android Auto are also supported. Application is native Java, we are not using HTML or hybrid applications.",
+            "delete_confirmation": "Are you sure you want to remove this Android application?",
+            "delete_failed": "Failed to remove this application, try again later or contact support.",
+            "delete_success": "Application has been removed successfully"
         },
         "ios": {
-            "help": "iPhone, iPad applications. Application is native ObjectiveC, we are not using HTML or hybrid applications."
+            "help": "iPhone, iPad applications. Application is native ObjectiveC, we are not using HTML or hybrid applications.",
+            "delete_confirmation": "Are you sure you want to remove this iOS application?",
+            "delete_failed": "Failed to remove this application, try again later or contact support.",
+            "delete_success": "Application has been removed successfully"
         }
     },
     "app": {
