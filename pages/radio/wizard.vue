@@ -370,7 +370,7 @@ const login = useField('login', value => {
   if (!value) {
     return t("errors.required");
   }
-  if (!/[a-z0-9A-Z]+$/.test(value)) {
+  if (!/^[a-zA-Z0-9]*$/.test(value)) {
     return t("errors.regex");;
   }
   return true;
