@@ -86,7 +86,7 @@
         "title": "Self-hosted",
         "help": "The best option for most users, with no limits on the number of listeners or disk space. You can use any hosting provider. In this plan we do not require any documents confirming the legality of broadcasting.",
         "description": "To install our software, the server must be completely clean and have no other control panels, databases or websites installed.",
-        "supported_os": "Suppored OS: Ubuntu 20.04 (recommended), Centos Linux 7",
+        "supported_os": "Suppored OS: Ubuntu 22.04 (recommended), Ubuntu 20.04, Centos Linux 7",
         "minimal_requirements": "Minimum system requirements: 1 CPU core, 1Gb RAM, enough disk space to fit all the audio content",
         "supported_arch": "Suppored architecture: x86 64bit",
         "ip": "Server IP address",
