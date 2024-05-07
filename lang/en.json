@@ -60,7 +60,7 @@
         "errors": {
             "login": {
                 "unique": "This station ID already exists, please choose another one",
-                "regex": "Invalid value, please use Lating characters and digits only. Special characters are not allowed",
+                "regex": "Invalid value, please use Latin characters and digits only. Special characters are not allowed",
                 "demo_exists": "You already have a demo account"
             },
             "domain": {
