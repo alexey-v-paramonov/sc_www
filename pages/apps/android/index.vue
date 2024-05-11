@@ -63,6 +63,13 @@
 
                 <br />
                 <br />
+
+                {{ $t('apps.android_sample_apps') }} <a class="font-weight-bold text-decoration-underline" href="https://play.google.com/store/apps/developer?id=iRadioService" target="_blank">Google Play</a>
+                <br />
+                <br />
+
+                <br />
+                <br />
                 <v-btn color="primary" to="/apps/wizard" class="mt-2">{{ $t('apps.wizard') }}</v-btn>
               </td>
             </tr>

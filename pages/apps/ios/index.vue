@@ -59,6 +59,14 @@
                   title="YouTube video player" frameborder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowfullscreen></iframe>
+                  <br />
+
+                  <br />
+
+                {{ $t('apps.ios_sample_apps') }} <a class="font-weight-bold text-decoration-underline" href="https://itunes.apple.com/us/developer/aleksey-paramonov/id781686676" target="_blank">AppStore</a>
+                <br />
+                <br />
+
 
                 <br />
                 <br />
