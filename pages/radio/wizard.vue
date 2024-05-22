@@ -232,7 +232,7 @@
               <v-col md="2" class="text-no-wrap">{{ price.du_price }} {{ $t('currency') }}</v-col>
 
               <v-col md="2"><strong>{{ $t('hosted.price_total') }}:</strong></v-col>
-              <v-col md="2" class="text-no-wrap">{{ price.price + price.du_price }} {{ $t('currency') }}</v-col>
+              <v-col md="2" class="text-no-wrap">{{ price.price + price.du_price }} {{ $t('currency') }}/{{ $t('monthly') }} </v-col>
 
             </v-row>
           </template>

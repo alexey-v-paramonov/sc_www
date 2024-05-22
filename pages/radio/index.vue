@@ -47,7 +47,7 @@
                 <v-chip v-if="isTrial(item)" variant="flat" color="green">{{ $t('self_hosted.status.trial_period') }}</v-chip>
 
               </td>
-              <td>{{ item.price }}{{ $t('currency')}}</td>
+              <td>{{ item.price }}{{ $t('currency')}}/{{ $t('monthly') }}</td>
               <td>
                 <NuxtLink :to="'/radio/self_hosted/' + item.id + '/'"><v-btn icon="mdi-pencil"></v-btn></NuxtLink>
                 &nbsp;
@@ -121,7 +121,7 @@
                 <v-chip v-if="item.status == RADIO_STATUS.SUSPENDED" variant="flat" color="red">{{ $t('hosted.status.suspended') }}</v-chip>
                 <v-chip v-if="item.status == RADIO_STATUS.ERROR" variant="flat" color="red">{{ $t('hosted.status.error') }}</v-chip>
               </td>
-              <td>{{ item.price }}{{ $t('currency')}}</td>
+              <td>{{ item.price }}{{ $t('currency')}}/{{ $t('monthly') }}</td>
 
               <td><v-btn v-if="[2, 5, 6].includes(item.status)" icon="mdi-delete" @click="deleteRadio(item)" :disabled="item.beingDeleted"></v-btn></td>
             </tr>

@@ -10,6 +10,7 @@
     "bad_credentials": "Unable to log in with provided credentials",
     "chars_min_8": "At least 8 characters",
     "currency": "$",
+    "monthly": "month",
     "close": "Close",
     "loading": "Loading...",
     "account_creation_hint": "Don't have an account?",
