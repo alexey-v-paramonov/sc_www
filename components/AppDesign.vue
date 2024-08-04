@@ -8,66 +8,66 @@
           <div class="picker-container text-uppercase mb-4">
           <div class="picker-title text-truncate">{{ $t('app.design.bg_color') }}</div>
             <!--<v-color-picker v-model="bg_color.value.value" mode="rgb" :modes="['rgb',]"></v-color-picker>-->
-            <color-picker v-model:pureColor="bg_color.value.value"/>
+            <color-picker v-model:pureColor="bg_color.value.value" format="hex"/>
           </div>
           <div class="picker-container text-uppercase mb-4">
           <div class="picker-title text-truncate">{{ $t('app.design.bg_color_gradient') }}</div>
             <!--<v-color-picker v-model="bg_color_gradient.value.value" mode="rgb" :modes="['rgb',]"></v-color-picker>-->
-            <color-picker v-model:pureColor="bg_color_gradient.value.value"/>
+            <color-picker v-model:pureColor="bg_color_gradient.value.value" format="hex"/>
           </div>
           <div class="picker-container text-uppercase mb-4">
           <div class="picker-title text-truncate">{{ $t('app.design.font_color') }}</div>
             <!--<v-color-picker v-model="font_color.value.value" mode="rgb" :modes="['rgb',]"></v-color-picker>-->
-            <color-picker v-model:pureColor="font_color.value.value"/>
+            <color-picker v-model:pureColor="font_color.value.value" format="hex"/>
           </div>
           <div class="picker-container text-uppercase mb-4">
           <div class="picker-title text-truncate">{{ $t('app.design.text_secondary_color') }}</div>
             <!--<v-color-picker v-model="text_secondary_color.value.value" mode="rgb" :modes="['rgb',]"></v-color-picker>-->
-            <color-picker v-model:pureColor="text_secondary_color.value.value"/>
+            <color-picker v-model:pureColor="text_secondary_color.value.value" format="hex"/>
           </div>
           <div class="picker-container text-uppercase mb-4">
           <div class="picker-title text-truncate">{{ $t('app.design.button_text_color') }}</div>
             <!--<v-color-picker v-model="button_text_color.value.value" mode="rgb" :modes="['rgb',]"></v-color-picker>-->
-            <color-picker v-model:pureColor="button_text_color.value.value"/>
+            <color-picker v-model:pureColor="button_text_color.value.value" format="hex"/>
           </div>
           <div class="picker-container text-uppercase mb-4">
           <div class="picker-title text-truncate">{{ $t('app.design.tabs_color') }}</div>
             <!--<v-color-picker v-model="tabs_color.value.value" mode="rgb" :modes="['rgb',]"></v-color-picker>-->
-            <color-picker v-model:pureColor="tabs_color.value.value"/>
+            <color-picker v-model:pureColor="tabs_color.value.value" format="hex"/>
           </div>
           <div class="picker-container text-uppercase mb-4">
           <div class="picker-title text-truncate">{{ $t('app.design.tabs_icon_color') }}</div>
             <!--<v-color-picker v-model="tabs_icon_color.value.value" mode="rgb" :modes="['rgb',]"></v-color-picker>-->
-            <color-picker v-model:pureColor="tabs_icon_color.value.value"/>
+            <color-picker v-model:pureColor="tabs_icon_color.value.value" format="hex"/>
           </div>
           <div class="picker-container text-uppercase mb-4">
           <div class="picker-title text-truncate">{{ $t('app.design.tabs_icon_selected_color') }}</div>
             <!--<v-color-picker v-model="tabs_icon_selected_color.value.value" mode="rgb" :modes="['rgb',]"></v-color-picker>-->
-            <color-picker v-model:pureColor="tabs_icon_selected_color.value.value"/>
+            <color-picker v-model:pureColor="tabs_icon_selected_color.value.value" format="hex"/>
           </div>
           <div class="picker-container text-uppercase mb-4">
           <div class="picker-title text-truncate">{{ $t('app.design.main_theme_color') }}</div>
             <!--<v-color-picker v-model="main_theme_color.value.value" mode="rgb" :modes="['rgb',]"></v-color-picker>-->
-            <color-picker v-model:pureColor="main_theme_color.value.value"/>
+            <color-picker v-model:pureColor="main_theme_color.value.value" format="hex"/>
           </div>
           <div class="picker-container text-uppercase mb-4">
           <div class="picker-title text-truncate">{{ $t('app.design.play_button_border_color') }}</div>
             <!--<v-color-picker v-model="play_button_border_color.value.value" mode="rgb" :modes="['rgb',]"></v-color-picker>-->
-            <color-picker v-model:pureColor="play_button_border_color.value.value"/>
+            <color-picker v-model:pureColor="play_button_border_color.value.value" format="hex"/>
           </div>
           <div class="picker-container text-uppercase mb-4">
           <div class="picker-title text-truncate">{{ $t('app.design.volume_buttons_color') }}</div>
             <!--<v-color-picker v-model="volume_buttons_color.value.value" mode="rgb" :modes="['rgb',]"></v-color-picker>-->
-            <color-picker v-model:pureColor="volume_buttons_color.value.value"/>
+            <color-picker v-model:pureColor="volume_buttons_color.value.value" format="hex"/>
           </div>
           <div class="picker-container text-uppercase mb-4">
           <div class="picker-title text-truncate">{{ $t('app.design.volume_bar_active_color') }}</div>
             <!--<v-color-picker v-model="volume_bar_active_color.value.value" mode="rgb" :modes="['rgb',]"></v-color-picker>-->
-            <color-picker v-model:pureColor="volume_bar_active_color.value.value"/>
+            <color-picker v-model:pureColor="volume_bar_active_color.value.value" format="hex"/>
           </div>
           <div class="picker-container text-uppercase mb-4">
           <div class="picker-title text-truncate">{{ $t('app.design.volume_bar_inactive_color') }}</div>
-            <color-picker v-model:pureColor="volume_bar_inactive_color.value.value"/>
+            <color-picker v-model:pureColor="volume_bar_inactive_color.value.value" format="hex"/>
             <!--<v-color-picker v-model="volume_bar_inactive_color.value.value" mode="rgb" :modes="['rgb',]"></v-color-picker>-->
           </div>
           </div>
