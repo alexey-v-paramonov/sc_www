@@ -119,8 +119,8 @@ const allow_website_url = useField('allow_website_url');
 const email = useField('email', "required|email");
 const yandex_appmetrica_key = useField('yandex_appmetrica_key', "");
 
-const icon = useField('icon', "image|size:2000|dimensions:" + (props.platform == 'android' ? '512,512' : '1536,1536'));
-const logo = useField('logo', "image|size:2000");
+const icon = useField('icon', "image|size:3000|dimensions:" + (props.platform == 'android' ? '512,512' : '1536,1536'));
+const logo = useField('logo', "image|size:3000");
 const previewIcon = ref();
 const previewLogo = ref();
 

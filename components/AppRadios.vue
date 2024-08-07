@@ -382,7 +382,7 @@ const sc_api_url = useField('sc_api_url', "url|required_if:is_sc_panel,1");
 const sc_server_id = useField('sc_server_id', "required_if:is_sc_panel,1");
 
 // required_if:is_sc_panel,1
-const logo = useField('logo', "image|size:2000");
+const logo = useField('logo', "image|size:3000");
 
 const title = useField('title', "required", { validateOnValueUpdate: false });
 const description = useField('description', "required", { validateOnValueUpdate: false });
