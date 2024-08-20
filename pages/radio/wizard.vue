@@ -172,7 +172,7 @@
 
               <v-text-field v-model="login.value.value" type="text" :error-messages="login.errorMessage.value"
                 name="login" :hint="$t('hosted.station_id_hint')" persistent-hint
-                :label="$t('hosted.station_id')"></v-text-field>
+                :label="$t('hosted.station_id')" maxlength="16"></v-text-field>
 
             </v-col>
           </v-row>
