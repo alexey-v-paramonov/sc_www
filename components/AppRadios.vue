@@ -368,7 +368,7 @@ let noChannels = ref(false);
 const previewLogo = ref();
 const AUDIO_FORMATS = [{ "value": "mp3", "title": 'MP3' }, { "value": "aac", "title": 'AAC' }, { "value": "flac", "title": 'FLAC' }];
 const BITRATES_MP3 = [16, 24, 32, 48, 64, 96, 128, 160, 192, 256, 320];
-const SERVER_TYPES = [{ "value": "icecast", "title": 'Icecast' }, { "value": "shoutcast", "title": 'Shoutcast' }];
+const SERVER_TYPES = [{ "value": "icecast", "title": 'Icecast' }, { "value": "shoutcast", "title": 'Shoutcast' }, { "value": "hls", "title": 'HLS' }];
 
 
 const { handleSubmit, isSubmitting: isAppRadioBusy, setErrors } = useForm({
