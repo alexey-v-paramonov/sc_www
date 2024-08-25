@@ -180,7 +180,8 @@
                                         </td>
 
                                         <td>
-                                            {{ stream.bitrate }}kbps
+                                            <span v-if="stream.server_type == 'hls'">-</span>
+                                            <span v-else>{{ stream.bitrate }}kbps</span>
                                         </td>
 
                                         <td>
@@ -243,7 +244,7 @@
                                 </v-col>
                             </v-row>
                             <v-row no-gutters>
-                                <v-col cols="4">
+                                <v-col cols="4" v-if="new_channel_server_type.value.value != 'hls'">
                                     <v-select v-model="new_channel_bitrate.value.value"
                                         :items="BITRATES_MP3" item-title="id"
                                         item-value="id" :label="$t('app.radio.channels.bitrate')"
