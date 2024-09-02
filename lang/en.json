@@ -388,7 +388,8 @@
         "errors":{
             "keywords": {
                 "maxlength": "100 characters maximum"
-            }
+            },
+            "hls_not_m3u8": "HLS stream should have .m3u8 extension"
         },
         "radio": {
             "toolbar": "Application radio",

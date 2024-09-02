@@ -551,6 +551,14 @@ function addStream() {
         setErrors({ ['new_channel_stream_url']: t(`errors.required`) });
         return;
     }
+    if(new_channel_server_type.value.value == 'hls'){
+        var parser = document.createElement('a'); 
+        parser.href = new_channel_stream_url.value.value;
+        if(parser.pathname.split('.').pop().toLowerCase() != 'm3u8'){
+            setErrors({ ['new_channel_stream_url']: t(`app.errors.hls_not_m3u8`) });
+            return;
+        }
+    }
 
     radioStreams.value.push({
         stream_url: new_channel_stream_url.value.value,
