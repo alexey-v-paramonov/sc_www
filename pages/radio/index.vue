@@ -112,7 +112,7 @@
             <tr v-if="hosted_radios && hosted_radios.length > 0 && !hosted_radios_loading" v-for="item in hosted_radios" :key="item.name">
               <td>
                 <div>{{ item.login }}</div>
-                <div v-if="item.status == RADIO_STATUS.READY || item.status == RADIO_STATUS.SUSPENDED || item.status == RADIO_STATUS.BEING_DELETED"><a :href="'https://' + item.login + '.' + item.server_data.nodename + '.radio-tochka.com:8080'" target="_blank">https://{{item.login}}.{{ item.server_data.nodename }}.radio-tochka.com:8080</a></div>
+                <div v-if="item.status == RADIO_STATUS.READY || item.status == RADIO_STATUS.SUSPENDED || item.status == RADIO_STATUS.BEING_DELETED"><a :href="'https://' + item.login + '.' + item.server_data.nodename + '.radio-tochka.com:8080'" target="_blank">https://{{item.login}}{{ item.server_data.nodename == 's01' ? '' : `.${item.server_data.nodename}` }}.radio-tochka.com:8080</a></div>
               </td>
               <td>
                 <v-chip v-if="item.status == RADIO_STATUS.PENDING || item.status == RADIO_STATUS.BEING_CREATED" variant="flat" color="green">{{ $t('hosted.status.being_created') }}</v-chip>
