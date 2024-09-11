@@ -94,8 +94,8 @@
         <div class="text-h6">{{ val['title'][locale] }}</div>
 
         <div class="font-italic" v-if="val['note'][locale]">{{ val['note'][locale] }}</div>
-        <div class="ma-4">{{ $t('billing.invoice_request.service_fee') }}: <strong>{{ val['fee'] }}%</strong></div>
-        <div class="ma-4 v-html-content" v-html="val['html'][locale]"></div>
+        <div class="ma-4" v-if="val['fee'] != null">{{ $t('billing.invoice_request.service_fee') }}: <strong>{{ val['fee'] }}%</strong></div>
+        <div class="ma-4 v-html-content" v-if="val['html'][locale]" v-html="val['html'][locale]"></div>
 
       </v-col>
     </v-row>
