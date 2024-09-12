@@ -138,6 +138,7 @@
         "legal": "Legal",
         "status": {
             "being_created": "Being created",
+            "being_deleted": "Being deleted",
             "running": "Running",
             "suspended": "Suspended",
             "error": "Error"
