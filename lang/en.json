@@ -109,6 +109,8 @@
         "radio": {
             "title": "Self hosted radio"
         },
+        "username": "Username for this account",
+        "password_hint": "The password is generated upon account creation and sent to your email:",
         "status": {
             "being_created": "The software is being configured",
             "running": "Running",

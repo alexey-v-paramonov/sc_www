@@ -186,6 +186,12 @@
                     v-else>.radio-tochka.com</template>
                 </p>
               </blockquote>
+              <v-alert type="info">
+                <strong>{{ $t('self_hosted.username') }}:</strong> {{ login.value.value }}
+                <br />
+                <strong>{{ $t('password') }}:</strong> {{ $t('self_hosted.password_hint') }} {{stateUser.user.email}}
+              </v-alert>
+
             </v-col>
           </v-row>
 
