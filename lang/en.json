@@ -392,6 +392,13 @@
             "keywords": {
                 "maxlength": "100 characters maximum"
             },
+            "icon": {
+                "image_is_not_png": "Image format is not PNG",
+                "png_is_transparent": "iOS icon must be without Alpha channel (transparency)"
+            },
+            "logo": {
+                "image_is_not_png": "Image format is not PNG"
+            },
             "hls_not_m3u8": "HLS stream should have .m3u8 extension"
         },
         "radio": {
