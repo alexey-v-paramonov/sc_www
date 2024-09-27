@@ -33,7 +33,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="charge in charges" :key="charge.id">
+            <tr v-for="(charge, index) in charges" :key="charge.id" :class="{'interleaved-table-row': index > 0 &&  charges[index-1].created != charge.created}">
               <td>{{ charge.created }}</td>
               <td>
                 <span v-if="charge.service_type == 1">{{ $t('billing.service_self_hosted') }}: </span>
