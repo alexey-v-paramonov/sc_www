@@ -33,7 +33,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(charge, index) in charges" :key="charge.id" :class="{'interleaved-table-row': index > 0 &&  charges[index-1].created != charge.created}">
+            <tr v-for="(charge, index) in charges" :key="charge.id" :class="{'interleaved-table-row': charge.another_day}">
               <td>{{ charge.created }}</td>
               <td>
                 <span v-if="charge.service_type == 1">{{ $t('billing.service_self_hosted') }}: </span>
@@ -141,6 +141,15 @@ async function getUserPayments() {
   const ret = await fetchAuth(`${config.public.baseURL}/charges/`, {
     method: 'GET',
   });
+  let created;
+  let changed = false;
+  for(let i = 0; i < ret.charges.length; i++){
+    if(ret.charges[i].created != created){
+      created = ret.charges[i].created;
+      changed = !changed;
+    }
+    ret.charges[i].another_day = changed;
+  }
   charges.value = ret.charges;
 }
 
