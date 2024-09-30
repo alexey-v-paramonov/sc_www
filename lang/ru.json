@@ -277,7 +277,7 @@
         "send_push": "Отправить PUSH уведомление",
         "send_push_cta": "Отправить PUSH",
         "push_title": "Заголовок",
-        "push_text": "Message text",
+        "push_text": "Текст сообщения",
         "push_failed": "Не удалось отправить PUSH уведомление",
         "push_success": "PUSH уведомление успешно отправлено",
         "publishing": {
