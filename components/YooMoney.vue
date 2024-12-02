@@ -67,7 +67,7 @@ function generateReceipt() {
       },
       "tax": 1,
       "text": "Право использования сервиса Радио-Точка",
-      "paymentMethodType": "full_prepayment",
+      "paymentMethodType": "full_payment",
       "paymentSubjectType": "service"
     }]
   });
