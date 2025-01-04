@@ -128,6 +128,12 @@
               <v-col md="12">
                 {{ $t('self_hosted.install_command') }}:<br />
                 <b>bash &lt;(wget -qO- https://streaming.center/dist/install.sh)</b>
+                <br />
+                <br />
+
+                <p v-if="locale=='ru'">
+                  {{ $t('self_hosted.install_video') }}: <a href="https://rutube.ru/video/26efe7a3aed816dcbf1db1325c14457c/" target="_blank"><u>{{ $t('watch_video') }}</u></a>
+                </p>
               </v-col>
             </v-row>
 

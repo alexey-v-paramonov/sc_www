@@ -15,6 +15,7 @@
     "loading": "Loading...",
     "account_creation_hint": "Don't have an account?",
     "save": "Save",
+    "watch_video": "Смотреть на YouTube",
 
     "welcome": "Welcome",
     "welcome_message": "Please sign-in to your account and start exploring",
@@ -106,6 +107,7 @@
         "root_password_hint": "SSH password",
         "server_port": "SSH port: 22 by default",
         "install_command": "To install the software, run this command in the server terminal and follow the installation script instructions",
+        "install_video": "The full installation process can be viewed in this video",
         "radio": {
             "title": "Self hosted radio"
         },
