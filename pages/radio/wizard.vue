@@ -131,6 +131,10 @@
                 <br />
                 <br />
 
+                <p v-if="locale=='en'">
+                  {{ $t('self_hosted.install_video') }}: <a href="https://youtu.be/E6Q3_xGWCQI" target="_blank"><u>{{ $t('watch_video') }}</u></a>
+                </p>
+
                 <p v-if="locale=='ru'">
                   {{ $t('self_hosted.install_video') }}: <a href="https://rutube.ru/video/26efe7a3aed816dcbf1db1325c14457c/" target="_blank"><u>{{ $t('watch_video') }}</u></a>
                 </p>
