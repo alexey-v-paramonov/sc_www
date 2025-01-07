@@ -136,7 +136,7 @@
                 </p>
 
                 <p v-if="locale=='ru'">
-                  {{ $t('self_hosted.install_video') }}: <a href="https://rutube.ru/video/26efe7a3aed816dcbf1db1325c14457c/" target="_blank"><u>{{ $t('watch_video') }}</u></a>
+                  {{ $t('self_hosted.install_video') }}: <a href="https://vkvideo.ru/video190379704_456239024" target="_blank"><u>{{ $t('watch_video') }}</u></a>
                 </p>
               </v-col>
             </v-row>
