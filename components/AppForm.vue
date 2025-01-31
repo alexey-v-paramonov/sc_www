@@ -35,7 +35,7 @@
                         <v-btn variant="tonal" class="mt-3" v-if="isAndroid()" :href="aabLink" prepend-icon="mdi-download-box" color="accent">{{ $t('app.download_aab') }}</v-btn>
                         <div v-if="!isAndroid()">{{ $t('app.ios_ready') }}</div>
                     </div>
-                    <div class="mt-3" v-if="appData.is_paid && appData.status != 1">
+                    <div class="mt-3" v-if="appData.missing_parts.length == 0 appData.status != 1">
                         <v-btn variant="tonal" prepend-icon="mdi-wrench" color="accent" @click="buildApplication()">{{ $t('app.build') }}</v-btn>
                     </div>
                     <div class="mt-3" v-if="appData.status == 1">
