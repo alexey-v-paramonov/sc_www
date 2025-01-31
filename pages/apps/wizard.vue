@@ -70,7 +70,7 @@
       <v-row>
         <v-col>
           <v-radio-group v-model="publication_type.value.value" name="publication_type">
-            <v-radio value="1">
+            <v-radio value="0">
               <template #label>
                 <div>
                   {{ $t('apps.publishing.sc') }}
@@ -78,7 +78,7 @@
               </template>
             </v-radio>
             <br />
-            <v-radio value="2">
+            <v-radio value="1">
               <template #label>
                 <div>
                   {{ $t('apps.publishing.other') }}
@@ -86,7 +86,7 @@
               </template>
             </v-radio>
             <br />
-            <v-radio value="3" v-if="isAndroid()">
+            <v-radio value="2" v-if="isAndroid()">
               <template #label>
                 <div>
                   {{ $t('apps.publishing.no') }}
@@ -239,7 +239,7 @@ function isIos() {
 
 
 function platformChanged() {
-  publication_type.value.value = "1";
+  publication_type.value.value = "0";
 }
 
 const appPrice = computed(() => {
@@ -258,7 +258,7 @@ const appPrice = computed(() => {
 
   if (isAndroid()) {
     price += baseAndroidPrice;
-    if (publication_type.value.value != '3') {
+    if (publication_type.value.value != '2') {
       if (locale.value == 'ru') {
         price += 2000;
       }
