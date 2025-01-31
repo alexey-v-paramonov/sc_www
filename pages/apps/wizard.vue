@@ -294,6 +294,7 @@ const onAppSubmit = handleSubmit(async values => {
   values.user = stateUser.user.id;
   values.email = stateUser.user.email;
   values.copyright_type = parseInt(values.copyright_type);
+  values.publication_type = parseInt(values.publication_type);
 
   const platform = isAndroid() ? "android" : "ios";
 
