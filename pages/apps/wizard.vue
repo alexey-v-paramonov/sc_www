@@ -69,7 +69,7 @@
 
       <v-row>
         <v-col>
-          <v-radio-group v-model="publishing_type.value.value" name="publishing_type">
+          <v-radio-group v-model="publication_type.value.value" name="publication_type">
             <v-radio value="1">
               <template #label>
                 <div>
@@ -222,12 +222,12 @@ const title = useField('title', "required|max:30");
 const copyright_type = useField('copyright_type', "required");
 const copyright_title = useField('copyright_title');
 const copyright_url = useField('copyright_url', 'url');
-const publishing_type = useField('publishing_type', "required");
+const publication_type = useField('publication_type', "required");
 const comment = useField('comment');
 
 // Initial values
 copyright_type.value.value = "0";
-publishing_type.value.value = "1";
+publication_type.value.value = "0";
 
 function isAndroid() {
   return platform.value == '1';
@@ -239,7 +239,7 @@ function isIos() {
 
 
 function platformChanged() {
-  publishing_type.value.value = "1";
+  publication_type.value.value = "1";
 }
 
 const appPrice = computed(() => {
@@ -258,7 +258,7 @@ const appPrice = computed(() => {
 
   if (isAndroid()) {
     price += baseAndroidPrice;
-    if (publishing_type.value.value != '3') {
+    if (publication_type.value.value != '3') {
       if (locale.value == 'ru') {
         price += 2000;
       }
