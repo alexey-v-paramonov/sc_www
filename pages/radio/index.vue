@@ -112,7 +112,9 @@
             <tr v-if="hosted_radios && hosted_radios.length > 0 && !hosted_radios_loading" v-for="item in hosted_radios" :key="item.name">
               <td>
                 <div>{{ item.login }}</div>
-                <div v-if="item.status == RADIO_STATUS.READY || item.status == RADIO_STATUS.SUSPENDED || item.status == RADIO_STATUS.BEING_DELETED"><a :href="'https://' + item.login + (item.server_data.nodename == 's01' ? '' : `.${item.server_data.nodename}`) + '.radio-tochka.com:8080'" target="_blank">https://{{item.login}}{{ item.server_data.nodename == 's01' ? '' : `.${item.server_data.nodename}` }}.radio-tochka.com:8080</a></div>
+                <div v-if="item.status == RADIO_STATUS.READY || item.status == RADIO_STATUS.SUSPENDED || item.status == RADIO_STATUS.BEING_DELETED">
+                  <a :href="accountLink(item)" target="_blank">{{ accountLink(item) }}</a>
+                </div>
               </td>
               <td>
                 <v-chip v-if="item.status == RADIO_STATUS.PENDING || item.status == RADIO_STATUS.BEING_CREATED" variant="flat" color="green">{{ $t('hosted.status.being_created') }}</v-chip>
@@ -186,9 +188,11 @@
 
 <script setup>
 import { ref } from 'vue';
-
 import { useUserStore } from '~/stores/user'
+
 const stateUser = useUserStore()
+const { locale } = useI18n();
+
 
 import { useDisplay } from 'vuetify'
 const display = ref(useDisplay())
@@ -258,6 +262,13 @@ function deleteRadio(radio) {
     }
   })
 }
+
+function accountLink(radio){
+  const nodeName = (radio.server_data.nodename == 's01' || locale.value == 'en') ? '' : `.${radio.server_data.nodename}`;
+  const serverName = locale.value == 'ru' ? 'radio-tochka.com' : 'streaming.center';
+  return `https://${radio.login}${nodeName}.${serverName}:8080`;
+}
+
 
 </script>
 
