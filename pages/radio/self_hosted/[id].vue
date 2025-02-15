@@ -74,6 +74,8 @@ const stateUser = useUserStore()
 const router = useRouter();
 const route = useRoute()
 const config = useRuntimeConfig();
+const { t } = useI18n();
+
 
 const { data: radioData, pending, error, refresh } = await useFetchAuth(`${config.public.baseURL}/self_hosted_radio/${route.params.id}/`);
 
