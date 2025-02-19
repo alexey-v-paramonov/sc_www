@@ -12,7 +12,12 @@
                     <div class="ga-2 mt-2">
 
                         <v-chip class="mr-2 mt-1" color="secondary" variant="flat" v-for="missing_code in appData.missing_parts">
-                            <v-icon class="mr-2" icon="mdi-pan-right" />{{ $t('app.missing.' + missing_code) }}
+                            <template v-if="missing_code == 'payment'">
+                                <v-icon class="mr-2" icon="mdi-pan-right" />{{ $t('app.missing.' + missing_code) }}: {{ appData.price }} {{ $t('currency') }}
+                            </template>
+                            <template v-else>
+                                <v-icon class="mr-2" icon="mdi-pan-right" />{{ $t('app.missing.' + missing_code) }}
+                            </template>
                         </v-chip>
                     </div>
                 </template>
