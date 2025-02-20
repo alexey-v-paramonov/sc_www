@@ -19,11 +19,17 @@
                                 <v-icon class="mr-2" icon="mdi-pan-right" />{{ $t('app.missing.' + missing_code) }}
                             </template>
                         </v-chip>
+
+                        <v-chip class="mr-2 mt-1" color="warning" variant="flat" v-if="!appData.is_paid && appData.test_days_left > 0">
+                            {{ $t('app.test_days_left') }}: {{ appData.test_days_left }}
+                        </v-chip>
+
                     </div>
+                    <br />
+
                 </template>
-                <template v-else>
-
-
+                
+                <template v-if="appData.missing_parts.length == 0 || (appData.missing_parts.length == 1 && appData.missing_parts[0] == 'payment' && isAndroid() && appData.test_days_left > 0)">
                     <v-chip v-if="appData.status == 0" variant="flat" color="default">{{ $t('app.buil_status.default') }}</v-chip>
                     <v-chip v-if="appData.status == 1" variant="flat" color="primary">{{ $t('app.buil_status.queued') }}</v-chip>
                     <v-chip v-if="appData.status == 2" variant="flat" color="accent">
@@ -40,7 +46,7 @@
                         <v-btn variant="tonal" class="mt-3" v-if="isAndroid()" :href="aabLink" prepend-icon="mdi-download-box" color="accent">{{ $t('app.download_aab') }}</v-btn>
                         <div v-if="!isAndroid()">{{ $t('app.ios_ready') }}</div>
                     </div>
-                    <div class="mt-3" v-if="appData.missing_parts.length == 0 && appData.status != 1">
+                    <div class="mt-3" v-if="(appData.missing_parts.length == 0 || appData.missing_parts[0] == 'payment' && isAndroid()) && appData.status != 1">
                         <v-btn variant="tonal" prepend-icon="mdi-wrench" color="accent" @click="buildApplication()">{{ $t('app.build') }}</v-btn>
                     </div>
                     <div class="mt-3" v-if="appData.status == 1">

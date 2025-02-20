@@ -356,6 +356,7 @@
             "info": "Fill in all the required fields in the 'Info' section below",
             "radio": "Add at least one radio to your application"
         },
+        "test_days_left": "Days left for testing",
         "tabs": {
             "info": "Information",
             "design": "Design",
