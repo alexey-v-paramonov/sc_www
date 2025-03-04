@@ -54,6 +54,8 @@
                 <br />
                 {{ $t('apps.android_empty') }}
                 <br />
+                <div class="h4 mt-4 mb-3">{{ $t('apps.android_free_try') }}</div>
+                <br />
                 <br />
 
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/SMSvpNqAAFU?si=gl1Eh_WPYsmVzDDB"

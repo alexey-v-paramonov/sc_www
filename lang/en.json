@@ -270,6 +270,7 @@
         "comments": "Additional comments or feature requests",
         "submit": "Start creating an application",
         "android_empty": "You do not have any Android applications yet",
+        "android_free_try": "Create an Android app completely free of charge! You are given a full 5-day trial version, allowing you to test everything and only pay afterward.",
         "android_sample_apps": "We have created more than 200 mobile applications for streaming radios, check out some of them in our ",
         "ios_empty": "You do not have any iOS applications yet",
         "ios_sample_apps": "We have created more than 200 mobile applications for streaming radios, check out some of them in our ",
