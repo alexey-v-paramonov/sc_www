@@ -153,6 +153,7 @@
         <v-col md="12">
           <div class="text-h5">{{ $t('apps.price') }}: {{ appPrice }} {{ $t('currency') }}</div>
           <div class="text-caption mt-2">{{ $t('apps.price_description') }}</div>
+          <div class="text-caption mt-2 font-weight-bold" v-if="isAndroid()">{{ $t('apps.free_5_days') }}</div>
         </v-col>
       </v-row>
 

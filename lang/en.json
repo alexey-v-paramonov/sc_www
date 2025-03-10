@@ -260,6 +260,7 @@
         "wizard": "Create mobile app",
         "price": "Price",
         "price_description": "One-time payment, no recurring charges. You you want additional custom features in your application - please contact us, the price may change according to your requirements",
+        "free_5_days": "You are given a full 5-day trial version, allowing you to test everything and only pay afterward.",
         "note1": "Any additional features to the application are available per request. Please contact support to find out the price of custom development.",
         "note2": "We recommend starting with creating an Android application cause you can download and test APK file right away and test it eithout publishing to the app store and just copy design and settings into iOS app later.",
         "note3": "The source code for a standard non-customized application is not provided.",
