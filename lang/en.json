@@ -433,6 +433,14 @@
                 "server_type": "Server",
                 "empty": "Your radio does not have any streams yes, please add a new stream using the form below",
                 "add_new": "Add stream"
+            },
+            "social_links":{
+                "title": "Social links",
+                "add_new_title": "Add new social link",
+                "type": "Resource type",
+                "link_title": "Title",
+                "add_new": "Add resource",
+                "value": "Value"
             }
 
         }

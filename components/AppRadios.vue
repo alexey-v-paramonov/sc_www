@@ -276,6 +276,118 @@
                         </v-col>
                     </v-row>
 
+
+                    <!-- Social links -->
+                    <v-row no-gutters>
+                        <v-col cols="12">
+                            <div class="text-h5 text-center">{{ $t('app.radio.social_links.title') }}</div>
+                        </v-col>
+                    </v-row>
+
+                    <v-row>
+                        <v-col cols="12">
+                            <v-table>
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            {{ $t('app.radio.social_links.type') }}
+                                        </th>
+                                        <!--<th>
+                                            {{ $t('app.radio.social_links.link_title') }}
+                                        </th>-->
+                                        <th>
+                                            {{ $t('app.radio.social_links.value') }}
+                                        </th>
+                                        <th>
+                                            &nbsp;
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-if="socialLinks && socialLinks.length > 0 && !pending"
+                                        v-for="(social_link, index) in socialLinks">
+                                        <td>
+                                            {{ social_link.type }}
+                                        </td>
+
+                                        <!--<td>
+                                            {{ social_link.title }}
+                                        </td>-->
+
+                                        <td>
+                                            <span v-if="social_link.type == 'phone'">-</span>
+                                            <span v-if="social_link.type == 'email'">-</span>
+                                            <span v-else>{{ social_link.value }}</span>
+                                        </td>
+
+                                        <td>
+                                            <v-btn icon="mdi-menu-up" :disabled="index == 0"
+                                                @click="setSocialLinkOrder(index, index - 1)"></v-btn>
+                                            <v-btn icon="mdi-menu-down" :disabled="index == (socialLinks.length - 1)"
+                                                @click="setSocialLinkOrder(index, index + 1)"></v-btn>&nbsp;
+                                            <v-btn icon="mdi-delete" @click="deleteSocialLink(index)"></v-btn>
+                                        </td>
+                                    </tr>
+
+                                    <tr v-else-if="pending">
+                                        <td colspan="10" class="text-center"><v-progress-circular
+                                                indeterminate></v-progress-circular>
+                                        </td>
+                                    </tr>
+
+                                    <tr v-else>
+                                        <td class="text-center" colspan="10">
+                                            <br />
+
+                                            <v-alert v-if="noSocialLinks" color="error" closable border="start"
+                                                icon="mdi-message-alert" :text="$t('app.radio.channels.empty')"></v-alert>
+
+                                            <p v-else>
+                                                {{ $t('app.radio.channels.empty') }}
+                                            </p>
+
+                                            <br />
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </v-table>
+                        </v-col>
+                    </v-row>
+
+                    <!-- New Social Link form -->
+                    <v-row no-gutters md="12">
+                        <v-col cols="12">
+
+                            <div class="text-h5 text-center">{{ $t('app.radio.social_links.add_new_title') }}</div>
+                            <v-row no-gutters>
+                                <v-col cols="3">
+                                    <v-select v-model="new_social_link_type.value.value"
+                                        :error-messages="new_social_link_type.errorMessage.value"
+                                        :items="SOCIAL_LINK_TYPES" item-title="title"
+                                        item-value="value" :label="$t('app.radio.social_links.type')"
+                                        single-line></v-select>
+                                </v-col>
+
+                                <v-col cols="9">
+                                    <v-text-field v-model="new_social_link_value.value.value" type="url"
+                                        :error-messages="new_social_link_value.errorMessage.value"
+                                        maxlength="255"
+                                        name="new_social_link_value"
+                                        :label="$t('app.radio.social_links.value')"></v-text-field>
+                                </v-col>
+
+                            </v-row>
+                        </v-col>
+                    </v-row>
+
+                    <v-row  no-gutters>
+                        <v-col cols="12">
+                            <v-btn :disabled="isAppRadioBusy" block class="mt-2" @click="addSocialLink()" color="secondary">{{
+                                $t('app.radio.social_links.add_new') }}</v-btn>
+                        </v-col>
+                    </v-row>                    
                     <v-row>
                         <v-col cols="12">
 
@@ -362,7 +474,9 @@ const deleteRadioSuccess = ref(false);
 const deleteRadioFailed = ref(false);
 const changeOrderSuccess = ref(false);
 let radioStreams = ref([]);
+let socialLinks = ref([]);
 let noChannels = ref(false);
+let noSocialLinks = ref(false);
 
 
 
@@ -371,6 +485,34 @@ const AUDIO_FORMATS = [{ "value": "mp3", "title": 'MP3' }, { "value": "aac", "ti
 const BITRATES_MP3 = [16, 24, 32, 48, 64, 96, 128, 160, 192, 256, 320];
 const SERVER_TYPES = [{ "value": "icecast", "title": 'Icecast' }, { "value": "shoutcast", "title": 'Shoutcast' }, { "value": "hls", "title": 'HLS' }];
 
+const is_ru = locale.value == 'ru';
+
+let SOCIAL_LINK_TYPES = [
+    { "value": "phone", "title": is_ru ? "Телефон" : "Phone" }, 
+    { "value": "email", "title": 'Email' }, 
+    { "value": "website", "title": is_ru ? "Web-сайт" : "Website" }, 
+    { "value": "instagram", "title": 'Instagram' }, 
+    { "value": "facebook", "title": 'Facebook' }, 
+    { "value": "youtube", "title": 'Youtube' }, 
+    { "value": "watsapp", "title": 'Watsapp' }, 
+    { "value": "telegram", "title": 'Telegram' }, 
+    { "value": "linkedin", "title": 'LinkedIn' }, 
+    { "value": "tiktok", "title": 'TikTok' }, 
+    { "value": "pinterest", "title": 'Pinterest' }, 
+    { "value": "snapchat", "title": 'Snapchat' }, 
+    { "value": "reddit", "title": 'Reddit' }, 
+    { "value": "discord", "title": 'Discord' }, 
+    { "value": "wechat", "title": 'WeChat' }, 
+    { "value": "x", "title": 'X/Twitter' }, 
+    { "value": "twitch", "title": 'Twitch' }, 
+    { "value": "rutube", "title": 'RuTube' }, 
+    { "value": "vk", "title": is_ru ? "Вконтакте" : 'Vkontakte' }, 
+    { "value": "ok", "title": is_ru ? "Одноклассники" : 'Odnoklassniki' }, 
+]
+
+if (locale.value == 'ru') {
+    SOCIAL_LINK_TYPES = SOCIAL_LINK_TYPES.filter(type => type.value !== 'facebook' && type.value !== 'instagram');
+}
 
 const { handleSubmit, isSubmitting: isAppRadioBusy, setErrors } = useForm({
     initialValues: {
@@ -395,6 +537,9 @@ const new_channel_stream_url = useField('new_channel_stream_url', "url");
 const new_channel_bitrate = useField('new_channel_bitrate',);
 const new_channel_audio_format = useField('new_channel_audio_format',);
 const new_channel_server_type = useField('new_channel_server_type',);
+
+const new_social_link_type = useField('new_social_link_type');
+const new_social_link_value = useField('new_social_link_value');
 
 
 new_channel_bitrate.value.value = 128;
@@ -453,6 +598,14 @@ function setChannelOrder(index, indexNew) {
 
 }
 
+function setSocialLinkOrder(index, indexNew) {
+    if (indexNew < 0 || indexNew >= socialLinks.value.length) {
+        return;
+    }
+    [socialLinks.value[index], socialLinks.value[indexNew]] = [socialLinks.value[indexNew], socialLinks.value[index]];
+
+}
+
 async function generateLogoPreview() {
     const { valid } = await logo.validate();
     previewLogo.value = valid && logo.value.value[0] ? URL.createObjectURL(logo.value.value[0]) : undefined;
@@ -496,6 +649,7 @@ function openRadioDialog(r = null) {
             checkSCPanelURL(false);
         }
         radioStreams.value = [...r.channels];
+        socialLinks.value = [...r.social_links];
 
     }
     else {
@@ -515,6 +669,7 @@ function resetRadioForm(){
     new_channel_audio_format.value.value = AUDIO_FORMATS[0].value;
     new_channel_server_type.value.value = SERVER_TYPES[0].value;
     radioStreams.value = [];
+    socialLinks.value = [];
 
 }
 
@@ -545,6 +700,12 @@ function deleteChannel(channel_index){
     radioStreams.value.splice(channel_index, 1);
 }
 
+function deleteSocialLink(link_index){
+    socialLinks.value.splice(link_index, 1);
+}
+
+
+
 function addStream() {
     noChannels.value = false;
     if(!new_channel_stream_url.value.value){
@@ -567,11 +728,34 @@ function addStream() {
         audio_format: new_channel_audio_format.value.value,
         server_type: new_channel_server_type.value.value,
     });
+
     new_channel_stream_url.value.value = '';
     new_channel_bitrate.value.value = 128;
     new_channel_audio_format.value.value = AUDIO_FORMATS[0].value;
     new_channel_server_type.value.value = SERVER_TYPES[0].value;
 
+}
+
+function addSocialLink() {
+    noChannels.value = false;
+    if(!new_social_link_type.value.value){
+        console.log("???")
+        setErrors({ ['new_social_link_type']: t(`errors.required`) });
+        return;
+    }
+    if(!new_social_link_value.value.value){
+        setErrors({ ['new_social_link_value']: t(`errors.required`) });
+        return;
+    }
+
+    socialLinks.value.push({
+        type: new_social_link_type.value.value,
+        //title: new_channel_bitrate.value.value,
+        value: new_social_link_value.value.value,
+    });
+
+    new_social_link_type.value.value = null;
+    new_social_link_value.value.value = "";
 }
 
 function isScRadio(){
