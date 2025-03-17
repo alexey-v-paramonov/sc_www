@@ -539,7 +539,34 @@ const new_channel_audio_format = useField('new_channel_audio_format',);
 const new_channel_server_type = useField('new_channel_server_type',);
 
 const new_social_link_type = useField('new_social_link_type');
-const new_social_link_value = useField('new_social_link_value');
+const new_social_link_value = useField('new_social_link_value', value => {
+  if (!value) {
+    return t(`errors.required`);
+  }
+  // Validate URL format for relevant social link types
+  if (new_social_link_type.value.value !== 'phone' && 
+        new_social_link_type.value.value !== 'email') {
+    
+    const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/;
+    
+    if (!urlPattern.test(value)) {
+        return t('app.radio.social_links.errors.invalid_url');
+    }
+  } 
+  else if (new_social_link_type.value.value === 'email') {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(value)) {
+        return t('app.radio.social_links.errors.invalid_email');
+    }
+  } 
+  else if (new_social_link_type.value.value === 'phone') {
+    const phonePattern = /^\+?[\d\s-()]+$/;
+    if (!phonePattern.test(value)) {
+        return t('app.radio.social_links.errors.invalid_phone');
+    }
+  }
+  return true;
+});
 
 
 new_channel_bitrate.value.value = 128;
@@ -738,15 +765,6 @@ function addStream() {
 
 function addSocialLink() {
     noChannels.value = false;
-    if(!new_social_link_type.value.value){
-        console.log("???")
-        setErrors({ ['new_social_link_type']: t(`errors.required`) });
-        return;
-    }
-    if(!new_social_link_value.value.value){
-        setErrors({ ['new_social_link_value']: t(`errors.required`) });
-        return;
-    }
 
     socialLinks.value.push({
         type: new_social_link_type.value.value,
