@@ -545,35 +545,8 @@ const new_channel_bitrate = useField('new_channel_bitrate',);
 const new_channel_audio_format = useField('new_channel_audio_format',);
 const new_channel_server_type = useField('new_channel_server_type',);
 
-const new_social_link_type = useField('new_social_link_type', "required");
-const new_social_link_value = useField('new_social_link_value', value => {
-  if (!value) {
-    return t(`errors.required`);
-  }
-  // Validate URL format for relevant social link types
-  if (new_social_link_type.value.value !== 'phone' && 
-        new_social_link_type.value.value !== 'email') {
-    
-    const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/;
-    
-    if (!urlPattern.test(value)) {
-        return t('errors.ip_invalid');
-    }
-  } 
-  else if (new_social_link_type.value.value === 'email') {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(value)) {
-        return t('errors.email');
-    }
-  } 
-  else if (new_social_link_type.value.value === 'phone') {
-    const phonePattern = /^\+?[\d\s-()]+$/;
-    if (!phonePattern.test(value)) {
-        return t('errors.phone');
-    }
-  }
-  return true;
-});
+const new_social_link_type = useField('new_social_link_type');
+const new_social_link_value = useField('new_social_link_value');
 
 
 new_channel_bitrate.value.value = 128;
@@ -706,9 +679,12 @@ function resetRadioForm(){
     new_channel_bitrate.value.value = 128;
     new_channel_audio_format.value.value = AUDIO_FORMATS[0].value;
     new_channel_server_type.value.value = SERVER_TYPES[0].value;
+
+    new_social_link_type.resetField();
+    new_social_link_value.resetField();
+
     radioStreams.value = [];
     socialLinks.value = [];
-
 }
 
 function deleteRadio(r) {
@@ -776,13 +752,38 @@ function addStream() {
 
 async function addSocialLink() {
 
-    // Validate the input fields before adding
-    const { valid: typeValid } = await new_social_link_type.validate();
-    const { valid: valueValid } = await new_social_link_value.validate();
-
-    if (!typeValid || !valueValid) {
-        // Don't proceed if validation fails
+    if(!new_social_link_type.value.value){
+        setErrors({ ['new_social_link_type']: t(`errors.required`) });
         return;
+    }
+    if(!new_social_link_value.value.value){
+        setErrors({ ['new_social_link_value']: t(`errors.required`) });
+        return;
+    }
+    // Validate URL format for relevant social link types
+    if (new_social_link_type.value.value !== 'phone' && 
+            new_social_link_type.value.value !== 'email') {
+        
+        const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/;
+        
+        if (!urlPattern.test(new_social_link_value.value.value)) {
+            setErrors({ ['new_social_link_value']: t('errors.ip_invalid') });
+            return;
+        }
+    } 
+    else if (new_social_link_type.value.value === 'email') {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(new_social_link_value.value.value)) {
+            setErrors({ ['new_social_link_value']: t('errors.email') });
+            return;
+        }
+    } 
+    else if (new_social_link_type.value.value === 'phone') {
+        const phonePattern = /^\+?[\d\s-()]+$/;
+        if (!phonePattern.test(new_social_link_value.value.value)) {
+            setErrors({ ['new_social_link_value']: t('errors.phone') });
+            return;
+        }
     }
 
     socialLinks.value.push({
@@ -792,8 +793,9 @@ async function addSocialLink() {
     });
     noSocialLinks.value = false;
 
-    new_social_link_type.value.value = null;
-    new_social_link_value.value.value = "";
+    new_social_link_type.resetField();
+    new_social_link_value.resetField();
+
 }
 
 function isScRadio(){
@@ -828,6 +830,9 @@ async function saveAppRadioRequest(values) {
     var blob = new Blob([JSON.stringify(radioStreams.value)], {type: "application/json"});
     formData.append('channels', blob);
 
+    blob = new Blob([JSON.stringify(socialLinks.value)], {type: "application/json"});
+    formData.append('social_links', blob);
+
 
     return await fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/radios/` + (isEditMode? appRadio.value.id + '/' : ''), {
         method: isEditMode ? 'PUT' : 'POST',
@@ -837,6 +842,7 @@ async function saveAppRadioRequest(values) {
 
 
 const onAppRadioSubmit = handleSubmit(async values => {
+
     noChannels.value = false;
 
     const isEditMode = Boolean(appRadio.value.id);
