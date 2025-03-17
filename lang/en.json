@@ -153,6 +153,9 @@
     "errors": {
         "ip_invalid": "Invalid IP address",
         "required": "This field is required",
+        "url": "Invalid URL",
+        "email": "Invalid Email",
+        "phone": "Invalid phone number",
         "regex": "Incorrect value"
     },
     "nav":{
@@ -440,6 +443,7 @@
                 "type": "Resource type",
                 "link_title": "Title",
                 "add_new": "Add resource",
+                "empty": "Your radio does not have any social links yet, please add a new link using the form below",
                 "value": "Value"
             }
 

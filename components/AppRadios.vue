@@ -306,8 +306,9 @@
                                 <tbody>
                                     <tr v-if="socialLinks && socialLinks.length > 0 && !pending"
                                         v-for="(social_link, index) in socialLinks">
-                                        <td>
-                                            {{ social_link.type }}
+                                        <td >
+                                            <img :src="'/img/social_icons/'+social_link.type+'.svg'" style="vertical-align:middle;"  width="32" height="32" />
+                                            {{ getSocialLinkTitle(social_link.type) }}
                                         </td>
 
                                         <!--<td>
@@ -315,9 +316,15 @@
                                         </td>-->
 
                                         <td>
-                                            <span v-if="social_link.type == 'phone'">-</span>
-                                            <span v-if="social_link.type == 'email'">-</span>
-                                            <span v-else>{{ social_link.value }}</span>
+                                            <span v-if="social_link.type == 'phone'">
+                                                <a :href="'tel:' + social_link.value">{{ social_link.value }}</a>
+                                            </span>
+                                            <span v-else-if="social_link.type == 'email'">
+                                                <a :href="'mailto:' + social_link.value">{{ social_link.value }}</a>
+                                            </span>
+                                            <span v-else>
+                                                <a :href="social_link.value" target="_blank">{{ social_link.value }}</a>
+                                            </span>
                                         </td>
 
                                         <td>
@@ -340,10 +347,10 @@
                                             <br />
 
                                             <v-alert v-if="noSocialLinks" color="error" closable border="start"
-                                                icon="mdi-message-alert" :text="$t('app.radio.channels.empty')"></v-alert>
+                                                icon="mdi-message-alert" :text="$t('app.radio.social_links.empty')"></v-alert>
 
                                             <p v-else>
-                                                {{ $t('app.radio.channels.empty') }}
+                                                {{ $t('app.radio.social_links.empty') }}
                                             </p>
 
                                             <br />
@@ -538,7 +545,7 @@ const new_channel_bitrate = useField('new_channel_bitrate',);
 const new_channel_audio_format = useField('new_channel_audio_format',);
 const new_channel_server_type = useField('new_channel_server_type',);
 
-const new_social_link_type = useField('new_social_link_type');
+const new_social_link_type = useField('new_social_link_type', "required");
 const new_social_link_value = useField('new_social_link_value', value => {
   if (!value) {
     return t(`errors.required`);
@@ -550,19 +557,19 @@ const new_social_link_value = useField('new_social_link_value', value => {
     const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/;
     
     if (!urlPattern.test(value)) {
-        return t('app.radio.social_links.errors.invalid_url');
+        return t('errors.ip_invalid');
     }
   } 
   else if (new_social_link_type.value.value === 'email') {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(value)) {
-        return t('app.radio.social_links.errors.invalid_email');
+        return t('errors.email');
     }
   } 
   else if (new_social_link_type.value.value === 'phone') {
     const phonePattern = /^\+?[\d\s-()]+$/;
     if (!phonePattern.test(value)) {
-        return t('app.radio.social_links.errors.invalid_phone');
+        return t('errors.phone');
     }
   }
   return true;
@@ -578,6 +585,10 @@ allow_likes.value.value = "1";
 allow_dislikes.value.value = "1";
 
 const { data: appRadios, pending, error, refresh } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/radios/`);
+
+function getSocialLinkTitle(v){
+    return SOCIAL_LINK_TYPES.filter((t) => t.value == v)[0].title;
+}
 
 function getAudioFormat(v){
     return AUDIO_FORMATS.filter((t) => t.value == v)[0].title;
@@ -763,14 +774,23 @@ function addStream() {
 
 }
 
-function addSocialLink() {
-    noChannels.value = false;
+async function addSocialLink() {
+
+    // Validate the input fields before adding
+    const { valid: typeValid } = await new_social_link_type.validate();
+    const { valid: valueValid } = await new_social_link_value.validate();
+
+    if (!typeValid || !valueValid) {
+        // Don't proceed if validation fails
+        return;
+    }
 
     socialLinks.value.push({
         type: new_social_link_type.value.value,
         //title: new_channel_bitrate.value.value,
         value: new_social_link_value.value.value,
     });
+    noSocialLinks.value = false;
 
     new_social_link_type.value.value = null;
     new_social_link_value.value.value = "";
