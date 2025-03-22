@@ -10,7 +10,7 @@ import { useUserStore } from '~/stores/user'
 const stateUser = useUserStore()
 const stateUI = useUiStateStore()
 const { user } = storeToRefs(useUserStore());
-const { locale } = useI18n();
+const { locale, t } = useI18n();
 
 const sDrawer = ref(true);
 const display = ref(useDisplay())
@@ -22,11 +22,11 @@ async function getUserData() {
   stateUI.setLoading(false);
 }
 
-if( locale.value == "ru"){
-  useHead
-  ({
-    script: [{
-        innerHTML: `
+useHead
+({
+  title: t("meta.default_title"),
+  script: [{
+      innerHTML: locale.value == "ru" ? `
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 (function(){
 var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
@@ -35,11 +35,17 @@ s1.src='https://embed.tawk.to/583321647295ad7394d22ef3/default';
 s1.charset='UTF-8';
 s1.setAttribute('crossorigin','*');
 s0.parentNode.insertBefore(s1,s0);
+})();` : `var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/660e80f71ec1082f04ded5e5/1hqkafhl8';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
 })();`
-      }]
-  });
-
-}
+    }]
+});
 
 getUserData();
 
