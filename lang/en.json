@@ -24,6 +24,12 @@
     "features2": "Mobile APP",
     "features3": "Fast payment",
     "actions": "Actions",
+    "meta": {
+        "auth_title": "Streaming.center - Internet radio platform",
+        "auth_description": "Create your radio and start broadcasting on the Internet. Radio platform, mobile applications, billing and more",
+        "auth_keywords": "radio, internet radio, online radio, radio online, radio broadcasting, radio platform, radio application, radio mobile application, radio billing, radio payments"
+    },
+
     "index": {
         "builder": "Application Builder",
         "builder_desc": "Create a mobile application to broadcast your radio",

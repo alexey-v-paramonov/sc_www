@@ -89,10 +89,21 @@
 
   </v-app>
 </template>
+
 <script setup>
 import { Effect } from '#components'
-const { locale } = useI18n();
+const { locale, t } = useI18n();
+
+useHead({
+  title: t("meta.auth_title"),
+  meta: [
+    { name: 'description', content: t("meta.auth_description") },
+    { name: 'keywords', content: t("meta.auth_keywords") }
+  ],
+})
+
 </script>
+
 <style>
 .auth-card {
   position: absolute;
