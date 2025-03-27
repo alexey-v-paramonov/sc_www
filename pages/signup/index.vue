@@ -20,6 +20,12 @@
             :hint="$t('chars_min_8')" counter :error-messages="password2.errorMessage.value"
             @click:append="showPass = !showPass"></v-text-field>
 
+          <div class="mt-2 mb-4" v-if="locale == 'en'">
+            <p class="text-body-2">
+              By signing up, you agree with our <a href="https://streaming.center/agreement/" target="_blank">Terms & Conditions</a> and <a href="https://streaming.center/content/privacy_policy/" target="_blank">Privacy Policy</a>.
+            </p>
+          </div>
+
           <v-btn type="submit" color="primary" :disabled="isSignupBusy" block class="mt-2">
             {{ isSignupBusy ? $t('loading') : $t('create_account') }}</v-btn>
 
