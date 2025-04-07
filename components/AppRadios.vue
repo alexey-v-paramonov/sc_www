@@ -501,7 +501,7 @@ let SOCIAL_LINK_TYPES = [
     { "value": "instagram", "title": 'Instagram' }, 
     { "value": "facebook", "title": 'Facebook' }, 
     { "value": "youtube", "title": 'Youtube' }, 
-    { "value": "watsapp", "title": 'Watsapp' }, 
+    { "value": "whatsapp", "title": 'Whatsapp' }, 
     { "value": "telegram", "title": 'Telegram' }, 
     { "value": "linkedin", "title": 'LinkedIn' }, 
     { "value": "tiktok", "title": 'TikTok' }, 
@@ -757,12 +757,12 @@ async function addSocialLink() {
     }
     // Validate URL format for relevant social link types
     if (new_social_link_type.value.value !== 'phone' && 
-            new_social_link_type.value.value !== 'email') {
+            new_social_link_type.value.value !== 'email' && new_social_link_type.value.value !== 'whatsapp') {
         
         const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/;
         
         if (!urlPattern.test(new_social_link_value.value.value)) {
-            setErrors({ ['new_social_link_value']: t('errors.ip_invalid') });
+            setErrors({ ['new_social_link_value']: t('errors.url') });
             return;
         }
     } 
