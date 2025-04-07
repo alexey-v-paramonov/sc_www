@@ -517,15 +517,10 @@ let SOCIAL_LINK_TYPES = [
     { "value": "ok", "title": is_ru ? "Одноклассники" : 'Odnoklassniki' }, 
 ]
 
-if (locale.value == 'ru') {
-    SOCIAL_LINK_TYPES = SOCIAL_LINK_TYPES.filter(type => type.value !== 'facebook' && type.value !== 'instagram');
-}
-
 const { handleSubmit, isSubmitting: isAppRadioBusy, setErrors } = useForm({
     initialValues: {
     }
 });
-
 
 const is_sc_panel = useField('is_sc_panel');
 const sc_api_url = useField('sc_api_url', "url|required_if:is_sc_panel,1");
