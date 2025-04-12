@@ -292,9 +292,9 @@
                                         <th>
                                             {{ $t('app.radio.social_links.type') }}
                                         </th>
-                                        <!--<th>
+                                        <th>
                                             {{ $t('app.radio.social_links.link_title') }}
-                                        </th>-->
+                                        </th>
                                         <th>
                                             {{ $t('app.radio.social_links.value') }}
                                         </th>
@@ -311,9 +311,9 @@
                                             {{ getSocialLinkTitle(social_link.type) }}
                                         </td>
 
-                                        <!--<td>
+                                        <td>
                                             {{ social_link.title }}
-                                        </td>-->
+                                        </td>
 
                                         <td>
                                             <span v-if="social_link.type == 'phone'">
@@ -369,15 +369,22 @@
 
                             <div class="text-h5 text-center">{{ $t('app.radio.social_links.add_new_title') }}</div>
                             <v-row no-gutters>
-                                <v-col cols="3">
+                                <v-col cols="2">
                                     <v-select v-model="new_social_link_type.value.value"
                                         :error-messages="new_social_link_type.errorMessage.value"
                                         :items="SOCIAL_LINK_TYPES" item-title="title"
+                                        @update:modelValue="setLinkTitle()"
                                         item-value="value" :label="$t('app.radio.social_links.type')"
                                         single-line></v-select>
                                 </v-col>
-
-                                <v-col cols="9">
+                                <v-col cols="3">
+                                    <v-text-field v-model="new_social_link_title.value.value" type="text"
+                                        :error-messages="new_social_link_title.errorMessage.value"
+                                        maxlength="11"
+                                        name="new_social_link_title"
+                                        :label="$t('app.radio.social_links.link_title')"></v-text-field>
+                                </v-col>
+                                <v-col cols="7">
                                     <v-text-field v-model="new_social_link_value.value.value" type="url"
                                         :error-messages="new_social_link_value.errorMessage.value"
                                         maxlength="255"
@@ -542,6 +549,7 @@ const new_channel_audio_format = useField('new_channel_audio_format',);
 const new_channel_server_type = useField('new_channel_server_type',);
 
 const new_social_link_type = useField('new_social_link_type');
+const new_social_link_title = useField('new_social_link_title');
 const new_social_link_value = useField('new_social_link_value');
 
 
@@ -555,6 +563,12 @@ allow_dislikes.value.value = "1";
 
 const { data: appRadios, pending, error, refresh } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/radios/`);
 
+function setLinkTitle(){
+    console.log("setLinkTitle??? ")
+    if(new_social_link_type.value.value){
+        new_social_link_title.value.value = SOCIAL_LINK_TYPES.filter((t) => t.value == new_social_link_type.value.value)[0].title;
+    }
+}
 function getSocialLinkTitle(v){
     return SOCIAL_LINK_TYPES.filter((t) => t.value == v)[0].title;
 }
@@ -677,7 +691,9 @@ function resetRadioForm(){
     new_channel_server_type.value.value = SERVER_TYPES[0].value;
 
     new_social_link_type.resetField();
+    new_social_link_title.resetField();
     new_social_link_value.resetField();
+
 
     radioStreams.value = [];
     socialLinks.value = [];
@@ -752,6 +768,10 @@ async function addSocialLink() {
         setErrors({ ['new_social_link_type']: t(`errors.required`) });
         return;
     }
+    if(!new_social_link_title.value.value){
+        setErrors({ ['new_social_link_title']: t(`errors.required`) });
+        return;
+    }
     if(!new_social_link_value.value.value){
         setErrors({ ['new_social_link_value']: t(`errors.required`) });
         return;
@@ -784,12 +804,13 @@ async function addSocialLink() {
 
     socialLinks.value.push({
         type: new_social_link_type.value.value,
-        //title: new_channel_bitrate.value.value,
+        title: new_social_link_title.value.value,
         value: new_social_link_value.value.value,
     });
     noSocialLinks.value = false;
 
     new_social_link_type.resetField();
+    new_social_link_title.resetField();
     new_social_link_value.resetField();
 
 }
