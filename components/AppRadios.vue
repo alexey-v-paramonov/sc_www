@@ -515,6 +515,7 @@ let SOCIAL_LINK_TYPES = [
     { "value": "rutube", "title": 'RuTube' }, 
     { "value": "vk", "title": is_ru ? "Вконтакте" : 'Vkontakte' }, 
     { "value": "ok", "title": is_ru ? "Одноклассники" : 'Odnoklassniki' }, 
+    { "value": "other", "title": is_ru ? "Ещё" : 'More' }, 
 ]
 
 const { handleSubmit, isSubmitting: isAppRadioBusy, setErrors } = useForm({
