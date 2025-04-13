@@ -380,7 +380,7 @@
                                 <v-col cols="3">
                                     <v-text-field v-model="new_social_link_title.value.value" type="text"
                                         :error-messages="new_social_link_title.errorMessage.value"
-                                        maxlength="11"
+                                        maxlength="12"
                                         name="new_social_link_title"
                                         :label="$t('app.radio.social_links.link_title')"></v-text-field>
                                 </v-col>
