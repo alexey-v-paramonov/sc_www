@@ -192,7 +192,10 @@
         "hosted": {
             "title": "Hosted radios",
             "subtitle": "The listeners, quality and disk space are charged",
-            "empty": "You do not have any radios hosted by us yet"
+            "empty": "You do not have any radios hosted by us yet",
+            "username": "Username",
+            "password": "Password",
+            "password_email": "See your email for the password"
         },
         "delete_confirmation": "Are you sure you want to delete this radio?",
         "delete_failed": "Failed to remove this radio, try again later or contact support.",

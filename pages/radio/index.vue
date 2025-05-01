@@ -111,10 +111,12 @@
           <tbody>
             <tr v-if="hosted_radios && hosted_radios.length > 0 && !hosted_radios_loading" v-for="item in hosted_radios" :key="item.name">
               <td>
-                <div>{{ item.login }}</div>
                 <div v-if="item.status == RADIO_STATUS.READY || item.status == RADIO_STATUS.SUSPENDED || item.status == RADIO_STATUS.BEING_DELETED">
                   <a :href="accountLink(item)" target="_blank">{{ accountLink(item) }}</a>
                 </div>
+                <div><strong>{{ $t('radios.hosted.username') }}</strong>: {{ item.login }}</div>
+                <div><strong>{{ $t('radios.hosted.password') }}</strong>: {{ $t('radios.hosted.password_email') }}</div>
+
               </td>
               <td>
                 <v-chip v-if="item.status == RADIO_STATUS.PENDING || item.status == RADIO_STATUS.BEING_CREATED" variant="flat" color="green">{{ $t('hosted.status.being_created') }}</v-chip>
