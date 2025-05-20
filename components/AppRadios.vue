@@ -45,6 +45,7 @@
                                 <v-btn v-if="display.smAndUp" variant="tonal" size="x-small" icon="mdi-menu-down" :disabled="index == (appRadios.length - 1)"
                                     @click="setOrder(appRadio, index, index + 1)"></v-btn>&nbsp;
                                 <v-btn density="compact" icon="mdi-pencil" @click="openRadioDialog(appRadio)"></v-btn>
+                                <v-btn density="compact" icon="mdi-volume-high" @click="openPrerollDialog(appRadio)"></v-btn>
                                 <v-btn density="compact" icon="mdi-delete" @click="deleteRadio(appRadio)"></v-btn>
                             </td>
                         </tr>
@@ -70,6 +71,81 @@
         }}</v-btn>
 
     </v-container>
+
+    <!-- Pre-roll Management Dialog -->
+    <v-dialog v-model="preRollDialog" max-width="600">
+        <v-card>
+            <v-toolbar color="primary" dark>
+                <v-btn icon @click="preRollDialog = false">
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <v-toolbar-title>{{ $t('app.radio.preroll.title') }} {{ appData.title }}</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-toolbar-items>
+                    <v-btn variant="text" @click="preRollDialog = false">
+                        {{ $t('close') }}
+                    </v-btn>
+                </v-toolbar-items>
+            </v-toolbar>
+            <v-card-text>
+                <div class="text-h6 mb-2">{{ $t('app.radio.preroll.list_title') }}</div>
+                <v-table>
+                    <thead>
+                        <tr>
+                            <th>{{ $t('app.radio.preroll.filename') }}</th>
+                            <th>{{ $t('app.radio.preroll.uploaded_at') }}</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-if="preRolls && preRolls.length > 0" v-for="(preroll, idx) in preRolls" :key="preroll.id">
+                            <td>
+                                <a :href="preroll.url" target="_blank">{{ preroll.filename }}</a>
+                            </td>
+                            <td>
+                                {{ preroll.uploaded_at }}
+                            </td>
+                            <td>
+                                <v-btn icon="mdi-delete" color="error" @click="deletePreRoll(preroll, idx)"></v-btn>
+                            </td>
+                        </tr>
+                        <tr v-else>
+                            <td colspan="3" class="text-center">
+                                {{ $t('app.radio.preroll.empty') }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </v-table>
+
+                <div class="text-h6 mt-6 mb-2">{{ $t('app.radio.preroll.upload_title') }}</div>
+                <v-form @submit.prevent="onPrerollSubmit" :disabled="isAppRadioBusy">
+                    <v-file-input
+                        v-model="newPreRollFile"
+                        :label="$t('app.radio.preroll.select_file')"
+                        accept="audio/*"
+                        :disabled="isUploadingPreRoll"
+                        show-size
+                        prepend-icon="mdi-music"
+                        required
+                    ></v-file-input>
+                    <v-btn
+                        type="submit"
+                        color="primary"
+                        :loading="isUploadingPreRoll"
+                        :disabled="!newPreRollFile || isUploadingPreRoll"
+                        class="mt-2"
+                        block
+                    >
+                        {{ $t('app.radio.preroll.upload_btn') }}
+                    </v-btn>
+                </v-form>
+            </v-card-text>
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" variant="text" @click="preRollDialog = false">{{ $t('close') }}</v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
 
     <v-dialog v-model="radioDialog" fullscreen>
         <v-card>
@@ -479,6 +555,8 @@ const { locale, t } = useI18n();
 
 let appData = reactive(props.appData);
 let radioDialog = ref(false);
+let preRollDialog = ref(false);
+
 // let appRadios = ref([]);
 let scRadios = ref([]);
 const appRadio = ref({});
@@ -678,6 +756,29 @@ function openRadioDialog(r = null) {
     }
     radioDialog.value = true;
 }
+function openPrerollDialog(r = null) {
+    // if (r) {
+    //     appRadio.value = { ...r }
+    //     title.value.value = r.title;
+    //     description.value.value = r.description;
+    //     is_sc_panel.value.value = r.sc_api_url ? "1" : null;
+    //     if (is_sc_panel.value.value) {
+    //         sc_api_url.value.value = r.sc_api_url;
+    //         sc_server_id.value.value = r.sc_server_id;
+    //         allow_shoutbox.value.value = r.allow_shoutbox ? '1' : null;
+    //         allow_likes.value.value = r.allow_likes ? '1' : null;
+    //         allow_dislikes.value.value = r.allow_dislikes ? '1' : null;
+    //         checkSCPanelURL(false);
+    //     }
+    //     radioStreams.value = [...r.channels];
+    //     socialLinks.value = [...r.social_links];
+
+    // }
+    // else {
+    //     resetRadioForm();
+    // }
+    preRollDialog.value = true;
+}
 
 function resetRadioForm(){
     title.value.value = '';
@@ -857,6 +958,33 @@ async function saveAppRadioRequest(values) {
     });
 }
 
+async function savePrerollRequest(values) {
+    return await fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/prerolls/` + (isEditMode? appRadio.value.id + '/' : ''), {
+        method: isEditMode ? 'PUT' : 'POST',
+        body: formData
+    });
+
+}
+const onPrerollSubmit = handleSubmit(async values => {
+    let response;
+    try {
+        response = await savePrerollRequest(values);
+    }
+    catch (e) {
+        const errorData = e.data;
+        if (typeof errorData == 'object') {
+            for (const [field, errors] of Object.entries(errorData)) {
+                for (const errCode of errors) {
+                    setErrors({ [field]: t(`app.errors.${field}.${errCode}`) })
+                }
+            }
+        }
+        return;
+    }
+    // refresh();
+    // resetRadioForm();
+    // radioDialog.value = false;
+});
 
 const onAppRadioSubmit = handleSubmit(async values => {
 
