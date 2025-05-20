@@ -455,6 +455,16 @@
                 "add_new": "Add resource",
                 "empty": "Your radio does not have any social links yet, please add a new link using the form below. Social media links appear as icons on the Information screen below the radio description.",
                 "value": "Value"
+            },
+            "preroll": {
+                "title": "Pre-rolls in",
+                "description": "Pre-rolls are short audio files that are played before the stream starts. You can add multiple pre-rolls, and they will be played in random order.",
+                "list_title": "Pre-rolls",
+                "filename": "File name",
+                "empty": "Your radio does not have any pre-rolls yet, please add a new pre-roll using the form below.",
+                "upload_title": "Upload new pre-roll",
+                "select_file": "Select MP3 file",
+                "upload_btn": "Upload"
             }
 
         }

@@ -88,12 +88,13 @@
                 </v-toolbar-items>
             </v-toolbar>
             <v-card-text>
+                <div class="mb-2">{{ $t('app.radio.preroll.description') }}</div>
+
                 <div class="text-h6 mb-2">{{ $t('app.radio.preroll.list_title') }}</div>
                 <v-table>
                     <thead>
                         <tr>
                             <th>{{ $t('app.radio.preroll.filename') }}</th>
-                            <th>{{ $t('app.radio.preroll.uploaded_at') }}</th>
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
@@ -101,9 +102,6 @@
                         <tr v-if="preRolls && preRolls.length > 0" v-for="(preroll, idx) in preRolls" :key="preroll.id">
                             <td>
                                 <a :href="preroll.url" target="_blank">{{ preroll.filename }}</a>
-                            </td>
-                            <td>
-                                {{ preroll.uploaded_at }}
                             </td>
                             <td>
                                 <v-btn icon="mdi-delete" color="error" @click="deletePreRoll(preroll, idx)"></v-btn>
@@ -120,10 +118,10 @@
                 <div class="text-h6 mt-6 mb-2">{{ $t('app.radio.preroll.upload_title') }}</div>
                 <v-form @submit.prevent="onPrerollSubmit" :disabled="isAppRadioBusy">
                     <v-file-input
-                        v-model="newPreRollFile"
+                        v-model="prerollFile.value.value"
                         :label="$t('app.radio.preroll.select_file')"
-                        accept="audio/*"
-                        :disabled="isUploadingPreRoll"
+                        accept="audio/mpeg"
+                        :disabled="isAppRadioBusy"
                         show-size
                         prepend-icon="mdi-music"
                         required
@@ -131,8 +129,8 @@
                     <v-btn
                         type="submit"
                         color="primary"
-                        :loading="isUploadingPreRoll"
-                        :disabled="!newPreRollFile || isUploadingPreRoll"
+                        :loading="isAppRadioBusy"
+                        :disabled="!prerollFile.value.value || isAppRadioBusy"
                         class="mt-2"
                         block
                     >
@@ -140,10 +138,6 @@
                     </v-btn>
                 </v-form>
             </v-card-text>
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="primary" variant="text" @click="preRollDialog = false">{{ $t('close') }}</v-btn>
-            </v-card-actions>
         </v-card>
     </v-dialog>
 
@@ -567,6 +561,7 @@ const deleteRadioFailed = ref(false);
 const changeOrderSuccess = ref(false);
 let radioStreams = ref([]);
 let socialLinks = ref([]);
+let preRolls = ref([]);
 let noChannels = ref(false);
 let noSocialLinks = ref(false);
 
@@ -611,6 +606,7 @@ const { handleSubmit, isSubmitting: isAppRadioBusy, setErrors } = useForm({
 const is_sc_panel = useField('is_sc_panel');
 const sc_api_url = useField('sc_api_url', "url|required_if:is_sc_panel,1");
 const sc_server_id = useField('sc_server_id', "required_if:is_sc_panel,1");
+const prerollFile = useField('preroll', "size:3000|mimes:audio/mpeg");
 
 // required_if:is_sc_panel,1
 const logo = useField('logo', "image|size:3000");
@@ -642,7 +638,6 @@ allow_dislikes.value.value = "1";
 const { data: appRadios, pending, error, refresh } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/radios/`);
 
 function setLinkTitle(){
-    console.log("setLinkTitle??? ")
     if(new_social_link_type.value.value){
         new_social_link_title.value.value = SOCIAL_LINK_TYPES.filter((t) => t.value == new_social_link_type.value.value)[0].title;
     }
@@ -959,13 +954,14 @@ async function saveAppRadioRequest(values) {
 }
 
 async function savePrerollRequest(values) {
-    return await fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/prerolls/` + (isEditMode? appRadio.value.id + '/' : ''), {
-        method: isEditMode ? 'PUT' : 'POST',
-        body: formData
+    return await fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/prerolls/`, {
+        method: 'POST',
+        body: values
     });
-
 }
+
 const onPrerollSubmit = handleSubmit(async values => {
+    return;
     let response;
     try {
         response = await savePrerollRequest(values);
