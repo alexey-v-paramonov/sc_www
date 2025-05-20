@@ -74,72 +74,9 @@
 
     <!-- Pre-roll Management Dialog -->
     <v-dialog v-model="preRollDialog" max-width="600">
-        <v-card>
-            <v-toolbar color="primary" dark>
-                <v-btn icon @click="preRollDialog = false">
-                    <v-icon>mdi-close</v-icon>
-                </v-btn>
-                <v-toolbar-title>{{ $t('app.radio.preroll.title') }} {{ appData.title }}</v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-toolbar-items>
-                    <v-btn variant="text" @click="preRollDialog = false">
-                        {{ $t('close') }}
-                    </v-btn>
-                </v-toolbar-items>
-            </v-toolbar>
-            <v-card-text>
-                <div class="mb-2">{{ $t('app.radio.preroll.description') }}</div>
-
-                <div class="text-h6 mb-2">{{ $t('app.radio.preroll.list_title') }}</div>
-                <v-table>
-                    <thead>
-                        <tr>
-                            <th>{{ $t('app.radio.preroll.filename') }}</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-if="preRolls && preRolls.length > 0" v-for="(preroll, idx) in preRolls" :key="preroll.id">
-                            <td>
-                                <a :href="preroll.url" target="_blank">{{ preroll.filename }}</a>
-                            </td>
-                            <td>
-                                <v-btn icon="mdi-delete" color="error" @click="deletePreRoll(preroll, idx)"></v-btn>
-                            </td>
-                        </tr>
-                        <tr v-else>
-                            <td colspan="3" class="text-center">
-                                {{ $t('app.radio.preroll.empty') }}
-                            </td>
-                        </tr>
-                    </tbody>
-                </v-table>
-
-                <div class="text-h6 mt-6 mb-2">{{ $t('app.radio.preroll.upload_title') }}</div>
-                <v-form @submit.prevent="onPrerollSubmit" :disabled="isAppRadioBusy">
-                    <v-file-input
-                        v-model="prerollFile.value.value"
-                        :label="$t('app.radio.preroll.select_file')"
-                        accept="audio/mpeg"
-                        :disabled="isAppRadioBusy"
-                        show-size
-                        prepend-icon="mdi-music"
-                        required
-                    ></v-file-input>
-                    <v-btn
-                        type="submit"
-                        color="primary"
-                        :loading="isAppRadioBusy"
-                        :disabled="!prerollFile.value.value || isAppRadioBusy"
-                        class="mt-2"
-                        block
-                    >
-                        {{ $t('app.radio.preroll.upload_btn') }}
-                    </v-btn>
-                </v-form>
-            </v-card-text>
-        </v-card>
+        <AppRadioPrerolls :platform="props.platform" :id="props.id" :app-data="appData"/>
     </v-dialog>
+
 
     <v-dialog v-model="radioDialog" fullscreen>
         <v-card>
@@ -539,6 +476,7 @@
 import { ref, reactive } from 'vue';
 import { useDisplay } from "vuetify";
 import { useField, useForm } from 'vee-validate';
+import AppRadioPrerolls from './AppRadioPrerolls.vue';
 const props = defineProps({ platform: String, id: Number, appData: Object })
 const emit = defineEmits(['AppInfoRefresh',])
 
@@ -561,7 +499,6 @@ const deleteRadioFailed = ref(false);
 const changeOrderSuccess = ref(false);
 let radioStreams = ref([]);
 let socialLinks = ref([]);
-let preRolls = ref([]);
 let noChannels = ref(false);
 let noSocialLinks = ref(false);
 
@@ -606,7 +543,6 @@ const { handleSubmit, isSubmitting: isAppRadioBusy, setErrors } = useForm({
 const is_sc_panel = useField('is_sc_panel');
 const sc_api_url = useField('sc_api_url', "url|required_if:is_sc_panel,1");
 const sc_server_id = useField('sc_server_id', "required_if:is_sc_panel,1");
-const prerollFile = useField('preroll', "size:3000|mimes:audio/mpeg");
 
 // required_if:is_sc_panel,1
 const logo = useField('logo', "image|size:3000");
@@ -952,35 +888,6 @@ async function saveAppRadioRequest(values) {
         body: formData
     });
 }
-
-async function savePrerollRequest(values) {
-    return await fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/prerolls/`, {
-        method: 'POST',
-        body: values
-    });
-}
-
-const onPrerollSubmit = handleSubmit(async values => {
-    return;
-    let response;
-    try {
-        response = await savePrerollRequest(values);
-    }
-    catch (e) {
-        const errorData = e.data;
-        if (typeof errorData == 'object') {
-            for (const [field, errors] of Object.entries(errorData)) {
-                for (const errCode of errors) {
-                    setErrors({ [field]: t(`app.errors.${field}.${errCode}`) })
-                }
-            }
-        }
-        return;
-    }
-    // refresh();
-    // resetRadioForm();
-    // radioDialog.value = false;
-});
 
 const onAppRadioSubmit = handleSubmit(async values => {
 
