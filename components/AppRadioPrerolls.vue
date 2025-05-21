@@ -27,7 +27,7 @@
                     <tbody>
                         <tr v-if="preRolls && preRolls.length > 0" v-for="(preroll, idx) in preRolls" :key="preroll.id">
                             <td>
-                                <a :href="preroll.file" target="_blank">{{ baseName(preroll.file) }}</a> <br />
+                                <a :href="preroll.file" target="_blank">{{ preroll.filename }}</a> <br />
                                 <audio controls>
                                     <source :src="preroll.file" type="audio/mpeg">
                                 </audio>
@@ -116,10 +116,6 @@ const { handleSubmit, isSubmitting: isAppRadioBusy, setErrors } = useForm({
 
 const prerollFile = useField('preroll', "size:3000|mimes:audio/mpeg");
 const { data: preRolls, pending, error, refresh } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.appData.id}/radios/${props.id}/prerolls/`);
-
-function baseName(path) {
-    return path.split('/').pop();
-};
 
 async function savePrerollRequest(values) {
     let formData = new FormData();
