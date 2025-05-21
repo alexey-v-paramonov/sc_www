@@ -48,6 +48,7 @@
                 <v-form @submit.prevent="onPrerollSubmit" :disabled="isAppRadioBusy">
                     <v-file-input v-model="prerollFile.value.value" :label="$t('app.radio.preroll.select_file')"
                         accept="audio/mpeg" :disabled="isAppRadioBusy" show-size prepend-icon="mdi-music"
+                        :error-messages="prerollFile.errorMessage.value"
                         required></v-file-input>
                     <v-btn type="submit" color="primary" :loading="isAppRadioBusy"
                         :disabled="!prerollFile.value.value || isAppRadioBusy" class="mt-2" block>
@@ -114,7 +115,7 @@ const { handleSubmit, isSubmitting: isAppRadioBusy, setErrors } = useForm({
 });
 
 const prerollFile = useField('preroll', "size:3000|mimes:audio/mpeg");
-const { data: preRolls, pending, error, refresh } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.appData.id}/prerolls/`);
+const { data: preRolls, pending, error, refresh } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.appData.id}/radios/${props.id}/prerolls/`);
 
 function baseName(path) {
     return path.split('/').pop();
@@ -124,7 +125,7 @@ async function savePrerollRequest(values) {
     let formData = new FormData();
     formData.append('radio', props.id);
     formData.append('file', values.preroll[0]);
-    return await fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.appData.id}/prerolls/`, {
+    return await fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.appData.id}/radios/${props.id}/prerolls/`, {
         method: 'POST',
         body: formData
     });
@@ -160,7 +161,7 @@ function resetPrerollForm() {
 }
 
 function deletePreRoll(preroll, idx) {
-    fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.appData.id}/prerolls/${preroll.id}/`, { method: 'DELETE' }).then(
+    fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.appData.id}/radios/${props.id}/prerolls/${preroll.id}/`, { method: 'DELETE' }).then(
         () => {
             deletePrerollSuccess.value = true;
             refresh();
