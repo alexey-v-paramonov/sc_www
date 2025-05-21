@@ -45,7 +45,7 @@
                                 <v-btn v-if="display.smAndUp" variant="tonal" size="x-small" icon="mdi-menu-down" :disabled="index == (appRadios.length - 1)"
                                     @click="setOrder(appRadio, index, index + 1)"></v-btn>&nbsp;
                                 <v-btn density="compact" icon="mdi-pencil" @click="openRadioDialog(appRadio)"></v-btn>
-                                <v-btn density="compact" icon="mdi-volume-high" @click="openPrerollDialog(appRadio)"></v-btn>
+                                <v-btn density="compact" icon="mdi-volume-high" @click="openPrerollDialog(appRadio)" :title="$t('app.radio.preroll.list_title')"></v-btn>
                                 <v-btn density="compact" icon="mdi-delete" @click="deleteRadio(appRadio)"></v-btn>
                             </td>
                         </tr>
@@ -73,8 +73,8 @@
     </v-container>
 
     <!-- Pre-roll Management Dialog -->
-    <v-dialog v-model="preRollDialog" max-width="600">
-        <AppRadioPrerolls :platform="props.platform" :id="props.id" :app-data="appData"/>
+    <v-dialog v-model="preRollDialog" max-width="600" >
+        <AppRadioPrerolls :platform="props.platform" :id="appRadio.id" :app-data="appData" @close="preRollDialog = false"/>
     </v-dialog>
 
 
@@ -473,10 +473,11 @@
 </template>
 
 <script setup>
+import AppRadioPrerolls from './AppRadioPrerolls.vue';
+
 import { ref, reactive } from 'vue';
 import { useDisplay } from "vuetify";
 import { useField, useForm } from 'vee-validate';
-import AppRadioPrerolls from './AppRadioPrerolls.vue';
 const props = defineProps({ platform: String, id: Number, appData: Object })
 const emit = defineEmits(['AppInfoRefresh',])
 
@@ -688,26 +689,9 @@ function openRadioDialog(r = null) {
     radioDialog.value = true;
 }
 function openPrerollDialog(r = null) {
-    // if (r) {
-    //     appRadio.value = { ...r }
-    //     title.value.value = r.title;
-    //     description.value.value = r.description;
-    //     is_sc_panel.value.value = r.sc_api_url ? "1" : null;
-    //     if (is_sc_panel.value.value) {
-    //         sc_api_url.value.value = r.sc_api_url;
-    //         sc_server_id.value.value = r.sc_server_id;
-    //         allow_shoutbox.value.value = r.allow_shoutbox ? '1' : null;
-    //         allow_likes.value.value = r.allow_likes ? '1' : null;
-    //         allow_dislikes.value.value = r.allow_dislikes ? '1' : null;
-    //         checkSCPanelURL(false);
-    //     }
-    //     radioStreams.value = [...r.channels];
-    //     socialLinks.value = [...r.social_links];
-
-    // }
-    // else {
-    //     resetRadioForm();
-    // }
+    if (r) {
+         appRadio.value = { ...r }
+    }
     preRollDialog.value = true;
 }
 

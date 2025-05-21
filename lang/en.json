@@ -464,7 +464,11 @@
                 "empty": "Your radio does not have any pre-rolls yet, please add a new pre-roll using the form below.",
                 "upload_title": "Upload new pre-roll",
                 "select_file": "Select MP3 file",
-                "upload_btn": "Upload"
+                "upload_btn": "Upload",
+                "upload_success": "Pre-roll has been uploaded successfully",
+                "upload_failed": "Failed to upload pre-roll, please try again later or contact support",
+                "delete_success": "Pre-roll has been removed successfully",
+                "delete_failed": "Failed to remove pre-roll, please try again later or contact support"
             }
 
         }

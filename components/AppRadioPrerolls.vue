@@ -2,13 +2,13 @@
 
         <v-card>
             <v-toolbar color="primary" dark>
-                <v-btn icon @click="preRollDialog = false">
+                <v-btn icon @click="$emit('close')">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
                 <v-toolbar-title>{{ $t('app.radio.preroll.title') }} {{ appData.title }}</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
-                    <v-btn variant="text" @click="preRollDialog = false">
+                    <v-btn variant="text" @click="$emit('close')">
                         {{ $t('close') }}
                     </v-btn>
                 </v-toolbar-items>
@@ -27,10 +27,13 @@
                     <tbody>
                         <tr v-if="preRolls && preRolls.length > 0" v-for="(preroll, idx) in preRolls" :key="preroll.id">
                             <td>
-                                <a :href="preroll.url" target="_blank">{{ preroll.filename }}</a>
+                                <a :href="preroll.file" target="_blank">{{ baseName(preroll.file) }}</a> <br />
+                                <audio controls>
+                                    <source :src="preroll.file" type="audio/mpeg">
+                                </audio>
                             </td>
                             <td>
-                                <v-btn icon="mdi-delete" color="error" @click="deletePreRoll(preroll, idx)"></v-btn>
+                                <v-btn density="compact" icon="mdi-delete" @click="deletePreRoll(preroll, idx)"></v-btn>
                             </td>
                         </tr>
                         <tr v-else>
@@ -53,15 +56,57 @@
                 </v-form>
             </v-card-text>
         </v-card>
+        <v-snackbar v-model="uploadSuccess" color="success">
+            {{ $t('app.radio.preroll.upload_success') }}
+
+            <template v-slot:actions>
+                <v-btn color="white" variant="text" @click="uploadSuccess = false">
+                    {{ $t('close') }}
+                </v-btn>
+            </template>
+        </v-snackbar>
+
+        <v-snackbar v-model="uploadFailed" color="error">
+            {{ $t('app.radio.preroll.upload_failed') }}
+
+            <template v-slot:actions>
+                <v-btn color="white" variant="text" @click="uploadFailed = false">
+                    {{ $t('close') }}
+                </v-btn>
+            </template>
+        </v-snackbar>
+
+        <v-snackbar v-model="deletePrerollSuccess" color="success">
+            {{ $t('app.radio.preroll.delete_success') }}
+
+            <template v-slot:actions>
+                <v-btn color="white" variant="text" @click="deletePrerollSuccess = false">
+                    {{ $t('close') }}
+                </v-btn>
+            </template>
+        </v-snackbar>
+
+        <v-snackbar v-model="deletePrerollFailed" color="error">
+            {{ $t('app.radio.preroll.delete_failed') }}
+
+            <template v-slot:actions>
+                <v-btn color="white" variant="text" @click="deletePrerollFailed = false">
+                    {{ $t('close') }}
+                </v-btn>
+            </template>
+        </v-snackbar>
+
     </template>
 <script setup>
 import { ref, reactive } from 'vue';
 import { useField, useForm } from 'vee-validate';
 const props = defineProps({ platform: String, id: Number, appData: Object })
 const config = useRuntimeConfig();
+const uploadSuccess = ref(false);
+const uploadFailed = ref(false);
+const deletePrerollSuccess = ref(false);
+const deletePrerollFailed = ref(false);
 
-
-let preRolls = ref([]);
 
 const { handleSubmit, isSubmitting: isAppRadioBusy, setErrors } = useForm({
     initialValues: {
@@ -69,25 +114,30 @@ const { handleSubmit, isSubmitting: isAppRadioBusy, setErrors } = useForm({
 });
 
 const prerollFile = useField('preroll', "size:3000|mimes:audio/mpeg");
+const { data: preRolls, pending, error, refresh } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.appData.id}/prerolls/`);
 
+function baseName(path) {
+    return path.split('/').pop();
+};
 
 async function savePrerollRequest(values) {
-    return await fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/prerolls/`, {
+    let formData = new FormData();
+    formData.append('radio', props.id);
+    formData.append('file', values.preroll[0]);
+    return await fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.appData.id}/prerolls/`, {
         method: 'POST',
-        body: values
+        body: formData
     });
 }
 
 const onPrerollSubmit = handleSubmit(async values => {
     console.log('onPrerollSubmit', values);
+
     let response;
     try {
-        console.log("wtf1")
         response = await savePrerollRequest(values);
-        console.log("wtf2")
     }
     catch (e) {
-        console.log("wtf3", e)
         const errorData = e.data;
         if (typeof errorData == 'object') {
             for (const [field, errors] of Object.entries(errorData)) {
@@ -96,13 +146,29 @@ const onPrerollSubmit = handleSubmit(async values => {
                 }
             }
         }
+        uploadFailed.value = true;
         return;
     }
-    console.log("wtf4")
-
-    // refresh();
-    // resetRadioForm();
-    // radioDialog.value = false;
+    uploadSuccess.value = true;
+    refresh();
+    resetPrerollForm();
 });
+
+function resetPrerollForm() {
+    // prerollFile.value.value = null;
+    prerollFile.resetField();
+}
+
+function deletePreRoll(preroll, idx) {
+    fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.appData.id}/prerolls/${preroll.id}/`, { method: 'DELETE' }).then(
+        () => {
+            deletePrerollSuccess.value = true;
+            refresh();
+        },
+        () => {
+            deletePrerollFailed.value = true;
+        }
+    );
+}
 
 </script>
