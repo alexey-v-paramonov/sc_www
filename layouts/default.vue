@@ -22,9 +22,15 @@ async function getUserData() {
   stateUI.setLoading(false);
 }
 
+const computedTitle = computed(() => {
+  const email = user.value && user.value.userData ? user.value.userData.email : "";
+  return t("meta.default_title") + (email ? " : " + email : "");
+});
+
+
 useHead
 ({
-  title: t("meta.default_title"),
+  title: computedTitle,
   script: [{
       innerHTML: locale.value == "ru" ? `
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
