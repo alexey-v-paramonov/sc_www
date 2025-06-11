@@ -253,7 +253,8 @@ function deleteRadio(radio) {
       fetchAuth(`${config.public.baseURL}/${ isSelfHosted? 'self_hosted_radio': 'hosted_radio'}/${radio.id}/`, { method: 'DELETE' }).then(
         (r) => {
             deleteRadioSuccess.value = true;
-            isSelfHosted ? reloadSelfHostedRadios() : reloadHostedRadios();
+            reloadSelfHostedRadios();
+            reloadHostedRadios();
         },
         (e) => {
           deleteRadioFailed.value = true;
