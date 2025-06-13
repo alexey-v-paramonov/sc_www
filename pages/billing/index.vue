@@ -84,7 +84,9 @@
 
         <YooMoney class="mt-8" v-if="locale == 'ru'" />
 
-        <InvoiceRequest class="mt-8"/>
+        <PayProGlobal class="mt-8" v-if="locale == 'en'" />
+
+        <!--<InvoiceRequest class="mt-8"/>-->
 
       </v-col>
     </v-row>
