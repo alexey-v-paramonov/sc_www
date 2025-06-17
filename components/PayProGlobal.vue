@@ -42,7 +42,7 @@ const { handleSubmit, isSubmitting: working } = useForm({
   }
 });
 
-const amount = useField('amount', "required|min_value:20");
+const amount = useField('amount', "required|min_value:5");
 
 const checkoutSubmit = handleSubmit(async values => {
     const amount = parseFloat(values.amount);
