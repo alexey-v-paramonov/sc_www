@@ -15,7 +15,7 @@
 
             <v-text-field class="mb-4" v-model="amount.value.value" type="number" :error-messages="amount.errorMessage.value"
               :label="$t('billing.invoice_request.amount')"
-              hint="Minimum payment amount: 20 USD" persistent-hint
+              hint="Minimum payment amount: 5 USD" persistent-hint
             ></v-text-field>
 
             <v-btn type="submit" :disabled="working" block class="mt-2" color="primary">Checkout securely via PayProGlobal</v-btn>
