@@ -57,7 +57,7 @@ export default defineNuxtConfig({
     langDir: 'lang',
     differentDomains: true,
     detectBrowserLanguage: false,
-    defaultLocale: 'en'
+    defaultLocale: 'ru'
   },
   runtimeConfig: {
     public: {

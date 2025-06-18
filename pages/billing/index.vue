@@ -1,15 +1,16 @@
 <template>
   <v-container>
-<v-alert type="info" class="mb-4">
-    <v-row no-gutters md="12">
-      <v-col cols="6" class="mb-2">{{ $t('billing.balance') }}</v-col>
-      <v-col cols="6"><strong>{{ stateUser.user.userData.balance }} {{ $t('currency') }}</strong></v-col>
-    </v-row>
-    <v-row no-gutters md="12">
-      <v-col cols="6" class="">{{ $t('billing.mothly_charges') }}</v-col>
-      <v-col cols="6"><strong>{{ monthly_charges ? monthly_charges.total : '-' }} {{ $t('currency') }}</strong></v-col>
-    </v-row>
-</v-alert>
+    <v-alert type="info" class="mb-4">
+      <v-row no-gutters md="12">
+        <v-col cols="6" class="mb-2">{{ $t('billing.balance') }}</v-col>
+        <v-col cols="6"><strong>{{ stateUser.user.userData.balance }} {{ $t('currency') }}</strong></v-col>
+      </v-row>
+      <v-row no-gutters md="12">
+        <v-col cols="6" class="">{{ $t('billing.mothly_charges') }}</v-col>
+        <v-col cols="6"><strong>{{ monthly_charges ? monthly_charges.total : '-' }} {{ $t('currency')
+            }}</strong></v-col>
+      </v-row>
+    </v-alert>
     <v-row no-gutters md="12" v-if="charges.length > 0">
       <v-col>
         <div class="text-h6">{{ $t('billing.latest_charges') }}</div>
@@ -33,7 +34,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(charge, index) in charges" :key="charge.id" :class="{'interleaved-table-row': charge.another_day}">
+            <tr v-for="(charge, index) in charges" :key="charge.id"
+              :class="{ 'interleaved-table-row': charge.another_day }">
               <td>{{ charge.created }}</td>
               <td>
                 <span v-if="charge.service_type == 1">{{ $t('billing.service_self_hosted') }}: </span>
@@ -90,18 +92,41 @@
 
       </v-col>
     </v-row>
-    <hr class="mt-8 mb-8"/>
-    <template v-for="(val, key) in customPaymentMethods" :key="key">
-    <v-row md="12" v-if="val['title'][locale]">
-      <v-col cols="12">
-        <div class="text-h6">{{ val['title'][locale] }}</div>
+    <hr class="mt-8 mb-8" v-if="locale == 'ru'" />
 
-        <div class="font-italic" v-if="val['note'][locale]">{{ val['note'][locale] }}</div>
-        <div class="ma-4" v-if="val['fee'] != null">{{ $t('billing.invoice_request.service_fee') }}: <strong>{{ val['fee'] }}%</strong></div>
-        <div class="ma-4 v-html-content" v-if="val['html'][locale]" v-html="val['html'][locale]"></div>
+    <v-row no-gutters md="12" v-if="locale == 'ru'">
+      <v-col cols="12">
+        <div class="text-h6">Оплата зарубежными картами</div>
+        <p>
+          Перейдите на <a href="https://app.streaming.center/" target="_blank"><u>международную версию личного кабинета
+              на английском языке</u></a>
+          и пополните счет в $ любыми картами, Paypal и прочими методами оплаты. </p>
+        <p>
+          Пароль и логин от личного кабинета - те же.
+        </p>
+        <p>
+          Зачисление $ в рубли происходит по курсу ЦБ РФ на день пополнения счета, который можно <a
+            href="https://www.cbr.ru/currency_base/daily/" target="_blank"><u>посмотреть здесь</u></a>.
+        </p>
+
 
       </v-col>
     </v-row>
+
+
+    <hr class="mt-8 mb-8" />
+    <template v-for="(val, key) in customPaymentMethods" :key="key">
+      <v-row md="12" v-if="val['title'][locale]">
+        <v-col cols="12">
+          <div class="text-h6">{{ val['title'][locale] }}</div>
+
+          <div class="font-italic" v-if="val['note'][locale]">{{ val['note'][locale] }}</div>
+          <div class="ma-4" v-if="val['fee'] != null">{{ $t('billing.invoice_request.service_fee') }}: <strong>{{
+            val['fee'] }}%</strong></div>
+          <div class="ma-4 v-html-content" v-if="val['html'][locale]" v-html="val['html'][locale]"></div>
+
+        </v-col>
+      </v-row>
     </template>
 
   </v-container>
@@ -146,8 +171,8 @@ async function getUserPayments() {
   });
   let created;
   let changed = false;
-  for(let i = 0; i < ret.charges.length; i++){
-    if(ret.charges[i].created != created){
+  for (let i = 0; i < ret.charges.length; i++) {
+    if (ret.charges[i].created != created) {
       created = ret.charges[i].created;
       changed = !changed;
     }
