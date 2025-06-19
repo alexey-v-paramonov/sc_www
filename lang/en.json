@@ -471,8 +471,9 @@
                 "delete_failed": "Failed to remove pre-roll, please try again later or contact support",
                 "date_range": "Show preroll impressions for the period",
                 "start_date": "From",
-                "end_date": "To"
-
+                "end_date": "To",
+                "impressions": "Impressions",
+                "description_stats": "Select a date range to see the number of pre-roll impressions for selected period"
             }
 
         }

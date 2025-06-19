@@ -14,6 +14,8 @@
                 </v-toolbar-items>
             </v-toolbar>
             <v-card-text>
+
+                <div class="mb-2">{{ $t('app.radio.preroll.description') }}</div>
                 <div v-if="1">
                     <div class="text-h6 mb-2">{{ $t('app.radio.preroll.date_range') }}</div>
                     <div class="d-flex flex-wrap align-center gap-4">
@@ -27,26 +29,27 @@
 
                             <v-date-picker v-model="startDate" @update:model-value="startMenu = false" type="date"
                                 density="compact"></v-date-picker>
-                        </v-menu> 
-                        <v-menu v-model="endMenu" :close-on-content-click="false"
-                            transition="scale-transition" min-width="auto" class="date-picker-wrapper">
+                        </v-menu>
+                        <v-menu v-model="endMenu" :close-on-content-click="false" transition="scale-transition"
+                            min-width="auto" class="date-picker-wrapper">
                             <template v-slot:activator="{ props }">
                                 <v-text-field density="compact" :model-value="formatDate(endDate)"
                                     :label="$t('app.radio.preroll.end_date')" prepend-icon="mdi-calendar" readonly
                                     v-bind="props"></v-text-field>
                             </template>
-                            <v-date-picker v-model:model-value="endDate" @update:model-value="endMenu = false" type="date"
-                                density="compact"></v-date-picker>
+                            <v-date-picker v-model:model-value="endDate" @update:model-value="endMenu = false"
+                                type="date" density="compact"></v-date-picker>
                         </v-menu>
                     </div>
-                </div>
-                <div class="mb-2">{{ $t('app.radio.preroll.description') }}</div>
+                    <div class="mb-2">{{ $t('app.radio.preroll.description_stats') }}</div>
 
+                </div>
                 <div class="text-h6 mb-2">{{ $t('app.radio.preroll.list_title') }}</div>
                 <v-table>
                     <thead>
                         <tr>
                             <th>{{ $t('app.radio.preroll.filename') }}</th>
+                            <th>{{ $t('app.radio.preroll.impressions') }}</th>
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
@@ -57,6 +60,9 @@
                                 <audio controls>
                                     <source :src="preroll.file" type="audio/mpeg">
                                 </audio>
+                            </td>
+                            <td>
+                                {{ preroll.impressions }}
                             </td>
                             <td>
                                 <v-btn density="compact" icon="mdi-delete" @click="deletePreRoll(preroll, idx)"></v-btn>

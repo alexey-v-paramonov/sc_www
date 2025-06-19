@@ -73,7 +73,7 @@
     </v-container>
 
     <!-- Pre-roll Management Dialog -->
-    <v-dialog v-model="preRollDialog" max-width="600" >
+    <v-dialog v-model="preRollDialog" fullscreen>
         <AppRadioPrerolls :platform="props.platform" :id="appRadio.id" :app-data="appData" @close="preRollDialog = false"/>
     </v-dialog>
 
