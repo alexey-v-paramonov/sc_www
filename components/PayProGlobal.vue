@@ -6,7 +6,7 @@
           <div class="text-h6 mb-4" >Account Top‑Up via PayProGlobal</div>
           <p class="font-italic">Instant, fee-free top-ups with automatic payment processing and real-time balance updates. Choose from a wide range of payment methods.</p>
           <p>&nbsp;</p>
-          <p>{{ $t('billing.invoice_request.service_fee') }}: <strong>0%</strong></p>
+          <p>{{ $t('billing.invoice_request.service_fee') }}: <strong>0%</strong> Warning: Additional VAT may apply based on your country of residence.</p>
         </v-col>
       </v-row>
       <v-row md="12">
