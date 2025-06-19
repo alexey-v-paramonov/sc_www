@@ -153,6 +153,17 @@ function formatDate(date) {
     });
 }
 
+// Format date as YYYY-MM-DD in local time
+function formatLocalDate(date) {
+    if (!date) return '';
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+
 watch([startDate, endDate], () => {
     refresh();
 });
@@ -165,8 +176,8 @@ const { handleSubmit, isSubmitting: isAppRadioBusy, setErrors } = useForm({
 const getPrerollUrl = () => {
     const base = `${config.public.baseURL}/mobile_apps/${props.platform}/${props.appData.id}/radios/${props.id}/prerolls/`;
     const params = [];
-    if (startDate.value) params.push(`start_date=${encodeURIComponent(startDate.value.toISOString().split('T')[0])}`);
-    if (endDate.value) params.push(`end_date=${encodeURIComponent(endDate.value.toISOString().split('T')[0])}`);
+    if (startDate.value) params.push(`start_date=${encodeURIComponent(formatLocalDate(startDate.value))}`);
+    if (endDate.value) params.push(`end_date=${encodeURIComponent(formatLocalDate(endDate.value))}`);
     return params.length ? `${base}?${params.join('&')}` : base;
 };
 
