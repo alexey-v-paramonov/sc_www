@@ -468,7 +468,11 @@
                 "upload_success": "Pre-roll has been uploaded successfully",
                 "upload_failed": "Failed to upload pre-roll, please try again later or contact support",
                 "delete_success": "Pre-roll has been removed successfully",
-                "delete_failed": "Failed to remove pre-roll, please try again later or contact support"
+                "delete_failed": "Failed to remove pre-roll, please try again later or contact support",
+                "date_range": "Show preroll impressions for the period",
+                "start_date": "From",
+                "end_date": "To"
+
             }
 
         }

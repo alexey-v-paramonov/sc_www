@@ -14,6 +14,32 @@
                 </v-toolbar-items>
             </v-toolbar>
             <v-card-text>
+                <div v-if="1">
+                    <div class="text-h6 mb-2">{{ $t('app.radio.preroll.date_range') }}</div>
+                    <div class="d-flex flex-wrap align-center gap-4">
+                        <v-menu v-model="startMenu" :close-on-content-click="false" transition="scale-transition"
+                            min-width="auto" class="date-picker-wrapper">
+                            <template v-slot:activator="{ props }">
+                                <v-text-field density="compact" :model-value="formatDate(startDate)"
+                                    :label="$t('app.radio.preroll.start_date')" prepend-icon="mdi-calendar" readonly
+                                    v-bind="props"></v-text-field>
+                            </template>
+
+                            <v-date-picker v-model="startDate" @update:model-value="startMenu = false" type="date"
+                                density="compact"></v-date-picker>
+                        </v-menu> 
+                        <v-menu v-model="endMenu" :close-on-content-click="false"
+                            transition="scale-transition" min-width="auto" class="date-picker-wrapper">
+                            <template v-slot:activator="{ props }">
+                                <v-text-field density="compact" :model-value="formatDate(endDate)"
+                                    :label="$t('app.radio.preroll.end_date')" prepend-icon="mdi-calendar" readonly
+                                    v-bind="props"></v-text-field>
+                            </template>
+                            <v-date-picker v-model:model-value="endDate" @update:model-value="endMenu = false" type="date"
+                                density="compact"></v-date-picker>
+                        </v-menu>
+                    </div>
+                </div>
                 <div class="mb-2">{{ $t('app.radio.preroll.description') }}</div>
 
                 <div class="text-h6 mb-2">{{ $t('app.radio.preroll.list_title') }}</div>
@@ -48,8 +74,7 @@
                 <v-form @submit.prevent="onPrerollSubmit" :disabled="isAppRadioBusy">
                     <v-file-input v-model="prerollFile.value.value" :label="$t('app.radio.preroll.select_file')"
                         accept="audio/mpeg" :disabled="isAppRadioBusy" show-size prepend-icon="mdi-music"
-                        :error-messages="prerollFile.errorMessage.value"
-                        required></v-file-input>
+                        :error-messages="prerollFile.errorMessage.value" required></v-file-input>
                     <v-btn type="submit" color="primary" :loading="isAppRadioBusy"
                         :disabled="!prerollFile.value.value || isAppRadioBusy" class="mt-2" block>
                         {{ isAppRadioBusy ? $t('loading') : $t('app.radio.preroll.upload_btn') }}
@@ -99,7 +124,7 @@
 
     </template>
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, watch } from 'vue';
 import { useField, useForm } from 'vee-validate';
 const props = defineProps({ platform: String, id: Number, appData: Object })
 const config = useRuntimeConfig();
@@ -107,15 +132,39 @@ const uploadSuccess = ref(false);
 const uploadFailed = ref(false);
 const deletePrerollSuccess = ref(false);
 const deletePrerollFailed = ref(false);
+const startMenu = ref(false);
+const endMenu = ref(false);
+const startDate = ref(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000));
+const endDate = ref(new Date());
+const prerollFile = useField('preroll', "size:3000|mimes:audio/mpeg");
 
+function formatDate(date) {
+    if (!date) return '';
+    return new Date(date).toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    });
+}
+
+watch([startDate, endDate], () => {
+    refresh();
+});
 
 const { handleSubmit, isSubmitting: isAppRadioBusy, setErrors } = useForm({
     initialValues: {
     }
 });
 
-const prerollFile = useField('preroll', "size:3000|mimes:audio/mpeg");
-const { data: preRolls, pending, error, refresh } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.appData.id}/radios/${props.id}/prerolls/`);
+const getPrerollUrl = () => {
+    const base = `${config.public.baseURL}/mobile_apps/${props.platform}/${props.appData.id}/radios/${props.id}/prerolls/`;
+    const params = [];
+    if (startDate.value) params.push(`start_date=${encodeURIComponent(startDate.value.toISOString().split('T')[0])}`);
+    if (endDate.value) params.push(`end_date=${encodeURIComponent(endDate.value.toISOString().split('T')[0])}`);
+    return params.length ? `${base}?${params.join('&')}` : base;
+};
+
+const { data: preRolls, pending, error, refresh } = await useFetchAuth(getPrerollUrl);
 
 async function savePrerollRequest(values) {
     let formData = new FormData();
@@ -169,3 +218,12 @@ function deletePreRoll(preroll, idx) {
 }
 
 </script>
+
+<style scoped>
+.date-picker-wrapper {
+    transform: scale(0.7);
+    /* Shrink to 80% */
+    transform-origin: top left;
+    width: fit-content;
+}
+</style>
