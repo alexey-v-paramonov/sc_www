@@ -57,7 +57,7 @@
                         <tr v-if="preRolls && preRolls.length > 0" v-for="(preroll, idx) in preRolls" :key="preroll.id">
                             <td>
                                 <a :href="preroll.file" target="_blank">{{ preroll.filename }}</a> <br />
-                                <audio controls>
+                                <audio controls preload="none">
                                     <source :src="preroll.file" type="audio/mpeg">
                                 </audio>
                             </td>
