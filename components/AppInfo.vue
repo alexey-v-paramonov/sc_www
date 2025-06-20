@@ -29,7 +29,7 @@
                         :label="$t('email')"></v-text-field>
 
                     <v-text-field class="mt-4" v-if="locale == 'ru'" v-model="yandex_appmetrica_key.value.value" type="text"
-                        :error-messages="yandex_appmetrica_key.errorMessage.value" label="API ключ Яндекс AppMetrica"
+                        :error-messages="yandex_appmetrica_key.errorMessage.value" label="API ключ Яндекс AppMetrica (не обязательно)"
                         >
                         <template #details >
                             <div class="text-left">

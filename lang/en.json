@@ -99,7 +99,7 @@
         "minimal_requirements": "Minimum system requirements: 1 CPU core, 1Gb RAM, enough disk space to fit all the audio content",
         "supported_arch": "Suppored architecture: x86 64bit",
         "ip": "Server IP address",
-        "server_domain": "Domain name",
+        "server_domain": "Domain name (optional)",
         "root_username": "Username",
         "root_password": "root user password",
         "comments": "Additional comments or details.",
