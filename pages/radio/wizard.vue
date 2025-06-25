@@ -21,11 +21,12 @@
               </template>
             </v-radio>
             <br />
-            <v-radio value="2">
+            <v-radio value="2" :disabled="locale == 'ru'">
               <template #label>
                 <div>
                   {{ $t('hosted.title') }}
-                  <div class="text-caption">{{ $t('hosted.help') }}</div>
+                  <div class="text-caption">{{ $t('hosted.help') }} </div>
+                  <div class="text-caption" style="color: red; font-weight: bold;">Временно не предоставляется</div>
                 </div>
               </template>
             </v-radio>
