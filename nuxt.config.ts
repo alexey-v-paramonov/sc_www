@@ -5,7 +5,7 @@ import vuetify from "vite-plugin-vuetify";
 export default defineNuxtConfig({
   ssr: false,
   app: {
-    keepalive: false
+    keepalive: false,
   },
   css: ["@/assets/main.scss", "@mdi/font/css/materialdesignicons.min.css"],
   devtools: { enabled: true },
@@ -19,14 +19,14 @@ export default defineNuxtConfig({
       "process.env.DEBUG": false,
     },
     ssr: {
-      noExternal: ['vuetify']
-    }
+      noExternal: ["vuetify"],
+    },
   },
   modules: [
-    '@nuxtjs/i18n',
-    '@pinia/nuxt',
-    '@nuxtjs/google-fonts',
-    'vue3-perfect-scrollbar/nuxt',
+    "@nuxtjs/i18n",
+    "@pinia/nuxt",
+    "@nuxtjs/google-fonts",
+    "vue3-perfect-scrollbar/nuxt",
     async (options, nuxt) => {
       nuxt.hooks.hook("vite:extendConfig", (config) => {
         config.plugins ||= [];
@@ -36,36 +36,36 @@ export default defineNuxtConfig({
   ],
   googleFonts: {
     families: {
-      'Raleway':[400,500,600,700],
-    }
+      Raleway: [400, 500, 600, 700],
+    },
   },
   i18n: {
     locales: [
       {
-        code: 'en',
-        file: 'en.json',
-        domain: 'app.streaming.center'
+        code: "en",
+        file: "en.json",
+        domain: "app.streaming.center",
       },
       {
-        code: 'ru',
-        file: 'ru.json',
-        domain: 'app.radio-tochka.com'
+        code: "ru",
+        file: "ru.json",
+        domain: "app.radio-tochka.com",
         // domain: 'localhost'
       },
     ],
     lazy: true,
-    langDir: 'lang',
+    langDir: "lang",
     differentDomains: true,
     detectBrowserLanguage: false,
-    defaultLocale: 'ru'
+    defaultLocale: "ru",
   },
   runtimeConfig: {
     public: {
-      baseURL: 'https://streaming.center/api/v1',
-      //baseURL: 'http://localhost:9191/api/v1',
+      baseURL: process.env.BASE_URL || "https://streaming.center/api/v1",
     },
   },
   //devServer: {
+  //  http://localhost:9191/api/v1
   //  port: 8080
   //}
-})
+});
