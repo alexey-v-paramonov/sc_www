@@ -505,7 +505,9 @@ const onRadioSubmit = handleSubmit(async values => {
   router.push("/radio");
 });
 
+if(locale.value != "ru"){
+  calculatePrice();
 
-calculatePrice();
+}
 
 </script>
