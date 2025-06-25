@@ -130,6 +130,8 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+const { locale } = useI18n();
+
 const props = defineProps({ platform: String, id: Number })
 const config = useRuntimeConfig();
 
