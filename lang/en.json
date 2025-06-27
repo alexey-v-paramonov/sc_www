@@ -135,7 +135,7 @@
         "legal_2": "I will not use copyrighted content or my stream is not public",
         "legal_2_help": "If you break the rules, your account will be blocked without the possibility of a refund.",
         "legal_3": "Test account",
-        "legal_3_help": "You can test the operation of the radio control panel without installation on your server for 5 days.",
+        "legal_3_help": "You can test the operation of the radio control panel without installation on your server for 5 days. You can not upload your own music files in test mode, but you can use our test audio files.",
         "station_id": "Station ID",
         "station_id_hint": "Latin characters and digits only, special characters are not allowed.",
         "station_url": "You can assign a different domain later, by default your station URL will be",
