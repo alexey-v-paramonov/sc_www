@@ -26,7 +26,7 @@
                 <div>
                   {{ $t('hosted.title') }}
                   <div class="text-caption">{{ $t('hosted.help') }} </div>
-                  <div class="text-caption" style="color: red; font-weight: bold;">Временно не предоставляется</div>
+                  <div v-if="locale == 'ru'" class="text-caption" style="color: red; font-weight: bold;">Временно не предоставляется</div>
                 </div>
               </template>
             </v-radio>
