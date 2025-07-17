@@ -142,7 +142,6 @@ const startMenu = ref(false);
 const endMenu = ref(false);
 const startDate = ref(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000));
 const endDate = ref(new Date());
-const prerollFile = useField('preroll', "size:3000|mimes:audio/mpeg");
 
 function formatDate(date) {
     if (!date) return '';
@@ -172,6 +171,7 @@ const { handleSubmit, isSubmitting: isAppRadioBusy, setErrors } = useForm({
     initialValues: {
     }
 });
+const prerollFile = useField('preroll', "size:3000|mimes:audio/mpeg");
 
 const getPrerollUrl = () => {
     const base = `${config.public.baseURL}/mobile_apps/${props.platform}/${props.appData.id}/radios/${props.id}/prerolls/`;
@@ -194,8 +194,6 @@ async function savePrerollRequest(values) {
 }
 
 const onPrerollSubmit = handleSubmit(async values => {
-    console.log('onPrerollSubmit', values);
-
     let response;
     try {
         response = await savePrerollRequest(values);
