@@ -19,7 +19,7 @@ export default defineNuxtPlugin(nuxtApp => {
   });
 
   defineRule("required_if", (value, [target, targetValue]: [string, any], ctx) => {
-    if (targetValue === ctx.form[target]) {
+    if (targetValue === ctx.form[target] && !value) {
       return AllRules.required(value);
     }
     return true;
