@@ -5,7 +5,7 @@
         <v-col>
           <div class="text-h6 mb-4" >{{ $t('billing.invoice_request.title') }}</div>
           <p class="font-italic">{{ $t('billing.invoice_request.internation_payment_hint') }}</p>
-          <p>{{ $t('billing.invoice_request.service_fee') }}: <strong>15%</strong> <span class="font-italic">({{ $t('billing.invoice_request.looking') }})</span></p>
+          <p>{{ $t('billing.invoice_request.service_fee') }}: <strong>15%</strong></p>
         </v-col>
       </v-row>
       <v-row md="12" v-if="!invoiceRequesSent">
