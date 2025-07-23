@@ -21,12 +21,11 @@
               </template>
             </v-radio>
             <br />
-            <v-radio value="2" :disabled="locale == 'ru'">
+            <v-radio value="2">
               <template #label>
                 <div>
                   {{ $t('hosted.title') }}
                   <div class="text-caption">{{ $t('hosted.help') }} </div>
-                  <div v-if="locale == 'ru'" class="text-caption" style="color: red; font-weight: bold;">Временно не предоставляется</div>
                 </div>
               </template>
             </v-radio>
@@ -151,7 +150,7 @@
 
 
               <v-radio-group v-model="legal_type.value.value">
-                <v-radio value="1">
+                <!-- <v-radio value="1">
                   <template #label>
                     <div>
                       {{ $t('hosted.legal_1') }}
@@ -169,7 +168,7 @@
                     </div>
                   </template>
                 </v-radio>
-                <br />
+                <br /> -->
                 <v-radio value="3">
                   <template #label>
                     <div>
@@ -397,7 +396,7 @@ ssh_username.value.value = "root";
 ssh_port.value.value = "22";
 is_unbranded.value.value = false;
 install_myself.value.value = "1";
-legal_type.value.value = "1";
+legal_type.value.value = locale.value == "ru" ? "3" : "1";
 const domain_name = ref('');
 const ssh_root_pass = ref('');
 const additional_notes = ref('');
