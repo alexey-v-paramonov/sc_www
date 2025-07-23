@@ -150,7 +150,7 @@
 
 
               <v-radio-group v-model="legal_type.value.value">
-                <!-- <v-radio value="1">
+                <v-radio value="1" v-if="locale == 'en'">
                   <template #label>
                     <div>
                       {{ $t('hosted.legal_1') }}
@@ -160,7 +160,7 @@
                   </template>
                 </v-radio>
                 <br />
-                <v-radio value="2">
+                <v-radio value="2" v-if="locale == 'en'">
                   <template #label>
                     <div>
                       {{ $t('hosted.legal_2') }}
@@ -168,7 +168,7 @@
                     </div>
                   </template>
                 </v-radio>
-                <br /> -->
+                <br />
                 <v-radio value="3">
                   <template #label>
                     <div>
