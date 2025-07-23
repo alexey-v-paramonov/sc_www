@@ -159,7 +159,7 @@
                     </div>
                   </template>
                 </v-radio>
-                <br />
+                <br   v-if="locale == 'en'" />
                 <v-radio value="2" v-if="locale == 'en'">
                   <template #label>
                     <div>
@@ -168,7 +168,7 @@
                     </div>
                   </template>
                 </v-radio>
-                <br />
+                <br  v-if="locale == 'en'" />
                 <v-radio value="3">
                   <template #label>
                     <div>
