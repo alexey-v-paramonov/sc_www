@@ -43,7 +43,7 @@
               <td>
                 <v-chip v-if="selfHostedStatus(item) == RADIO_STATUS.PENDING || selfHostedStatus(item) == RADIO_STATUS.BEING_CREATED" variant="flat" color="green">{{ $t('self_hosted.status.being_created') }}</v-chip>
                 <v-chip v-if="selfHostedStatus(item) == RADIO_STATUS.READY" variant="flat" color="primary">{{ $t('self_hosted.status.running') }}</v-chip>
-                <v-chip v-if="selfHostedStatus(item) == RADIO_STATUS.SUSPENDED" variant="flat" color="red">{{ $t('self_hosted.status.suspended') }}</v-chip>
+                <v-chip v-if="selfHostedStatus(item) == RADIO_STATUS.SUSPENDED" variant="flat" color="error">{{ $t('self_hosted.status.suspended') }}</v-chip>
                 <v-chip v-if="isTrial(item)" variant="flat" color="green">{{ $t('self_hosted.status.trial_period') }}</v-chip>
 
               </td>
@@ -121,9 +121,9 @@
               <td>
                 <v-chip v-if="item.status == RADIO_STATUS.PENDING || item.status == RADIO_STATUS.BEING_CREATED" variant="flat" color="green">{{ $t('hosted.status.being_created') }}</v-chip>
                 <v-chip v-if="item.status == RADIO_STATUS.READY" variant="flat" color="primary">{{ $t('hosted.status.running') }}</v-chip>
-                <v-chip v-if="item.status == RADIO_STATUS.BEING_DELETED" variant="flat" color="red">{{ $t('hosted.status.being_deleted') }}</v-chip>
-                <v-chip v-if="item.status == RADIO_STATUS.SUSPENDED" variant="flat" color="red">{{ $t('hosted.status.suspended') }}</v-chip>
-                <v-chip v-if="item.status == RADIO_STATUS.ERROR" variant="flat" color="red">{{ $t('hosted.status.error') }}</v-chip>
+                <v-chip v-if="item.status == RADIO_STATUS.BEING_DELETED" variant="flat" color="error">{{ $t('hosted.status.being_deleted') }}</v-chip>
+                <v-chip v-if="item.status == RADIO_STATUS.SUSPENDED" variant="flat" color="error">{{ $t('hosted.status.suspended') }}</v-chip>
+                <v-chip v-if="item.status == RADIO_STATUS.ERROR" variant="flat" color="error">{{ $t('hosted.status.error') }}</v-chip>
               </td>
               <td>{{ item.price }}{{ $t('currency')}}/{{ $t('monthly') }}</td>
 

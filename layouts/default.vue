@@ -177,7 +177,7 @@ function Logout() {
       <v-spacer></v-spacer>
 
       <NuxtLink v-if="user && user.userData && user.userData.balance !== null" to="/billing">
-        <v-chip variant="elevated" elevation="0" color="accent">
+        <v-chip variant="elevated" elevation="0" :color="user.userData.balance < 0 ? 'error' : 'accent'">
           <span v-if="display.smAndUp">{{ user.userData.email }}</span> &nbsp;&nbsp; <span class="font-weight-black">{{
             user.userData.balance }} {{ $t('currency') }}</span>
 
