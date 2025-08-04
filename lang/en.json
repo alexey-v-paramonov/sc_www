@@ -122,7 +122,7 @@
         "password_hint": "is generated upon account creation and sent to your email:",
         "status": {
             "being_created": "The software is being configured",
-            "run_install": "Run install script",
+            "run_install": "Run the install script to set up.",
             "running": "Running",
             "suspended": "Suspended",
             "trial_period": "2 days free trial"
