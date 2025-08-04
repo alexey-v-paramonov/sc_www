@@ -42,6 +42,7 @@
               <td>{{ item.domain }}</td>
               <td>
                 <v-chip v-if="selfHostedStatus(item) == RADIO_STATUS.PENDING || selfHostedStatus(item) == RADIO_STATUS.BEING_CREATED" variant="flat" color="green">{{ $t('self_hosted.status.being_created') }}</v-chip>
+                <v-chip v-if="selfHostedStatus(item) == RADIO_STATUS.RUN_INSTALL" variant="flat" color="green">{{ $t('self_hosted.status.run_install') }}</v-chip>
                 <v-chip v-if="selfHostedStatus(item) == RADIO_STATUS.READY" variant="flat" color="primary">{{ $t('self_hosted.status.running') }}</v-chip>
                 <v-chip v-if="selfHostedStatus(item) == RADIO_STATUS.SUSPENDED" variant="flat" color="error">{{ $t('self_hosted.status.suspended') }}</v-chip>
                 <v-chip v-if="isTrial(item)" variant="flat" color="green">{{ $t('self_hosted.status.trial_period') }}</v-chip>
@@ -217,6 +218,7 @@ const RADIO_STATUS = {
   BEING_DELETED: 4,
   SUSPENDED: 5,
   ERROR: 6,
+  RUN_INSTALL: 7,
 }
 
 const { data: self_hosted_radios, pending: self_hosted_radios_loading, refresh: reloadSelfHostedRadios } = await useFetchAuth(`${config.public.baseURL}/self_hosted_radio/`);
@@ -236,6 +238,10 @@ function selfHostedStatus(radio){
   if(!isTrial(radio) && zeroBalance && radio.status == RADIO_STATUS.READY && radio.price > 0){
     return RADIO_STATUS.SUSPENDED;
   }
+  if(radio.status == RADIO_STATUS.PENDING && radio.ssh_password == null){
+    return RADIO_STATUS.RUN_INSTALL;
+  }
+
   return radio.status;
 }
 
