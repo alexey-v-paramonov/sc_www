@@ -32,11 +32,11 @@
 
                         <tr v-if="appRadios && appRadios.length > 0 && !pending" v-for="(appRadio, index) in appRadios"
                             :key="appRadio.id">
-                            <td style="width: 100px;" class="pa-2">
+                            <td style="width: 100px;" class="pa-2" @click="openRadioDialog(appRadio)">
                                 <img :src="appRadio.logo" class="app-image-thumbnail">
                             </td>
 
-                            <td>
+                            <td @click="openRadioDialog(appRadio)">
                                 {{ appRadio.title }}
                             </td>
                             <td class="text-no-wrap" :style="display.smAndUp?'width: 240px':''">
