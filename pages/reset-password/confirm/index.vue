@@ -11,12 +11,12 @@
 
           <v-text-field v-model="password.value.value" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showPass ? 'text' : 'password'" name="password" :label="$t('password')" :hint="$t('chars_min_8')"
-            counter :error-messages="password.errorMessage.value" @click:append="showPass = !showPass"></v-text-field>
+             :error-messages="password.errorMessage.value" @click:append="showPass = !showPass"></v-text-field>
 
           <NuxtLink to="/login" class="text-body-2 font-weight-regular">{{ $t('password_reset.back_to_login') }}
           </NuxtLink>
 
-          <v-btn type="submit" :disabled="isPassResetConfirmSubmitting" block class="mt-2">{{
+          <v-btn type="submit" :disabled="isPassResetConfirmSubmitting" color="primary" block class="mt-2">{{
             isPassResetConfirmSubmitting ? $t('loading') : $t('password_reset.cta') }}</v-btn>
         </v-form>
 
@@ -24,7 +24,7 @@
           <v-card :title="$t('password_reset.token_is_invalid')" :text="$t('password_reset.token_is_invalid_text')"
             prepend-icon="mdi-alert">
             <v-card-actions>
-              <v-btn @click="goToPasswordReset()">
+              <v-btn color="primary" @click="goToPasswordReset()">
                 {{ $t('password_reset.cta') }}
               </v-btn>
             </v-card-actions>
@@ -34,7 +34,7 @@
           <v-card :title="$t('password_reset.done_title')" :text="$t('password_reset.done_text')"
             prepend-icon="mdi-check">
             <v-card-actions>
-              <v-btn @click="goToLogin()">
+              <v-btn  color="primary" @click="goToLogin()">
                 {{ $t('password_reset.back_to_login') }}
               </v-btn>
             </v-card-actions>
