@@ -25,6 +25,40 @@ export default defineNuxtPlugin(nuxtApp => {
     return true;
   });
 
+  defineRule('image_square_dimensions', async (value, [minWidth, minHeight]) => {
+    if (!value || !value.length) {
+        return true; // Not required, so validation passes if empty
+    }
+    const file = value[0];
+    if (!(file instanceof File)) {
+        return true; // Should be handled by a file type rule
+    }
+
+    const nuxtApp = useNuxtApp();
+    const $t = nuxtApp.$i18n.t;
+
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+            const w = parseInt(minWidth);
+            const h = parseInt(minHeight);
+
+            if (img.width < w || img.height < h) {
+                return resolve($t('catalog.radio.errors.logo_dimensions', { width: w, height: h }));
+            }
+            // Check for squareness with a small tolerance
+            if (Math.abs(img.width / img.height - 1) > 0.02) {
+                return resolve($t('catalog.radio.errors.logo_square'));
+            }
+            return resolve(true);
+        };
+        img.onerror = () => {
+            return resolve($t('catalog.radio.errors.logo_invalid'));
+        };
+        img.src = URL.createObjectURL(file);
+    });
+  });
+
   configure({
     generateMessage: localize({
       en: {

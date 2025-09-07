@@ -2,7 +2,7 @@
   <v-container>
     <v-row no-gutters md="12">
       <v-col class="text-right">
-        <v-btn prepend-icon="mdi-plus" to="/catalog/add" color="primary">{{ $t('catalog.add_radio_cta') }}</v-btn>
+        <v-btn prepend-icon="mdi-plus" to="/catalog/0" color="primary">{{ $t('catalog.add_radio_cta') }}</v-btn>
       </v-col>
     </v-row>
 
@@ -56,7 +56,7 @@
                 <br /><br />
                 <!-- Link to the catalog -->
 
-                <v-btn color="primary" to="/catalog/add" class="mt-2">{{ $t('catalog.add_radio_cta') }}</v-btn>
+                <v-btn color="primary" to="/catalog/0" class="mt-2">{{ $t('catalog.add_radio_cta') }}</v-btn>
               </td>
             </tr>
           </tbody>
