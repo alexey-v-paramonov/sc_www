@@ -478,5 +478,14 @@
 
         }
     },
+    "catalog": {
+        "long_title": "Your Stations in the Streaming.Center Catalog",
+        "radios_empty": "Your stations are not added to our catalog, you can add them to increase your audience.",
+        "add_radio_cta": "Add Station to Catalog",
+
+        "radio_name": "Radio Name"
+
+    },
+
     "password_confirmation": "Confirm Password"
 }

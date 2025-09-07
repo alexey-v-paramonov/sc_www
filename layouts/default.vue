@@ -29,9 +29,9 @@ const computedTitle = computed(() => {
 
 
 useHead
-({
-  title: computedTitle,
-  script: [{
+  ({
+    title: computedTitle,
+    script: [{
       innerHTML: locale.value == "ru" ? `
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 (function(){
@@ -51,7 +51,7 @@ s1.setAttribute('crossorigin','*');
 s0.parentNode.insertBefore(s1,s0);
 })();`
     }]
-});
+  });
 
 getUserData();
 
@@ -123,8 +123,12 @@ function Logout() {
               :title="$t('nav_ios')"></v-list-item>
 
             <!-- Catalog -->
-            <!-- <v-list-subheader color="darkText" class="smallCap text-uppercase text-subtitle-2 mt-5 font-weight-bold" :title="$t('nav_catalog')"></v-list-subheader>
-          <v-list-item to="/catalog" prepend-icon="mdi-bookmark-box-multiple" rounded class="mb-1" active-color="primary" :title="$t('nav_catalog_stations')"></v-list-item> -->
+            <template v-if="user.userData.email == 'info@streaming.center' || user.userData.email == 'info@radio-tochka.com' ">
+              <v-list-subheader color="darkText" class="smallCap text-uppercase text-subtitle-2 mt-5 font-weight-bold"
+                :title="$t('nav_catalog')"></v-list-subheader>
+              <v-list-item to="/catalog" prepend-icon="mdi-radio" rounded class="mb-1"
+                active-color="primary" :title="$t('nav_catalog_stations')"></v-list-item>
+            </template>
 
             <!-- Billing -->
             <v-list-subheader color="darkText" class="smallCap text-uppercase text-subtitle-2 mt-5 font-weight-bold"
