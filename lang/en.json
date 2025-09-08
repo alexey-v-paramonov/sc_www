@@ -482,8 +482,22 @@
         "long_title": "Your Stations in the Streaming.Center Catalog",
         "radios_empty": "Your stations are not added to our catalog, you can add them to increase your audience.",
         "add_radio_cta": "Add Station to Catalog",
+        "radio_name": "Radio Name",
+        "radio": {
+            "add_title": "Add Radio to Catalog",
+            "edit_title": "Edit Radio in Catalog",
+            "name": "Radio Name",
+            "website": "Radio Website",
+            "description": "Description",
+            "language": "Language",
+            "country": "Country",
+            "genre": "Genre",
+            "genre_hint": "Select the most suitable genre for your radio station",
+            "genres": "Genres",
+            "logo": "Radio Logo",
+            "logo_hint": "Displayed in the catalog and in the application. Format: 256x256px, PNG or JPG"
+        }
 
-        "radio_name": "Radio Name"
 
     },
 
