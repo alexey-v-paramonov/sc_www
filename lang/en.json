@@ -491,11 +491,18 @@
             "description": "Description",
             "language": "Language",
             "country": "Country",
+            "region": "Region",
+            "city": "City",
             "genre": "Genre",
             "genre_hint": "Select the most suitable genre for your radio station",
             "genres": "Genres",
             "logo": "Radio Logo",
-            "logo_hint": "Displayed in the catalog and in the application. Format: 256x256px, PNG or JPG"
+            "logo_hint": "Displayed in the catalog and in the application. Format: 256x256px, PNG or JPG",
+            "errors": {
+                "logo_square": "Logo must be square (width and height are the same), at least 256x256 pixels",
+                "streams_empty": "Your radio must have at least one stream"
+            }
+
         }
 
 
