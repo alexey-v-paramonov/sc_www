@@ -20,12 +20,12 @@
                         :error-messages="country.errorMessage.value" :label="$t('catalog.radio.country')"
                         @update:modelValue="onCountryChange"></v-autocomplete>
 
-                    <v-autocomplete v-model="region.value.value" :items="regions" item-title="name" item-value="id"
+                    <v-autocomplete v-model="region.value.value" :items="regions" :item-title="item => item.name || item.name_eng" item-value="id"
                         :error-messages="region.errorMessage.value" :label="$t('catalog.radio.region')"
                         :disabled="!country.value.value" :loading="regionsLoading"
                         @update:modelValue="onRegionChange"></v-autocomplete>
 
-                    <v-autocomplete v-model="city.value.value" :items="cities" item-title="name" item-value="id"
+                    <v-autocomplete v-model="city.value.value" :items="cities" :item-title="item => item.name || item.name_eng" item-value="id"
                         :error-messages="city.errorMessage.value" :label="$t('catalog.radio.city')"
                         :disabled="!country.value.value" :loading="citiesLoading"></v-autocomplete>
 
