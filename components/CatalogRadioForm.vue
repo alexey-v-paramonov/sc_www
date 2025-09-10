@@ -12,22 +12,22 @@
                     <v-textarea v-model="description.value.value" :error-messages="description.errorMessage.value"
                         :label="$t('catalog.radio.description')"></v-textarea>
 
-                    <v-select v-model="language.value.value" :items="languages" item-title="name" item-value="id"
+                    <v-autocomplete v-model="language.value.value" :items="languages" item-title="name" item-value="id"
                         :error-messages="language.errorMessage.value" :label="$t('catalog.radio.language')"
-                        multiple chips></v-select>
+                        multiple chips></v-autocomplete>
 
-                    <v-select v-model="country.value.value" :items="countries" item-title="name" item-value="id"
+                    <v-autocomplete v-model="country.value.value" :items="countries" item-title="name" item-value="id"
                         :error-messages="country.errorMessage.value" :label="$t('catalog.radio.country')"
-                        @update:modelValue="onCountryChange"></v-select>
+                        @update:modelValue="onCountryChange"></v-autocomplete>
 
-                    <v-select v-model="region.value.value" :items="regions" item-title="name" item-value="id"
+                    <v-autocomplete v-model="region.value.value" :items="regions" item-title="name" item-value="id"
                         :error-messages="region.errorMessage.value" :label="$t('catalog.radio.region')"
                         :disabled="!country.value.value" :loading="regionsLoading"
-                        @update:modelValue="onRegionChange"></v-select>
+                        @update:modelValue="onRegionChange"></v-autocomplete>
 
-                    <v-select v-model="city.value.value" :items="cities" item-title="name" item-value="id"
+                    <v-autocomplete v-model="city.value.value" :items="cities" item-title="name" item-value="id"
                         :error-messages="city.errorMessage.value" :label="$t('catalog.radio.city')"
-                        :disabled="!country.value.value" :loading="citiesLoading"></v-select>
+                        :disabled="!country.value.value" :loading="citiesLoading"></v-autocomplete>
 
                     <div class="text-subtitle-1">{{ $t('catalog.radio.genres') }}</div>
                     <v-row>
