@@ -17,7 +17,17 @@
                         multiple chips></v-select>
 
                     <v-select v-model="country.value.value" :items="countries" item-title="name" item-value="id"
-                        :error-messages="country.errorMessage.value" :label="$t('catalog.radio.country')"></v-select>
+                        :error-messages="country.errorMessage.value" :label="$t('catalog.radio.country')"
+                        @update:modelValue="onCountryChange"></v-select>
+
+                    <v-select v-model="region.value.value" :items="regions" item-title="name" item-value="id"
+                        :error-messages="region.errorMessage.value" :label="$t('catalog.radio.region')"
+                        :disabled="!country.value.value" :loading="regionsLoading"
+                        @update:modelValue="onRegionChange"></v-select>
+
+                    <v-select v-model="city.value.value" :items="cities" item-title="name" item-value="id"
+                        :error-messages="city.errorMessage.value" :label="$t('catalog.radio.city')"
+                        :disabled="!country.value.value" :loading="citiesLoading"></v-select>
 
                     <div class="text-subtitle-1">{{ $t('catalog.radio.genres') }}</div>
                     <v-row>
@@ -94,6 +104,11 @@ const { data: languages } = await useFetchAuth(`${config.public.baseURL}/catalog
 const { data: countries } = await useFetchAuth(`${config.public.baseURL}/catalog/countries/`);
 const { data: genres } = await useFetchAuth(`${config.public.baseURL}/catalog/genres/`);
 
+const regions = ref([]);
+const cities = ref([]);
+const regionsLoading = ref(false);
+const citiesLoading = ref(false);
+
 
 
 const { handleSubmit, isSubmitting, setValues, setErrors } = useForm({
@@ -108,19 +123,95 @@ const website = useField('website', 'required|url');
 const description = useField('description');
 const language = useField('language', 'required');
 const country = useField('country', 'required');
+const region = useField('region');
+const city = useField('city');
 const genresSelection = useField('genres', 'required');
 const logo = useField('logo', 'image_square_dimensions:256,256');
+
+const onCountryChange = async (countryId) => {
+    region.value.value = null;
+    city.value.value = null;
+    regions.value = [];
+    cities.value = [];
+
+    if (!countryId) return;
+
+    regionsLoading.value = true;
+    citiesLoading.value = true;
+    try {
+        const [regionsData, citiesData] = await Promise.all([
+            $fetch(`${config.public.baseURL}/catalog/regions/`, { params: { country_id: countryId } }),
+            $fetch(`${config.public.baseURL}/catalog/cities/`, { params: { country_id: countryId } })
+        ]);
+        regions.value = regionsData;
+        cities.value = citiesData;
+    } catch (e) {
+        console.error('Failed to load regions or cities', e);
+    } finally {
+        regionsLoading.value = false;
+        citiesLoading.value = false;
+    }
+};
+
+const onRegionChange = async (regionId) => {
+    city.value.value = null;
+    cities.value = [];
+
+    const countryId = country.value.value;
+    if (!countryId) return;
+
+    citiesLoading.value = true;
+    try {
+        const params = { country_id: countryId };
+        if (regionId) {
+            params.region_id = regionId;
+        }
+        cities.value = await $fetch(`${config.public.baseURL}/catalog/cities/`, { params });
+    } catch (e) {
+        console.error('Failed to load cities', e);
+    } finally {
+        citiesLoading.value = false;
+    }
+};
 
 onMounted(async () => {
     if (isEditMode.value) {
         try {
             const radioData = await $fetch(`${config.public.baseURL}/catalog/radios/${props.id}/`);
+
+            const countryId = radioData.country?.id;
+            const regionId = radioData.region?.id;
+
+            if (countryId) {
+                regionsLoading.value = true;
+                citiesLoading.value = true;
+                try {
+                    const cityParams = { country_id: countryId };
+                    if (regionId) {
+                        cityParams.region_id = regionId;
+                    }
+                    const [regionsData, citiesData] = await Promise.all([
+                        $fetch(`${config.public.baseURL}/catalog/regions/`, { params: { country_id: countryId } }),
+                        $fetch(`${config.public.baseURL}/catalog/cities/`, { params: cityParams })
+                    ]);
+                    regions.value = regionsData;
+                    cities.value = citiesData;
+                } catch (e) {
+                    console.error('Failed to load initial location data', e);
+                } finally {
+                    regionsLoading.value = false;
+                    citiesLoading.value = false;
+                }
+            }
+
             setValues({
                 name: radioData.name,
                 website: radioData.website,
                 description: radioData.description,
                 language: radioData.language.map(l => l.id),
-                country: radioData.country.id,
+                country: radioData.country?.id,
+                region: radioData.region?.id,
+                city: radioData.city?.id,
                 genres: radioData.genres.map(g => g.id),
             });
             if (radioData.logo) {
@@ -154,6 +245,12 @@ const onSubmit = handleSubmit(async (values) => {
     formData.append('website', values.website);
     formData.append('description', values.description);
     formData.append('country', values.country);
+    if (values.region) {
+        formData.append('region', values.region);
+    }
+    if (values.city) {
+        formData.append('city', values.city);
+    }
     values.language.forEach(langId => formData.append('language', langId));
     values.genres.forEach(genreId => formData.append('genres', genreId));
 
