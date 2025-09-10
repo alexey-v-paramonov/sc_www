@@ -34,7 +34,8 @@
                         <v-col v-for="n in 3" :key="n" cols="12" md="4">
                             <template v-for="(genre, index) in genres" :key="genre.id">
                                 <v-checkbox v-if="index % 3 === (n - 1)" v-model="genresSelection.value.value"
-                                    :label="genre.name" :value="genre.id" hide-details></v-checkbox>
+                                    :label="genre.name" :value="genre.id" hide-details
+                                    :disabled="genresSelection.value.value && genresSelection.value.value.length >= 3 && !genresSelection.value.value.includes(genre.id)"></v-checkbox>
                             </template>
                         </v-col>
                     </v-row>
@@ -121,12 +122,18 @@ const { handleSubmit, isSubmitting, setValues, setErrors } = useForm({
 const name = useField('name', 'required');
 const website = useField('website', 'required|url');
 const description = useField('description');
-const language = useField('language', 'required');
+const language = useField('language', 'required|max:3');
 const country = useField('country', 'required');
 const region = useField('region');
 const city = useField('city');
-const genresSelection = useField('genres', 'required');
+const genresSelection = useField('genres', 'required|max:3');
 const logo = useField('logo', 'image_square_dimensions:256,256');
+
+watch(language.value, (newValue) => {
+    if (newValue && newValue.length > 3) {
+        language.value.value.pop();
+    }
+});
 
 const onCountryChange = async (countryId) => {
     region.value.value = null;
