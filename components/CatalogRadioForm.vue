@@ -29,11 +29,10 @@
 
                 </v-col>
                 <v-col cols="12" md="4">
+                    <v-img v-if="logoPreview" :src="logoPreview" aspect-ratio="1" class="mb-4"></v-img>
                     <v-file-input v-model="logo.value.value" :error-messages="logo.errorMessage.value"
                         :label="$t('catalog.radio.logo')" accept="image/*" @change="onFileChange" show-size
                         prepend-icon="mdi-image"></v-file-input>
-                    <v-img v-if="logoPreview" :src="logoPreview" aspect-ratio="1" class="mt-4"></v-img>
-                    <br />
                     <v-autocomplete v-model="language.value.value" :items="languages" item-title="name" item-value="id"
                         :error-messages="language.errorMessage.value" :label="$t('catalog.radio.language')" multiple
                         chips></v-autocomplete>

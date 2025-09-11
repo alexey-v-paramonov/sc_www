@@ -123,7 +123,7 @@ function Logout() {
               :title="$t('nav_ios')"></v-list-item>
 
             <!-- Catalog -->
-            <template v-if="user.userData.email == 'info@streaming.center' || user.userData.email == 'info@radio-tochka.com' ">
+            <template v-if="user.userData.email == 'info@streaming.center' || user.userData.email == 'info@radio-tochka.com' || user.userData.email == 'radiotochka-com@yandex.ru'">
               <v-list-subheader color="darkText" class="smallCap text-uppercase text-subtitle-2 mt-5 font-weight-bold"
                 :title="$t('nav_catalog')"></v-list-subheader>
               <v-list-item to="/catalog" prepend-icon="mdi-radio" rounded class="mb-1"
