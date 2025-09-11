@@ -179,7 +179,7 @@
         "selfhosted_radio": "Радио",
         "self_hosted": "Сервер",
         "catalog_add_radio": "Добавить радио",
-        "catalog_edit_radio": "Редактировать радио"
+        "catalog_edit_radio": "Редактирование радио"
     },
     "radios":{
         "self_hosted":{

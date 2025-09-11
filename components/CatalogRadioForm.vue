@@ -378,7 +378,7 @@ onMounted(async () => {
                 name: radioData.name,
                 website: radioData.website,
                 description: radioData.description,
-                language: radioData.language.map(l => l.id),
+                language: radioData.languages.map(l => l.id),
                 country: radioData.country?.id,
                 region: radioData.region?.id,
                 city: radioData.city?.id,
@@ -389,6 +389,7 @@ onMounted(async () => {
                 logoPreview.value = radioData.logo;
             }
         } catch (e) {
+            console.log(e)
             submitErrorMessage.value = t('catalog.radio.errors.load_failed');
             submitError.value = true;
         }
