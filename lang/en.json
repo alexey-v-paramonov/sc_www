@@ -486,6 +486,12 @@
         "add_radio_cta": "Add Station to Catalog",
         "radio_name": "Radio Name",
         "radio": {
+            "enabled": "Your radio is displayed in the Catalog and can be found by listeners.",
+            "disabled": "Your radio is not displayed in the Catalog because none of the streams are working or accessible. Please check that all streams are active and running, and wait for the next verification, which takes place at night. If the streams start working, the radio will be automatically unlocked.",
+            "create": "Add radio to catalog",
+            "edit": "Edit radio in catalog",
+            "save_success": "Radio has been saved successfully",
+            "save_error": "Failed to save radio, please check the form fields or contact support.",
             "add_title": "Add Radio to Catalog",
             "edit_title": "Edit Radio in Catalog",
             "name": "Radio Name",
@@ -499,10 +505,17 @@
             "genre_hint": "Select the most suitable genre for your radio station",
             "genres": "Genres",
             "logo": "Radio Logo",
-            "logo_hint": "Displayed in the catalog and in the application. Format: 256x256px, PNG or JPG",
+            "logo_hint": "Displayed in the catalog and in the application. Format: 250x250px, PNG or JPG",
+            "stream_url_hint": "Provide the direct radio stream URL, not a player page or the radio’s website. For example: http://stream.radio.com:8000/rock128",
             "errors": {
-                "logo_square": "Logo must be square (width and height are the same), at least 256x256 pixels",
-                "streams_empty": "Your radio must have at least one stream"
+                "save_failed": "Failed to save radio data, please check the form fields or contact support",
+                "logo_square": "Logo must be square (width and height are the same), at least 250x250 pixels",
+                "streams_empty": "Your radio must have at least one stream",
+                "website_url": {
+                    "url_invalid": "Invalid URL",
+                    "content_type": "The URL does not point to a valid website",
+                    "connection_error": "Failed to connect to the website, please check that the URL is correct and the website is online"
+                }
             }
 
         }

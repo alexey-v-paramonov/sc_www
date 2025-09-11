@@ -88,7 +88,7 @@
                 </v-form>
             </v-card-text>
         </v-card>
-        <v-snackbar v-model="uploadSuccess" color="success">
+        <v-snackbar v-model="uploadSuccess" color="accent">
             {{ $t('app.radio.preroll.upload_success') }}
 
             <template v-slot:actions>
@@ -108,7 +108,7 @@
             </template>
         </v-snackbar>
 
-        <v-snackbar v-model="deletePrerollSuccess" color="success">
+        <v-snackbar v-model="deletePrerollSuccess" color="accent">
             {{ $t('app.radio.preroll.delete_success') }}
 
             <template v-slot:actions>

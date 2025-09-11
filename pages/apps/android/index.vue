@@ -94,7 +94,7 @@
     </template>
   </v-snackbar>
 
-  <v-snackbar v-model="pushSuccess" color="success">
+  <v-snackbar v-model="pushSuccess" color="accent">
     {{ $t('apps.push_success') }}
 
     <template v-slot:actions>
@@ -132,7 +132,7 @@
   </v-snackbar>
 
 
-  <v-snackbar v-model="deleteAppSuccess" color="success">
+  <v-snackbar v-model="deleteAppSuccess" color="accent">
     {{ $t('apps.android.delete_success') }}
 
     <template v-slot:actions>

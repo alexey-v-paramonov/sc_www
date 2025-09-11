@@ -173,7 +173,7 @@
 
     </v-form>
   </v-container>
-  <v-snackbar v-model="notifyRadioCreated" color="success">
+  <v-snackbar v-model="notifyRadioCreated" color="accent">
     {{ $t('radio_wizard.created') }}
 
     <template v-slot:actions>

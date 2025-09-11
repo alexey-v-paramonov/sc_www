@@ -33,6 +33,9 @@
                   <v-icon v-if="display.smAndUp" icon="mdi-radio" class="mr-4" />
                   <img :src="item.logo" class="app-image-thumbnail">
                   {{ item.name }}
+                  <v-icon v-if="item.enabled" color="green" icon="mdi-circle" size="x-small" class="mr-2"></v-icon>
+                  <v-icon v-else color="red" icon="mdi-exclamation-thick" size="small" class="mr-2"></v-icon>
+
                 </NuxtLink>
               </td>
               <td :width="display.smAndUp ? '150' : '100'" style="padding: 0">
@@ -101,7 +104,7 @@
   </v-snackbar>
 
 
-  <v-snackbar v-model="deleteRadioSuccess" color="success">
+  <v-snackbar v-model="deleteRadioSuccess" color="accent">
     {{ $t('catalog.radio_delete_success') }}
 
     <template v-slot:actions>

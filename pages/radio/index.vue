@@ -178,7 +178,7 @@
     </template>
   </v-snackbar>
 
-  <v-snackbar v-model="deleteRadioSuccess" color="success">
+  <v-snackbar v-model="deleteRadioSuccess" color="accent">
     {{ $t('radios.delete_success') }}
 
     <template v-slot:actions>

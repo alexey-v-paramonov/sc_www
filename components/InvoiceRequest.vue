@@ -43,7 +43,7 @@
       </v-row>
 
     </div>
-    <v-snackbar v-model="invoiceRequesSuccess" color="success">
+    <v-snackbar v-model="invoiceRequesSuccess" color="accent">
       {{ $t('billing.invoice_request.invoice_request_accepted') }}
 
       <template v-slot:actions>

@@ -43,7 +43,7 @@
     </v-row>
 
   </v-container>
-  <v-snackbar v-model="settingsSaveSuccess" color="success">
+  <v-snackbar v-model="settingsSaveSuccess" color="accent">
     {{ $t('settings.save_success') }}
 
     <template v-slot:actions>
@@ -64,7 +64,7 @@
   </v-snackbar>
 
 
-  <v-snackbar v-model="deleteRequestSuccess" color="success">
+  <v-snackbar v-model="deleteRequestSuccess" color="accent">
     {{ $t('settings.delete_account_request_success') }}
 
     <template v-slot:actions>

@@ -450,7 +450,7 @@
         </template>
     </v-snackbar>
 
-    <v-snackbar v-model="deleteRadioSuccess" color="success">
+    <v-snackbar v-model="deleteRadioSuccess" color="accent">
         {{ $t('app.radios.delete_success') }}
 
         <template v-slot:actions>
@@ -460,7 +460,7 @@
         </template>
     </v-snackbar>
 
-    <v-snackbar v-model="changeOrderSuccess" color="success">
+    <v-snackbar v-model="changeOrderSuccess" color="accent">
         {{ $t('app.radios.change_order_success') }}
 
         <template v-slot:actions>

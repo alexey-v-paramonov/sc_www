@@ -111,7 +111,7 @@
         </template>
     </v-snackbar>
 
-    <v-snackbar v-model="appBuildScheduled" color="success">
+    <v-snackbar v-model="appBuildScheduled" color="accent">
         <span v-if="isAndroid()">
             {{ $t('app.build_scheduled_android') }}
         </span>

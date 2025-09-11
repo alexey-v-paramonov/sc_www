@@ -1,9 +1,21 @@
 <template>
     <v-form @submit.prevent="onSubmit" :disabled="isSubmitting">
         <v-container>
+            <v-row v-if="isEditMode && radioData">
+                <v-col cols="12">
+                    <v-alert v-if="radioData.enabled" type="success" variant="tonal" prominent 
+                        color="accent" border-color="accent">
+                        {{ $t('catalog.radio.enabled') }}
+                    </v-alert>
 
+                    <v-alert v-else type="error" variant="tonal" prominent>
+                        {{ $t('catalog.radio.disabled') }}
+                    </v-alert>
+                </v-col>
+            </v-row>
             <v-row>
                 <v-col cols="12" md="8">
+
                     <v-text-field v-model="name.value.value" :error-messages="name.errorMessage.value"
                         :label="$t('catalog.radio.name')" required></v-text-field>
 
@@ -14,7 +26,7 @@
                         :label="$t('catalog.radio.description')"></v-textarea>
 
 
-                    <div class="text-subtitle-1">{{ $t('catalog.radio.genres') }}</div>
+                    <div class="text-h6">{{ $t('catalog.radio.genres') }}</div>
                     <v-row>
                         <v-col v-for="n in 3" :key="n" cols="12" md="4">
                             <template v-for="(genre, index) in genres" :key="genre.id">
@@ -25,8 +37,8 @@
                             </template>
                         </v-col>
                     </v-row>
-                    <v-messages :active="genresSelection.errorMessage.value"
-                        :messages="genresSelection.errorMessage.value" color="error" class="mt-1"></v-messages>
+                    <v-alert v-if="genresSelection.errorMessage.value"
+                        :text="genresSelection.errorMessage.value" color="error" variant="tonal" class="mt-1"></v-alert>
 
                 </v-col>
                 <v-col cols="12" md="4">
@@ -113,11 +125,11 @@
                             <div class="text-h5 text-center mt-4">{{ $t('app.radio.channels.add_new_title') }}</div>
                             <v-row>
                                 <v-col cols="12">
-
                                     <v-text-field v-model="new_channel_stream_url.value.value" type="url"
                                         :error-messages="new_channel_stream_url.errorMessage.value" maxlength="200"
                                         name="new_channel_stream_url"
-                                        :label="$t('app.radio.channels.stream_url')"></v-text-field>
+                                        :hint="$t('catalog.radio.stream_url_hint')"
+                                        :label="$t('app.radio.channels.stream_url')" persistent-hint></v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row>
@@ -138,10 +150,11 @@
                                 </v-col>
                             </v-row>
                             <v-row no-gutters>
-                                <v-col cols="12">
-                                    <v-btn block class="mt-2" @click="addStream()" color="secondary">{{
+                                <v-col cols="12" class="d-flex justify-end">
+                                    <v-btn class="mt-2" @click="addStream()" color="secondary">{{
                                         $t('app.radio.channels.add_new') }}</v-btn>
                                 </v-col>
+
                             </v-row>
                         </v-col>
                     </v-row>
@@ -149,16 +162,16 @@
 
 
             </v-row>
-            <v-row>
-                <v-col>
-                    <v-btn type="submit" color="primary" :loading="isSubmitting">
-                        {{ isEditMode ? $t('save') : $t('create') }}
+            <v-row no-gutters>
+                <v-col cols="12">
+                    <v-btn block type="submit" color="primary" :loading="isSubmitting" class="mt-10">
+                        {{ isEditMode ? $t('catalog.radio.edit') : $t('catalog.radio.create') }}
                     </v-btn>
                 </v-col>
             </v-row>
         </v-container>
     </v-form>
-    <v-snackbar v-model="submitSuccess" color="success">
+    <v-snackbar v-model="submitSuccess" color="accent">
         {{ $t('catalog.radio.save_success') }}
         <template v-slot:actions>
             <v-btn color="white" variant="text" @click="submitSuccess = false">
@@ -198,6 +211,7 @@ const logoPreview = ref(null);
 const submitSuccess = ref(false);
 const submitError = ref(false);
 const submitErrorMessage = ref('');
+const radioData = ref(null);
 
 const AUDIO_FORMATS = [{ "value": "mp3", "title": 'MP3' }, { "value": "aac", "title": 'AAC' }, { "value": "flac", "title": 'FLAC' }];
 const BITRATES_MP3 = [16, 24, 32, 48, 64, 96, 128, 160, 192, 256, 320];
@@ -224,26 +238,56 @@ const { handleSubmit, isSubmitting, setValues, setErrors } = useForm({
     }
 });
 
-const name = useField('name', 'required');
-const website_url = useField('website_url', 'required|url');
-const description = useField('description');
-const language = useField('language', 'required|max:3');
-const country = useField('country', 'required');
-const region = useField('region');
-const city = useField('city');
-const genresSelection = useField('genres', 'required|max:3');
+const name = useField('name', 'required', {
+  label: t('catalog.radio.name'),
+});
+const website_url = useField('website_url', 'required|url', 
+ {
+  label: t('catalog.radio.website'),
+});
+
+const description = useField('description', 'required', {
+    label: t('catalog.radio.description'),
+});
+const language = useField('language', 'required|max:3', {
+    label: t('catalog.radio.language'),
+});
+const country = useField('country', 'required', {
+    label: t('catalog.radio.country'),
+});
+const region = useField('region', null, {
+    label: t('catalog.radio.region'),
+});
+const city = useField('city', null, {
+    label: t('catalog.radio.city'),
+});
+const genresSelection = useField('genres', 'required|max:3', {
+    label: t('catalog.radio.genres'),
+});
 const logo = useField('logo', computed(() => {
     return isEditMode.value
-        ? 'image_square_dimensions:250,250|size:3000'
-        : 'required|image_square_dimensions:250,250|size:3000';
-}));
+        ? 'image_square_dimensions:250,250|size:300'
+        : 'required|image_square_dimensions:250,250|size:300';
+}), {
+    label: t('catalog.radio.logo')
+});
 
-const streams = useField('streams', 'required');
+const streams = useField('streams', 'required', {
+    label: t('catalog.radio.channels.title'),
+});
 
-const new_channel_stream_url = useField('new_channel_stream_url', "url");
-const new_channel_bitrate = useField('new_channel_bitrate');
-const new_channel_audio_format = useField('new_channel_audio_format');
-const new_channel_server_type = useField('new_channel_server_type');
+const new_channel_stream_url = useField('new_channel_stream_url', "url", {
+    label: t('app.radio.channels.stream_url')
+});
+const new_channel_bitrate = useField('new_channel_bitrate', null, {
+    label: t('app.radio.channels.bitrate')
+});
+const new_channel_audio_format = useField('new_channel_audio_format', null, {
+    label: t('app.radio.channels.audio_format')
+});
+const new_channel_server_type = useField('new_channel_server_type', null, {
+    label: t('app.radio.channels.server_type')
+});
 
 new_channel_bitrate.value.value = 128;
 new_channel_audio_format.value.value = AUDIO_FORMATS[0].value;
@@ -350,7 +394,7 @@ const onRegionChange = async (regionId) => {
 onMounted(async () => {
     if (isEditMode.value) {
         try {
-            const radioData = await $fetch(`${config.public.baseURL}/catalog/radios/${props.id}/`);
+            radioData.value = await $fetch(`${config.public.baseURL}/catalog/radios/${props.id}/`);
 
             const countryId = radioData.country;
             const regionId = radioData.region;
@@ -378,15 +422,15 @@ onMounted(async () => {
             }
 
             setValues({
-                name: radioData.name,
-                website_url: radioData.website_url,
-                description: radioData.description,
-                language: radioData.languages,
-                country: radioData.country,
-                region: radioData.region,
-                city: radioData.city,
-                genres: radioData.genres,
-                streams: radioData.streams || [],
+                name: radioData.value.name,
+                website_url: radioData.value.website_url,
+                description: radioData.value.description,
+                language: radioData.value.languages,
+                country: radioData.value.country,
+                region: radioData.value.region,
+                city: radioData.value.city,
+                genres: radioData.value.genres,
+                streams: radioData.value.streams || [],
             });
             if (radioData.logo) {
                 logoPreview.value = radioData.logo;
@@ -451,11 +495,11 @@ const onSubmit = handleSubmit(async (values) => {
             setTimeout(() => router.push(`/catalog/${response.id}`), 1000);
         }
     } catch (e) {
-        submitErrorMessage.value = e.data?.detail || t('catalog.radio.save_error');
+        submitErrorMessage.value = e.data?.detail || t('catalog.radio.errors.save_failed');
         if (typeof e.data === 'object') {
             for (const [field, errors] of Object.entries(e.data)) {
                 for (const errCode of errors) {
-                    setErrors({ [field]: t(`catalog.errors.${field}.${errCode}`) })
+                    setErrors({ [field]: t(`catalog.radio.errors.${field}.${errCode}`) })
                 }
             }
         }
