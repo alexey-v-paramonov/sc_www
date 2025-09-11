@@ -7,7 +7,7 @@
                     <v-text-field v-model="name.value.value" :error-messages="name.errorMessage.value"
                         :label="$t('catalog.radio.name')" required></v-text-field>
 
-                    <v-text-field v-model="website.value.value" :error-messages="website.errorMessage.value"
+                    <v-text-field v-model="website_url.value.value" :error-messages="website_url.errorMessage.value"
                         :label="$t('catalog.radio.website')" required></v-text-field>
 
                     <v-textarea v-model="description.value.value" :error-messages="description.errorMessage.value"
@@ -225,7 +225,7 @@ const { handleSubmit, isSubmitting, setValues, setErrors } = useForm({
 });
 
 const name = useField('name', 'required');
-const website = useField('website', 'required|url');
+const website_url = useField('website_url', 'required|url');
 const description = useField('description');
 const language = useField('language', 'required|max:3');
 const country = useField('country', 'required');
@@ -379,7 +379,7 @@ onMounted(async () => {
 
             setValues({
                 name: radioData.name,
-                website: radioData.website_url,
+                website_url: radioData.website_url,
                 description: radioData.description,
                 language: radioData.languages,
                 country: radioData.country,
@@ -417,12 +417,11 @@ const onFileChange = (event) => {
 const onSubmit = handleSubmit(async (values) => {
     const formData = new FormData();
     formData.append('name', values.name);
-    formData.append('website_url', values.website);
+    formData.append('website_url', values.website_url);
     formData.append('description', values.description);
     formData.append('country', values.country);
-    //if (values.region) {
-formData.append('region', values.region);
-    //}
+    formData.append('region', values.region);
+
     if (values.city) {
         formData.append('city', values.city);
     }
@@ -454,7 +453,11 @@ formData.append('region', values.region);
     } catch (e) {
         submitErrorMessage.value = e.data?.detail || t('catalog.radio.save_error');
         if (typeof e.data === 'object') {
-            setErrors(e.data);
+            for (const [field, errors] of Object.entries(e.data)) {
+                for (const errCode of errors) {
+                    setErrors({ [field]: t(`catalog.errors.${field}.${errCode}`) })
+                }
+            }
         }
         submitError.value = true;
     }
