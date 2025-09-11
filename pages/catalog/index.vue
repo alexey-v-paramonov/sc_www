@@ -37,11 +37,13 @@
               </td>
               <td :width="display.smAndUp ? '150' : '100'" style="padding: 0">
 
-                <NuxtLink :to="'/catalog/radio/' + item.id + '/'"><v-btn :density="display.smAndUp ? 'default' : 'compact'"
+                <NuxtLink :to="'/catalog/' + item.id + '/'"><v-btn :density="display.smAndUp ? 'default' : 'compact'"
                     icon="mdi-pencil"></v-btn></NuxtLink>
 
+                <!-- Catalog page link 
                 <v-btn :density="display.smAndUp ? 'default' : 'compact'" :href="item.catalog_url" v-if="item.catalog_url"
                   target="_blank" icon="mdi-android"></v-btn>
+                -->
 
                 <v-btn icon="mdi-delete" @click="deleteRadio(item)"
                   :disabled="item.beingDeleted"></v-btn>

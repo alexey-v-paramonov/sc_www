@@ -18,8 +18,9 @@
                     <v-row>
                         <v-col v-for="n in 3" :key="n" cols="12" md="4">
                             <template v-for="(genre, index) in genres" :key="genre.id">
-                                <v-checkbox density="compact" v-if="index % 3 === (n - 1)" v-model="genresSelection.value.value"
-                                    :label="genre.name" :value="genre.id" hide-details
+                                <v-checkbox density="compact" v-if="index % 3 === (n - 1)"
+                                    v-model="genresSelection.value.value" :label="genre.name" :value="genre.id"
+                                    hide-details
                                     :disabled="genresSelection.value.value && genresSelection.value.value.length >= 3 && !genresSelection.value.value.includes(genre.id)"></v-checkbox>
                             </template>
                         </v-col>
@@ -85,7 +86,7 @@
                                         <td><a :href="stream.stream_url" target="_blank">{{ stream.stream_url }}</a>
                                         </td>
                                         <td><span v-if="stream.server_type == 'hls'">-</span><span v-else>{{
-                                                stream.bitrate }}kbps</span></td>
+                                            stream.bitrate }}kbps</span></td>
                                         <td>{{ getAudioFormat(stream.audio_format) }}</td>
                                         <td>{{ getServerType(stream.server_type) }}</td>
                                         <td><v-btn density="compact" icon="mdi-delete"
@@ -95,7 +96,8 @@
                                         <td class="text-center" colspan="5">
                                             <br />
                                             <v-alert v-if="streams.errorMessage.value" color="error"
-                                                icon="mdi-message-alert" :text="$t('catalog.radio.errors.streams_empty')"></v-alert>
+                                                icon="mdi-message-alert"
+                                                :text="$t('catalog.radio.errors.streams_empty')"></v-alert>
                                             <p v-else>{{ $t('app.radio.channels.empty') }}</p>
                                             <br />
                                         </td>
@@ -112,26 +114,26 @@
                             <v-row>
                                 <v-col cols="12">
 
-                                    <v-text-field v-model="new_channel_stream_url.value.value" 
-                                        type="url" :error-messages="new_channel_stream_url.errorMessage.value"
-                                        maxlength="200" name="new_channel_stream_url"
+                                    <v-text-field v-model="new_channel_stream_url.value.value" type="url"
+                                        :error-messages="new_channel_stream_url.errorMessage.value" maxlength="200"
+                                        name="new_channel_stream_url"
                                         :label="$t('app.radio.channels.stream_url')"></v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-col cols="4" v-if="new_channel_server_type.value.value != 'hls'">
-                                    <v-select v-model="new_channel_bitrate.value.value" 
-                                        :items="BITRATES_MP3" item-title="id" item-value="id"
-                                        :label="$t('app.radio.channels.bitrate')" single-line></v-select>
+                                    <v-select v-model="new_channel_bitrate.value.value" :items="BITRATES_MP3"
+                                        item-title="id" item-value="id" :label="$t('app.radio.channels.bitrate')"
+                                        single-line></v-select>
                                 </v-col>
                                 <v-col cols="4">
-                                    <v-select v-model="new_channel_audio_format.value.value" 
-                                        :items="AUDIO_FORMATS" item-title="title" item-value="value"
+                                    <v-select v-model="new_channel_audio_format.value.value" :items="AUDIO_FORMATS"
+                                        item-title="title" item-value="value"
                                         :label="$t('app.radio.channels.audio_format')" single-line></v-select>
                                 </v-col>
                                 <v-col cols="4">
-                                    <v-select v-model="new_channel_server_type.value.value" 
-                                        :items="SERVER_TYPES" item-title="title" item-value="value"
+                                    <v-select v-model="new_channel_server_type.value.value" :items="SERVER_TYPES"
+                                        item-title="title" item-value="value"
                                         :label="$t('app.radio.channels.server_type')" single-line></v-select>
                                 </v-col>
                             </v-row>
@@ -146,7 +148,7 @@
                 </v-col>
 
 
-            </v-row>            
+            </v-row>
             <v-row>
                 <v-col>
                     <v-btn type="submit" color="primary" :loading="isSubmitting">
@@ -218,6 +220,7 @@ const { handleSubmit, isSubmitting, setValues, setErrors } = useForm({
     initialValues: {
         genres: [],
         streams: [],
+        languages: [],
     }
 });
 
@@ -231,8 +234,8 @@ const city = useField('city');
 const genresSelection = useField('genres', 'required|max:3');
 const logo = useField('logo', computed(() => {
     return isEditMode.value
-        ? 'image_square_dimensions:256,256'
-        : 'required|image_square_dimensions:256,256';
+        ? 'image_square_dimensions:250,250|size:3000'
+        : 'required|image_square_dimensions:250,250|size:3000';
 }));
 
 const streams = useField('streams', 'required');
@@ -349,8 +352,8 @@ onMounted(async () => {
         try {
             const radioData = await $fetch(`${config.public.baseURL}/catalog/radios/${props.id}/`);
 
-            const countryId = radioData.country?.id;
-            const regionId = radioData.region?.id;
+            const countryId = radioData.country;
+            const regionId = radioData.region;
 
             if (countryId) {
                 regionsLoading.value = true;
@@ -376,13 +379,13 @@ onMounted(async () => {
 
             setValues({
                 name: radioData.name,
-                website: radioData.website,
+                website: radioData.website_url,
                 description: radioData.description,
-                language: radioData.languages.map(l => l.id),
-                country: radioData.country?.id,
-                region: radioData.region?.id,
-                city: radioData.city?.id,
-                genres: radioData.genres.map(g => g.id),
+                language: radioData.languages,
+                country: radioData.country,
+                region: radioData.region,
+                city: radioData.city,
+                genres: radioData.genres,
                 streams: radioData.streams || [],
             });
             if (radioData.logo) {
@@ -414,12 +417,12 @@ const onFileChange = (event) => {
 const onSubmit = handleSubmit(async (values) => {
     const formData = new FormData();
     formData.append('name', values.name);
-    formData.append('website', values.website);
+    formData.append('website_url', values.website);
     formData.append('description', values.description);
     formData.append('country', values.country);
-    if (values.region) {
-        formData.append('region', values.region);
-    }
+    //if (values.region) {
+formData.append('region', values.region);
+    //}
     if (values.city) {
         formData.append('city', values.city);
     }
