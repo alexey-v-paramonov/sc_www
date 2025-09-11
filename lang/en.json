@@ -179,7 +179,9 @@
         "settings": "Setting",
         "android_app": "Android application",
         "ios_app": "iOs application",
-        "selfhosted_radio": "Radio"
+        "selfhosted_radio": "Radio",
+        "catalog_add_radio": "Add Station",
+        "catalog_edit_radio": "Edit Station"
     },
     "radios":{
         "self_hosted":{

@@ -177,7 +177,9 @@
         "android_app": "Android приложение",
         "ios_app": "iOs приложение",
         "selfhosted_radio": "Радио",
-        "self_hosted": "Сервер"
+        "self_hosted": "Сервер",
+        "catalog_add_radio": "Добавить радио",
+        "catalog_edit_radio": "Редактировать радио"
     },
     "radios":{
         "self_hosted":{

@@ -29,8 +29,11 @@
 
             <tr v-if="catalog_radios.length > 0" v-for="item in catalog_radios" :key="item.id">
               <td>
-                <NuxtLink :to="'/catalog/radio/' + item.id + '/'"><v-icon v-if="display.smAndUp"
-                    icon="mdi-cellphone-text" class="mr-4" />{{ item.title }}</NuxtLink>
+                <NuxtLink :to="'/catalog/' + item.id + '/'">
+                  <v-icon v-if="display.smAndUp" icon="mdi-radio" class="mr-4" />
+                  <img :src="item.logo" class="app-image-thumbnail">
+                  {{ item.name }}
+                </NuxtLink>
               </td>
               <td :width="display.smAndUp ? '150' : '100'" style="padding: 0">
 
@@ -40,7 +43,7 @@
                 <v-btn :density="display.smAndUp ? 'default' : 'compact'" :href="item.catalog_url" v-if="item.catalog_url"
                   target="_blank" icon="mdi-android"></v-btn>
 
-                <v-btn v-if="!item.is_paid" icon="mdi-delete" @click="deleteRadio(item)"
+                <v-btn icon="mdi-delete" @click="deleteRadio(item)"
                   :disabled="item.beingDeleted"></v-btn>
               </td>
             </tr>
@@ -108,7 +111,9 @@
 </template>
 
 <script setup>
+import { useDisplay } from "vuetify";
 const config = useRuntimeConfig();
+const display = ref(useDisplay())
 
 let catalog_radios = ref([]);
 let radios_loading = ref(false);

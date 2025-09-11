@@ -81,6 +81,18 @@ export default {
                         href: undefined
                     })
                 }
+                else if(/\/catalog\/0/.test(full_href)){
+                    this.crumbs.push({
+                        title: this.$t('nav.catalog_add_radio'),
+                        href: undefined
+                    })
+                }
+                else if(/\/catalog\/\d+/.test(full_href)){
+                    this.crumbs.push({
+                        title: this.$t('nav.catalog_edit_radio'),
+                        href: undefined
+                    })
+                }
                 else{
                     this.crumbs.push({
                         title: this.$t('nav.' + param),
