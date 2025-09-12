@@ -27,8 +27,8 @@
           </thead>
           <tbody>
 
-            <tr v-if="catalog_radios.length > 0" v-for="item in catalog_radios" :key="item.id">
-                <td class="d-flex align-center">
+            <tr v-if="catalog_radios.length > 0" v-for="item in catalog_radios" :key="item.id" >
+                <td class="d-flex align-center radio-table-row">
                 <NuxtLink :to="'/catalog/' + item.id + '/' " class="d-flex align-center text-decoration-none">
                   <img :src="item.logo" class="app-image-thumbnail mr-2">
                   <span>{{ item.name }}</span>
@@ -172,6 +172,9 @@ function deleteRadio(radio) {
 </script>
 
 <style scoped>
+.radio-table-row {
+    height: 110px !important;
+}
 
 .app-image-thumbnail {
     max-height: 100px;
