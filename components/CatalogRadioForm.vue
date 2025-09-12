@@ -43,6 +43,8 @@
                 </v-col>
                 <v-col cols="12" md="4">
                     <v-img v-if="logoPreview" :src="logoPreview" aspect-ratio="1" class="mb-4"></v-img>
+                    <v-img v-if="radioData?.logo" :src="radioData.logo" aspect-ratio="1" class="mb-4"></v-img>
+
                     <v-file-input v-model="logo.value.value" :error-messages="logo.errorMessage.value"
                         :label="$t('catalog.radio.logo')" accept="image/*" @change="onFileChange" show-size
                         prepend-icon="mdi-image"></v-file-input>
