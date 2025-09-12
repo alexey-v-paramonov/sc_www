@@ -515,6 +515,10 @@
                     "url_invalid": "Invalid URL",
                     "content_type": "The URL does not point to a valid website",
                     "connection_error": "Failed to connect to the website, please check that the URL is correct and the website is online"
+                },
+                "streams": {
+                    "connection_error": "Failed to connect to the stream, please check that the stream is working and accessible",
+                    "content_type_not_audio": "Please provide a direct link to the stream, not to the website or player - we need a link to the audio stream (for example, http://stream.radio.com:8000/rock128)"
                 }
             }
 
