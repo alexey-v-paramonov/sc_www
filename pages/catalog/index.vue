@@ -28,16 +28,14 @@
           <tbody>
 
             <tr v-if="catalog_radios.length > 0" v-for="item in catalog_radios" :key="item.id">
-              <td>
-                <NuxtLink :to="'/catalog/' + item.id + '/'">
-                  <v-icon v-if="display.smAndUp" icon="mdi-radio" class="mr-4" />
-                  <img :src="item.logo" class="app-image-thumbnail">
-                  {{ item.name }}
-                  <v-icon v-if="item.enabled" color="green" icon="mdi-circle" size="x-small" class="mr-2"></v-icon>
-                  <v-icon v-else color="red" icon="mdi-exclamation-thick" size="small" class="mr-2"></v-icon>
-
+                <td class="d-flex align-center">
+                <NuxtLink :to="'/catalog/' + item.id + '/' " class="d-flex align-center text-decoration-none">
+                  <img :src="item.logo" class="app-image-thumbnail mr-2">
+                  <span>{{ item.name }}</span>
+                  <v-icon v-if="item.enabled" color="green" icon="mdi-circle" size="x-small" class="ml-2"></v-icon>
+                  <v-icon v-else color="red" icon="mdi-exclamation-thick" size="small" class="ml-2"></v-icon>
                 </NuxtLink>
-              </td>
+                </td>
               <td :width="display.smAndUp ? '150' : '100'" style="padding: 0">
 
                 <NuxtLink :to="'/catalog/' + item.id + '/'"><v-btn :density="display.smAndUp ? 'default' : 'compact'"
@@ -172,3 +170,12 @@ function deleteRadio(radio) {
   })
 }
 </script>
+
+<style scoped>
+
+.app-image-thumbnail {
+    max-height: 100px;
+    max-width: 100px;
+    border-radius: 5px;
+}
+</style>
