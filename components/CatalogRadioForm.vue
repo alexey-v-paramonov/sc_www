@@ -215,7 +215,8 @@ const radioData = ref(null);
 
 const AUDIO_FORMATS = [{ "value": "mp3", "title": 'MP3' }, { "value": "aac", "title": 'AAC' }, { "value": "flac", "title": 'FLAC' }];
 const BITRATES_MP3 = [16, 24, 32, 48, 64, 96, 128, 160, 192, 256, 320];
-const SERVER_TYPES = [{ "value": "icecast", "title": 'Icecast' }, { "value": "shoutcast", "title": 'Shoutcast' }, { "value": "hls", "title": 'HLS' }];
+//const SERVER_TYPES = [{ "value": "icecast", "title": 'Icecast' }, { "value": "shoutcast", "title": 'Shoutcast' }, { "value": "hls", "title": 'HLS' }];
+const SERVER_TYPES = [{ "value": "icecast", "title": 'Icecast' }, { "value": "shoutcast", "title": 'Shoutcast' }];
 
 // Data fetching
 const { data: languages } = await useFetchAuth(`${config.public.baseURL}/catalog/languages/`);
@@ -266,8 +267,8 @@ const genresSelection = useField('genres', 'required|max:3', {
 });
 const logo = useField('logo', computed(() => {
     return isEditMode.value
-        ? 'image_square_dimensions:250,250|size:300'
-        : 'required|image_square_dimensions:250,250|size:300';
+        ? 'image_square_dimensions:250,250|size:1500'
+        : 'required|image_square_dimensions:250,250|size:1500';
 }), {
     label: t('catalog.radio.logo')
 });

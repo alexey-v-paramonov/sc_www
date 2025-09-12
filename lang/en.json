@@ -489,7 +489,7 @@
             "enabled": "Your radio is displayed in the Catalog and can be found by listeners.",
             "disabled": "Your radio is not displayed in the Catalog because none of the streams are working or accessible. Please check that all streams are active and running, and wait for the next verification, which takes place at night. If the streams start working, the radio will be automatically unlocked.",
             "create": "Add radio to catalog",
-            "edit": "Edit radio in catalog",
+            "edit": "Save changes",
             "save_success": "Radio has been saved successfully",
             "save_error": "Failed to save radio, please check the form fields or contact support.",
             "add_title": "Add Radio to Catalog",
