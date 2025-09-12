@@ -233,9 +233,12 @@ const SERVER_TYPES = [{ "value": "icecast", "title": 'Icecast' }, { "value": "sh
 // Data fetching
 const { data: languages } = await useFetchAuth(`${config.public.baseURL}/catalog/languages/`);
 const { data: countries } = await useFetchAuth(`${config.public.baseURL}/catalog/countries/`);
-const { data: regions } = await useFetchAuth(`${config.public.baseURL}/catalog/regions/`);
-const { data: cities } = await useFetchAuth(`${config.public.baseURL}/catalog/cities/`);
+// const { data: regions } = isEditMode.value ? [] : await useFetchAuth(`${config.public.baseURL}/catalog/regions/`);
+// const { data: cities } = isEditMode.value ? [] :  await useFetchAuth(`${config.public.baseURL}/catalog/cities/`);
 const { data: genres } = await useFetchAuth(`${config.public.baseURL}/catalog/genres/`);
+
+const regions = ref([]);
+const cities = ref([]);
 
 const regionsLoading = ref(false);
 const citiesLoading = ref(false);
@@ -410,7 +413,7 @@ onMounted(async () => {
         try {
             radioData.value = await fetchAuth(`${config.public.baseURL}/catalog/radios/${props.id}/`);
 
-            const countryId = radioData.country;
+            const countryId = radioData.value.country;
             const regionId = radioData.region;
 
             if (countryId) {
