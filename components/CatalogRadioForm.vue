@@ -371,8 +371,8 @@ const onCountryChange = async (countryId) => {
     citiesLoading.value = true;
     try {
         const [regionsData, citiesData] = await Promise.all([
-            $fetch(`${config.public.baseURL}/catalog/regions/`, { params: { country_id: countryId } }),
-            $fetch(`${config.public.baseURL}/catalog/cities/`, { params: { country_id: countryId } })
+            fetchAuth(`${config.public.baseURL}/catalog/regions/`, { params: { country_id: countryId } }),
+            fetchAuth(`${config.public.baseURL}/catalog/cities/`, { params: { country_id: countryId } })
         ]);
         regions.value = regionsData;
         cities.value = citiesData;
@@ -397,7 +397,7 @@ const onRegionChange = async (regionId) => {
         if (regionId) {
             params.region_id = regionId;
         }
-        cities.value = await $fetch(`${config.public.baseURL}/catalog/cities/`, { params });
+        cities.value = await fetchAuth(`${config.public.baseURL}/catalog/cities/`, { params });
     } catch (e) {
         console.error('Failed to load cities', e);
     } finally {
@@ -408,7 +408,7 @@ const onRegionChange = async (regionId) => {
 onMounted(async () => {
     if (isEditMode.value) {
         try {
-            radioData.value = await $fetch(`${config.public.baseURL}/catalog/radios/${props.id}/`);
+            radioData.value = await fetchAuth(`${config.public.baseURL}/catalog/radios/${props.id}/`);
 
             const countryId = radioData.country;
             const regionId = radioData.region;
@@ -422,8 +422,8 @@ onMounted(async () => {
                         cityParams.region_id = regionId;
                     }
                     const [regionsData, citiesData] = await Promise.all([
-                        $fetch(`${config.public.baseURL}/catalog/regions/`, { params: { country_id: countryId } }),
-                        $fetch(`${config.public.baseURL}/catalog/cities/`, { params: cityParams })
+                        fetchAuth(`${config.public.baseURL}/catalog/regions/`, { params: { country_id: countryId } }),
+                        fetchAuth(`${config.public.baseURL}/catalog/cities/`, { params: cityParams })
                     ]);
                     regions.value = regionsData;
                     cities.value = citiesData;

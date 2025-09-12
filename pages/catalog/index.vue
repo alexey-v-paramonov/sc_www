@@ -80,7 +80,7 @@
         <div class="py-12 text-center">
           <v-icon class="mb-6" color="error" icon="mdi-alert-decagram" size="128"></v-icon>
 
-          <div class="text-h4 font-weight-bold">{{ $t('catalog.radio_delete_confirmation') }}</div>
+          <div class="text-h4 font-weight-bold">{{ $t('catalog.radio.delete_confirmation') }}</div>
         </div>
       </v-card-text>
       <v-card-actions>
