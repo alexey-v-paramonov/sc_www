@@ -3,8 +3,8 @@
         <v-container>
             <v-row v-if="isEditMode && radioData">
                 <v-col cols="12">
-                    <v-alert v-if="radioData.enabled" type="success" variant="tonal" prominent 
-                        color="accent" border-color="accent">
+                    <v-alert v-if="radioData.enabled" type="success" variant="tonal" prominent color="accent"
+                        border-color="accent">
                         {{ $t('catalog.radio.enabled') }}
                     </v-alert>
 
@@ -37,8 +37,8 @@
                             </template>
                         </v-col>
                     </v-row>
-                    <v-alert v-if="genresSelection.errorMessage.value"
-                        :text="genresSelection.errorMessage.value" color="error" variant="tonal" class="mt-1"></v-alert>
+                    <v-alert v-if="genresSelection.errorMessage.value" :text="genresSelection.errorMessage.value"
+                        color="error" variant="tonal" class="mt-1"></v-alert>
 
                 </v-col>
                 <v-col cols="12" md="4">
@@ -80,6 +80,7 @@
                         </v-col>
                     </v-row>
 
+                    <!-- Stream display -->
                     <v-row>
                         <v-col cols="12">
                             <v-table>
@@ -95,7 +96,16 @@
                                 <tbody>
                                     <tr v-if="streams.value.value && streams.value.value.length > 0"
                                         v-for="(stream, index) in streams.value.value" :key="index">
-                                        <td><a :href="stream.stream_url" target="_blank">{{ stream.stream_url }}</a>
+                                        <td>
+                                            <a :href="stream.stream_url" target="_blank">{{ stream.stream_url }}</a>
+                                            <v-alert v-if="index in streamErrors" class="mt-1" color="error" variant="tonal"
+                                                dense>
+                                                <div v-for="messageCodes in streamErrors[index]" :key="messageCode">
+                                                    <span v-for="code in messageCodes" :key="code">
+                                                        {{ $t('catalog.radio.errors.streams.' + code) }}
+                                                    </span>
+                                                </div>
+                                            </v-alert>
                                         </td>
                                         <td><span v-if="stream.server_type == 'hls'">-</span><span v-else>{{
                                             stream.bitrate }}kbps</span></td>
@@ -127,8 +137,7 @@
                                 <v-col cols="12">
                                     <v-text-field v-model="new_channel_stream_url.value.value" type="url"
                                         :error-messages="new_channel_stream_url.errorMessage.value" maxlength="200"
-                                        name="new_channel_stream_url"
-                                        :hint="$t('catalog.radio.stream_url_hint')"
+                                        name="new_channel_stream_url" :hint="$t('catalog.radio.stream_url_hint')"
                                         :label="$t('app.radio.channels.stream_url')" persistent-hint></v-text-field>
                                 </v-col>
                             </v-row>
@@ -190,7 +199,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, reactive, computed, onMounted, watch } from 'vue';
 import { useForm, useField } from 'vee-validate';
 // import { object, string, array, mixed } from 'yup';
 import { useI18n } from 'vue-i18n';
@@ -212,6 +221,7 @@ const submitSuccess = ref(false);
 const submitError = ref(false);
 const submitErrorMessage = ref('');
 const radioData = ref(null);
+const streamErrors = reactive({});
 
 const AUDIO_FORMATS = [{ "value": "mp3", "title": 'MP3' }, { "value": "aac", "title": 'AAC' }, { "value": "flac", "title": 'FLAC' }];
 const BITRATES_MP3 = [16, 24, 32, 48, 64, 96, 128, 160, 192, 256, 320];
@@ -240,12 +250,12 @@ const { handleSubmit, isSubmitting, setValues, setErrors } = useForm({
 });
 
 const name = useField('name', 'required', {
-  label: t('catalog.radio.name'),
+    label: t('catalog.radio.name'),
 });
-const website_url = useField('website_url', 'required|url', 
- {
-  label: t('catalog.radio.website'),
-});
+const website_url = useField('website_url', 'required|url',
+    {
+        label: t('catalog.radio.website'),
+    });
 
 const description = useField('description', 'required', {
     label: t('catalog.radio.description'),
@@ -274,7 +284,7 @@ const logo = useField('logo', computed(() => {
 });
 
 const streams = useField('streams', 'required', {
-    label: t('catalog.radio.channels.title'),
+    // label: t('catalog.radio.channels.title'),
 });
 
 const new_channel_stream_url = useField('new_channel_stream_url', "url", {
@@ -344,6 +354,7 @@ function deleteChannel(channel_index) {
     const currentStreams = streams.value.value || [];
     currentStreams.splice(channel_index, 1);
     streams.value.value = [...currentStreams];
+    delete streamErrors[channel_index];
 }
 
 const onCountryChange = async (countryId) => {
@@ -499,8 +510,18 @@ const onSubmit = handleSubmit(async (values) => {
         submitErrorMessage.value = e.data?.detail || t('catalog.radio.errors.save_failed');
         if (typeof e.data === 'object') {
             for (const [field, errors] of Object.entries(e.data)) {
-                for (const errCode of errors) {
-                    setErrors({ [field]: t(`catalog.radio.errors.${field}.${errCode}`) })
+                if (field == 'streams' && errors instanceof Array) {
+                    for (let i = 0; i < errors.length; i++) {
+                        if (errors[i] && Object.keys(errors[i]).length) {
+                            console.log("Stream error", errors[i], i);
+                            streamErrors[i] = errors[i];
+                        }
+                    }
+                }
+                else {
+                    for (const errCode of errors) {
+                        setErrors({ [field]: t(`catalog.radio.errors.${field}.${errCode}`) })
+                    }
                 }
             }
         }
