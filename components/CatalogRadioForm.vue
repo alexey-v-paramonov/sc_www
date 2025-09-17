@@ -31,7 +31,7 @@
                         <v-col v-for="n in 3" :key="n" cols="12" md="4">
                             <template v-for="(genre, index) in genres" :key="genre.id">
                                 <v-checkbox density="compact" v-if="index % 3 === (n - 1)"
-                                    v-model="genresSelection.value.value" :label="genre.name" :value="genre.id"
+                                    v-model="genresSelection.value.value" :label="genre[name_prop] || genre.name_eng" :value="genre.id"
                                     hide-details
                                     :disabled="genresSelection.value.value && genresSelection.value.value.length >= 3 && !genresSelection.value.value.includes(genre.id)"></v-checkbox>
                             </template>
@@ -48,22 +48,22 @@
                     <v-file-input v-model="logo.value.value" :error-messages="logo.errorMessage.value"
                         :label="$t('catalog.radio.logo')" accept="image/*" @change="onFileChange" show-size
                         prepend-icon="mdi-image"></v-file-input>
-                    <v-autocomplete v-model="language.value.value" :items="languages" item-title="name" item-value="id"
+                    <v-autocomplete v-model="language.value.value" :items="languages" :item-title="item => item[name_prop] || item.name_eng" item-value="id"
                         :error-messages="language.errorMessage.value" :label="$t('catalog.radio.language')" multiple
                         chips></v-autocomplete>
 
-                    <v-autocomplete v-model="country.value.value" :items="countries" item-title="name" item-value="id"
+                    <v-autocomplete v-model="country.value.value" :items="countries" :item-title="item => item[name_prop] || item.name_eng" item-value="id"
                         :error-messages="country.errorMessage.value" :label="$t('catalog.radio.country')"
                         @update:modelValue="onCountryChange"></v-autocomplete>
 
                     <v-autocomplete v-model="region.value.value" :items="regions"
-                        :item-title="item => item.name || item.name_eng" item-value="id"
+                        :item-title="item => item[name_prop] || item.name_eng" item-value="id"
                         :error-messages="region.errorMessage.value" :label="$t('catalog.radio.region')"
                         :disabled="!country.value.value" :loading="regionsLoading"
                         @update:modelValue="onRegionChange"></v-autocomplete>
 
                     <v-autocomplete v-model="city.value.value" :items="cities"
-                        :item-title="item => item.name || item.name_eng" item-value="id"
+                        :item-title="item => item[name_prop] || item.name_eng" item-value="id"
                         :error-messages="city.errorMessage.value" :label="$t('catalog.radio.city')"
                         :disabled="!country.value.value" :loading="citiesLoading"></v-autocomplete>
 
@@ -203,8 +203,8 @@
 <script setup>
 import { ref, reactive, computed, onMounted, watch } from 'vue';
 import { useForm, useField } from 'vee-validate';
-// import { object, string, array, mixed } from 'yup';
 import { useI18n } from 'vue-i18n';
+
 
 const props = defineProps({
     id: {
@@ -213,7 +213,12 @@ const props = defineProps({
     }
 });
 
-const { t } = useI18n();
+const { locale, t } = useI18n();
+const is_en = locale.value == 'en';
+
+const name_prop = is_en ? 'name_eng' : 'name';
+console.log("Locale: ", is_en, name_prop);
+
 const config = useRuntimeConfig();
 const router = useRouter();
 
@@ -228,7 +233,7 @@ const streamErrors = reactive({});
 const AUDIO_FORMATS = [{ "value": "mp3", "title": 'MP3' }, { "value": "aac", "title": 'AAC' }, { "value": "flac", "title": 'FLAC' }];
 const BITRATES_MP3 = [16, 24, 32, 48, 64, 96, 128, 160, 192, 256, 320];
 //const SERVER_TYPES = [{ "value": "icecast", "title": 'Icecast' }, { "value": "shoutcast", "title": 'Shoutcast' }, { "value": "hls", "title": 'HLS' }];
-const SERVER_TYPES = [{ "value": "icecast", "title": 'Icecast' }, { "value": "shoutcast", "title": 'Shoutcast' }];
+const SERVER_TYPES = [{ "value": "icecast", "title": 'Icecast' }, { "value": "shoutcast", "title": 'Shoutcast' }, { "value": "other", "title": 'Other' }];
 
 // Data fetching
 const { data: languages } = await useFetchAuth(`${config.public.baseURL}/catalog/languages/`);
