@@ -225,7 +225,7 @@ const { data: self_hosted_radios, pending: self_hosted_radios_loading, refresh: 
 const { data: hosted_radios, pending: hosted_radios_loading, refresh: reloadHostedRadios } = await useFetchAuth(`${config.public.baseURL}/hosted_radio/`);
 
 function isTrial(radio){
-  return radio.status == RADIO_STATUS.READY && radio.is_trial_period && stateUser.user.userData.balance == 0 && radio.status != RADIO_STATUS.SUSPENDED && radio.status != RADIO_STATUS.ERROR;
+  return radio.status == RADIO_STATUS.READY && radio.is_trial_period && radio.status != RADIO_STATUS.SUSPENDED && radio.status != RADIO_STATUS.ERROR;
 }
 function selfHostedStatus(radio){
   const zeroBalance = stateUser.user.userData.balance <= 0;
