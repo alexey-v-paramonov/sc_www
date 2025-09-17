@@ -33,7 +33,7 @@
                                 <v-checkbox density="compact" v-if="index % 3 === (n - 1)"
                                     v-model="genresSelection.value.value" :label="genre[name_prop] || genre.name_eng" :value="genre.id"
                                     hide-details
-                                    :disabled="genresSelection.value.value && genresSelection.value.value.length >= 3 && !genresSelection.value.value.includes(genre.id)"></v-checkbox>
+                                    :disabled="(genresSelection.value.value && genresSelection.value.value.length >= 3 && !genresSelection.value.value.includes(genre.id)) || isSubmitting"></v-checkbox>
                             </template>
                         </v-col>
                     </v-row>
