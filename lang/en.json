@@ -508,6 +508,8 @@
             "logo_hint": "Displayed in the catalog and in the application. Format: 250x250px, PNG or JPG",
             "stream_url_hint": "Provide the direct radio stream URL, not a player page or the radio’s website. For example: http://stream.radio.com:8000/rock128",
             "delete_confirmation": "Are you sure you want to remove this radio from the catalog?",
+            "delete_failed": "Failed to delete the radio, try again later or contact support.",
+            "delete_success": "The radio has been removed successfully from the catalog",
             "errors": {
                 "save_failed": "Failed to save radio data, please check the form fields or contact support",
                 "logo_square": "Logo must be square (width and height are the same), at least 250x250 pixels",

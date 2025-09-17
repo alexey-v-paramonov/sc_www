@@ -92,7 +92,7 @@
   </v-dialog>
 
   <v-snackbar v-model="deleteRadioFailed" color="error">
-    {{ $t('catalog.radio_delete_failed') }}
+    {{ $t('catalog.radio.delete_failed') }}
 
     <template v-slot:actions>
       <v-btn color="white" variant="text" @click="deleteRadioFailed = false">
@@ -103,7 +103,7 @@
 
 
   <v-snackbar v-model="deleteRadioSuccess" color="accent">
-    {{ $t('catalog.radio_delete_success') }}
+    {{ $t('catalog.radio.delete_success') }}
 
     <template v-slot:actions>
       <v-btn color="white" variant="text" @click="deleteRadioSuccess = false">
