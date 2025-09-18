@@ -125,7 +125,8 @@
             "run_install": "Run the install script to set up.",
             "running": "Running",
             "suspended": "Suspended",
-            "trial_period": "2 days free trial"
+            "trial_period": "2 days free trial",
+            "trial_hh_left": "h left"
         }
     },
     "hosted": {
@@ -164,6 +165,7 @@
         "url": "Invalid URL",
         "email": "Invalid Email",
         "phone": "Invalid phone number",
+        "starts_with_digit": "Can not start with a digit",
         "regex": "Incorrect value"
     },
     "nav":{

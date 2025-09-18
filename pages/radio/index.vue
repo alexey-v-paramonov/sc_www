@@ -45,7 +45,7 @@
                 <v-chip v-if="selfHostedStatus(item) == RADIO_STATUS.RUN_INSTALL" variant="flat" color="green">{{ $t('self_hosted.status.run_install') }}</v-chip>
                 <v-chip v-if="selfHostedStatus(item) == RADIO_STATUS.READY" variant="flat" color="primary">{{ $t('self_hosted.status.running') }}</v-chip>
                 <v-chip v-if="selfHostedStatus(item) == RADIO_STATUS.SUSPENDED" variant="flat" color="error">{{ $t('self_hosted.status.suspended') }}</v-chip>
-                <v-chip v-if="isTrial(item)" variant="flat" color="green">{{ $t('self_hosted.status.trial_period') }}</v-chip>
+                <v-chip v-if="isTrial(item)" variant="flat" color="green">{{ $t('self_hosted.status.trial_period') }}: {{ item.trial_period_hours_left }}{{ $t('self_hosted.status.trial_hh_left') }}</v-chip>
 
               </td>
               <td>{{ item.price }}{{ $t('currency')}}/{{ $t('monthly') }}</td>

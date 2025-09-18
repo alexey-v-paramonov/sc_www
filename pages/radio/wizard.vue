@@ -389,6 +389,9 @@ const login = useField('login', value => {
   if (!/^[a-zA-Z0-9]*$/.test(value)) {
     return t("errors.regex");;
   }
+  if (/^\d/.test(value)) {
+    return t('errors.starts_with_digit');
+  }  
   return true;
 });
 
