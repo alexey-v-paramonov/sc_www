@@ -488,6 +488,8 @@
         "add_radio_cta": "Add Station to Catalog",
         "radio_name": "Radio Name",
         "radio": {
+            "ssl_link_warning1": "You do not have any SSL streams, please add at least one stream with HTTPS support",
+            "ssl_link_warning2": "otherwise your radio will be displayed in the catalog, but the player will not work.",
             "open_in_catalog": "Open in Catalog",
             "enabled": "Your radio is displayed in the Catalog and can be found by listeners",
             "disabled": "Your radio is not displayed in the Catalog because none of the streams are working or accessible. Please check that all streams are active and running, and wait for the next verification, which takes place at night. If the streams start working, the radio will be automatically unlocked.",

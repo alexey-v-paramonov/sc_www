@@ -5,8 +5,9 @@
                 <v-col cols="12">
                     <v-alert v-if="radioData.enabled" type="success" variant="tonal" prominent color="accent"
                         border-color="accent">
-                        
-                        <a :href="getCatalogUrl(radioData)" target="_blank"><i class="mdi mdi-open-in-new mr-2"></i> {{ $t('catalog.radio.enabled') }}: {{ getCatalogUrl(radioData) }}</a>
+
+                        <a :href="getCatalogUrl(radioData)" target="_blank"><i class="mdi mdi-open-in-new mr-2"></i> {{
+                            $t('catalog.radio.enabled') }}: {{ getCatalogUrl(radioData) }}</a>
                     </v-alert>
 
                     <v-alert v-else type="error" variant="tonal" prominent>
@@ -32,8 +33,8 @@
                         <v-col v-for="n in 3" :key="n" cols="12" md="4">
                             <template v-for="(genre, index) in genres" :key="genre.id">
                                 <v-checkbox density="compact" v-if="index % 3 === (n - 1)"
-                                    v-model="genresSelection.value.value" :label="genre[name_prop] || genre.name_eng" :value="genre.id"
-                                    hide-details
+                                    v-model="genresSelection.value.value" :label="genre[name_prop] || genre.name_eng"
+                                    :value="genre.id" hide-details
                                     :disabled="(genresSelection.value.value && genresSelection.value.value.length >= 3 && !genresSelection.value.value.includes(genre.id)) || isSubmitting"></v-checkbox>
                             </template>
                         </v-col>
@@ -49,11 +50,13 @@
                     <v-file-input v-model="logo.value.value" :error-messages="logo.errorMessage.value"
                         :label="$t('catalog.radio.logo')" accept="image/*" @change="onFileChange" show-size
                         prepend-icon="mdi-image"></v-file-input>
-                    <v-autocomplete v-model="language.value.value" :items="languages" :item-title="item => item[name_prop] || item.name_eng" item-value="id"
+                    <v-autocomplete v-model="language.value.value" :items="languages"
+                        :item-title="item => item[name_prop] || item.name_eng" item-value="id"
                         :error-messages="language.errorMessage.value" :label="$t('catalog.radio.language')" multiple
                         chips></v-autocomplete>
 
-                    <v-autocomplete v-model="country.value.value" :items="countries" :item-title="item => item[name_prop] || item.name_eng" item-value="id"
+                    <v-autocomplete v-model="country.value.value" :items="countries"
+                        :item-title="item => item[name_prop] || item.name_eng" item-value="id"
                         :error-messages="country.errorMessage.value" :label="$t('catalog.radio.country')"
                         @update:modelValue="onCountryChange"></v-autocomplete>
 
@@ -80,6 +83,14 @@
                     <v-row class="mt-4">
                         <v-col cols="12">
                             <div class="text-h5 text-center">{{ $t('app.radio.channels.title') }}</div>
+
+                            <v-alert v-if="showSSLWarning" type="warning" variant="tonal" prominent color="accent"
+                                border-color="accent">
+                                {{ $t('catalog.radio.ssl_link_warning1') }}:<br />
+                                <b>{{ $t('catalog.radio.ssl_link_warning2') }}</b>
+
+                            </v-alert>
+
                         </v-col>
                     </v-row>
 
@@ -101,8 +112,8 @@
                                         v-for="(stream, index) in streams.value.value" :key="index">
                                         <td>
                                             <a :href="stream.stream_url" target="_blank">{{ stream.stream_url }}</a>
-                                            <v-alert v-if="index in streamErrors" class="mt-1" color="error" variant="tonal"
-                                                dense>
+                                            <v-alert v-if="index in streamErrors" class="mt-1" color="error"
+                                                variant="tonal" dense>
                                                 <div v-for="messageCodes in streamErrors[index]" :key="messageCode">
                                                     <span v-for="code in messageCodes" :key="code">
                                                         {{ $t('catalog.radio.errors.streams.' + code) }}
@@ -250,7 +261,7 @@ const regionsLoading = ref(false);
 const citiesLoading = ref(false);
 
 function getCatalogUrl(radio) {
-  return `https://${locale.value == 'ru' ? 'radio-tochka.com' : 'streaming.center'}/catalog/${radio.slug}`;
+    return `https://${locale.value == 'ru' ? 'radio-tochka.com' : 'streaming.center'}/catalog/${radio.slug}`;
 }
 
 
@@ -483,6 +494,11 @@ const onFileChange = (event) => {
         logoPreview.value = null;
     }
 };
+
+const showSSLWarning = computed(() => {
+    if(!streams.value.value || streams.value.value.length === 0) return false;
+    return !streams.value.value.some(s => s.stream_url.startsWith('https://'));
+});
 
 const onSubmit = handleSubmit(async (values) => {
     const formData = new FormData();
