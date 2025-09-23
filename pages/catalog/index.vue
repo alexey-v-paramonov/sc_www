@@ -38,15 +38,16 @@
                 </td>
               <td :width="display.smAndUp ? '150' : '100'" style="padding: 0">
 
-                <NuxtLink :to="'/catalog/' + item.id + '/'"><v-btn :density="display.smAndUp ? 'default' : 'compact'"
-                    icon="mdi-pencil"></v-btn></NuxtLink>
+                <NuxtLink :to="'/catalog/' + item.id + '/'">
+                  <v-btn :density="display.smAndUp ? 'default' : 'compact'" icon="mdi-pencil"></v-btn>
+                </NuxtLink>
 
-                <!-- Catalog page link 
-                <v-btn :density="display.smAndUp ? 'default' : 'compact'" :href="item.catalog_url" v-if="item.catalog_url"
-                  target="_blank" icon="mdi-android"></v-btn>
-                -->
+                <v-btn :href="getCatalogUrl(item)" :title="$t('catalog.radio.open_in_catalog')" :density="display.smAndUp ? 'default' : 'compact'"
+                  v-if="item.enabled"
+                  target="_blank" icon="mdi-page-next-outline">
+                </v-btn>
 
-                <v-btn icon="mdi-delete" @click="deleteRadio(item)"
+                <v-btn icon="mdi-delete" @click="deleteRadio(item)" :density="display.smAndUp ? 'default' : 'compact'"
                   :disabled="item.beingDeleted"></v-btn>
               </td>
             </tr>
@@ -124,11 +125,15 @@ let answerDialog = ref();
 let deleteRadioFailed = ref(false);
 let deleteRadioSuccess = ref(false);
 let delRadioDialog = ref(false);
+const { locale } = useI18n();
 
 definePageMeta({
   layout: "default",
 });
 
+function getCatalogUrl(radio) {
+  return `https://${locale.value == 'ru' ? 'radio-tochka.com' : 'streaming.center'}/catalog/${radio.slug}`;
+}
 
 async function reloadCatalogRadios() {
   let response;

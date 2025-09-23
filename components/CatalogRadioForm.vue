@@ -5,7 +5,8 @@
                 <v-col cols="12">
                     <v-alert v-if="radioData.enabled" type="success" variant="tonal" prominent color="accent"
                         border-color="accent">
-                        {{ $t('catalog.radio.enabled') }}
+                        
+                        <a :href="getCatalogUrl(radioData)" target="_blank"><i class="mdi mdi-open-in-new mr-2"></i> {{ $t('catalog.radio.enabled') }}: {{ getCatalogUrl(radioData) }}</a>
                     </v-alert>
 
                     <v-alert v-else type="error" variant="tonal" prominent>
@@ -248,6 +249,9 @@ const cities = ref([]);
 const regionsLoading = ref(false);
 const citiesLoading = ref(false);
 
+function getCatalogUrl(radio) {
+  return `https://${locale.value == 'ru' ? 'radio-tochka.com' : 'streaming.center'}/catalog/${radio.slug}`;
+}
 
 
 const { handleSubmit, isSubmitting, setValues, setErrors } = useForm({
