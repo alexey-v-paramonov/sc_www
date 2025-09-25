@@ -88,7 +88,7 @@
 
         <PayProGlobal class="mt-8" v-if="locale == 'en'" />
 
-        <InvoiceRequest class="mt-8"/>
+        <InvoiceRequest class="mt-8" v-if="locale == 'en'" />
 
       </v-col>
     </v-row>
