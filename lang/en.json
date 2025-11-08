@@ -451,6 +451,7 @@
                 "audio_format": "Audio format",
                 "server_type": "Server",
                 "empty": "Your radio does not have any streams yes, please add a new stream using the form below",
+                "sync_with_panel": "Load streams from the panel",
                 "add_new": "Add stream"
             },
             "social_links":{

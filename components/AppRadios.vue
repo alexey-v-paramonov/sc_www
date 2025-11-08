@@ -257,6 +257,16 @@
                         </v-col>
                     </v-row>
 
+                    <v-row no-gutters md="12" v-if="sc_api_url.value.value && sc_server_id.value.value">
+                        <v-col cols="9">&nbsp;</v-col>
+                        <v-col cols="3">
+                            <v-btn :disabled="isAppRadioBusy" block class="mt-2" @click="syncStreams()"
+                                color="secondary">
+{{
+                                    $t('app.radio.channels.sync_with_panel') }}</v-btn>
+                        </v-col>
+                    </v-row>
+
 
                     <!-- New stream form -->
                     <v-row no-gutters md="12">
@@ -767,7 +777,30 @@ function deleteSocialLink(link_index) {
     socialLinks.value.splice(link_index, 1);
 }
 
+async function syncStreams() {
+    try {
+        var localradioStreams = [];
+        const channelData = await $fetch(`${sc_api_url.value.value}/api/v2/channels/?server=${sc_server_id.value.value}`);
+        for (let i = 0; i < channelData.length; i++) {
+            const channel = channelData[i];
+            if(channel.active){
+                localradioStreams.push({
+                    stream_url: channel.stream_url,
+                    bitrate: channel.bitrate,
+                    audio_format: channel.s_format,
+                    server_type: channel.s_type.startsWith('hls') ? 'hls' : (channel.s_type.startsWith('shoutcast') ? 'shoutcast' : 'icecast'),
+                });
+            }
+        }
+        if(localradioStreams.length > 0){
+            radioStreams.value = localradioStreams;
+            noChannels.value = false;
+        }
+    }
+    catch (e) {
 
+    }
+}
 
 function addStream() {
     noChannels.value = false;
