@@ -437,6 +437,7 @@
             "description": "Description",
             "description_hint": "Radio description disbpaled in the \"Information\" section of the application",
             "allow_shoutbox": "Enable Shoutbox section (track requests)",
+            "allow_history": "Enable Track History",
             "allow_likes": "Enable likes",
             "allow_dislikes": "Enable dislikes",
             "errors":{

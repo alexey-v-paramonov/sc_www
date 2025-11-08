@@ -1,9 +1,9 @@
 <template>
     <v-container>
         <v-row md="12">
-                <v-col cols="12">
-                  <v-alert type="info">{{ $t('app.radios.changes_update') }}</v-alert>
-                </v-col>
+            <v-col cols="12">
+                <v-alert type="info">{{ $t('app.radios.changes_update') }}</v-alert>
+            </v-col>
         </v-row>
 
         <v-row>
@@ -24,7 +24,7 @@
                                 {{ $t('app.radio.title') }}
                             </th>
                             <th>
-                                &nbsp;{{$t('actions')}}
+                                &nbsp;{{ $t('actions') }}
                             </th>
                         </tr>
                     </thead>
@@ -39,19 +39,23 @@
                             <td @click="openRadioDialog(appRadio)">
                                 {{ appRadio.title }}
                             </td>
-                            <td class="text-no-wrap" :style="display.smAndUp?'width: 240px':''">
-                                <v-btn v-if="display.smAndUp" variant="tonal" size="x-small" class="mr-2" icon="mdi-menu-up" :disabled="index == 0"
+                            <td class="text-no-wrap" :style="display.smAndUp ? 'width: 240px' : ''">
+                                <v-btn v-if="display.smAndUp" variant="tonal" size="x-small" class="mr-2"
+                                    icon="mdi-menu-up" :disabled="index == 0"
                                     @click="setOrder(appRadio, index, index - 1)"></v-btn>
-                                <v-btn v-if="display.smAndUp" variant="tonal" size="x-small" icon="mdi-menu-down" :disabled="index == (appRadios.length - 1)"
+                                <v-btn v-if="display.smAndUp" variant="tonal" size="x-small" icon="mdi-menu-down"
+                                    :disabled="index == (appRadios.length - 1)"
                                     @click="setOrder(appRadio, index, index + 1)"></v-btn>&nbsp;
                                 <v-btn density="compact" icon="mdi-pencil" @click="openRadioDialog(appRadio)"></v-btn>
-                                <v-btn density="compact" icon="mdi-volume-high" @click="openPrerollDialog(appRadio)" :title="$t('app.radio.preroll.list_title')"></v-btn>
+                                <v-btn density="compact" icon="mdi-volume-high" @click="openPrerollDialog(appRadio)"
+                                    :title="$t('app.radio.preroll.list_title')"></v-btn>
                                 <v-btn density="compact" icon="mdi-delete" @click="deleteRadio(appRadio)"></v-btn>
                             </td>
                         </tr>
 
                         <tr v-else-if="pending">
-                            <td colspan="10" class="text-center"><v-progress-circular indeterminate></v-progress-circular>
+                            <td colspan="10" class="text-center"><v-progress-circular
+                                    indeterminate></v-progress-circular>
                             </td>
                         </tr>
 
@@ -67,14 +71,16 @@
                 </v-table>
             </v-col>
         </v-row>
-        <v-btn block class="mt-2" color="primary" prepend-icon="mdi-plus" @click="openRadioDialog();">{{ $t('app.radios.add')
-        }}</v-btn>
+        <v-btn block class="mt-2" color="primary" prepend-icon="mdi-plus" @click="openRadioDialog();">{{
+            $t('app.radios.add')
+            }}</v-btn>
 
     </v-container>
 
     <!-- Pre-roll Management Dialog -->
     <v-dialog v-model="preRollDialog" fullscreen>
-        <AppRadioPrerolls :platform="props.platform" :id="appRadio.id" :app-data="appData" @close="preRollDialog = false"/>
+        <AppRadioPrerolls :platform="props.platform" :id="appRadio.id" :app-data="appData"
+            @close="preRollDialog = false" />
     </v-dialog>
 
 
@@ -99,14 +105,15 @@
                         type="checkbox"></v-checkbox>
 
                     <v-text-field v-if="is_sc_panel.value.value == '1'" v-model="sc_api_url.value.value" type="url"
-                        @change="checkSCPanelURL(true)" :error-messages="sc_api_url.errorMessage.value" name="sc_api_url"
-                        :label="$t('app.radio.sc_api_url')" :hint="$t('app.radio.sc_api_url_hint')"
+                        @change="checkSCPanelURL(true)" :error-messages="sc_api_url.errorMessage.value"
+                        name="sc_api_url" :label="$t('app.radio.sc_api_url')" :hint="$t('app.radio.sc_api_url_hint')"
                         persistent-hint></v-text-field>
 
                     <v-select v-if="is_sc_panel.value.value == '1' && (scRadios.length > 0 || sc_server_id.value.value)"
                         @update:modelValue="setRadioData" v-model="sc_server_id.value.value"
-                        :hint="$t('app.radio.sc_server_id_hint')" :items="scRadios" item-title="id_title" item-value="id"
-                        :label="$t('app.radio.sc_server_id_hint')" persistent-hint single-line></v-select>
+                        :hint="$t('app.radio.sc_server_id_hint')" :items="scRadios" item-title="id_title"
+                        item-value="id" :label="$t('app.radio.sc_server_id_hint')" persistent-hint
+                        single-line></v-select>
 
                     <!-- Logo -->
                     <v-row no-gutters md="12">
@@ -127,15 +134,28 @@
                     <v-row no-gutters md="12">
                         <v-col cols="12">
 
-                            <v-text-field v-model="title.value.value" type="text" :error-messages="title.errorMessage.value"
-                                :label="$t('app.radio.title')" maxlength="150"></v-text-field>
+                            <v-text-field v-model="title.value.value" type="text"
+                                :error-messages="title.errorMessage.value" :label="$t('app.radio.title')"
+                                maxlength="150"></v-text-field>
 
                             <v-textarea v-model="description.value.value" :label="$t('app.radio.description')"
-                                :error-messages="description.errorMessage.value" :hint="$t('app.radio.description_hint')"
-                                persistent-hint></v-textarea>
+                                :error-messages="description.errorMessage.value"
+                                :hint="$t('app.radio.description_hint')" persistent-hint></v-textarea>
 
-                            <v-checkbox v-if="is_sc_panel.value.value == '1'" v-model="allow_shoutbox.value.value" value="1"
-                                :label="$t('app.radio.allow_shoutbox')" type="checkbox"></v-checkbox>
+                            <v-row no-gutters>
+                                <v-col cols="6">
+                                    <v-checkbox v-if="is_sc_panel.value.value == '1'"
+                                        v-model="allow_shoutbox.value.value" value="1"
+                                        :label="$t('app.radio.allow_shoutbox')" type="checkbox"></v-checkbox>
+                                </v-col>
+                                <v-col cols="6">
+
+                                    <v-checkbox v-if="is_sc_panel.value.value == '1'"
+                                        v-model="allow_history.value.value" value="1"
+                                        :label="$t('app.radio.allow_history')" type="checkbox"></v-checkbox>
+                                </v-col>
+
+                            </v-row>
 
                             <v-row no-gutters>
                                 <v-col cols="6">
@@ -144,8 +164,9 @@
 
                                 </v-col>
                                 <v-col cols="6">
-                                    <v-checkbox v-if="is_sc_panel.value.value == '1'" v-model="allow_dislikes.value.value"
-                                        value="1" :label="$t('app.radio.allow_dislikes')" type="checkbox"></v-checkbox>
+                                    <v-checkbox v-if="is_sc_panel.value.value == '1'"
+                                        v-model="allow_dislikes.value.value" value="1"
+                                        :label="$t('app.radio.allow_dislikes')" type="checkbox"></v-checkbox>
                                 </v-col>
                             </v-row>
                         </v-col>
@@ -219,7 +240,8 @@
                                             <br />
 
                                             <v-alert v-if="noChannels" color="error" closable border="start"
-                                                icon="mdi-message-alert" :text="$t('app.radio.channels.empty')"></v-alert>
+                                                icon="mdi-message-alert"
+                                                :text="$t('app.radio.channels.empty')"></v-alert>
 
                                             <p v-else>
                                                 {{ $t('app.radio.channels.empty') }}
@@ -244,42 +266,38 @@
                             <v-row no-gutters>
                                 <v-col cols="12">
                                     <v-text-field v-model="new_channel_stream_url.value.value" type="url"
-                                        :error-messages="new_channel_stream_url.errorMessage.value"
-                                        maxlength="200"
+                                        :error-messages="new_channel_stream_url.errorMessage.value" maxlength="200"
                                         name="new_channel_stream_url"
                                         :label="$t('app.radio.channels.stream_url')"></v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row no-gutters>
                                 <v-col cols="4" v-if="new_channel_server_type.value.value != 'hls'">
-                                    <v-select v-model="new_channel_bitrate.value.value"
-                                        :items="BITRATES_MP3" item-title="id"
-                                        item-value="id" :label="$t('app.radio.channels.bitrate')"
+                                    <v-select v-model="new_channel_bitrate.value.value" :items="BITRATES_MP3"
+                                        item-title="id" item-value="id" :label="$t('app.radio.channels.bitrate')"
                                         single-line></v-select>
                                 </v-col>
 
                                 <v-col cols="4">
-                                    <v-select v-model="new_channel_audio_format.value.value"
-                                        :items="AUDIO_FORMATS" item-title="title"
-
-                                        item-value="value" :label="$t('app.radio.channels.audio_format')"
-                                        single-line></v-select>
+                                    <v-select v-model="new_channel_audio_format.value.value" :items="AUDIO_FORMATS"
+                                        item-title="title" item-value="value"
+                                        :label="$t('app.radio.channels.audio_format')" single-line></v-select>
                                 </v-col>
 
                                 <v-col cols="4">
-                                    <v-select v-model="new_channel_server_type.value.value"
-                                        :items="SERVER_TYPES" item-title="title"
-                                        item-value="value" :label="$t('app.radio.channels.server_type')"
-                                        single-line></v-select>
+                                    <v-select v-model="new_channel_server_type.value.value" :items="SERVER_TYPES"
+                                        item-title="title" item-value="value"
+                                        :label="$t('app.radio.channels.server_type')" single-line></v-select>
                                 </v-col>
                             </v-row>
                         </v-col>
                     </v-row>
 
-                    <v-row  no-gutters>
+                    <v-row no-gutters>
                         <v-col cols="12">
-                            <v-btn :disabled="isAppRadioBusy" block class="mt-2" @click="addStream()" color="secondary">{{
-                                $t('app.radio.channels.add_new') }}</v-btn>
+                            <v-btn :disabled="isAppRadioBusy" block class="mt-2" @click="addStream()"
+                                color="secondary">{{
+                                    $t('app.radio.channels.add_new') }}</v-btn>
                         </v-col>
                     </v-row>
 
@@ -313,8 +331,9 @@
                                 <tbody>
                                     <tr v-if="socialLinks && socialLinks.length > 0 && !pending"
                                         v-for="(social_link, index) in socialLinks">
-                                        <td >
-                                            <img :src="'/img/social_icons/'+social_link.type+'.svg'" style="vertical-align:middle;"  width="32" height="32" />
+                                        <td>
+                                            <img :src="'/img/social_icons/' + social_link.type + '.svg'"
+                                                style="vertical-align:middle;" width="32" height="32" />
                                             {{ getSocialLinkTitle(social_link.type) }}
                                         </td>
 
@@ -354,7 +373,8 @@
                                             <br />
 
                                             <v-alert v-if="noSocialLinks" color="error" closable border="start"
-                                                icon="mdi-message-alert" :text="$t('app.radio.social_links.empty')"></v-alert>
+                                                icon="mdi-message-alert"
+                                                :text="$t('app.radio.social_links.empty')"></v-alert>
 
                                             <p v-else>
                                                 {{ $t('app.radio.social_links.empty') }}
@@ -380,21 +400,18 @@
                                     <v-select v-model="new_social_link_type.value.value"
                                         :error-messages="new_social_link_type.errorMessage.value"
                                         :items="SOCIAL_LINK_TYPES" item-title="title"
-                                        @update:modelValue="setLinkTitle()"
-                                        item-value="value" :label="$t('app.radio.social_links.type')"
-                                        single-line></v-select>
+                                        @update:modelValue="setLinkTitle()" item-value="value"
+                                        :label="$t('app.radio.social_links.type')" single-line></v-select>
                                 </v-col>
                                 <v-col cols="3">
                                     <v-text-field v-model="new_social_link_title.value.value" type="text"
-                                        :error-messages="new_social_link_title.errorMessage.value"
-                                        maxlength="12"
+                                        :error-messages="new_social_link_title.errorMessage.value" maxlength="12"
                                         name="new_social_link_title"
                                         :label="$t('app.radio.social_links.link_title')"></v-text-field>
                                 </v-col>
                                 <v-col cols="7">
                                     <v-text-field v-model="new_social_link_value.value.value" type="url"
-                                        :error-messages="new_social_link_value.errorMessage.value"
-                                        maxlength="255"
+                                        :error-messages="new_social_link_value.errorMessage.value" maxlength="255"
                                         name="new_social_link_value"
                                         :label="$t('app.radio.social_links.value')"></v-text-field>
                                 </v-col>
@@ -403,12 +420,13 @@
                         </v-col>
                     </v-row>
 
-                    <v-row  no-gutters>
+                    <v-row no-gutters>
                         <v-col cols="12">
-                            <v-btn :disabled="isAppRadioBusy" block class="mt-2" @click="addSocialLink()" color="secondary">{{
-                                $t('app.radio.social_links.add_new') }}</v-btn>
+                            <v-btn :disabled="isAppRadioBusy" block class="mt-2" @click="addSocialLink()"
+                                color="secondary">{{
+                                    $t('app.radio.social_links.add_new') }}</v-btn>
                         </v-col>
-                    </v-row>                    
+                    </v-row>
                     <v-row>
                         <v-col cols="12">
 
@@ -513,27 +531,27 @@ const SERVER_TYPES = [{ "value": "icecast", "title": 'Icecast' }, { "value": "sh
 const is_ru = locale.value == 'ru';
 
 let SOCIAL_LINK_TYPES = [
-    { "value": "phone", "title": is_ru ? "Телефон" : "Phone" }, 
-    { "value": "email", "title": 'Email' }, 
-    { "value": "website", "title": is_ru ? "Сайт" : "Website" }, 
-    { "value": "instagram", "title": 'Instagram' }, 
-    { "value": "facebook", "title": 'Facebook' }, 
-    { "value": "youtube", "title": 'YouTube' }, 
-    { "value": "whatsapp", "title": 'WhatsApp' }, 
-    { "value": "telegram", "title": 'Telegram' }, 
-    { "value": "linkedin", "title": 'LinkedIn' }, 
-    { "value": "tiktok", "title": 'TikTok' }, 
-    { "value": "pinterest", "title": 'Pinterest' }, 
-    { "value": "snapchat", "title": 'SnapChat' }, 
-    { "value": "reddit", "title": 'Reddit' }, 
-    { "value": "discord", "title": 'Discord' }, 
-    { "value": "wechat", "title": 'WeChat' }, 
-    { "value": "x", "title": 'X/Twitter' }, 
-    { "value": "twitch", "title": 'Twitch' }, 
-    { "value": "rutube", "title": 'RuTube' }, 
-    { "value": "vk", "title": is_ru ? "Вк" : 'Vk' }, 
-    { "value": "ok", "title": "Ok" }, 
-    { "value": "other", "title": is_ru ? "Ещё" : 'More' }, 
+    { "value": "phone", "title": is_ru ? "Телефон" : "Phone" },
+    { "value": "email", "title": 'Email' },
+    { "value": "website", "title": is_ru ? "Сайт" : "Website" },
+    { "value": "instagram", "title": 'Instagram' },
+    { "value": "facebook", "title": 'Facebook' },
+    { "value": "youtube", "title": 'YouTube' },
+    { "value": "whatsapp", "title": 'WhatsApp' },
+    { "value": "telegram", "title": 'Telegram' },
+    { "value": "linkedin", "title": 'LinkedIn' },
+    { "value": "tiktok", "title": 'TikTok' },
+    { "value": "pinterest", "title": 'Pinterest' },
+    { "value": "snapchat", "title": 'SnapChat' },
+    { "value": "reddit", "title": 'Reddit' },
+    { "value": "discord", "title": 'Discord' },
+    { "value": "wechat", "title": 'WeChat' },
+    { "value": "x", "title": 'X/Twitter' },
+    { "value": "twitch", "title": 'Twitch' },
+    { "value": "rutube", "title": 'RuTube' },
+    { "value": "vk", "title": is_ru ? "Вк" : 'Vk' },
+    { "value": "ok", "title": "Ok" },
+    { "value": "other", "title": is_ru ? "Ещё" : 'More' },
 ]
 
 const { handleSubmit, isSubmitting: isAppRadioBusy, setErrors } = useForm({
@@ -551,6 +569,7 @@ const logo = useField('logo', "image|size:3000");
 const title = useField('title', "required", { validateOnValueUpdate: false });
 const description = useField('description', "required", { validateOnValueUpdate: false });
 const allow_shoutbox = useField('allow_shoutbox');
+const allow_history = useField('allow_history');
 const allow_likes = useField('allow_likes');
 const allow_dislikes = useField('allow_dislikes');
 
@@ -569,25 +588,26 @@ new_channel_audio_format.value.value = AUDIO_FORMATS[0].value;
 new_channel_server_type.value.value = SERVER_TYPES[0].value;
 
 allow_shoutbox.value.value = "1";
+allow_history.value.value = "1";
 allow_likes.value.value = "1";
 allow_dislikes.value.value = "1";
 
 const { data: appRadios, pending, error, refresh } = await useFetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/radios/`);
 
-function setLinkTitle(){
-    if(new_social_link_type.value.value){
+function setLinkTitle() {
+    if (new_social_link_type.value.value) {
         new_social_link_title.value.value = SOCIAL_LINK_TYPES.filter((t) => t.value == new_social_link_type.value.value)[0].title;
     }
 }
-function getSocialLinkTitle(v){
+function getSocialLinkTitle(v) {
     return SOCIAL_LINK_TYPES.filter((t) => t.value == v)[0].title;
 }
 
-function getAudioFormat(v){
+function getAudioFormat(v) {
     return AUDIO_FORMATS.filter((t) => t.value == v)[0].title;
 }
 
-function getServerType(v){
+function getServerType(v) {
     return SERVER_TYPES.filter((t) => t.value == v)[0].title;
 }
 
@@ -647,7 +667,7 @@ async function checkSCPanelURL(set_data) {
     scRadios.value = [];
     try {
         scRadios.value = await $fetch(`${sc_api_url.value.value}/api/v2/servers/`);
-        for(let i = 0; i < scRadios.value.length; i ++){
+        for (let i = 0; i < scRadios.value.length; i++) {
             scRadios.value[i]['id_title'] = `${scRadios.value[i].title} (${scRadios.value[i].id})`
         }
     }
@@ -658,7 +678,7 @@ async function checkSCPanelURL(set_data) {
         setErrors({ 'sc_api_url': t(`app.radio.errors.invalid_sc_url`) })
         return;
     }
-    if(set_data){
+    if (set_data) {
         sc_server_id.value.value = scRadios.value[0].id;
         setRadioData();
     }
@@ -675,6 +695,7 @@ function openRadioDialog(r = null) {
             sc_api_url.value.value = r.sc_api_url;
             sc_server_id.value.value = r.sc_server_id;
             allow_shoutbox.value.value = r.allow_shoutbox ? '1' : null;
+            allow_history.value.value = r.allow_history ? '1' : null;
             allow_likes.value.value = r.allow_likes ? '1' : null;
             allow_dislikes.value.value = r.allow_dislikes ? '1' : null;
             checkSCPanelURL(false);
@@ -690,12 +711,12 @@ function openRadioDialog(r = null) {
 }
 function openPrerollDialog(r = null) {
     if (r) {
-         appRadio.value = { ...r }
+        appRadio.value = { ...r }
     }
     preRollDialog.value = true;
 }
 
-function resetRadioForm(){
+function resetRadioForm() {
     title.value.value = '';
     description.value.value = '';
     is_sc_panel.value.value = null;
@@ -725,7 +746,7 @@ function deleteRadio(r) {
             fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/radios/${r.id}/`, { method: 'DELETE' }).then(
                 () => {
                     deleteRadioSuccess.value = true;
-                    if(appRadios.value.length == 1){
+                    if (appRadios.value.length == 1) {
                         emit('AppInfoRefresh');
                     }
                     refresh();
@@ -738,11 +759,11 @@ function deleteRadio(r) {
     })
 }
 
-function deleteChannel(channel_index){
+function deleteChannel(channel_index) {
     radioStreams.value.splice(channel_index, 1);
 }
 
-function deleteSocialLink(link_index){
+function deleteSocialLink(link_index) {
     socialLinks.value.splice(link_index, 1);
 }
 
@@ -750,14 +771,14 @@ function deleteSocialLink(link_index){
 
 function addStream() {
     noChannels.value = false;
-    if(!new_channel_stream_url.value.value){
+    if (!new_channel_stream_url.value.value) {
         setErrors({ ['new_channel_stream_url']: t(`errors.required`) });
         return;
     }
-    if(new_channel_server_type.value.value == 'hls'){
-        var parser = document.createElement('a'); 
+    if (new_channel_server_type.value.value == 'hls') {
+        var parser = document.createElement('a');
         parser.href = new_channel_stream_url.value.value;
-        if(parser.pathname.split('.').pop().toLowerCase() != 'm3u8'){
+        if (parser.pathname.split('.').pop().toLowerCase() != 'm3u8') {
             setErrors({ ['new_channel_stream_url']: t(`app.errors.hls_not_m3u8`) });
             return;
         }
@@ -780,36 +801,36 @@ function addStream() {
 
 async function addSocialLink() {
 
-    if(!new_social_link_type.value.value){
+    if (!new_social_link_type.value.value) {
         setErrors({ ['new_social_link_type']: t(`errors.required`) });
         return;
     }
-    if(!new_social_link_title.value.value){
+    if (!new_social_link_title.value.value) {
         setErrors({ ['new_social_link_title']: t(`errors.required`) });
         return;
     }
-    if(!new_social_link_value.value.value){
+    if (!new_social_link_value.value.value) {
         setErrors({ ['new_social_link_value']: t(`errors.required`) });
         return;
     }
     // Validate URL format for relevant social link types
-    if (new_social_link_type.value.value !== 'phone' && 
-            new_social_link_type.value.value !== 'email' && new_social_link_type.value.value !== 'whatsapp') {
-        
+    if (new_social_link_type.value.value !== 'phone' &&
+        new_social_link_type.value.value !== 'email' && new_social_link_type.value.value !== 'whatsapp') {
+
         const urlPattern = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
-        
+
         if (!urlPattern.test(new_social_link_value.value.value)) {
             setErrors({ ['new_social_link_value']: t('errors.url') });
             return;
         }
-    } 
+    }
     else if (new_social_link_type.value.value === 'email') {
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailPattern.test(new_social_link_value.value.value)) {
             setErrors({ ['new_social_link_value']: t('errors.email') });
             return;
         }
-    } 
+    }
     else if (new_social_link_type.value.value === 'phone') {
         const phonePattern = /^\+?[\d\s-()]+$/;
         if (!phonePattern.test(new_social_link_value.value.value)) {
@@ -831,7 +852,7 @@ async function addSocialLink() {
 
 }
 
-function isScRadio(){
+function isScRadio() {
     return is_sc_panel.value.value == '1';
 }
 
@@ -844,30 +865,33 @@ async function saveAppRadioRequest(values) {
     formData.append('title', values.title);
     formData.append('description', values.description);
     values.logo && formData.append('logo', values.logo[0]);
-    if(isScRadio()){
+    if (isScRadio()) {
         formData.append('sc_api_url', sc_api_url.value.value);
         formData.append('sc_server_id', sc_server_id.value.value);
         formData.append('allow_shoutbox', allow_shoutbox.value.value == '1');
+        formData.append('allow_history', allow_history.value.value == '1');
+        
         formData.append('allow_likes', allow_likes.value.value == '1');
         formData.append('allow_dislikes', allow_dislikes.value.value == '1');
 
     }
-    else{
+    else {
         formData.append('sc_api_url', '');
         formData.append('sc_server_id', '');
         formData.append('allow_shoutbox', false);
+        formData.append('allow_history', false);
         formData.append('allow_likes', false);
         formData.append('allow_dislikes', false);
     }
     // formData.append('channels', JSON.stringify(radioStreams.value));
-    var blob = new Blob([JSON.stringify(radioStreams.value)], {type: "application/json"});
+    var blob = new Blob([JSON.stringify(radioStreams.value)], { type: "application/json" });
     formData.append('channels', blob);
 
-    blob = new Blob([JSON.stringify(socialLinks.value)], {type: "application/json"});
+    blob = new Blob([JSON.stringify(socialLinks.value)], { type: "application/json" });
     formData.append('social_links', blob);
 
 
-    return await fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/radios/` + (isEditMode? appRadio.value.id + '/' : ''), {
+    return await fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/radios/` + (isEditMode ? appRadio.value.id + '/' : ''), {
         method: isEditMode ? 'PUT' : 'POST',
         body: formData
     });
@@ -878,8 +902,8 @@ const onAppRadioSubmit = handleSubmit(async values => {
     noChannels.value = false;
 
     const isEditMode = Boolean(appRadio.value.id);
-    if(!isEditMode){
-        if(!logo.value.value){
+    if (!isEditMode) {
+        if (!logo.value.value) {
             setErrors({ ['logo']: t(`errors.required`) });
             return;
         }
@@ -892,7 +916,7 @@ const onAppRadioSubmit = handleSubmit(async values => {
         const errorData = e.data;
         if (typeof errorData == 'object') {
             for (const [field, errors] of Object.entries(errorData)) {
-                if(field == 'channels' && errors.indexOf('required') >= 0){
+                if (field == 'channels' && errors.indexOf('required') >= 0) {
                     noChannels.value = true;
                 }
                 for (const errCode of errors) {
@@ -902,7 +926,7 @@ const onAppRadioSubmit = handleSubmit(async values => {
         }
         return;
     }
-    if(appRadios.value.length == 0){
+    if (appRadios.value.length == 0) {
         emit('AppInfoRefresh');
     }
 
