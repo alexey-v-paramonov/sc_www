@@ -49,7 +49,7 @@
 
                     <v-file-input v-model="logo.value.value" :error-messages="logo.errorMessage.value"
                         :label="$t('catalog.radio.logo')" accept="image/*" @change="onFileChange" show-size
-                        prepend-icon="mdi-image"></v-file-input>
+                        prepend-icon="mdi-image" :hint="$t('catalog.radio.logo_hint')" persistent-hint></v-file-input>
                     <v-autocomplete v-model="language.value.value" :items="languages"
                         :item-title="item => item[name_prop] || item.name_eng" item-value="id"
                         :error-messages="language.errorMessage.value" :label="$t('catalog.radio.language')" multiple

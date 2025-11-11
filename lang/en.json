@@ -513,7 +513,7 @@
             "genre_hint": "Select the most suitable genre for your radio station",
             "genres": "Genres",
             "logo": "Radio Logo",
-            "logo_hint": "Displayed in the catalog and in the application. Format: 250x250px, PNG or JPG",
+            "logo_hint": "Must be square, min. 250×250 px, PNG or JPEG format.",
             "stream_url_hint": "Provide the direct radio stream URL, not a player page or the radio’s website. For example: http://stream.radio.com:8000/rock128",
             "delete_confirmation": "Are you sure you want to remove this radio from the catalog?",
             "delete_failed": "Failed to delete the radio, try again later or contact support.",
