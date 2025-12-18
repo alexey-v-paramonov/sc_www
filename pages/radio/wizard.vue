@@ -127,7 +127,7 @@
             <v-row v-if="install_myself.value.value != '1'">
               <v-col md="12">
                 {{ $t('self_hosted.install_command') }}:<br />
-                <b>bash &lt;(wget -qO- https://streaming.center/dist/install.sh)</b>
+                <b>bash &lt;(curl -s https://streaming.center/dist/install.sh)</b>
                 <br />
                 <br />
 
