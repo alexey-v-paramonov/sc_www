@@ -70,7 +70,8 @@
                                 style="font-size: 180px;"></v-icon>
                         </v-col>
                         <v-col cols="6" class="text-center">
-                            <img src="/img/app_logo.png" :alt="$t('app.logo')" style="max-width: 100%" />
+                            <img v-if="locale == 'ru'" src="/img/app_logo.png" :alt="$t('app.logo')" style="max-width: 100%" />
+                            <img v-else src="/img/app_logo_en.png" :alt="$t('app.logo')" style="max-width: 100%" />
                         </v-col>
                     </v-row>
 
