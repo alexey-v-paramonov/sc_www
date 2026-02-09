@@ -115,7 +115,7 @@
                 <div v-if="item.status == RADIO_STATUS.READY || item.status == RADIO_STATUS.SUSPENDED || item.status == RADIO_STATUS.BEING_DELETED">
                   <a :href="accountLink(item)" target="_blank">{{ accountLink(item) }}</a>
                 </div>
-                <div v-if="item.status == RADIO_STATUS.READY"><strong>{{ $t('radios.hosted.username') }}</strong>: {{ item.login }}</div>
+                <div v-if="item.status == RADIO_STATUS.READY || item.status == RADIO_STATUS.BEING_CREATED || item.status == RADIO_STATUS.PENDING"><strong>{{ $t('radios.hosted.username') }}</strong>: {{ item.login }}</div>
                 <div v-if="item.status == RADIO_STATUS.READY"><strong>{{ $t('radios.hosted.password') }}</strong>: {{ $t('radios.hosted.password_email') }}</div>
 
               </td>
