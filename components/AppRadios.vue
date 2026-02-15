@@ -674,6 +674,11 @@ async function generateLogoPreview() {
 
 async function checkSCPanelURL(set_data) {
 
+    // If URL is not HTTPS - skip the check
+    if (!sc_api_url.value.value.startsWith('https://')) {
+        return;
+    }
+
     scRadios.value = [];
     try {
         scRadios.value = await $fetch(`${sc_api_url.value.value}/api/v2/servers/`);
