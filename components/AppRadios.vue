@@ -674,14 +674,16 @@ async function generateLogoPreview() {
 
 async function checkSCPanelURL(set_data) {
 
-    // If URL is not HTTPS - skip the check
+    let serversURL = `${sc_api_url.value.value}/api/v2/servers/`;
+
+    // If URL is not HTTPS - make a request to the server
     if (!sc_api_url.value.value.startsWith('https://')) {
-        return;
+        serversURL = `${config.public.baseURL}/mobile_apps/${props.platform}/${appRadio.value.id}/get_servers/?url=${encodeURIComponent(serversURL)}`
     }
 
     scRadios.value = [];
     try {
-        scRadios.value = await $fetch(`${sc_api_url.value.value}/api/v2/servers/`);
+        scRadios.value = await fetchAuth(serversURL);
         for (let i = 0; i < scRadios.value.length; i++) {
             scRadios.value[i]['id_title'] = `${scRadios.value[i].title} (${scRadios.value[i].id})`
         }
