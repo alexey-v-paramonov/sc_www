@@ -88,7 +88,7 @@
 
         <PayProGlobal class="mt-8" v-if="locale == 'en'" />
 
-        <InvoiceRequest class="mt-8" v-if="locale == 'en'" />
+        <InvoiceRequest class="mt-8" v-if="locale == 'en' && [1052, 23, 988].includes(stateUser.user.userData.id)" />
 
       </v-col>
     </v-row>
