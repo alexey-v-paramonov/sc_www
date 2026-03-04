@@ -66,7 +66,7 @@ function generateReceipt() {
         "amount": amount.value.value,
       },
       "tax": 1,
-      "text": "Право использования сервиса Радио-Точка",
+      "text": "Услуги использования Сервисов Платформы Радио-Точка",
       "paymentMethodType": "full_payment",
       "paymentSubjectType": "service"
     }]
