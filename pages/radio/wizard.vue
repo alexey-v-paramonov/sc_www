@@ -360,7 +360,7 @@ const selfHostedPrice = computed(() => {
       }
     }
     else{
-      price = 549;
+      price = 649;
       if(is_unbranded.value.value){
         price += 300;
       }
