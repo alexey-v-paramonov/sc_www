@@ -703,6 +703,7 @@ async function checkSCPanelURL(set_data) {
 
 
 function openRadioDialog(r = null) {
+    previewLogo.value = undefined;
     if (r) {
         appRadio.value = { ...r }
         title.value.value = r.title;
@@ -738,6 +739,7 @@ function resetRadioForm() {
     description.value.value = '';
     is_sc_panel.value.value = null;
     logo.value.value = '';
+    previewLogo.value = undefined;
     sc_api_url.value.value = '';
     sc_server_id.value.value = '';
     new_channel_bitrate.value.value = 128;

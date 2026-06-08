@@ -115,7 +115,7 @@
 
 
     <hr class="mt-8 mb-8" />
-    <template v-for="(val, key) in customPaymentMethods" :key="key">
+    <!-- <template v-for="(val, key) in customPaymentMethods" :key="key">
       <v-row md="12" v-if="val['title'][locale] && (!['swift', 'swift_eur', 'card2card', 'paysend'].includes(key) || [1052, 23, 988].includes(stateUser.user.userData.id))">
         <v-col cols="12">
           <div class="text-h6">{{ val['title'][locale] }}</div>
@@ -127,7 +127,7 @@
 
         </v-col>
       </v-row>
-    </template>
+    </template> -->
 
   </v-container>
 </template>
