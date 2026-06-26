@@ -5,12 +5,12 @@
       <v-row no-gutters md="12">
         <v-col cols="3" sm="6">
           <div class="picker-col">
-          <div class="picker-container text-uppercase mb-4">
+          <div v-if="!isV2" class="picker-container text-uppercase mb-4">
           <div class="picker-title text-truncate">{{ $t('app.design.bg_color') }}</div>
             <!--<v-color-picker v-model="bg_color.value.value" mode="rgb" :modes="['rgb',]"></v-color-picker>-->
             <color-picker v-model:pureColor="bg_color.value.value" format="hex"/>
           </div>
-          <div class="picker-container text-uppercase mb-4">
+          <div v-if="!isV2" class="picker-container text-uppercase mb-4">
           <div class="picker-title text-truncate">{{ $t('app.design.bg_color_gradient') }}</div>
             <!--<v-color-picker v-model="bg_color_gradient.value.value" mode="rgb" :modes="['rgb',]"></v-color-picker>-->
             <color-picker v-model:pureColor="bg_color_gradient.value.value" format="hex"/>
@@ -79,9 +79,26 @@
 
             <div>
               <AppPreview
+                  v-if="!isV2"
                   lang="en"
                   :bg_color="bg_color.value.value"
                   :bg_color_gradient="bg_color_gradient.value.value"
+                  :font_color="font_color.value.value"
+                  :button_text_color="button_text_color.value.value"
+                  :text_secondary_color="text_secondary_color.value.value"
+                  :main_theme_color="main_theme_color.value.value"
+                  :play_button_border_color="play_button_border_color.value.value"
+                  :tabs_color="tabs_color.value.value"
+                  :tabs_icon_color="tabs_icon_color.value.value"
+                  :tabs_icon_selected_color="tabs_icon_selected_color.value.value"
+                  :volume_bar_active_color="volume_bar_active_color.value.value"
+                  :volume_bar_inactive_color="volume_bar_inactive_color.value.value"
+                  :volume_buttons_color="volume_buttons_color.value.value"
+              />
+              <AppPreviewV2
+                  v-else
+                  lang="en"
+                  :logo="appData.logo || appData.icon"
                   :font_color="font_color.value.value"
                   :button_text_color="button_text_color.value.value"
                   :text_secondary_color="text_secondary_color.value.value"
@@ -126,7 +143,7 @@
 
     <v-dialog v-model="skinDialog" width="auto">
       <v-card>
-        <v-card-text>
+        <v-card-text v-if="!isV2">
           <img src="/img/app_skins/skin1.png" style="max-height: 300px;" @click="selectSkin('1')"/>&nbsp;
           <img src="/img/app_skins/skin12.png" style="max-height: 300px;" @click="selectSkin('12')"/>&nbsp;
           <img src="/img/app_skins/skin2.png" style="max-height: 300px;" @click="selectSkin('2')"/>&nbsp;
@@ -139,6 +156,18 @@
           <img src="/img/app_skins/skin52.png" style="max-height: 300px;" @click="selectSkin('52')"/>&nbsp;
           <img src="/img/app_skins/skin6.png" style="max-height: 300px;" @click="selectSkin('6')"/>&nbsp;
           <img src="/img/app_skins/skin62.png" style="max-height: 300px;" @click="selectSkin('62')"/>
+        </v-card-text>
+        <v-card-text v-else>
+          <div class="skin-grid-v2">
+            <div v-for="key in Object.keys(SKINS_V2)" :key="key"
+                 class="skin-thumb-v2" @click="selectSkinV2(key)">
+              <AppPreviewV2
+                  lang="en"
+                  :logo="appData.logo || appData.icon"
+                  v-bind="skinV2Props(key)"
+              />
+            </div>
+          </div>
         </v-card-text>
       </v-card>
 
@@ -357,6 +386,128 @@ let SKINS = {
   }
 };
 
+// v2 design skins: gradient bg colors removed (background is the blurred cover/logo).
+// One single variant per theme (the old flat/gradient pairs are collapsed).
+let SKINS_V2 = {
+  "1": {
+    "font_color": "FFFFFF",
+    "text_secondary_color": "CCCCCC",
+    "button_text_color": "161616",
+    "main_theme_color": "FF9500",
+    "play_button_border_color": "8F8E94",
+    "tabs_color": "161616",
+    "tabs_icon_color": "DADADA",
+    "tabs_icon_selected_color": "FF9500",
+    "volume_bar_active_color": "FFFFFF",
+    "volume_bar_inactive_color": "666666",
+    "volume_buttons_color": "FFFFFF"
+  },
+  "2": {
+    "font_color": "FFFFFF",
+    "text_secondary_color": "93889B",
+    "button_text_color": "FFFFFF",
+    "main_theme_color": "D47FA6",
+    "play_button_border_color": "8F8E94",
+    "tabs_color": "161616",
+    "tabs_icon_color": "DADADA",
+    "tabs_icon_selected_color": "D47FA6",
+    "volume_bar_active_color": "D47FA6",
+    "volume_bar_inactive_color": "93879B",
+    "volume_buttons_color": "93879B"
+  },
+  "3": {
+    "font_color": "FFFFFF",
+    "text_secondary_color": "B2B6FF",
+    "button_text_color": "FFFFFF",
+    "main_theme_color": "B2B6FF",
+    "play_button_border_color": "B2B6FF",
+    "tabs_color": "161616",
+    "tabs_icon_color": "DADADA",
+    "tabs_icon_selected_color": "B2B6FF",
+    "volume_bar_active_color": "B2B6FF",
+    "volume_bar_inactive_color": "685BC4",
+    "volume_buttons_color": "DADADA"
+  },
+  "4": {
+    "font_color": "FFFFFF",
+    "text_secondary_color": "A6EBF1",
+    "button_text_color": "FFFFFF",
+    "main_theme_color": "ABE8F2",
+    "play_button_border_color": "A7E8F5",
+    "tabs_color": "161616",
+    "tabs_icon_color": "DADADA",
+    "tabs_icon_selected_color": "ABE8F2",
+    "volume_bar_active_color": "ABE9F4",
+    "volume_bar_inactive_color": "55A79B",
+    "volume_buttons_color": "918899"
+  },
+  "5": {
+    "font_color": "FFFFFF",
+    "text_secondary_color": "F2A2AD",
+    "button_text_color": "FFFFFF",
+    "main_theme_color": "F2A2AD",
+    "play_button_border_color": "F2A2AD",
+    "tabs_color": "161616",
+    "tabs_icon_color": "DADADA",
+    "tabs_icon_selected_color": "F2A2AD",
+    "volume_bar_active_color": "F2A2AD",
+    "volume_bar_inactive_color": "B05382",
+    "volume_buttons_color": "938899"
+  },
+  "6": {
+    "font_color": "FFFFFF",
+    "text_secondary_color": "6DA8FF",
+    "button_text_color": "FFFFFF",
+    "main_theme_color": "6DA8FF",
+    "play_button_border_color": "6DA8FF",
+    "tabs_color": "161616",
+    "tabs_icon_color": "DADADA",
+    "tabs_icon_selected_color": "6DA8FF",
+    "volume_bar_active_color": "6CA8FE",
+    "volume_bar_inactive_color": "32507F",
+    "volume_buttons_color": "6CA8FE"
+  },
+  "7": {
+    "font_color": "FFFFFF",
+    "text_secondary_color": "E0A0A0",
+    "button_text_color": "FFFFFF",
+    "main_theme_color": "E02D3C",
+    "play_button_border_color": "8F8E94",
+    "tabs_color": "161616",
+    "tabs_icon_color": "DADADA",
+    "tabs_icon_selected_color": "E02D3C",
+    "volume_bar_active_color": "E02D3C",
+    "volume_bar_inactive_color": "6A2A2F",
+    "volume_buttons_color": "CCCCCC"
+  },
+  "8": {
+    "font_color": "FFFFFF",
+    "text_secondary_color": "E8C98A",
+    "button_text_color": "161616",
+    "main_theme_color": "FF9F0A",
+    "play_button_border_color": "8F8E94",
+    "tabs_color": "161616",
+    "tabs_icon_color": "DADADA",
+    "tabs_icon_selected_color": "FF9F0A",
+    "volume_bar_active_color": "FF9F0A",
+    "volume_bar_inactive_color": "7A5A1E",
+    "volume_buttons_color": "FFFFFF"
+  },
+  "9": {
+    "font_color": "FFFFFF",
+    "text_secondary_color": "A6E0A6",
+    "button_text_color": "161616",
+    "main_theme_color": "4FC24F",
+    "play_button_border_color": "8F8E94",
+    "tabs_color": "161616",
+    "tabs_icon_color": "DADADA",
+    "tabs_icon_selected_color": "4FC24F",
+    "volume_bar_active_color": "4FC24F",
+    "volume_bar_inactive_color": "2E5E2E",
+    "volume_buttons_color": "FFFFFF"
+  }
+};
+
 const otherApps = ref([]);
 let appsAndroid = [];
 let appsIos = [];
@@ -400,6 +551,36 @@ function selectSkin(skinNumber) {
   skinDialog.value = false;
 }
 
+// v2.0 design uses the new look (background = blurred cover/logo, no gradient pickers).
+const isV2 = computed(() => props.appData.version_code === 'v2.0');
+
+// Map a SKINS_V2 entry to AppPreviewV2 color props (prefixing each hex with '#').
+function skinV2Props(skinNumber) {
+  const skin = SKINS_V2[skinNumber];
+  const out = {};
+  for (const k of Object.keys(skin)) {
+    out[k] = `#${skin[k]}`;
+  }
+  return out;
+}
+
+function selectSkinV2(skinNumber) {
+  const skin = SKINS_V2[skinNumber];
+  font_color.value.value = `#${skin["font_color"]}`;
+  text_secondary_color.value.value = `#${skin["text_secondary_color"]}`;
+  button_text_color.value.value = `#${skin["button_text_color"]}`;
+  tabs_color.value.value = `#${skin["tabs_color"]}`;
+  tabs_icon_color.value.value = `#${skin["tabs_icon_color"]}`;
+  tabs_icon_selected_color.value.value = `#${skin["tabs_icon_selected_color"]}`;
+  main_theme_color.value.value = `#${skin["main_theme_color"]}`;
+  play_button_border_color.value.value = `#${skin["play_button_border_color"]}`;
+  volume_buttons_color.value.value = `#${skin["volume_buttons_color"]}`;
+  volume_bar_active_color.value.value = `#${skin["volume_bar_active_color"]}`;
+  volume_bar_inactive_color.value.value = `#${skin["volume_bar_inactive_color"]}`;
+
+  skinDialog.value = false;
+}
+
 function isAndroid() {
   return props.platform == 'android';
 }
@@ -408,24 +589,29 @@ function isAndroid() {
 async function appDesignUpdateRequest(values) {
   const platform = isAndroid() ? "android" : "ios";
 
+  const body = {
+    font_color: font_color.value.value,
+    button_text_color: button_text_color.value.value,
+    main_theme_color: main_theme_color.value.value,
+    play_button_border_color: play_button_border_color.value.value,
+    tabs_color: tabs_color.value.value,
+    tabs_icon_color: tabs_icon_color.value.value,
+    tabs_icon_selected_color: tabs_icon_selected_color.value.value,
+    text_secondary_color: text_secondary_color.value.value,
+    volume_bar_active_color: volume_bar_active_color.value.value,
+    volume_bar_inactive_color: volume_bar_inactive_color.value.value,
+    volume_buttons_color: volume_buttons_color.value.value,
+  };
+
+  // v1 design only: gradient background colors (removed in the v2 look).
+  if (!isV2.value) {
+    body.bg_color = bg_color.value.value;
+    body.bg_color_gradient = bg_color_gradient.value.value;
+  }
+
   return await fetchAuth(`${config.public.baseURL}/mobile_apps/${platform}/${props.id}/`, {
     method: 'PATCH',
-    body: {
-      bg_color: bg_color.value.value,
-      bg_color_gradient: bg_color_gradient.value.value,
-      font_color: font_color.value.value,
-      button_text_color: button_text_color.value.value,
-      //text_secondary_color: text_secondary_color.value.value,
-      main_theme_color: main_theme_color.value.value,
-      play_button_border_color: play_button_border_color.value.value,
-      tabs_color: tabs_color.value.value,
-      tabs_icon_color: tabs_icon_color.value.value,
-      tabs_icon_selected_color: tabs_icon_selected_color.value.value,
-      text_secondary_color: text_secondary_color.value.value,
-      volume_bar_active_color: volume_bar_active_color.value.value,
-      volume_bar_inactive_color: volume_bar_inactive_color.value.value,
-      volume_buttons_color: volume_buttons_color.value.value,
-    }
+    body: body
   });
 }
 
@@ -520,6 +706,26 @@ onMounted(() => {
 .mobile-preview svg{
   max-width:350px;
   width:100%;
+}
+.skin-grid-v2{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  justify-content:center;
+}
+.skin-thumb-v2{
+  cursor:pointer;
+  border-radius:8px;
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.skin-thumb-v2:hover{
+  transform:scale(1.04);
+  box-shadow:0 4px 16px rgba(0,0,0,.35);
+}
+.skin-thumb-v2 svg{
+  width:140px;
+  height:auto;
+  display:block;
 }
 @media (max-width: 600px) {
 
