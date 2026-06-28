@@ -42,11 +42,11 @@
               d="M12 1.6a2.6 2.6 0 0 0-2.6 2.6c0 .2 0 .4.05.6a8.1 8.1 0 0 0-1.86 1.08 2.6 2.6 0 1 0-2.93 4.04A8.2 8.2 0 0 0 4.6 12c0 .37.03.73.08 1.08a2.6 2.6 0 1 0 2.93 4.04 8.1 8.1 0 0 0 1.84 1.07c-.03.2-.05.4-.05.61a2.6 2.6 0 1 0 5.2 0c0-.2-.02-.41-.05-.61a8.1 8.1 0 0 0 1.84-1.07 2.6 2.6 0 1 0 2.93-4.04c.05-.35.08-.71.08-1.08 0-.37-.03-.73-.08-1.08a2.6 2.6 0 1 0-2.93-4.04A8.1 8.1 0 0 0 14.55 4.8c.03-.2.05-.4.05-.6A2.6 2.6 0 0 0 12 1.6Zm0 7a3.4 3.4 0 1 1 0 6.8 3.4 3.4 0 0 1 0-6.8Z" />
       </svg>
 
-      <!-- ===== Quality selector pill ===== -->
-      <rect x="142.5" y="80" width="90" height="22" rx="11"
-            :fill="text_secondary_color" fill-opacity="0.16" />
-      <text x="187.5" y="95" text-anchor="middle" font-size="11" font-weight="500"
+      <!-- ===== Quality selector (label + dropdown chevron, no background) ===== -->
+      <text x="178" y="95" text-anchor="middle" font-size="12" font-weight="500"
             :fill="text_secondary_color">320 kbps mp3</text>
+      <path d="M220 89.5 L224.5 94 L229 89.5" fill="none" :stroke="text_secondary_color"
+            stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
 
       <!-- ===== Center cover art ===== -->
       <g clip-path="url(#v2_cover_clip)">
