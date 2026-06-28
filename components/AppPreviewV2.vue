@@ -10,34 +10,39 @@
       <filter id="v2_bg_blur" x="-20%" y="-20%" width="140%" height="140%">
         <feGaussianBlur stdDeviation="22" />
       </filter>
+      <!-- Smaller blur for the generic logo: it's applied in the logo's local space, then
+           magnified by the background scale transform, so stdDeviation must be kept low. -->
+      <filter id="v2_bg_blur_logo" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="2" />
+      </filter>
     </defs>
 
     <g clip-path="url(#v2_clip)">
 
       <!-- ===== Background: blurred uploaded logo (or generic mark) ===== -->
       <rect width="375" height="700" fill="#1b1b1f" />
+      <!-- dynamic background = the cover/logo, blurred & centre-cropped to fill (like the app) -->
       <template v-if="logo">
         <image :href="logo" x="-60" y="0" width="495" height="700"
                preserveAspectRatio="xMidYMid slice" filter="url(#v2_bg_blur)" />
       </template>
       <template v-else>
-        <g filter="url(#v2_bg_blur)" opacity="0.6">
-          <use href="#v2_generic_logo" transform="translate(-30, 90) scale(2.3)" />
-        </g>
+        <use href="#v2_generic_logo" transform="translate(-46.5, 116) scale(3.12)"
+             filter="url(#v2_bg_blur_logo)" />
       </template>
-      <!-- dim overlay -->
+      <!-- dim overlay (overlay_dim = #32000000) -->
       <rect width="375" height="700" fill="#000000" fill-opacity="0.32" />
 
       <!-- ===== Header row ===== -->
       <!-- hamburger (left) — ic_baseline_menu_24 -->
-      <svg x="20" y="43" width="22" height="22" viewBox="0 0 24 24">
+      <svg x="19" y="42" width="24.2" height="24.2" viewBox="0 0 24 24">
         <path :fill="font_color" d="M3,18h18v-2L3,16v2zM3,13h18v-2L3,11v2zM3,6v2h18L21,6L3,6z" />
       </svg>
       <!-- title (centered) -->
       <text x="187.5" y="60" text-anchor="middle" font-size="17" font-weight="700"
             :fill="font_color">Internet Radio</text>
       <!-- settings gear (right) — matches gera.png (solid 6-knob gear, hollow centre) -->
-      <svg x="332" y="42" width="24" height="24" viewBox="0 0 24 24">
+      <svg x="330.8" y="40.8" width="26.4" height="26.4" viewBox="0 0 24 24">
         <path :fill="font_color" fill-rule="evenodd" clip-rule="evenodd"
               d="M12 1.6a2.6 2.6 0 0 0-2.6 2.6c0 .2 0 .4.05.6a8.1 8.1 0 0 0-1.86 1.08 2.6 2.6 0 1 0-2.93 4.04A8.2 8.2 0 0 0 4.6 12c0 .37.03.73.08 1.08a2.6 2.6 0 1 0 2.93 4.04 8.1 8.1 0 0 0 1.84 1.07c-.03.2-.05.4-.05.61a2.6 2.6 0 1 0 5.2 0c0-.2-.02-.41-.05-.61a8.1 8.1 0 0 0 1.84-1.07 2.6 2.6 0 1 0 2.93-4.04c.05-.35.08-.71.08-1.08 0-.37-.03-.73-.08-1.08a2.6 2.6 0 1 0-2.93-4.04A8.1 8.1 0 0 0 14.55 4.8c.03-.2.05-.4.05-.6A2.6 2.6 0 0 0 12 1.6Zm0 7a3.4 3.4 0 1 1 0 6.8 3.4 3.4 0 0 1 0-6.8Z" />
       </svg>
@@ -56,7 +61,7 @@
                  preserveAspectRatio="xMidYMid slice" />
         </template>
         <template v-else>
-          <use href="#v2_generic_logo" transform="translate(112.5, 158.5) scale(1.0)" />
+          <use href="#v2_generic_logo" transform="translate(69, 118) scale(1.58)" />
         </template>
       </g>
 
@@ -75,13 +80,17 @@
       </defs>
       <g :stroke="`url(#wave_${uid})`" stroke-width="2" stroke-linecap="round">
         <line v-for="(h, i) in bars" :key="i"
-              :x1="43 + i * barStep" y1="466" :x2="43 + i * barStep" :y2="466 - h" />
+              :x1="2 + i * barStep" y1="466" :x2="2 + i * barStep" :y2="466 - h" />
       </g>
 
-      <!-- ===== Time + source link (placed close to the waveform) ===== -->
-      <text x="42" y="488" font-family="'Montserrat', sans-serif" font-size="11"
+      <!-- ===== Controls scrim (controls_container background = #67000000, ~40% black);
+           starts exactly where the bars end (y=466) ===== -->
+      <rect x="0" y="466" width="375" height="176" fill="#000000" fill-opacity="0.404" />
+
+      <!-- ===== Time + source link: centred over the dislike (x=80) and like (x=295) buttons ===== -->
+      <text x="80" y="488" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="11"
             :fill="text_secondary_color">0:00:00</text>
-      <text x="333" y="488" text-anchor="end" font-family="'Montserrat', sans-serif" font-size="12"
+      <text x="295" y="488" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="12"
             font-weight="500" text-decoration="underline" :fill="font_color">internetradio.com</text>
 
       <!-- ===== Playback controls (dislike / play / like) ===== -->
@@ -109,20 +118,20 @@
 
       <!-- ===== Volume row ===== -->
       <!-- volume down — matches volumedown.png (solid speaker + minus) -->
-      <svg x="16" y="606" width="24" height="24" viewBox="0 0 24 24">
+      <svg x="33" y="606" width="24" height="24" viewBox="0 0 24 24">
         <g :fill="volume_buttons_color">
           <path d="M2 9 H6 L12 4 V20 L6 15 H2 Z" />
           <rect x="15" y="10.7" width="7" height="2.6" rx="1.3" />
         </g>
       </svg>
       <!-- track inactive -->
-      <rect x="46" y="616.5" width="283" height="3" rx="1.5" :fill="volume_bar_inactive_color" />
+      <rect x="72.5" y="616" width="230" height="4" rx="2" :fill="volume_bar_inactive_color" />
       <!-- track active -->
-      <rect x="46" y="616.5" width="160" height="3" rx="1.5" :fill="volume_bar_active_color" />
+      <rect x="72.5" y="616" width="131" height="4" rx="2" :fill="volume_bar_active_color" />
       <!-- thumb -->
-      <circle cx="206" cy="618" r="7" :fill="main_theme_color" />
+      <circle cx="204" cy="618" r="7" :fill="main_theme_color" />
       <!-- volume up — matches volumeup.png (solid speaker + plus) -->
-      <svg x="335" y="606" width="24" height="24" viewBox="0 0 24 24">
+      <svg x="318" y="606" width="24" height="24" viewBox="0 0 24 24">
         <g :fill="volume_buttons_color">
           <path d="M2 9 H6 L12 4 V20 L6 15 H2 Z" />
           <rect x="15" y="10.7" width="7" height="2.6" rx="1.3" />
@@ -131,7 +140,7 @@
       </svg>
 
       <!-- ===== Bottom navigation (real app icons: player1/search2/historystream/timer3/info4, tinted) ===== -->
-      <rect x="0" y="644" width="375" height="56" :fill="tabs_color" />
+      <rect x="0" y="642" width="375" height="58" :fill="tabs_color" />
       <!-- Consistent vector icon set: every glyph built on the same r=10 circle centred at (12,12),
            rendered in an identical box so all icons are the same height and aligned. -->
       <g v-for="(tab, i) in tabs" :key="tab.id"
@@ -172,22 +181,29 @@
               :fill="i === 0 ? tabs_icon_selected_color : tabs_icon_color">{{ tab.label }}</text>
       </g>
 
-      <!-- ===== Reusable generic "internet radio" logo mark ===== -->
+      <!-- ===== Reusable generic "internet radio" logo mark (glossy blue sphere + side waves) ===== -->
       <defs>
+        <linearGradient id="v2_ball" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#7aa7f5" />
+          <stop offset="0.55" stop-color="#3f73e6" />
+          <stop offset="1" stop-color="#2f62d8" />
+        </linearGradient>
         <g id="v2_generic_logo">
-          <!-- rounded backdrop -->
-          <rect x="0" y="0" width="150" height="150" rx="28" fill="#2a2a32" />
-          <!-- broadcast tower base -->
-          <g transform="translate(75, 96)" fill="#e6e6ea">
-            <path d="M-4 0 L-12 34 L12 34 L4 0 Z" />
-            <rect x="-2" y="-2" width="4" height="20" />
+          <!-- white backdrop -->
+          <rect x="0" y="0" width="150" height="150" rx="28" fill="#ffffff" />
+          <!-- broadcast waves: two arcs each side (right drawn, left mirrored) -->
+          <g stroke="#3a3a3a" stroke-width="11" fill="none" stroke-linecap="round">
+            <path d="M98 35.2 A 46 46 0 0 1 98 114.8" />
+            <path d="M106.5 20.4 A 63 63 0 0 1 106.5 129.6" />
+            <g transform="translate(150,0) scale(-1,1)">
+              <path d="M98 35.2 A 46 46 0 0 1 98 114.8" />
+              <path d="M106.5 20.4 A 63 63 0 0 1 106.5 129.6" />
+            </g>
           </g>
-          <!-- broadcast waves -->
-          <g transform="translate(75, 60)" fill="none" stroke="#7c4dff" stroke-width="4" stroke-linecap="round">
-            <circle cx="0" cy="0" r="6" fill="#7c4dff" stroke="none" />
-            <path d="M-16 -16 A 22 22 0 0 1 16 -16" />
-            <path d="M-28 -28 A 40 40 0 0 1 28 -28" />
-          </g>
+          <!-- glossy blue sphere -->
+          <circle cx="75" cy="75" r="30" fill="url(#v2_ball)" />
+          <ellipse cx="66" cy="64" rx="17" ry="11" fill="#ffffff" fill-opacity="0.4"
+                   transform="rotate(-32 66 64)" />
         </g>
       </defs>
 
@@ -236,8 +252,8 @@ const bars = [5, 9, 7, 13, 18, 11, 8, 15, 22, 16, 10, 7, 12, 20, 27, 19, 13, 9, 
               31, 25, 18, 12, 8, 6, 12, 19, 26, 20, 14, 9, 7, 13, 20, 27, 22, 15, 10,
               8, 15, 23, 29, 24, 17, 12, 8, 6, 11, 18, 25, 19, 13, 9, 7];
 
-// Bars span the width edge-to-edge, like the app (barX = i/(n-1) * width).
-const barStep = computed(() => 290 / (bars.length - 1));
+// Bars span the full screen width edge-to-edge, like the app (barX = i/(n-1) * width).
+const barStep = computed(() => 371 / (bars.length - 1));
 
 const tabLabels = computed(() => {
   const ru = lang.value === 'ru';
