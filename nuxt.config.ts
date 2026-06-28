@@ -37,6 +37,9 @@ export default defineNuxtConfig({
   googleFonts: {
     families: {
       Raleway: [400, 500, 600, 700],
+      // Fonts used by the v2 mobile-app player preview (AppPreviewV2)
+      Nunito: [300, 400, 700],
+      Montserrat: [400, 500],
     },
   },
   i18n: {

@@ -1,5 +1,5 @@
 <template>
-  <svg viewBox="0 0 375 700" fill="none" xmlns="http://www.w3.org/2000/svg" font-family="Roboto, Arial, sans-serif">
+  <svg viewBox="0 0 375 700" fill="none" xmlns="http://www.w3.org/2000/svg" font-family="'Nunito', sans-serif">
     <defs>
       <clipPath id="v2_clip">
         <rect width="375" height="700" rx="0" />
@@ -43,9 +43,9 @@
       </svg>
 
       <!-- ===== Quality selector (label + dropdown chevron, no background) ===== -->
-      <text x="178" y="95" text-anchor="middle" font-size="12" font-weight="500"
-            :fill="text_secondary_color">320 kbps mp3</text>
-      <path d="M220 89.5 L224.5 94 L229 89.5" fill="none" :stroke="text_secondary_color"
+      <text x="179" y="95" text-anchor="middle" font-family="'Montserrat', sans-serif"
+            font-size="12" font-weight="500" :fill="text_secondary_color">320 kbps mp3</text>
+      <path d="M224 89.5 L228.5 94 L233 89.5" fill="none" :stroke="text_secondary_color"
             stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
 
       <!-- ===== Center cover art ===== -->
@@ -66,16 +66,23 @@
       <text x="187.5" y="416" text-anchor="middle" font-size="13" font-weight="400"
             :fill="text_secondary_color">Live Stream</text>
 
-      <!-- ===== Waveform visualizer ===== -->
-      <g :fill="main_theme_color">
-        <rect v-for="(h, i) in bars" :key="i"
-              :x="42 + i * 7" :y="466 - h" width="3.4" :height="h" rx="1.7" />
+      <!-- ===== Waveform visualizer (thin round-capped bars, gradient fading upward) ===== -->
+      <defs>
+        <linearGradient :id="`wave_${uid}`" gradientUnits="userSpaceOnUse" x1="0" y1="430" x2="0" y2="466">
+          <stop offset="0" :stop-color="main_theme_color" stop-opacity="0.12" />
+          <stop offset="1" :stop-color="main_theme_color" stop-opacity="1" />
+        </linearGradient>
+      </defs>
+      <g :stroke="`url(#wave_${uid})`" stroke-width="2" stroke-linecap="round">
+        <line v-for="(h, i) in bars" :key="i"
+              :x1="43 + i * barStep" y1="466" :x2="43 + i * barStep" :y2="466 - h" />
       </g>
 
       <!-- ===== Time + source link (placed close to the waveform) ===== -->
-      <text x="42" y="488" font-size="11" :fill="text_secondary_color">0:00:00</text>
-      <text x="333" y="488" text-anchor="end" font-size="11" font-weight="500"
-            text-decoration="underline" :fill="font_color">internetradio.com</text>
+      <text x="42" y="488" font-family="'Montserrat', sans-serif" font-size="11"
+            :fill="text_secondary_color">0:00:00</text>
+      <text x="333" y="488" text-anchor="end" font-family="'Montserrat', sans-serif" font-size="12"
+            font-weight="500" text-decoration="underline" :fill="font_color">internetradio.com</text>
 
       <!-- ===== Playback controls (dislike / play / like) ===== -->
       <!-- dislike — ic_dislike (48x48 viewBox) -->
@@ -84,11 +91,12 @@
         <path :fill="main_theme_color"
               d="M16.9,27.1l4.2,0.5c-0.4,0.8 -0.8,2.2 -0.8,3.8c0,0.9 0.3,1.6 0.9,2c0.4,0.3 0.9,0.4 1.5,0.4h0l0,0c1,-0.1 1.3,-1 1.3,-1.7c0,-0.2 0,-0.3 0,-0.5c0.1,-0.4 0.3,-0.8 0.7,-1.7l0,0c0.3,-0.6 0.6,-0.8 1.1,-1.1c0.4,-0.2 0.9,-0.5 1.4,-1.1c0.2,-0.2 0.5,-0.6 0.7,-1c0,-0.1 0.1,-0.1 0.1,-0.2c0,0 0,0 0,0c0,0 0,0 0,-0.1c0,0 0,-0.1 0.1,-0.1c0.4,-0.4 1.1,-0.4 1.5,-0.4c0,0 0.1,0 0.1,0c0.7,0 1.1,-0.3 1.4,-0.5c0.3,-0.3 0.5,-0.8 0.5,-1.3l0,-5.9c0,-0.4 0,-0.9 -0.5,-1.3c-0.4,-0.4 -1,-0.4 -1.4,-0.4h-1.3c-0.3,0 -0.6,-0.1 -1,-0.3c-0.2,-0.1 -0.5,-0.2 -0.7,-0.3c-1.3,-0.5 -3.1,-0.7 -5.6,-0.7c-0.5,0 -2,0 -2,0c-0.5,0 -1,0.2 -1.5,0.6c-0.2,0.2 -0.4,0.5 -0.4,0.8c0,0.1 0,0.2 0,0.3c0,0.2 0,0.4 0.1,0.6c-0.4,0 -0.8,0.2 -1.1,0.5c-0.4,0.4 -0.6,0.9 -0.6,1.4c0,0.4 0.1,0.8 0.4,1.1c-0.1,0.1 -0.3,0.2 -0.4,0.3c-0.3,0.3 -0.5,0.7 -0.5,1.2c0,0.5 0.2,1 0.5,1.3c-0.4,0.4 -0.6,0.9 -0.6,1.4C15.2,26.1 15.9,27 16.9,27.1z" />
       </svg>
-      <!-- play button: even ring in play_button_border_color, face = volume_bar_inactive -->
-      <circle cx="187.5" cy="546" r="40" :fill="volume_bar_inactive_color"
-              :stroke="play_button_border_color" stroke-width="5" />
-      <!-- play glyph — ic_play (80x80 viewBox), enlarged -->
-      <svg x="135.5" y="494" width="104" height="104" viewBox="0 0 80 80">
+      <!-- play button: bordering circle = play_button_border_color (6px ring = 4x the like/dislike
+           1.5px borders), fill inside = volume_bar_inactive_color -->
+      <circle cx="187.5" cy="546" r="40" :fill="play_button_border_color" />
+      <circle cx="187.5" cy="546" r="34" :fill="volume_bar_inactive_color" />
+      <!-- play glyph — ic_play (80x80 viewBox); nudged right for optical centring of the triangle -->
+      <svg x="137" y="496.5" width="104" height="104" viewBox="0 0 80 80">
         <path :fill="main_theme_color"
               d="M53.7,39.5c0.7,-0.4 0.7,-1.3 0,-1.7L32.3,25.3c-0.7,-0.4 -1.5,0.1 -1.5,0.9l-0.1,24.4c0,0.8 0.8,1.2 1.5,0.9L53.7,39.5z" />
       </svg>
@@ -160,7 +168,7 @@
                   stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </g>
-        <text x="0" y="21" text-anchor="middle" font-size="11.5"
+        <text x="0" y="21" text-anchor="middle" font-size="11.5" font-weight="300"
               :fill="i === 0 ? tabs_icon_selected_color : tabs_icon_color">{{ tab.label }}</text>
       </g>
 
@@ -218,10 +226,18 @@ const { volume_bar_active_color } = toRefs(props);
 const { volume_bar_inactive_color } = toRefs(props);
 const { volume_buttons_color } = toRefs(props);
 
-// Static waveform bar heights (decorative)
-const bars = [6, 10, 16, 22, 14, 9, 18, 26, 20, 12, 8, 15, 24, 30, 22, 13, 7,
-              11, 19, 27, 21, 14, 9, 17, 25, 18, 11, 7, 13, 20, 28, 23, 15, 10,
-              6, 12, 18, 24, 16, 9, 14];
+// Unique per-instance id so the waveform gradient (which binds main_theme_color)
+// doesn't collide between the main preview and the skin-picker thumbnails.
+const uid = getCurrentInstance().uid;
+
+// Static waveform bar heights (decorative) — many thin bars like the app's BarVisualizer.
+const bars = [5, 9, 7, 13, 18, 11, 8, 15, 22, 16, 10, 7, 12, 20, 27, 19, 13, 9, 6,
+              11, 17, 24, 30, 21, 14, 10, 8, 14, 21, 28, 23, 16, 11, 7, 10, 16, 23,
+              31, 25, 18, 12, 8, 6, 12, 19, 26, 20, 14, 9, 7, 13, 20, 27, 22, 15, 10,
+              8, 15, 23, 29, 24, 17, 12, 8, 6, 11, 18, 25, 19, 13, 9, 7];
+
+// Bars span the width edge-to-edge, like the app (barX = i/(n-1) * width).
+const barStep = computed(() => 290 / (bars.length - 1));
 
 const tabLabels = computed(() => {
   const ru = lang.value === 'ru';
