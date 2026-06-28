@@ -388,7 +388,7 @@
             "font_color": "Main font color",
             "text_secondary_color": "Secondary font color",
             "button_text_color": "Button text color",
-            "tabs_color": "Top and bottom bar background color",
+            "tabs_color": "Bottom bar background color",
             "tabs_icon_color": "Icon and text color at the bottom bar",
             "tabs_icon_selected_color": "Active icon and text color at the bottom bar",
             "main_theme_color": "Main theme color",
