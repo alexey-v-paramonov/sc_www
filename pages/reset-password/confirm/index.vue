@@ -17,7 +17,7 @@
           </NuxtLink>
 
           <v-btn type="submit" :disabled="isPassResetConfirmSubmitting" color="primary" block class="mt-2">{{
-            isPassResetConfirmSubmitting ? $t('loading') : $t('password_reset.cta') }}</v-btn>
+            isPassResetConfirmSubmitting ? $t('loading') : $t('password_reset.cta_save') }}</v-btn>
         </v-form>
 
         <div class="mt-2" v-if="badToken">

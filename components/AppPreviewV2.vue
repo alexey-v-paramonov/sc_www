@@ -124,8 +124,8 @@
           <rect x="15" y="10.7" width="7" height="2.6" rx="1.3" />
         </g>
       </svg>
-      <!-- track inactive -->
-      <rect x="72.5" y="616" width="230" height="4" rx="2" :fill="volume_bar_inactive_color" />
+      <!-- track inactive (app renders it ~22% opacity: custom_progress #39E4E4E4 × multiply) -->
+      <rect x="72.5" y="616" width="230" height="4" rx="2" :fill="volume_bar_inactive_color" fill-opacity="0.22" />
       <!-- track active -->
       <rect x="72.5" y="616" width="131" height="4" rx="2" :fill="volume_bar_active_color" />
       <!-- thumb -->

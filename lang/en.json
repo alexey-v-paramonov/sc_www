@@ -211,6 +211,7 @@
     "password_reset": {
         "email_address": "Enter your email address",
         "cta": "Reset Password",
+        "cta_save": "Set new password",
         "back_to_login": "Back to login",
         "check_inbox": "Check your inbox",
         "check_inbox_email": "An email as been sent to",
