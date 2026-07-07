@@ -24,6 +24,7 @@
                         :label="$t('app.website_url_label')"></v-text-field>
 
                     <v-checkbox v-if="isAndroid()" v-model="allow_website_url.value.value" :label="$t('app.allow_website_url_label')" type="checkbox"></v-checkbox>
+                    <v-checkbox v-if="isAndroid()" v-model="allow_countdown_timer.value.value" :label="$t('app.allow_countdown_timer_label')" type="checkbox"></v-checkbox>
 
                     <v-text-field class="mt-4" v-model="email.value.value" type="email" :error-messages="email.errorMessage.value"
                         :label="$t('email')"></v-text-field>
