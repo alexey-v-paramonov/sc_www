@@ -116,6 +116,7 @@ onMounted(async () => {
       await loadScript('https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit', 'turnstile');
       captchaWidgetId = window.turnstile.render(captchaContainer.value, {
         sitekey: TURNSTILE_SITEKEY,
+        theme: 'light',
         callback: onCaptchaToken,
       });
     }
