@@ -26,7 +26,7 @@
             </p>
           </div>
 
-          <div v-if="locale == 'ru'" class="mt-2 mb-2">
+          <div class="mt-2 mb-2">
             <div ref="captchaContainer"></div>
             <p v-if="captchaError" class="text-error text-body-2 mt-1">{{ $t('captcha_required') }}</p>
           </div>
@@ -58,53 +58,69 @@ const userStore = useUserStore();
 const router = useRouter();
 const showPass = ref(false);
 
-// Yandex SmartCaptcha (Russian sites only)
+// Captcha: Yandex SmartCaptcha on the Russian site, Cloudflare Turnstile on
+// the English one.
+const isRu = locale.value == 'ru';
 const SMARTCAPTCHA_SITEKEY = 'ysc1_gz9VDvc5PJxSbSGsMdmV1TPfCiTtvd0awJXWSAIzfdf7ccbb';
+const TURNSTILE_SITEKEY = '0x4AAAAAADzvBfJzpQje6jHF';
+const captchaField = isRu ? 'smart-token' : 'cf-turnstile-response';
 const captchaContainer = ref(null);
 const captchaToken = ref('');
 const captchaError = ref(false);
 let captchaWidgetId = null;
 
-function loadCaptchaScript() {
+function loadScript(src, marker) {
   return new Promise((resolve, reject) => {
-    if (window.smartCaptcha) return resolve();
-    const existing = document.querySelector('script[data-smartcaptcha]');
+    const existing = document.querySelector(`script[data-captcha="${marker}"]`);
     if (existing) {
+      if (existing.dataset.loaded) return resolve();
       existing.addEventListener('load', () => resolve());
       existing.addEventListener('error', reject);
       return;
     }
     const script = document.createElement('script');
-    script.src = 'https://smartcaptcha.yandexcloud.net/captcha.js';
+    script.src = src;
     script.defer = true;
-    script.setAttribute('data-smartcaptcha', 'true');
-    script.onload = () => resolve();
+    script.setAttribute('data-captcha', marker);
+    script.onload = () => { script.dataset.loaded = 'true'; resolve(); };
     script.onerror = reject;
     document.head.appendChild(script);
   });
 }
 
+function onCaptchaToken(token) {
+  captchaToken.value = token;
+  captchaError.value = false;
+}
+
 function resetCaptcha() {
   captchaToken.value = '';
-  if (window.smartCaptcha && captchaWidgetId !== null) {
-    window.smartCaptcha.reset(captchaWidgetId);
+  if (captchaWidgetId === null) return;
+  if (isRu) {
+    if (window.smartCaptcha) window.smartCaptcha.reset(captchaWidgetId);
+  } else {
+    if (window.turnstile) window.turnstile.reset(captchaWidgetId);
   }
 }
 
 onMounted(async () => {
-  if (locale.value !== 'ru') return;
   try {
-    await loadCaptchaScript();
-    captchaWidgetId = window.smartCaptcha.render(captchaContainer.value, {
-      sitekey: SMARTCAPTCHA_SITEKEY,
-      hl: 'ru',
-      callback: (token) => {
-        captchaToken.value = token;
-        captchaError.value = false;
-      },
-    });
+    if (isRu) {
+      await loadScript('https://smartcaptcha.yandexcloud.net/captcha.js', 'smartcaptcha');
+      captchaWidgetId = window.smartCaptcha.render(captchaContainer.value, {
+        sitekey: SMARTCAPTCHA_SITEKEY,
+        hl: 'ru',
+        callback: onCaptchaToken,
+      });
+    } else {
+      await loadScript('https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit', 'turnstile');
+      captchaWidgetId = window.turnstile.render(captchaContainer.value, {
+        sitekey: TURNSTILE_SITEKEY,
+        callback: onCaptchaToken,
+      });
+    }
   } catch (e) {
-    console.error('Failed to load SmartCaptcha', e);
+    console.error('Failed to load captcha', e);
   }
 });
 
@@ -116,9 +132,7 @@ async function signUpRequest(data) {
     'language': locale.value == 'en' ? 0 : 1,
     'currency': locale.value == 'en' ? 0 : 1,
   };
-  if (locale.value == 'ru') {
-    body['smart-token'] = captchaToken.value;
-  }
+  body[captchaField] = captchaToken.value;
   return await $fetch(`${config.public.baseURL}/users/`, {
     method: 'POST',
     body,
@@ -131,7 +145,7 @@ const password1 = useField("password1", "required|min:8");
 const password2 = useField(t("password_confirmation"), "required|min:8|confirmed:@password1");
 
 const onSignupSubmit = handleSubmit(async values => {
-  if (locale.value == 'ru' && !captchaToken.value) {
+  if (!captchaToken.value) {
     captchaError.value = true;
     return;
   }
