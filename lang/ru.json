@@ -4,6 +4,7 @@
     "logging_in": "Заходим...",
     "signup": "Регистрация",
     "create_account": "Зарегистрироваться",
+    "captcha_required": "Пройдите проверку, что вы не робот",
     "forgot_password": "Забыли пароль?",
     "email": "Email адрес",
     "error": "Ошибка",

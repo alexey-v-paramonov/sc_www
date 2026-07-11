@@ -26,6 +26,11 @@
             </p>
           </div>
 
+          <div v-if="locale == 'ru'" class="mt-2 mb-2">
+            <div ref="captchaContainer"></div>
+            <p v-if="captchaError" class="text-error text-body-2 mt-1">{{ $t('captcha_required') }}</p>
+          </div>
+
           <v-btn type="submit" color="primary" :disabled="isSignupBusy" block class="mt-2">
             {{ isSignupBusy ? $t('loading') : $t('create_account') }}</v-btn>
 
@@ -53,20 +58,70 @@ const userStore = useUserStore();
 const router = useRouter();
 const showPass = ref(false);
 
-onMounted(() => {
+// Yandex SmartCaptcha (Russian sites only)
+const SMARTCAPTCHA_SITEKEY = 'ysc1_gz9VDvc5PJxSbSGsMdmV1TPfCiTtvd0awJXWSAIzfdf7ccbb';
+const captchaContainer = ref(null);
+const captchaToken = ref('');
+const captchaError = ref(false);
+let captchaWidgetId = null;
 
-})
+function loadCaptchaScript() {
+  return new Promise((resolve, reject) => {
+    if (window.smartCaptcha) return resolve();
+    const existing = document.querySelector('script[data-smartcaptcha]');
+    if (existing) {
+      existing.addEventListener('load', () => resolve());
+      existing.addEventListener('error', reject);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://smartcaptcha.yandexcloud.net/captcha.js';
+    script.defer = true;
+    script.setAttribute('data-smartcaptcha', 'true');
+    script.onload = () => resolve();
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+}
+
+function resetCaptcha() {
+  captchaToken.value = '';
+  if (window.smartCaptcha && captchaWidgetId !== null) {
+    window.smartCaptcha.reset(captchaWidgetId);
+  }
+}
+
+onMounted(async () => {
+  if (locale.value !== 'ru') return;
+  try {
+    await loadCaptchaScript();
+    captchaWidgetId = window.smartCaptcha.render(captchaContainer.value, {
+      sitekey: SMARTCAPTCHA_SITEKEY,
+      hl: 'ru',
+      callback: (token) => {
+        captchaToken.value = token;
+        captchaError.value = false;
+      },
+    });
+  } catch (e) {
+    console.error('Failed to load SmartCaptcha', e);
+  }
+});
 
 async function signUpRequest(data) {
   const config = useRuntimeConfig();
+  const body = {
+    'email': data.email,
+    'password': data.password1,
+    'language': locale.value == 'en' ? 0 : 1,
+    'currency': locale.value == 'en' ? 0 : 1,
+  };
+  if (locale.value == 'ru') {
+    body['smart-token'] = captchaToken.value;
+  }
   return await $fetch(`${config.public.baseURL}/users/`, {
     method: 'POST',
-    body: {
-      'email': data.email,
-      'password': data.password1,
-      'language': locale.value == 'en' ? 0 : 1,
-      'currency': locale.value == 'en' ? 0 : 1,
-    }
+    body,
   });
 }
 
@@ -76,11 +131,18 @@ const password1 = useField("password1", "required|min:8");
 const password2 = useField(t("password_confirmation"), "required|min:8|confirmed:@password1");
 
 const onSignupSubmit = handleSubmit(async values => {
+  if (locale.value == 'ru' && !captchaToken.value) {
+    captchaError.value = true;
+    return;
+  }
+
   let response;
   try {
     response = await signUpRequest(values);
   }
   catch (e) {
+    // The captcha token is single-use; reset it so the user can retry.
+    resetCaptcha();
     if (typeof e == 'object') {
       let errors = {};
       for (const error_field in e.data) {
