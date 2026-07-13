@@ -108,6 +108,7 @@ const { handleSubmit, isSubmitting: isAppInfoSubmitting, setErrors } = useForm({
         keywords: appData.keywords || '',
         website_url: appData.website_url || '',
         allow_website_url: appData.allow_website_url,
+        display_timer: appData.display_timer,
         yandex_appmetrica_key: appData.yandex_appmetrica_key || ''
     }
 });
@@ -118,6 +119,7 @@ const description = useField('description', "required");
 const keywords = useField('keywords', "max:100" + (isIOS() ? "|required" : ""));
 const website_url = useField('website_url', "url");
 const allow_website_url = useField('allow_website_url');
+const display_timer = useField('display_timer');
 const email = useField('email', "required|email");
 const yandex_appmetrica_key = useField('yandex_appmetrica_key', "");
 
@@ -157,6 +159,7 @@ async function appUpdateRequest(values) {
     isIOS() && formData.append('keywords', values.keywords);
     values.website_url && formData.append('website_url', values.website_url);
     isAndroid() && formData.append('allow_website_url', values.allow_website_url);
+    isAndroid() && formData.append('display_timer', values.display_timer);
     formData.append('email', values.email);
     values.icon && formData.append('icon', values.icon[0]);
     values.logo && formData.append('logo', values.logo[0]);
