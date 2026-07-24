@@ -1,5 +1,22 @@
 <template>
     <v-container>
+        <v-alert
+            v-if="isAndroid() && appData && appData.version_code === 'v1.0'"
+            variant="flat"
+            color="primary"
+            prominent
+            border="start"
+            border-color="secondary"
+            rounded="lg"
+            class="mb-6 elevation-4 update-banner"
+            icon="mdi-cellphone-arrow-down">
+            <v-alert-title class="mb-2 text-h6 font-weight-bold">{{ $t('apps.outdated_version_title') }}</v-alert-title>
+            <div class="mb-4">{{ $t('apps.outdated_version_text') }}</div>
+            <v-btn color="white" variant="flat" size="large" :href="'mailto:' + supportEmail" prepend-icon="mdi-email" class="text-primary font-weight-bold">
+                {{ $t('apps.outdated_version_contact') }}
+            </v-btn>
+        </v-alert>
+
         <v-row>
             <v-col cols="2" md="1">
                 <p class="font-weight-bold">
@@ -155,6 +172,9 @@ function isAndroid() {
     return props.platform == 'android';
 }
 
+// Locale-specific support address (RU brand vs. international brand).
+const supportEmail = computed(() => locale.value === 'ru' ? 'info@radio-tochka.com' : 'info@streaming.center');
+
 async function buildApplication(){
   await fetchAuth(`${config.public.baseURL}/mobile_apps/${props.platform}/${props.id}/build/`, {
     method: 'PATCH',
@@ -172,3 +192,11 @@ if (error.value) {
 }
 
 </script>
+
+<style scoped>
+/* Eye-catching brand gradient so the update notice stands out on the white page.
+   background-image layers over Vuetify's bg-primary color, keeping white text/icons. */
+.update-banner {
+  background-image: linear-gradient(135deg, #274C77 0%, #00A6FF 100%) !important;
+}
+</style>

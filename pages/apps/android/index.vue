@@ -12,6 +12,27 @@
       </v-col>
     </v-row>
 
+    <v-row no-gutters md="12" v-if="hasOutdatedApp">
+      <v-col>
+        <v-alert
+          variant="flat"
+          color="primary"
+          border="start"
+          border-color="secondary"
+          rounded="lg"
+          class="mt-4 mb-2 elevation-4 update-banner"
+          icon="mdi-cellphone-arrow-down">
+          <div class="font-weight-bold text-h6 mb-1">{{ $t('apps.outdated_version_title') }}</div>
+          <div>{{ $t('apps.outdated_version_text') }}</div>
+          <template v-slot:append>
+            <v-btn color="white" variant="flat" :href="'mailto:' + supportEmail" prepend-icon="mdi-email" class="text-primary font-weight-bold">
+              {{ $t('apps.outdated_version_contact') }}
+            </v-btn>
+          </template>
+        </v-alert>
+      </v-col>
+    </v-row>
+
     <v-row no-gutters md="12">
       <v-col>
         <v-table>
@@ -145,11 +166,19 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 
 const config = useRuntimeConfig();
+const { locale } = useI18n();
 
 
 let android_apps = ref([]);
+
+// Show the update notice when any Android app still runs the old (v1.0) design.
+const hasOutdatedApp = computed(() => android_apps.value.some(app => app.version_code === 'v1.0'));
+
+// Locale-specific support address (RU brand vs. international brand).
+const supportEmail = computed(() => locale.value === 'ru' ? 'info@radio-tochka.com' : 'info@streaming.center');
 let apps_loading = ref(false);
 let app_push_id = 0;
 let pushNotificationDialog = ref(false);
@@ -223,3 +252,11 @@ function deleteApp(app) {
 }
 
 </script>
+
+<style scoped>
+/* Eye-catching brand gradient so the update notice stands out on the white page.
+   background-image layers over Vuetify's bg-primary color, keeping white text/icons. */
+.update-banner {
+  background-image: linear-gradient(135deg, #274C77 0%, #00A6FF 100%) !important;
+}
+</style>

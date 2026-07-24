@@ -278,6 +278,9 @@
     },
     "apps": {
         "wizard": "Create mobile app",
+        "outdated_version_title": "New app version available",
+        "outdated_version_text": "A new version of the Android app with a fresh new design is available. Please contact our support at info{'@'}streaming.center to get an update.",
+        "outdated_version_contact": "Contact support",
         "price": "Price",
         "price_description": "One-time payment, no recurring charges. You you want additional custom features in your application - please contact us, the price may change according to your requirements",
         "free_5_days": "You are given a full 5-day trial version, allowing you to test everything and only pay afterward.",
