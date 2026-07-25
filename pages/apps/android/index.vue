@@ -51,6 +51,14 @@
             <tr v-if="android_apps.length > 0" v-for="item in android_apps" :key="item.id">
               <td>
                 <NuxtLink :to="'/apps/android/' + item.id + '/'"><v-icon v-if="display.smAndUp" icon="mdi-cellphone-text" class="mr-4" />{{ item.title }}</NuxtLink>
+                <svg v-if="item.version_code" class="version-star" width="34" height="34" viewBox="0 0 100 100"
+                  role="img" :aria-label="versionStar(item.version_code).label">
+                  <polygon points="50,6 66.5,27.4 91.9,36.4 76.6,58.7 75.9,85.6 50,78 24.1,85.6 23.4,58.7 8.15,36.4 33.5,27.4"
+                    :fill="versionStar(item.version_code).fill" :stroke="versionStar(item.version_code).fill"
+                    stroke-width="10" stroke-linejoin="round" />
+                  <text x="50" y="54" text-anchor="middle" dominant-baseline="central" font-size="38"
+                    font-weight="700" fill="#ffffff">{{ versionStar(item.version_code).label }}</text>
+                </svg>
               </td>
               <td :width="display.smAndUp?'150':'100'" style="padding: 0">
 
@@ -179,6 +187,16 @@ const hasOutdatedApp = computed(() => android_apps.value.some(app => app.version
 
 // Locale-specific support address (RU brand vs. international brand).
 const supportEmail = computed(() => locale.value === 'ru' ? 'info@radio-tochka.com' : 'info@streaming.center');
+
+// Per-row version star badge: the version label ("v1" / "v2") sits inside a star,
+// amber/warning for the old v1 design (needs upgrade), green for anything newer (upgraded).
+function versionStar(code) {
+  const outdated = code === 'v1.0';
+  return {
+    label: code.split('.')[0],
+    fill: outdated ? '#D32F2F' : '#008E59',
+  };
+}
 let apps_loading = ref(false);
 let app_push_id = 0;
 let pushNotificationDialog = ref(false);
@@ -258,5 +276,12 @@ function deleteApp(app) {
    background-image layers over Vuetify's bg-primary color, keeping white text/icons. */
 .update-banner {
   background-image: linear-gradient(135deg, #274C77 0%, #00A6FF 100%) !important;
+}
+
+/* Star badge holding the app's version label, next to the app title. */
+.version-star {
+  vertical-align: middle;
+  margin-left: 12px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25));
 }
 </style>
