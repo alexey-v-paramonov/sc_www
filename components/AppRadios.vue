@@ -674,8 +674,11 @@ async function generateLogoPreview() {
 
 async function checkSCPanelURL(set_data) {
 
+    // Clear any previously-set error for this field before re-checking
+    setErrors({ 'sc_api_url': undefined });
+
     // Strip trailing slashes so we never end up with double slashes (e.g. //api)
-    const baseURL = sc_api_url.value.value.replace(/\/+$/, '');
+    const baseURL = (sc_api_url.value.value || '').replace(/\/+$/, '');
     let serversURL = `${baseURL}/api/v2/servers/`;
 
     // If URL is not HTTPS - make a request to the server
@@ -791,7 +794,7 @@ function deleteSocialLink(link_index) {
 async function syncStreams() {
     try {
         var localradioStreams = [];
-        const channelData = await $fetch(`${sc_api_url.value.value}/api/v2/channels/?server=${sc_server_id.value.value}`);
+        const channelData = await $fetch(`${(sc_api_url.value.value || '').replace(/\/+$/, '')}/api/v2/channels/?server=${sc_server_id.value.value}`);
         for (let i = 0; i < channelData.length; i++) {
             const channel = channelData[i];
             if(channel.active){
@@ -910,7 +913,9 @@ async function saveAppRadioRequest(values) {
     formData.append('description', values.description);
     values.logo && formData.append('logo', values.logo[0]);
     if (isScRadio()) {
-        formData.append('sc_api_url', sc_api_url.value.value);
+        // Store the panel URL without a trailing slash to avoid double-slash
+        // issues such as "https://host:1030//api/v2/servers/"
+        formData.append('sc_api_url', (sc_api_url.value.value || '').replace(/\/+$/, ''));
         formData.append('sc_server_id', sc_server_id.value.value);
         formData.append('allow_shoutbox', allow_shoutbox.value.value == '1');
         formData.append('allow_history', allow_history.value.value == '1');
