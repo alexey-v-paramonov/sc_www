@@ -674,7 +674,9 @@ async function generateLogoPreview() {
 
 async function checkSCPanelURL(set_data) {
 
-    let serversURL = `${sc_api_url.value.value}/api/v2/servers/`;
+    // Strip trailing slashes so we never end up with double slashes (e.g. //api)
+    const baseURL = sc_api_url.value.value.replace(/\/+$/, '');
+    let serversURL = `${baseURL}/api/v2/servers/`;
 
     // If URL is not HTTPS - make a request to the server
     if (!sc_api_url.value.value.startsWith('https://')) {
